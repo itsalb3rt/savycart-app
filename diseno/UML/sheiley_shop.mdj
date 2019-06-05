@@ -1,7 +1,7 @@
 {
 	"_type": "Project",
 	"_id": "AAAAAAFF+h6SjaM2Hec=",
-	"name": "Untitled",
+	"name": "sheiley_shop",
 	"ownedElements": [
 		{
 			"_type": "ERDDataModel",
@@ -1755,7 +1755,7 @@
 								"$ref": "AAAAAAFqofU4seq9oRc="
 							},
 							"name": "id_user",
-							"type": "SERIAL",
+							"type": "INTEGER",
 							"length": "11",
 							"primaryKey": true
 						},
@@ -1806,7 +1806,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFqofU4seq9oRc="
 							},
-							"name": "mail",
+							"name": "email",
 							"type": "VARCHAR",
 							"length": "50"
 						}
@@ -1856,7 +1856,7 @@
 								"$ref": "AAAAAAFqofU4tesU+RI="
 							},
 							"name": "recovered_account_id",
-							"type": "SERIAL",
+							"type": "INTEGER",
 							"length": "11",
 							"primaryKey": true
 						},
@@ -2442,6 +2442,18 @@
 					]
 				}
 			]
+		}
+	],
+	"tags": [
+		{
+			"_type": "Tag",
+			"_id": "AAAAAAFrH/0i96VPr7o=",
+			"_parent": {
+				"$ref": "AAAAAAFF+h6SjaM2Hec="
+			},
+			"name": "database",
+			"kind": "string",
+			"value": "sheiley_shop"
 		}
 	]
 }
