@@ -94,6 +94,11 @@ import axios from "axios";
 import { mapState,mapMutations } from "vuex";
 
 export default {
+  mounted:function(){
+    if(this.isLoged){
+      this.$router.push('product/list');
+    }
+  },
   data: function() {
     return {
       userName: "",
@@ -102,10 +107,10 @@ export default {
     };
   },
   computed: {
-    ...mapState(['apiDomain','user'])
+    ...mapState(['apiDomain','user','isLoged'])
   },
   methods: {
-    ...mapMutations(['setUser']),
+    ...mapMutations(['setUser','setLoginState']),
     login() {
       let route = `${this.apiDomain}/auth/login_check`;
       let data = new FormData();
@@ -121,6 +126,7 @@ export default {
         .then(response => {
           if(response.data.status == 'login_correct'){
             this.setUser(response.data.user);
+            this.setLoginState(true);
             this.$router.push('product/list');
           }else if(response.data.status == 'login_failed'){
             this.loginFailed = true;

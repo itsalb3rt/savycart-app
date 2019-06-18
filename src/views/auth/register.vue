@@ -122,6 +122,11 @@ import axios from "axios";
 import { mapState } from "vuex";
 
 export default {
+  mounted: function() {
+    if (this.isLoged) {
+      this.$router.push("product/list");
+    }
+  },
   data: function() {
     return {
       userExitst: false,
@@ -136,7 +141,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["apiDomain"])
+    ...mapState(['apiDomain', 'user','isLoged'])
   },
   methods: {
     validatedUserName() {
@@ -195,7 +200,10 @@ export default {
       })
         .then(response => {
           if (response.data.status == "register") {
-            this.$router.push({ path: 'login', query: { create_user: 'created' } });
+            this.$router.push({
+              path: "login",
+              query: { create_user: "created" }
+            });
           } else if (response.data.status == "user_exists") {
             this.disabledSubmitButton = false;
             this.userExitst = true;

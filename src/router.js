@@ -1,17 +1,23 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+import store from './store';
+import {getState} from './plugins/storage'
+
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
+      //Todas las URLS insertadas que no existan redireccionaran a login
+      path: '*',
+      redirect:'/login'
+    },
+    {
       path: '/',
-      name: 'home',
-      component: Home
+      redirect:'/login'
     },
     {
       path: '/about',
@@ -32,9 +38,26 @@ export default new Router({
       component: () => import('./views/auth/register.vue')
     },
     {
+      path: '/auth/logout',
+      name: '/auth/logout',
+      component: () => import('./views/auth/logout.vue')
+    },
+    {
       path: '/product/list',
       name: 'list',
       component: () => import('./views/products/list.vue')
     }
   ]
 })
+
+// Load local cache
+  router.beforeEach((to, from, next) => Promise.resolve()
+  .then(async () => {
+    if (!store.state.initialized) {
+      const state = await getState('state', {});
+      store.commit('loadFromCache', state);
+    }
+  })
+  .then(next));
+
+  export default router;
