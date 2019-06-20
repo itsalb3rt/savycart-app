@@ -8,27 +8,75 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     initialized: false,
-    apiDomain:'http://localhost/sheiley_shop_api',
-    products:[
-
-    ],
-    user:[],
-    isLoged:false
+    apiDomain: 'http://localhost/sheiley_shop_api',
+    user: [],
+    measurement_units: [],
+    itbis: 0,
+    categories: [],
+    currencies: [],
+    isLoged: 'false',
+    online:'',
+    products:[]
   },
   mutations: {
-    setProduct(state,product){
+    addMeasurementUnit(state, unit) {
+      /*
+       * unit => {id:1,name:bar}
+       */
+      state.measurement_units.push(unit);
+    },
+    setMeasurementUnit(state,units){
+      state.measurement_units = units;
+    },
+    removeMeasurementUnit(state, index) {
+      state.measurement_units.splice(index, 1);
+    },
+    addCategory(state, category) {
+      /*
+       * category => {id:1,name:bar}
+       */
+      state.categories.push(category);
+    },
+    setCategories(state, categories) {
+      state.categories = categories;
+    },
+    removeCategory(state, index) {
+      state.categories.splice(index, 1);
+    },
+    setCurrency(state, currency) {
+      state.currencies.push(currency);
+    },
+    addProduct(state, product) {
+      /*
+       * product => {id_product:1,name:bar, ...}
+       */
       state.products.push(product);
     },
-    setUser(state,user){
+    setProducts(state, products) {
+      state.products = products;
+    },
+    deleteProduct(state, index) {
+      state.products.splice(index, 1);
+    },
+    setUser(state, user) {
       state.user = user;
     },
-    setLoginState(state,loginState){
+    setLoginState(state, loginState) {
       state.isLoged = loginState;
+    },
+    setOnline(state,value){
+      state.online = value;
     },
     loadFromCache(state, cached) {
       if (cached) {
+        /* 
+         * Object.assign se cambio el primer parametro para guardar 
+         * todo lo que este vacio como array, por defecto estaba como
+         * objeto
+         * de {} a []
+         */
         Object.keys(cached).forEach((key) => {
-          state[key] = Object.assign({}, state[key], cached[key]);
+          state[key] = Object.assign([], state[key], cached[key]);
         });
       }
 

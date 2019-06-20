@@ -24,10 +24,10 @@
               <font-awesome-icon icon="chart-bar"/>Analisis
             </router-link>
             <div class="category">Ajustes</div>
-            <router-link to="/none">
+            <router-link to="/measurement_units">
               <font-awesome-icon icon="balance-scale"/>Unidades de medidas
             </router-link>
-            <router-link to="/none">
+            <router-link to="/categories">
               <font-awesome-icon icon="list-ul"/>Categorias
             </router-link>
             <router-link to="/none">

@@ -95,7 +95,7 @@ import { mapState,mapMutations } from "vuex";
 
 export default {
   mounted:function(){
-    if(this.isLoged){
+    if(this.isLoged == 'true'){
       this.$router.push('product/list');
     }
   },
@@ -126,7 +126,7 @@ export default {
         .then(response => {
           if(response.data.status == 'login_correct'){
             this.setUser(response.data.user);
-            this.setLoginState(true);
+            this.setLoginState('true');
             this.$router.push('product/list');
           }else if(response.data.status == 'login_failed'){
             this.loginFailed = true;

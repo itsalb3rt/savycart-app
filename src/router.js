@@ -46,6 +46,21 @@ const router = new Router({
       path: '/product/list',
       name: 'list',
       component: () => import('./views/products/list.vue')
+    },
+    {
+      path: '/product/add',
+      name: 'add product',
+      component: () => import('./views/products/add.vue')
+    },
+    {
+      path: '/measurement_units',
+      name: 'measurement_units',
+      component: () => import('./views/miscellany/measurement_units.vue')
+    },
+    {
+      path: '/categories',
+      name: 'categories',
+      component: () => import('./views/miscellany/categories.vue')
     }
   ]
 })

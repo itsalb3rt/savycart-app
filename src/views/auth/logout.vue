@@ -3,17 +3,17 @@
 </template>
 
 <script>
-import {deleteState} from './../../plugins/storage'
+import { deleteState } from "@/plugins/storage";
 import { mapMutations } from "vuex";
 
 export default {
-    mounted:function(){
-        deleteState();
-        this.$router.push('/login');
-        this.setLoginState(false);
-    },
-    methods:{
-      ...mapMutations(['setLoginState'])
-    }
+  mounted: async function() {
+    await deleteState();
+    await this.setLoginState("false");
+    this.$router.push("/login");
+  },
+  methods: {
+    ...mapMutations(["setLoginState"])
+  }
 };
 </script>

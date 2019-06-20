@@ -8,7 +8,7 @@
             <input type="search" placeholder="Buscar...">
           </div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 20px">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 20px;">
           <div class="product-container" v-for="(product,index) in products" :key="index">
             <div class="row">
               <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
@@ -21,7 +21,9 @@
                   <a href="#" class="primary important undecoration">{{product.name}}</a>
                   <a class="success undecoration important right">Editar</a>
                 </div>
-                <div class="unit" style="color: var(--grey)">{{product.measurementUnits}}</div>
+                <div class="unit" style="color: var(--grey)">
+                  {{getMeasurementName(product.id_unit_measurement)}}
+                </div>
                 <div class="price" style="font-weight: bold;">
                   RD$ {{product.price}}
                   <a class="danger undecoration important right">Eliminar</a>
@@ -32,34 +34,49 @@
         </div>
       </div>
     </div>
+    <div class="stiky-float-right-button">
+      <router-link to="/product/add" :class="['undecoration','primary','important']">
+        <font-awesome-icon icon="plus-circle"/>
+      </router-link>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
-import MenuComponent from "./../../components/MenuComponent.vue";
+import MenuComponent from "@/components/MenuComponent.vue";
+import products from "@/mixins/products/Products";
+import axios from "axios";
+import { mapState, mapMutations } from "vuex";
 
 export default {
+  mixins: [products],
+  async mounted() {
+    await this.requestProducts(axios);
+  },
   components: {
     MenuComponent
   },
-  mounted: function() {
-    this.products.push({
-      name: "Producto1",
-      measurementUnits: "UN",
-      price: 50.88
-    });
-    this.products.push({
-      name: "Producto2",
-      measurementUnits: "UN",
-      price: 65
-    });
-  },
   computed: {
-    ...mapState(['products','user'])
+    ...mapState([
+      "products",
+      "user",
+      "online",
+      "apiDomain",
+      "measurement_units"
+    ])
   },
   methods: {
-    ...mapMutations(["setProduct"])
+    ...mapMutations(["addProduct", "deleteProduct", "setProducts"]),
+    getMeasurementName(id) {
+      let value;
+      this.measurement_units.forEach(unit => {
+        if (unit.id_unit_measurement == id) {
+          value = unit.name;
+          return;
+        }
+      });
+      return value;
+    }
   }
 };
 </script>
