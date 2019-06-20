@@ -53,6 +53,11 @@ const router = new Router({
       component: () => import('./views/products/add.vue')
     },
     {
+      path: '/product/edit/:id',
+      name: 'edit product',
+      component: () => import('./views/products/edit.vue')
+    },
+    {
       path: '/measurement_units',
       name: 'measurement_units',
       component: () => import('./views/miscellany/measurement_units.vue')

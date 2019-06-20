@@ -55,7 +55,7 @@ export default new Vuex.Store({
     setProducts(state, products) {
       state.products = products;
     },
-    deleteProduct(state, index) {
+    removeProduct(state, index) {
       state.products.splice(index, 1);
     },
     setUser(state, user) {
