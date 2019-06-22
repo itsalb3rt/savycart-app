@@ -11,10 +11,10 @@
             </div>
           </div>
           <div class="menu-elements">
-            <router-link to="product/list">
+            <router-link to="/product/list">
               <font-awesome-icon icon="clipboard-list"/>Mi lista
             </router-link>
-            <router-link to="/none">
+            <router-link to="/shop/registation">
               <font-awesome-icon icon="shopping-cart"/>Registrar Compra
             </router-link>
             <router-link to="/none">
@@ -23,7 +23,7 @@
             <router-link to="/none">
               <font-awesome-icon icon="chart-bar"/>Analisis
             </router-link>
-            <div class="category">Ajustes</div>
+            <div class="/category">Ajustes</div>
             <router-link to="/measurement_units">
               <font-awesome-icon icon="balance-scale"/>Unidades de medidas
             </router-link>

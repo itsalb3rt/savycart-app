@@ -16,7 +16,8 @@ export default new Vuex.Store({
     currencies: [],
     isLoged: 'false',
     online:'',
-    products:[]
+    products:[],
+    shoppingCar:[]
   },
   mutations: {
     addMeasurementUnit(state, unit) {
