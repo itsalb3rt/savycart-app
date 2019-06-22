@@ -13,8 +13,11 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <button class="button primary expand hollow">Ir a caja</button>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 confirm-button-container" v-if="onCar">
+        <button class="button success small" >Confirmar y guardar</button>
+      </div>
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" v-else>
+        <button class="button primary expand hollow" @click="$router.push('/shop/shopping_car')">Ir a caja</button>
       </div>
     </div>
   </div>
@@ -24,7 +27,8 @@
 export default {
   props: {
     quantity: 0,
-    totalPrice: 0
+    totalPrice: 0,
+    onCar:false
   }
 };
 </script>
@@ -41,5 +45,8 @@ export default {
 .shop-resume-bar-container hr {
   width: 100%;
   margin-left: 0px;
+}
+.confirm-button-container{
+  text-align: center;
 }
 </style>

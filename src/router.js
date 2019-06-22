@@ -98,6 +98,14 @@ const router = new Router({
         title: 'Categorias',
       }
     },
+    {
+      path: '/shop/shopping_car',
+      name: 'shopping car',
+      component: () => import('@/views/shop/shoppingCar.vue'),
+      meta: {
+        title: 'Carro de compra',
+      }
+    }
   ]
 })
 
