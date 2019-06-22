@@ -13,6 +13,7 @@ export default {
     count: 0
   }
 };
+
 </script>
 <style lang="css">
 .shopping-car-container {

@@ -10,8 +10,7 @@
           </div>
         </div>
         <div
-          class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
-          style="margin-top: 20px;"
+          class="col-xs-12 col-sm-12 col-md-12 col-lg-12 product-main-container"
           v-if="products.length > 0"
         >
           <div
@@ -62,7 +61,7 @@
             </div>
           </div>
         </div>
-        
+
         <div v-if="products.length == 0" style="margin-top:40%;">
           <div class="panel">
             <div class="body">
@@ -114,10 +113,10 @@ export default {
         item.name.toUpperCase().includes(this.searchProductName.toUpperCase())
       );
     },
-    totalPrice(){
+    totalPrice() {
       let total = 0;
-      this.shoppingCar.forEach(item=>{
-        total += parseInt(item.price);
+      this.shoppingCar.forEach(item => {
+        total += parseInt(item.price) * parseInt(item.quantity);
       });
       return total;
     }
@@ -153,3 +152,10 @@ export default {
   }
 };
 </script>
+
+<style lang="css">
+.product-main-container {
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+</style>

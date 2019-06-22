@@ -9,12 +9,12 @@
             <strong>Total:</strong>
           </div>
           <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text right">
-              <strong>RD$: {{totalPrice}}</strong>
-              </div>
+            <strong>RD$: {{totalPrice}}</strong>
+          </div>
         </div>
       </div>
       <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <button class="button primary small">Ir a caja</button>
+        <button class="button primary expand hollow">Ir a caja</button>
       </div>
     </div>
   </div>
@@ -35,8 +35,8 @@ export default {
   bottom: 0;
   width: 100%;
   background-color: var(--white);
-  box-shadow: 0px 0px 2px 2px var(--light-grey);
   padding: 12px 20px;
+  border: 1px dotted var(--grey);
 }
 .shop-resume-bar-container hr {
   width: 100%;
