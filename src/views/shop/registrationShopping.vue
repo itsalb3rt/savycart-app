@@ -93,7 +93,12 @@ export default {
     if (this.online) {
       await this.requestProducts(axios);
     }
-    this.shoppingCar = await this.getShoppingCarItems();
+
+    let shoppingCarTemp = await this.getShoppingCarItems();
+    
+    if(shoppingCarTemp != null){
+      this.shoppingCar = shoppingCarTemp;
+    }
   },
   components: {
     MenuComponent,

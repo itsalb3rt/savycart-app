@@ -138,7 +138,6 @@ export default {
       axios
         .get(`${this.apiDomain}/products/delete/${$idProduct}`)
         .then(response => {
-          console.log(response.data.status);
           if (response.data.status == "success") {
             const notyf = new Notyf();
             this.removeProduct(index);

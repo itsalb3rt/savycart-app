@@ -13,10 +13,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 confirm-button-container" v-if="onCar">
-        <button class="button success small" >Confirmar y guardar</button>
-      </div>
-      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" v-else>
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" v-if="!onCar">
         <button class="button primary expand hollow" @click="$router.push('/shop/shopping_car')">Ir a caja</button>
       </div>
     </div>
@@ -45,8 +42,5 @@ export default {
 .shop-resume-bar-container hr {
   width: 100%;
   margin-left: 0px;
-}
-.confirm-button-container{
-  text-align: center;
 }
 </style>

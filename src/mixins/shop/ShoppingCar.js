@@ -25,6 +25,9 @@ export default {
         },
         async getShoppingCarItems() {
             return await this.db.getItem('shoppingCar');
+        },
+        async clearShoppingCar(){
+            await this.db.removeItem('shoppingCar');
         }
     },
     data() {

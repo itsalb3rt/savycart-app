@@ -11,10 +11,15 @@
               <input
                 type="text"
                 id="name_establishment"
-                v-model="name_establishment"
+                v-model="nameEstablishment"
                 placeholder="Super mercado..."
               >
             </div>
+          </div>
+          <div>
+            <button class="button success small" @click="saveShop" :disabled="disabledSubmitButton">
+              <font-awesome-icon icon="save"/>&Tab;Confirmar y guardar
+            </button>
           </div>
         </div>
         <div
@@ -64,7 +69,7 @@
           </h1>
           <h3 @click="$router.push('/shop/registation')">
             <a href="#" class="important primary undecoration">
-                <font-awesome-icon icon="plus-circle"/>&Tab;Ir al registro de compras
+              <font-awesome-icon icon="plus-circle"/>&Tab;Ir al registro de compras
             </a>
           </h3>
         </div>
@@ -81,6 +86,10 @@ import ShoppingCar from "@/components/shop/ShoppingCar";
 import ShoppingCarMixin from "@/mixins/shop/ShoppingCar";
 import { mapState, mapMutations } from "vuex";
 import axios from "axios";
+import { Notyf } from "notyf";
+import "notyf/notyf.min.css";
+import dndod from "dndod";
+import "dndod/dist/dndod-popup.min.css";
 
 export default {
   mixins: [ShoppingCarMixin],
@@ -95,11 +104,12 @@ export default {
   data() {
     return {
       shoppingCar: [],
-      name_establishment: ""
+      nameEstablishment: "",
+      disabledSubmitButton: false
     };
   },
   computed: {
-    ...mapState(["user", "online", "apiDomain", "measurement_units"]),
+    ...mapState(["user", "online", "apiDomain", "measurement_units","categories"]),
     totalPrice() {
       let total = 0;
       this.shoppingCar.forEach(item => {
@@ -118,7 +128,64 @@ export default {
         }
       });
       return value;
-    }
+    },
+    async saveShop() {
+      const notyf = new Notyf();
+      this.disabledSubmitButton = true;
+
+      if (this.online) {
+        if (this.nameEstablishment.length > 0) {
+          let formData = new FormData();
+          await this.setMeasurementNameToProductOnShoppinCar();
+          await this.setCategoryNameToProductOnShoppinCar();
+
+          formData.append("shoppingCar", JSON.stringify(this.shoppingCar));
+          formData.append("nameEstablishment", this.nameEstablishment);
+          formData.append('idUser',this.user.id_user);
+
+          axios
+            .post(`${this.apiDomain}/Shopping/shopping`, formData)
+            .then(response => {
+              if(response.data.status == 'success'){
+                notyf.success("Compra guardada");
+              }
+              this.clearShoppingCar();
+              this.$router.push('/product/list');
+            })
+            .catch(function(error) {
+              console.log("TCL: createCategory -> error", error);
+            });
+        } else {
+          notyf.error("Debe colocar un nombre de establecimiento");
+          this.disabledSubmitButton = false;
+        }
+      } else {
+        notyf.error(
+          "Debe estar conectado a internet para realizar esta acción."
+        );
+        this.disabledSubmitButton = false;
+      }
+    },
+    setMeasurementNameToProductOnShoppinCar(){
+      this.shoppingCar.forEach(product=>{
+        this.measurement_units.forEach(unit=>{
+          if(product.id_unit_measurement == unit.id_unit_measurement){
+            product.measurementUnitName = unit.name;
+            return;
+          }
+        })
+      });
+    },
+    setCategoryNameToProductOnShoppinCar(){
+      this.shoppingCar.forEach(product=>{
+        this.categories.forEach(category=>{
+          if(product.id_category == category.id_category){
+            product.categoryName = category.name;
+            return;
+          }
+        })
+      });
+    },
   }
 };
 </script>
@@ -128,7 +195,7 @@ export default {
   margin: 40% auto 50px;
   color: var(--grey);
 }
-.product-main-container{
-    margin-bottom: 80px;
+.product-main-container {
+  margin-bottom: 80px;
 }
 </style>
