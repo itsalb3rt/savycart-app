@@ -17,16 +17,13 @@ const router = new Router({
       path: '*',
       redirect: '/product/list'
     },
-    // {
-    //   path: '/',
-    //   redirect: '/login'
-    // },
+    {
+      path: '/',
+      redirect: '/login'
+    },
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import( /* webpackChunkName: "about" */ '@/views/About.vue')
     },
     {
@@ -104,6 +101,22 @@ const router = new Router({
       component: () => import('@/views/shop/shoppingCar.vue'),
       meta: {
         title: 'Carro de compra',
+      }
+    },
+    {
+      path: '/analysis/shopping_history',
+      name: 'shopping history',
+      component: () => import('@/views/analysis/shoppingHistory.vue'),
+      meta: {
+        title: 'Historial de compras',
+      }
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('@/views/miscellany/settings.vue'),
+      meta: {
+        title: 'Ajustes',
       }
     }
   ]

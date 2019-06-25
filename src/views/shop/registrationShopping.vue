@@ -65,10 +65,14 @@
         <div v-if="products.length == 0" style="margin-top:40%;">
           <div class="panel">
             <div class="body">
-              <p
-                class="text x-large"
-                style="color:var(--grey)"
-              >No se ha creado ningún producto, pulse el botón + para agregar productos.</p>
+              <p class="text x-large" style="color:var(--grey)">No se ha creado ningún producto</p>
+            </div>
+            <div>
+              <h3 @click="$router.push('/product/add')">
+                <a href="#" class="important primary undecoration">
+                  <font-awesome-icon icon="plus-circle"/>&Tab;Crear un producto
+                </a>
+              </h3>
             </div>
           </div>
         </div>
@@ -95,8 +99,8 @@ export default {
     }
 
     let shoppingCarTemp = await this.getShoppingCarItems();
-    
-    if(shoppingCarTemp != null){
+
+    if (shoppingCarTemp != null) {
       this.shoppingCar = shoppingCarTemp;
     }
   },

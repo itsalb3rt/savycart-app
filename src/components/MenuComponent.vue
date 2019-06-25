@@ -17,7 +17,7 @@
             <router-link to="/shop/registation">
               <font-awesome-icon icon="shopping-cart"/>Registrar Compra
             </router-link>
-            <router-link to="/none">
+            <router-link to="/analysis/shopping_history">
               <font-awesome-icon icon="history"/>Historial de compras
             </router-link>
             <router-link to="/none">
@@ -30,8 +30,8 @@
             <router-link to="/categories">
               <font-awesome-icon icon="list-ul"/>Categorias
             </router-link>
-            <router-link to="/none">
-              <font-awesome-icon icon="cog"/>Mas ajusted
+            <router-link to="/settings">
+              <font-awesome-icon icon="cog"/>Mas ajustes
             </router-link>
             <router-link to="/auth/logout">
               <font-awesome-icon icon="sign-out-alt"/>Cerrar sesion
