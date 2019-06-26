@@ -80,7 +80,7 @@
               <button class="button primary small" :disabled="name.length == 0">
                 <font-awesome-icon icon="save"/>&Tab;Guardar
               </button>
-              <button class="button danger small right" @click="$router.push('/')">
+              <button class="button danger small right" @click="$router.push('/product/list')">
                 <font-awesome-icon icon="window-close"/>&Tab;Cancelar
               </button>
             </div>
