@@ -36,7 +36,7 @@
                     <router-link
                       :to="{ name: 'purchase_details', params: { id: shop.id_purchase } }"
                       :class="['undecoration' ,'primary']"
-                    >RD$:{{shop.total}}</router-link>
+                    >RD$ {{shop.total}}</router-link>
                   </td>
                 </tr>
               </tbody>
