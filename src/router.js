@@ -118,6 +118,14 @@ const router = new Router({
       meta: {
         title: 'Ajustes',
       }
+    },
+    {
+      path: '/analysis/purchase_details/:id',
+      name: 'purchase_details',
+      component: () => import('@/views/analysis/purchaseDetails.vue'),
+      meta: {
+        title: 'Ver compra',
+      }
     }
   ]
 })

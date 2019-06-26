@@ -2,42 +2,50 @@
   <div>
     <MenuComponent title="Historial de compras"/>
     <div class="container-app">
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" v-if="shoppingHistory.length > 0">
-          <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <div class="input-group" style="margin-bottom:20px;">
-                <input type="search" placeholder="Buscar..." v-model="searchProductName">
-              </div>
-              <div>
-                <p class="text small">
-                  Al hacer click en el nombre o total de compra podrá ver el detalle.
-                </p>
-              </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <div class="text small">
-                <table class="table hover responsive striped">
-                  <thead>
-                    <tr>
-                      <th>ESTABLECIMIENTO</th>
-                      <th>FECHA</th>
-                      <th>TOTAL</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for=" (shop,index) in shoppingHistory " :key="index">
-                      <td><a href= "#" class="undecoration primary">{{shop.names_establishments}}</a></td>
-                      <td>{{shop.date}}</td>
-                      <td><a href="#" class="primary undecoration">RD$:{{shop.total}}</a></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+      <div class="row" v-if="shoppingHistory.length > 0">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="input-group" style="margin-bottom:20px;">
+            <input type="search" placeholder="Buscar..." v-model="searchProductName">
+          </div>
+          <div>
+            <p
+              class="text small"
+            >Al hacer click en el nombre o total de compra podrá ver el detalle.</p>
           </div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" v-else>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="text small">
+            <table class="table hover striped">
+              <thead>
+                <tr>
+                  <th>ESTABLECIMIENTO</th>
+                  <th>FECHA</th>
+                  <th>TOTAL</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for=" (shop,index) in shoppingHistory " :key="index">
+                  <td>
+                    <router-link
+                      :to="{ name: 'purchase_details', params: { id: shop.id_purchase } }"
+                      :class="['undecoration' ,'primary']"
+                    >{{shop.names_establishments}}</router-link>
+                  </td>
+                  <td>{{shop.date}}</td>
+                  <td>
+                    <router-link
+                      :to="{ name: 'purchase_details', params: { id: shop.id_purchase } }"
+                      :class="['undecoration' ,'primary']"
+                    >RD$:{{shop.total}}</router-link>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row" v-else>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <h1 class="empty-history-information">
             <font-awesome-icon icon="history"/>&Tab;Tu historial de compras esta vacío
           </h1>
@@ -66,7 +74,8 @@ export default {
   },
   data() {
     return {
-      shoppingHistory: []
+      shoppingHistory: [],
+      searchProductName: []
     };
   },
   computed: {
