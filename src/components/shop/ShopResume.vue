@@ -6,10 +6,26 @@
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">{{quantity}} articulos</div>
           <hr>
           <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-            <strong>Total:</strong>
+            <div>
+              Sub-total
+            </div>
+            <div>
+              ITBIS
+            </div>
+            <div>
+              Total
+            </div>
           </div>
           <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text right">
-            <strong>RD$: {{totalPrice}}</strong>
+            <div>
+              <strong>{{currencySymbol}} {{subTotal}}</strong>
+            </div>
+            <div>
+              <strong>{{currencySymbol}} {{totalItbis}}</strong>
+            </div>
+            <div>
+              <a href="#" class="primary important">{{currencySymbol}} {{subTotal + totalItbis}}</a>
+            </div>
           </div>
         </div>
       </div>
@@ -24,8 +40,10 @@
 export default {
   props: {
     quantity: 0,
-    totalPrice: 0,
-    onCar:false
+    subTotal: 0,
+    totalItbis:0,
+    onCar:false,
+    currencySymbol:''
   }
 };
 </script>

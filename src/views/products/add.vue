@@ -93,7 +93,7 @@
 
 <script>
 import { mapMutations, mapState } from "vuex";
-import MenuComponent from "@/components/MenuComponent.vue";
+import MenuComponent from "@/components/TheMenu.vue";
 import categories from '@/mixins/miscellany/categories';
 import measurementUnits from '@/mixins/miscellany/measurementUnits'
 import axios from "axios";

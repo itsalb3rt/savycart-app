@@ -46,7 +46,7 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
-import MenuComponent from "@/components/MenuComponent.vue";
+import MenuComponent from "@/components/TheMenu.vue";
 import measurementUnits from "@/mixins/miscellany/measurementUnits";
 import axios from "axios";
 import { Notyf } from "notyf";

@@ -80,6 +80,14 @@ const router = new Router({
       }
     },
     {
+      path: '/product/view/:id',
+      name: 'view_product',
+      component: () => import('@/views/products/view.vue'),
+      meta: {
+        title: 'Editar producto',
+      }
+    },
+    {
       path: '/measurement_units',
       name: 'measurement_units',
       component: () => import('@/views/miscellany/measurement_units.vue'),

@@ -44,7 +44,7 @@
                   style="color: var(--grey)"
                 >{{getMeasurementName(product.id_unit_measurement)}}</div>
                 <div class="price" style="font-weight: bold;">
-                  RD$ {{product.price}}
+                  {{currency.symbol}} {{product.price}}
                   <a
                     v-if="!isOnCar(product.id_product)"
                     class="primary undecoration important right"
@@ -78,21 +78,25 @@
         </div>
       </div>
     </div>
-    <ShopResume :quantity="shoppingCar.length" :totalPrice="totalPrice"></ShopResume>
+    <ShopResume :quantity="shoppingCar.length" :sub-total="subTotal" :currency-symbol="currency.symbol" :total-itbis="totalItbis"></ShopResume>
   </div>
 </template>
 
 <script>
-import MenuComponent from "@/components/MenuComponent.vue";
+import MenuComponent from "@/components/TheMenu.vue";
 import { mapState, mapMutations } from "vuex";
 import axios from "axios";
-import products from "@/mixins/products/Products";
 import ShoppingCar from "@/components/shop/ShoppingCar";
-import ShoppingCarMixin from "@/mixins/shop/ShoppingCar";
 import ShopResume from "@/components/shop/ShopResume";
 
+
+import products from "@/mixins/products/Products";
+import ShoppingCarMixin from "@/mixins/shop/ShoppingCar";
+import currencies from '@/mixins/miscellany/currencies';
+import itbisMixin from '@/mixins/miscellany/Itbis';
+
 export default {
-  mixins: [products, ShoppingCarMixin],
+  mixins: [products, ShoppingCarMixin,currencies,itbisMixin],
   async mounted() {
     if (this.online) {
       await this.requestProducts(axios);
@@ -103,6 +107,8 @@ export default {
     if (shoppingCarTemp != null) {
       this.shoppingCar = shoppingCarTemp;
     }
+    this.currency = await this.getPreferredCurrency();
+    this.itbis = await this.getItbisFromIndexedDb();
   },
   components: {
     MenuComponent,
@@ -122,18 +128,27 @@ export default {
         item.name.toUpperCase().includes(this.searchProductName.toUpperCase())
       );
     },
-    totalPrice() {
+    subTotal() {
       let total = 0;
       this.shoppingCar.forEach(item => {
-        total += parseInt(item.price) * parseInt(item.quantity);
+        total += parseFloat(item.price) * parseFloat(item.quantity);
       });
       return total;
+    },
+    totalItbis(){
+      let totalItbis = 0;
+      this.shoppingCar.forEach(item => {
+        totalItbis += (parseFloat(item.price) * parseFloat(item.quantity)) * (this.itbis / 100);
+      });
+      return totalItbis;
     }
   },
   data() {
     return {
       searchProductName: "",
-      shoppingCar: []
+      shoppingCar: [],
+      currency:[],
+      itbis:1
     };
   },
   methods: {
@@ -162,9 +177,9 @@ export default {
 };
 </script>
 
-<style lang="css">
+<style>
 .product-main-container {
   margin-top: 20px;
-  margin-bottom: 50px;
+  margin-bottom: 115px;
 }
 </style>

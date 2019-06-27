@@ -36,7 +36,7 @@
                     <router-link
                       :to="{ name: 'purchase_details', params: { id: shop.id_purchase } }"
                       :class="['undecoration' ,'primary']"
-                    >RD$ {{shop.total}}</router-link>
+                    >{{currency.symbol}} {{shop.total}}</router-link>
                   </td>
                 </tr>
               </tbody>
@@ -61,13 +61,16 @@
 </template>
 
 <script>
-import MenuComponent from "@/components/MenuComponent.vue";
+import MenuComponent from "@/components/TheMenu.vue";
 import axios from "axios";
 import { mapState } from "vuex";
+import currencies from '@/mixins/miscellany/currencies';
 
 export default {
-  mounted() {
+  mixins:[currencies],
+  async mounted() {
     this.requestShoppingHistory();
+    this.currency = await this.getPreferredCurrency();
   },
   components: {
     MenuComponent
@@ -75,7 +78,8 @@ export default {
   data() {
     return {
       shoppingHistory: [],
-      searchProductName: []
+      searchProductName: [],
+      currency:[]
     };
   },
   computed: {

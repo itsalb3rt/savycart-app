@@ -53,7 +53,7 @@
                   style="color: var(--grey)"
                 >{{getMeasurementName(product.id_unit_measurement)}}</div>
                 <div class="price" style="font-weight: bold;">
-                  RD$ {{product.price * product.quantity}}
+                  {{currency.symbol}} {{product.price * product.quantity}}
                   <a
                     class="danger undecoration important right"
                     @click="removeItemFromShoppingCar(product.id_product)"
@@ -75,26 +75,30 @@
         </div>
       </div>
     </div>
-    <ShopResume :quantity="shoppingCar.length" :totalPrice="totalPrice" onCar="true"></ShopResume>
+    <ShopResume :quantity="shoppingCar.length" :sub-total="subTotal" onCar="true" :currency-symbol="currency.symbol" :total-itbis="totalItbis"></ShopResume>
   </div>
 </template>
 
 <script>
-import MenuComponent from "@/components/MenuComponent";
+import MenuComponent from "@/components/TheMenu";
 import ShopResume from "@/components/shop/ShopResume";
 import ShoppingCar from "@/components/shop/ShoppingCar";
-import ShoppingCarMixin from "@/mixins/shop/ShoppingCar";
 import { mapState, mapMutations } from "vuex";
 import axios from "axios";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 import dndod from "dndod";
 import "dndod/dist/dndod-popup.min.css";
+import ShoppingCarMixin from "@/mixins/shop/ShoppingCar";
+import currencies from '@/mixins/miscellany/currencies';
+import itbisMixin from '@/mixins/miscellany/Itbis';
 
 export default {
-  mixins: [ShoppingCarMixin],
+  mixins: [ShoppingCarMixin,currencies,itbisMixin],
   async mounted() {
     this.shoppingCar = await this.getShoppingCarItems();
+    this.currency = await this.getPreferredCurrency();
+    this.itbis = await this.getItbisFromIndexedDb();
   },
   components: {
     MenuComponent,
@@ -105,17 +109,26 @@ export default {
     return {
       shoppingCar: [],
       nameEstablishment: "",
-      disabledSubmitButton: false
+      disabledSubmitButton: false,
+      currency:[],
+      itbis:1
     };
   },
   computed: {
     ...mapState(["user", "online", "apiDomain", "measurement_units","categories"]),
-    totalPrice() {
+    subTotal() {
       let total = 0;
       this.shoppingCar.forEach(item => {
         total += parseInt(item.price) * parseInt(item.quantity);
       });
       return total;
+    },
+    totalItbis(){
+      let totalItbis = 0;
+      this.shoppingCar.forEach(item => {
+        totalItbis += (parseFloat(item.price) * parseFloat(item.quantity)) * (this.itbis / 100);
+      });
+      return totalItbis;
     }
   },
   methods: {

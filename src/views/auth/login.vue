@@ -91,26 +91,28 @@
 
 <script>
 import axios from "axios";
-import { mapState,mapMutations } from "vuex";
+import { mapState, mapMutations } from "vuex";
+import curriencies from "@/mixins/miscellany/currencies";
 
 export default {
-  mounted:function(){
-    if(this.isLoged == 'true'){
-      this.$router.push('product/list');
+  mixins: [curriencies],
+  mounted: function() {
+    if (this.isLoged == "true") {
+      this.$router.push("product/list");
     }
   },
   data: function() {
     return {
       userName: "",
       password: "",
-      loginFailed:false
+      loginFailed: false
     };
   },
   computed: {
-    ...mapState(['apiDomain','user','isLoged'])
+    ...mapState(["apiDomain", "user", "isLoged"])
   },
   methods: {
-    ...mapMutations(['setUser','setLoginState']),
+    ...mapMutations(["setUser", "setLoginState"]),
     login() {
       let route = `${this.apiDomain}/auth/login_check`;
       let data = new FormData();
@@ -124,11 +126,13 @@ export default {
         data: data
       })
         .then(response => {
-          if(response.data.status == 'login_correct'){
+          if (response.data.status == "login_correct") {
+
             this.setUser(response.data.user);
-            this.setLoginState('true');
-            this.$router.push('product/list');
-          }else if(response.data.status == 'login_failed'){
+            this.setLoginState("true");
+            this.saveInIndexedDbCurrencies();
+            this.$router.push("product/list");
+          } else if (response.data.status == "login_failed") {
             this.loginFailed = true;
           }
         })

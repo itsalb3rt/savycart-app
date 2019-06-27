@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import MenuComponent from "./components/MenuComponent.vue";
+import MenuComponent from "./components/TheMenu.vue";
 import offline from "v-offline";
 import { mapMutations } from "vuex";
 

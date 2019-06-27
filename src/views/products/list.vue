@@ -22,7 +22,12 @@
               </div>
               <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 details">
                 <div class="name">
-                  <a href="#" class="primary important undecoration">{{product.name}}</a>
+                  <router-link
+                      :to="{ name: 'view_product', params: { id: product.id_product } }"
+                      :class="['primary' ,'important','undecoration']"
+                    >
+                    {{product.name}}
+                    </router-link>
                   <a
                     class="success undecoration important right"
                     @click="$router.push( {name:'edit product', params:{id: product.id_product} } )"
@@ -33,7 +38,7 @@
                   style="color: var(--grey)"
                 >{{getMeasurementName(product.id_unit_measurement)}}</div>
                 <div class="price" style="font-weight: bold;">
-                  RD$ {{product.price}}
+                  {{currency.symbol}} {{product.price}}
                   <a
                     class="danger undecoration important right"
                     @click="dispatcherDeleteProduct(index)"
@@ -64,7 +69,7 @@
 </template>
 
 <script>
-import MenuComponent from "@/components/MenuComponent.vue";
+import MenuComponent from "@/components/TheMenu.vue";
 import products from "@/mixins/products/Products";
 import axios from "axios";
 import { mapState, mapMutations } from "vuex";
@@ -72,17 +77,20 @@ import dndod from "dndod";
 import "dndod/dist/dndod-popup.min.css";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
+import currencies from '@/mixins/miscellany/currencies';
 
 export default {
-  mixins: [products],
+  mixins: [products,currencies],
   async mounted() {
     if(this.online){
       await this.requestProducts(axios);
     }
+    this.currency = await this.getPreferredCurrency();
   },
   data(){
     return{
-      searchProductName:''
+      searchProductName:'',
+      currency:[]
     }
   },
   components: {

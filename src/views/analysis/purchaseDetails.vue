@@ -40,7 +40,7 @@
               <a
                 href="#"
                 class="primary undecoration important"
-              >RD$ {{parseInt(product.unit_price) * parseInt(product.quantity) }}</a>
+              >{{currency.symbol}} {{parseInt(product.unit_price) * parseInt(product.quantity) }}</a>
             </div>
           </div>
         </div>
@@ -61,10 +61,10 @@
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
               <div class="data">
-                <div>RD$ {{numberFormat(subTotal)}}</div>
-                <div>RD$ {{numberFormat(itbis)}}</div>
+                <div>{{currency.symbol}} {{numberFormat(subTotal)}}</div>
+                <div>{{currency.symbol}} {{numberFormat(itbis)}}</div>
                 <div>
-                  <a href="#" class="primary important">RD$ {{numberFormat(totalPurchasePrice)}}</a>
+                  <a href="#" class="primary important">{{currency.symbol}} {{numberFormat(totalPurchasePrice)}}</a>
                 </div>
               </div>
             </div>
@@ -81,24 +81,28 @@
 </template>
 
 <script>
-import MenuComponent from "@/components/MenuComponent.vue";
+import MenuComponent from "@/components/TheMenu.vue";
 import axios from "axios";
 import { mapState } from "vuex";
 import dndod from "dndod";
 import "dndod/dist/dndod-popup.min.css";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
+import currencies from '@/mixins/miscellany/currencies';
 
 export default {
-  mounted() {
+  mixins:[currencies],
+  async mounted() {
     this.requestPurchaseDetails();
+    this.currency = await this.getPreferredCurrency();
   },
   components: {
     MenuComponent
   },
   data() {
     return {
-      purchaseDetails: []
+      purchaseDetails: [],
+      currency:[]
     };
   },
   computed: {
