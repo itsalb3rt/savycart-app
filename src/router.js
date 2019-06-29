@@ -11,8 +11,7 @@ Vue.use(Router)
 const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes: [
-    {
+  routes: [{
       //Todas las URLS insertadas que no existan redireccionaran a login
       path: '*',
       redirect: '/product/list'
@@ -35,19 +34,19 @@ const router = new Router({
       }
     },
     {
-      path: '/shop/registation',
-      name: 'registration shopping',
-      component: () => import('@/views/shop/registrationShopping.vue'),
-      meta: {
-        title: 'Registro compra',
-      }
-    },
-    {
       path: '/register',
       name: 'register',
       component: () => import('@/views/auth/register.vue'),
       meta: {
         title: 'Registro de usuario',
+      }
+    },
+    {
+      path: '/shop/registation',
+      name: 'registration shopping',
+      component: () => import('@/views/shop/registrationShopping.vue'),
+      meta: {
+        title: 'Registro compra',
       }
     },
     {
@@ -138,22 +137,35 @@ const router = new Router({
   ]
 })
 
-// Load local cache
 router.beforeEach((to, from, next) => Promise.resolve()
   .then(async () => {
-    if (!store.state.initialized) {
-      const state = await getState('state', {});
-      store.commit('loadFromCache', state);
-    }
-  })
-  .then(next));
-// Cambiará el título cuando se cambie el enrutador
-router.beforeEach((to, from, next) => {
 
-  if (to.meta.title) {
-    document.title = to.meta.title;
-  }
-  next();
-});
+    let publicPages = [
+      'login',
+      'register'
+    ];
+
+    let state;
+    let authRequired = !publicPages.includes(to.name);
+
+    if (!store.state.initialized) {
+
+      state = await getState('state', {});
+      store.commit('loadFromCache', state);
+
+      if (state != null) {
+        //Verificando si esta logueado
+        if (authRequired && state.isLoged == false) {
+          return next('/login');
+        }
+      }
+    }
+
+    // Cambiará el título cuando se cambie el enrutador
+    if (to.meta.title) {
+      document.title = to.meta.title;
+    }
+    
+  }).then(next));
 
 export default router;

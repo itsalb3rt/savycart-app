@@ -1,4 +1,5 @@
-{
+{    
+
     "USD": {
         "symbol": "$",
         "name": "US Dollar",
@@ -7,6 +8,15 @@
         "rounding": 0,
         "code": "USD",
         "name_plural": "US dollars"
+    },
+    "DOP": {
+        "symbol": "RD$",
+        "name": "Dominican Peso",
+        "symbol_native": "RD$",
+        "decimal_digits": 2,
+        "rounding": 0,
+        "code": "DOP",
+        "name_plural": "Dominican pesos"
     },
     "CAD": {
         "symbol": "CA$",
@@ -268,15 +278,6 @@
         "rounding": 0,
         "code": "DKK",
         "name_plural": "Danish kroner"
-    },
-    "DOP": {
-        "symbol": "RD$",
-        "name": "Dominican Peso",
-        "symbol_native": "RD$",
-        "decimal_digits": 2,
-        "rounding": 0,
-        "code": "DOP",
-        "name_plural": "Dominican pesos"
     },
     "DZD": {
         "symbol": "DA",

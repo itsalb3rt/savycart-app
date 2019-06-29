@@ -8,7 +8,7 @@ const mapStateForCache = (state) => {
   return {
     'user': state.user,
     initialized: state.initialized,
-    isLoged:state.isLoged,
+    isLoged:(state.isLoged == false || state.isLoged == [] )?false : true,
     measurement_units:state.measurement_units,
     itbis:state.itbis,
     categories:state.categories,

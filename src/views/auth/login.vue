@@ -97,7 +97,7 @@ import curriencies from "@/mixins/miscellany/currencies";
 export default {
   mixins: [curriencies],
   mounted: function() {
-    if (this.isLoged == "true") {
+    if (this.isLoged == true) {
       this.$router.push("product/list");
     }
   },

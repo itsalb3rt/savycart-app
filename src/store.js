@@ -4,17 +4,16 @@ import cache from './plugins/cache';
 import sync from './plugins/sync';
 
 Vue.use(Vuex)
-
 export default new Vuex.Store({
   state: {
     initialized: false,
-    apiDomain: 'http://localhost/sheiley_shop_api',
+    apiDomain: (process.env.NODE_ENV == 'development') ? 'http://localhost/sheiley_shop_api' : 'https://gibucket.a2hosted.com/sheiley_shop_api',
     user: [],
     measurement_units: [],
     itbis: 0,
     categories: [],
     currencies: [],
-    isLoged: 'false',
+    isLoged: false,
     online:'',
     products:[],
     shoppingCar:[]

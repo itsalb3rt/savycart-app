@@ -5,7 +5,7 @@
         <div id="mySidenav" class="sidenav">
           <div class="top-container">
             <a href="javascript:void(0)" class="closebtn" @click="closeNav">&times;</a>
-            <div class="user-information">
+            <div :class=" [online ? 'user-information' : 'user-information-offline']">
               <div class="full-name">{{user.first_name}} {{user.last_name}}</div>
               <div class="email">{{user.email}}</div>
             </div>
@@ -39,7 +39,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 menu-container">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" :class="[online ? 'menu-container':'menu-container-offline']">
         <div class="menu-icon">
           <span style="cursor:pointer;font-weight: bold;" @click="openNav">&#9776;</span>
           <a href="#" class="primary important undecoration" style="margin-left: 10px;">{{title}}</a>
@@ -57,7 +57,7 @@ export default {
     title: ""
   },
   computed: {
-    ...mapState(["user"])
+    ...mapState(["user","online"])
   },
   methods: {
     openNav() {
@@ -80,7 +80,7 @@ export default {
     left: -100%;
     background-color: #F5F5F5;
     overflow-x: hidden;
-    transition:left 0.5s ease-in-out;
+    transition:left 0.3s ease-in-out;
     text-align: center;
 }
 .top-container{
@@ -126,7 +126,7 @@ export default {
     border-radius: 4px;
 }
 
-.sidenav .user-information .full-name{
+.sidenav .user-information .full-name,.sidenav .user-information-offline .full-name{
     font-weight: bold;
 }
 .sidenav .user-information{
@@ -136,7 +136,14 @@ export default {
     border-bottom: 4px solid var(--primary-blue);
 }
 
-.sidenav .user-information > div{
+.sidenav .user-information-offline{
+    text-align: left!important;
+    font-size: 14px;
+    padding: 10px 0px;
+    border-bottom: 4px solid var(--danger-red);
+}
+
+.sidenav .user-information > div,.sidenav .user-information-offline > div{
     margin: 10px auto;
     margin: 10px 10px 0px 30px;
 }
@@ -159,5 +166,13 @@ export default {
 
 .menu-container{
     border-bottom: solid 2px var(--primary-blue);
+}
+.menu-container-offline{
+    border-bottom: solid 2px var(--danger-red);
+}
+.router-link-exact-active {
+    border-bottom: 2px solid var(--primary-blue);
+    font-weight: bold;
+    border-width: 50%;
 }
 </style>
