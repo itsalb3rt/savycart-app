@@ -7,10 +7,10 @@ import {
 
 
 Vue.use(Router)
-
+console.log(process.env.BASE_URL);
 const router = new Router({
   mode: 'history',
-  base: process.env.BASE_URL,
+  base: '/sheiley_shop',
   routes: [{
       //Todas las URLS insertadas que no existan redireccionaran a login
       path: '*',
