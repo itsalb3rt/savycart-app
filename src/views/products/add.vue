@@ -11,7 +11,7 @@
           </div>
           <div>
             <label for="price">Precio</label>
-            <input type="number" name="price" id="price" min="1" value="1" v-model="price" required>
+            <input type="number" name="price" id="price" min="1" value="1" step="0.01" v-model="price" required>
           </div>
           <div>
             <label for="measurement_units">Unidad medida</label>

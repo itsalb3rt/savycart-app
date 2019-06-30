@@ -209,6 +209,6 @@ export default {
   color: var(--grey);
 }
 .product-main-container {
-  margin-bottom: 80px;
+  margin-bottom: 100px;
 }
 </style>
