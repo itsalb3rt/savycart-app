@@ -7,7 +7,6 @@ import {
 
 
 Vue.use(Router)
-console.log(process.env.BASE_URL);
 const router = new Router({
   mode: 'history',
   base: '/sheiley_shop',
