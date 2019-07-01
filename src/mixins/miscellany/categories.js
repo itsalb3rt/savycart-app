@@ -6,6 +6,7 @@ export default {
                     `${this.apiDomain}/Miscellany/categories/${this.user.id_user}`
                 )
                 .then(response => {
+                    //Mutation
                     this.setCategories(response.data);
                 })
                 .catch(function (error) {

@@ -70,20 +70,27 @@
 
 <script>
 import MenuComponent from "@/components/TheMenu.vue";
-import products from "@/mixins/products/Products";
 import axios from "axios";
 import { mapState, mapMutations } from "vuex";
+
 import dndod from "dndod";
 import "dndod/dist/dndod-popup.min.css";
+
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
+
+import products from "@/mixins/products/Products";
 import currencies from '@/mixins/miscellany/currencies';
+import measurementUnits from '@/mixins/miscellany/measurementUnits';
+import categories from '@/mixins/miscellany/categories';
 
 export default {
-  mixins: [products,currencies],
+  mixins: [products,currencies,measurementUnits,categories],
   async mounted() {
     if(this.online){
       await this.requestProducts(axios);
+      await this.requestMeasurementUnit(axios);
+      await this.requestCategories(axios);
     }
     this.currency = await this.getPreferredCurrency();
   },
@@ -109,7 +116,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["addProduct", "removeProduct", "setProducts"]),
+    ...mapMutations(["addProduct", "removeProduct", "setProducts","setMeasurementUnit","setCategories"]),
     getMeasurementName(id) {
       let value;
       this.measurement_units.forEach(unit => {

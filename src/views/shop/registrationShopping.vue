@@ -100,6 +100,8 @@ export default {
   async mounted() {
     if (this.online) {
       await this.requestProducts(axios);
+      await this.requestMeasurementUnit(axios);
+      await this.requestCategories(axios);
     }
 
     let shoppingCarTemp = await this.getShoppingCarItems();
