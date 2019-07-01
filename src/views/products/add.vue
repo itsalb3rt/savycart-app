@@ -155,6 +155,7 @@ export default {
               this.addProduct(product);
               notyf.success("Producto guardado!");
               this.name = '';
+              document.querySelector('#name').focus();
             }else if(response.data.status == "exits"){
               notyf.error(`Ya existe un producto nombrado: ${response.data.data.name}`);
             }
