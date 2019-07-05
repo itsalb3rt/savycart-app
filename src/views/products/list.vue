@@ -60,7 +60,7 @@
         </div>
       </div>
     </div>
-    <div class="stiky-float-right-button">
+    <div class="stiky-float-right-button" style="outline: none;">
       <router-link to="/product/add" :class="['undecoration','primary','important']">
         <font-awesome-icon icon="plus-circle"/>
       </router-link>
