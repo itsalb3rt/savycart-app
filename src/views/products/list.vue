@@ -114,13 +114,15 @@ export default {
       "measurement_units"
     ]),
     filterProducts: function() {
-      let filteredProducts = this.products.filter(item =>
-        item.name.toUpperCase().includes(this.searchProductName.toUpperCase())
-      );
-      let orderedProducts = filteredProducts.sort((a, b) =>
+      let orderedProducts = this.products.sort((a, b) =>
         a.name > b.name ? 1 : -1
       );
-      return orderedProducts;
+
+      let filteredProducts = orderedProducts.filter(item =>
+        item.name.toUpperCase().includes(this.searchProductName.toUpperCase())
+      );
+
+      return filteredProducts;
     }
   },
   methods: {

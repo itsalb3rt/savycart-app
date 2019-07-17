@@ -92,6 +92,7 @@
         </div>
       </form>
     </div>
+    <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
   </div>
 </template>
 
@@ -103,6 +104,8 @@ import measurementUnits from '@/mixins/miscellany/measurementUnits'
 import axios from "axios";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 
 export default {
   mixins:[categories,measurementUnits],
@@ -119,11 +122,13 @@ export default {
       measurementUnit: "",
       category: "",
       itbis: "1",
-      description: ""
+      description: "",
+      isLoading: false
     };
   },
   components: {
-    MenuComponent
+    MenuComponent,
+    Loading
   },
   computed: {
     ...mapState([
@@ -137,6 +142,7 @@ export default {
   methods: {
     ...mapMutations(["addProduct", "deleteProduct","setCategories","setMeasurementUnit"]),
     createProduct() {
+      this.isLoading = true;
       const notyf = new Notyf();
       let formData = new FormData();
       let product = {
@@ -160,6 +166,7 @@ export default {
               notyf.success("Producto guardado!");
               this.name = '';
               document.querySelector('#name').focus();
+              this.isLoading = false;
             }else if(response.data.status == "exits"){
               notyf.error(`Ya existe un producto nombrado: ${response.data.data.name}`);
             }
