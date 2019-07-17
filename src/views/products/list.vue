@@ -1,11 +1,11 @@
 <template>
   <div>
-    <MenuComponent title="Lista"/>
+    <MenuComponent title="Lista" />
     <div class="container-app">
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" v-if="products.length > 0">
           <div class="input-group">
-            <input type="search" placeholder="Buscar..." v-model="searchProductName">
+            <input type="search" placeholder="Buscar..." v-model="searchProductName" />
           </div>
         </div>
         <div
@@ -17,17 +17,15 @@
             <div class="row">
               <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                 <div class="photo">
-                  <img src="./../../assets/img/product-default-img.png" alt>
+                  <img src="./../../assets/img/product-default-img.png" alt />
                 </div>
               </div>
               <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 details">
                 <div class="name">
                   <router-link
-                      :to="{ name: 'view_product', params: { id: product.id_product } }"
-                      :class="['primary' ,'important','undecoration']"
-                    >
-                    {{product.name}}
-                    </router-link>
+                    :to="{ name: 'view_product', params: { id: product.id_product } }"
+                    :class="['primary' ,'important','undecoration']"
+                  >{{product.name}}</router-link>
                   <a
                     class="success undecoration important right"
                     @click="$router.push( {name:'edit product', params:{id: product.id_product} } )"
@@ -60,9 +58,13 @@
         </div>
       </div>
     </div>
-    <div class="stiky-float-right-button" style="outline: none;">
-      <router-link to="/product/add" :class="['undecoration','primary','important']">
-        <font-awesome-icon icon="plus-circle"/>
+    <div class="stiky-float-right-button">
+      <router-link
+        to="/product/add"
+        style="outline: none;"
+        :class="['undecoration','primary','important']"
+      >
+        <font-awesome-icon icon="plus-circle" />
       </router-link>
     </div>
   </div>
@@ -80,25 +82,25 @@ import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 
 import products from "@/mixins/products/Products";
-import currencies from '@/mixins/miscellany/currencies';
-import measurementUnits from '@/mixins/miscellany/measurementUnits';
-import categories from '@/mixins/miscellany/categories';
+import currencies from "@/mixins/miscellany/currencies";
+import measurementUnits from "@/mixins/miscellany/measurementUnits";
+import categories from "@/mixins/miscellany/categories";
 
 export default {
-  mixins: [products,currencies,measurementUnits,categories],
+  mixins: [products, currencies, measurementUnits, categories],
   async mounted() {
-    if(this.online){
+    if (this.online) {
       await this.requestProducts(axios);
       await this.requestMeasurementUnit(axios);
       await this.requestCategories(axios);
     }
     this.currency = await this.getPreferredCurrency();
   },
-  data(){
-    return{
-      searchProductName:'',
-      currency:[]
-    }
+  data() {
+    return {
+      searchProductName: "",
+      currency: []
+    };
   },
   components: {
     MenuComponent
@@ -111,12 +113,24 @@ export default {
       "apiDomain",
       "measurement_units"
     ]),
-    filterProducts: function () {
-        return this.products.filter((item) => item.name.toUpperCase().includes(this.searchProductName.toUpperCase()));
+    filterProducts: function() {
+      let filteredProducts = this.products.filter(item =>
+        item.name.toUpperCase().includes(this.searchProductName.toUpperCase())
+      );
+      let orderedProducts = filteredProducts.sort((a, b) =>
+        a.name > b.name ? 1 : -1
+      );
+      return orderedProducts;
     }
   },
   methods: {
-    ...mapMutations(["addProduct", "removeProduct", "setProducts","setMeasurementUnit","setCategories"]),
+    ...mapMutations([
+      "addProduct",
+      "removeProduct",
+      "setProducts",
+      "setMeasurementUnit",
+      "setCategories"
+    ]),
     getMeasurementName(id) {
       let value;
       this.measurement_units.forEach(unit => {

@@ -1,4 +1,5 @@
 import localForage from "localforage";
+import { type } from "os";
 export default {
     mounted() {
         this.db = localForage.createInstance({

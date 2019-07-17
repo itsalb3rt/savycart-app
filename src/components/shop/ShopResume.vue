@@ -4,33 +4,30 @@
       <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">{{quantity}} articulos</div>
-          <hr>
+          <hr />
           <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-            <div>
-              Sub-total
-            </div>
-            <div>
-              ITBIS
-            </div>
-            <div>
-              Total
-            </div>
+            <div>Sub-total</div>
+            <div>ITBIS</div>
+            <div>Total</div>
           </div>
           <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text right">
             <div>
-              <strong>{{currencySymbol}} {{subTotal}}</strong>
+              <strong>{{currencySymbol}} {{getSubTotalInNumberFormat()}}</strong>
             </div>
             <div>
-              <strong>{{currencySymbol}} {{totalItbis}}</strong>
+              <strong>{{currencySymbol}} {{getTotalItebisInNumberFormat()}}</strong>
             </div>
             <div>
-              <a href="#" class="primary important">{{currencySymbol}} {{subTotal + totalItbis}}</a>
+              <a href="#" class="primary important">{{currencySymbol}} {{getTotalInNumberFormat()}}</a>
             </div>
           </div>
         </div>
       </div>
       <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" v-if="!onCar">
-        <button class="button primary expand hollow" @click="$router.push('/shop/shopping_car')">Ir a caja</button>
+        <button
+          class="button primary expand hollow"
+          @click="$router.push('/shop/shopping_car')"
+        >Ir a caja</button>
       </div>
     </div>
   </div>
@@ -41,9 +38,24 @@ export default {
   props: {
     quantity: 0,
     subTotal: 0,
-    totalItbis:0,
-    onCar:false,
-    currencySymbol:''
+    totalItbis: 0,
+    onCar: false,
+    currencySymbol: ""
+  },
+  methods: {
+    getTotalInNumberFormat() {
+      return this.createNumberFormat(this.subTotal + this.totalItbis);
+    },
+    getTotalItebisInNumberFormat() {
+      return this.createNumberFormat(this.totalItbis);
+    },
+    getSubTotalInNumberFormat(){
+      return this.createNumberFormat(this.subTotal);
+    },
+    createNumberFormat(number) {
+      let l10nEN = new Intl.NumberFormat("en-US");
+      return l10nEN.format(number);
+    }
   }
 };
 </script>
