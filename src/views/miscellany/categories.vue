@@ -1,6 +1,5 @@
 <template>
   <div>
-    <MenuComponent title="Categorias"/>
     <div class="container-app">
       <form action="#" method="POST" @submit.prevent="createCategory">
         <div>

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <MenuComponent title="Carro de compra"></MenuComponent>
     <ShoppingCar :count="shoppingCar.length"></ShoppingCar>
     <div class="container-app">
       <div class="row">

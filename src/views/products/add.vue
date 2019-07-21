@@ -1,106 +1,81 @@
 <template>
-  <div>
-    <MenuComponent title="Nuevo producto"/>
-
-    <div class="container-app">
-      <form action="#" method="post" @submit.prevent="createProduct">
-        <div class="input-group">
-          <div>
-            <label for="name">Nombre</label>
-            <input type="text" name="name" id="name" placeholder="Manzana" 
-            v-model="name" 
-            @keyup="uppercase" 
+  <v-form @submit.prevent="createProduct">
+    <v-container>
+      <v-layout row wrap class="white">
+        <v-flex xs12>
+          <v-text-field
+            id="name"
+            v-model="name"
+            label="Nombre"
+            @keyup="uppercase"
             autocomplete="off"
-            required>
-          </div>
-          <div>
-            <label for="price">Precio</label>
-            <input type="number" name="price" id="price" min="1" value="1" step="0.01" v-model.number="price" required>
-          </div>
-          <div>
-            <label for="measurement_units">Unidad medida</label>
-            <select
-              name="measurement_units"
-              id="measurement_units"
-              v-model="measurementUnit"
-              required
-            >
-              <option value selected disabled>Seleccione una...</option>
-              <option
-                v-for="(unit,index) in measurement_units"
-                :key="index"
-                :value="unit.id_unit_measurement"
-              >{{unit.name}}</option>
-            </select>
-          </div>
-          <div>
-            <label for="category">Categoria</label>
-            <select name="category" id="category" v-model="category" required>
-              <option value selected disabled>Seleccione una...</option>
-              <option
-                v-for="(category,index) in categories"
-                :key="index"
-                :value="category.id_category"
-              >{{category.name}}</option>
-            </select>
-          </div>
-        </div>
-        <div>
-          <div style="margin-bottom:10px">
-            <strong>Incluir ITBIS</strong>
-          </div>
-          <div>
-            <span style="margin-right:30px;">
-              <input type="radio" name="itbis" value="1" id="itebis_si" v-model="itbis" checked>
-              &Tab;
-              <strong>
-                <label for="itebis_si">SI</label>
-              </strong>
-            </span>
-            <span>
-              <input type="radio" name="itbis" value="0" id="itebis_no" v-model="itbis">
-              &Tab;
-              <strong>
-                <label for="itebis_no">NO</label>
-              </strong>
-            </span>
-            <div
-              class="information"
-              style="margin:10px 0px;"
-            >El porcentaje de ITBIS se asigna en ajustes.</div>
-            <div class="input-group">
-              <div>
-                <label for="description">Descripción</label>
-                <textarea
-                  name="description"
-                  id="description"
-                  placeholder="Agregue aquí una descripción breve, esto es opcional"
-                  rows="4"
-                  v-model="description"
-                ></textarea>
-              </div>
-            </div>
-            <div style="margin-top:20px;margin-bottom:20px;">
-              <button class="button primary small" :disabled="name.length == 0">
-                <font-awesome-icon icon="save"/>&Tab;Guardar
-              </button>
-              <button class="button danger small right" @click="$router.push('/product/list')">
-                <font-awesome-icon icon="window-close"/>&Tab;Cancelar
-              </button>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
+            placeholder="Manzana"
+            required
+          ></v-text-field>
+          <v-text-field
+            type="number"
+            v-model="price"
+            label="Precio"
+            value="1"
+            min="1"
+            step="0.01"
+            required
+          ></v-text-field>
+          <v-select
+            v-model="measurementUnit"
+            :items="measurement_units"
+            label="Unidad medida"
+            item-text="name"
+            item-value="id_unit_measurement"
+            required
+          ></v-select>
+          <v-select
+            v-model="category"
+            :items="categories"
+            label="Categoria"
+            item-text="name"
+            item-value="id_category"
+            required
+          ></v-select>
+          <v-switch
+            color="primary"
+            v-model="itbis"
+            :label="`Incluir ITBIS: ${(itbis == '1')? 'SI' : 'NO' }`"
+            true-value="1"
+            false-value="0"
+          ></v-switch>
+          <p class="grey--text">El porcentaje de ITBIS se asigna en ajustes.</p>
+          <v-divider></v-divider>
+          <v-textarea
+            label="Descripción"
+            v-model="description"
+            placeholder="Agregue aquí una descripción breve, esto es opcional"
+          ></v-textarea>
+        </v-flex>
+      </v-layout>
+      <v-layout row wrap>
+        <v-flex xs6>
+          <v-btn small color="primary" :disabled="name.length == 0" type="submit">
+            <v-icon small class="mr-2">fa-save</v-icon>Guardar
+          </v-btn>
+        </v-flex>
+        <v-flex xs6>
+          <v-spacer></v-spacer>
+          <v-btn small class="mr-0" color="error" @click="$router.push('/product/list')">
+            <v-icon small class="mr-2">fa-window-close</v-icon>Cancelar
+          </v-btn>
+        </v-flex>
+      </v-layout>
+    </v-container>
     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
-  </div>
+  </v-form>
 </template>
 
 <script>
 import { mapMutations, mapState } from "vuex";
 import MenuComponent from "@/components/TheMenu.vue";
-import categories from '@/mixins/miscellany/categories';
-import measurementUnits from '@/mixins/miscellany/measurementUnits'
+import categories from "@/mixins/miscellany/categories";
+import measurementUnits from "@/mixins/miscellany/measurementUnits";
 import axios from "axios";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
@@ -108,9 +83,9 @@ import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
 
 export default {
-  mixins:[categories,measurementUnits],
-  mounted(){
-    if(this.online){
+  mixins: [categories, measurementUnits],
+  mounted() {
+    if (this.online) {
       this.requestCategories(axios);
       this.requestMeasurementUnit(axios);
     }
@@ -140,7 +115,12 @@ export default {
     ])
   },
   methods: {
-    ...mapMutations(["addProduct", "deleteProduct","setCategories","setMeasurementUnit"]),
+    ...mapMutations([
+      "addProduct",
+      "deleteProduct",
+      "setCategories",
+      "setMeasurementUnit"
+    ]),
     createProduct() {
       this.isLoading = true;
       const notyf = new Notyf();
@@ -154,7 +134,7 @@ export default {
         itbis: this.itbis,
         description: this.description
       };
-      formData.append('product',JSON.stringify(product));
+      formData.append("product", JSON.stringify(product));
 
       if (this.online) {
         axios
@@ -164,11 +144,14 @@ export default {
               product.id_product = response.data.data.id_product;
               this.addProduct(product);
               notyf.success("Producto guardado!");
-              this.name = '';
-              document.querySelector('#name').focus();
+              this.name = "";
+              this.price = 1;
+              document.querySelector("#name").focus();
               this.isLoading = false;
-            }else if(response.data.status == "exits"){
-              notyf.error(`Ya existe un producto nombrado: ${response.data.data.name}`);
+            } else if (response.data.status == "exits") {
+              notyf.error(
+                `Ya existe un producto nombrado: ${response.data.data.name}`
+              );
             }
           })
           .catch(function(error) {
@@ -180,7 +163,7 @@ export default {
         );
       }
     },
-    uppercase(){
+    uppercase() {
       this.name = this.name.toUpperCase();
     }
   }

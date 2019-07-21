@@ -1,6 +1,5 @@
 <template>
   <div>
-    <MenuComponent title="Unidades medidas"/>
     <div class="container-app">
       <form action="#" method="POST" @submit.prevent="createMeasurementUnit">
         <div class="input-group">

@@ -1,121 +1,98 @@
 <template>
-  <div>
-    <div class="row center-xs center-sm center-md center-lg">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <h1 style="font-size: 40px!important;font-weight: bold;">
-          <a href="#" class="primary important undecoration">Sheiley Shop</a>
-        </h1>
-        <h5>
-          <a href="#" class="warning undecoration">shopping registration application</a>
-        </h5>
-      </div>
-    </div>
-    <div class="row" style="margin-top: 60px">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" v-if="userExitst">
-        <div class="panel">
-          <div class="head danger text center">Este nombre de usuario ya esta registrado</div>
-        </div>
-      </div>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" v-if="emailExits">
-        <div class="panel">
-          <div class="head danger text center">Este email ya esta registrado</div>
-        </div>
-      </div>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <form
-          action="<?= Assets::href('auth/register_user') ?>"
-          method="POST"
-          @submit.prevent="registerUser"
-        >
-          <div class="panel">
-            <div class="body">
-              <div class="input-group">
+  <v-container>
+    <v-layout row wrap align-center justify-center>
+      <v-flex xs12>
+        <p class="display-3 primary--text text-xs-center">Sheiley Shop</p>
+        <p class="warning--text text-xs-center">shopping registration application</p>
+      </v-flex>
+      <v-flex xs12 class="white--text" v-if="userExitst">
+        <v-card flat dark color="error" class="text-xs-center">
+          <v-card-text class="subheading">Este nombre de usuario ya esta registrado</v-card-text>
+        </v-card>
+      </v-flex>
+      <v-flex xs12 class="white--text" v-if="emailExits">
+        <v-card flat dark color="error" class="text-xs-center">
+          <v-card-text class="subheading">Este email ya esta registrado</v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+
+    <v-layout row wrap align-center justify-center class="white">
+      <v-flex xs12>
+        <form @submit.prevent="registerUser">
+          <v-container>
+            <v-layout row wrap>
+              <v-flex xs12>
                 <h4
                   class="horizontal-line-text-main-container"
                   style="font-weight: normal!important;"
                 >
-                  <span class="horizontal-line-text-container">Crear cuenta</span>
+                  <span class="horizontal-line-text-container white">
+                    <span class="black--text">Crear cuenta</span>
+                  </span>
                 </h4>
-                <div>
-                  <input
-                    type="text"
-                    name="first_name"
-                    v-model="firstName"
-                    placeholder="Nombres"
-                    required
-                  >
-                </div>
-                <div>
-                  <input
-                    type="text"
-                    name="last_name"
-                    v-model="lastName"
-                    placeholder="Apellidos"
-                    required
-                  >
-                </div>
-                <div>
-                  <input
-                    type="text"
-                    name="user_name"
-                    placeholder="Nombre de usuario"
-                    v-model="userName"
-                    @change="validatedUserName"
-                    required
-                  >
-                </div>
-                <div>
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Email@domain.com"
-                    v-model="email"
-                    @change="validatedEmail"
-                    required
-                  >
-                </div>
-                <div>
-                  <input
-                    type="password"
-                    name="password"
-                    v-model="password"
-                    placeholder="Contraseña "
-                    required
-                  >
-                </div>
-                <div>
-                  <input
-                    type="password"
-                    name="password2"
-                    placeholder="Confirmar contraseña"
-                    v-model="password2"
-                    required
-                  >
-                </div>
-              </div>
-              <div class="text center input-group">
-                <div>
-                  <button
-                    type="submit"
-                    :disabled="userExitst === true || emailExits === true || disabledSubmitButton === true"
-                    class="button success"
-                  >Crear cuenta</button>
-                </div>
-              </div>
-              <div class="panel">
-                <div class="body">
-                  <div class="text small center">
-                    Ya tienes una cuenta ?&Tab;
-                    <router-link to="/login" :class="['success']">Inicia sesión!</router-link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="firstName" label="Nombres" required></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field v-model="lastName" label="Apellidos" required></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field
+                  v-model="userName"
+                  @change="validatedUserName"
+                  label="Nombre de usuario"
+                  required
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field
+                  v-model="email"
+                  @change="validatedEmail"
+                  label="Email@domain.com"
+                  type="email"
+                  required
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field
+                  v-model="password"
+                  :type="showPassword ? 'text' : 'password'"
+                  :append-icon="showPassword ? 'fa-eye' : 'fa-eye-slash'"
+                  @click:append="showPassword = !showPassword"
+                  label="Password"
+                  required
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field
+                  v-model="password2"
+                  :type="showPassword ? 'text' : 'password'"
+                  :append-icon="showPassword ? 'fa-eye' : 'fa-eye-slash'"
+                  @click:append="showPassword = !showPassword"
+                  label="Confirmar contraseña"
+                  required
+                ></v-text-field>
+              </v-flex>
+              <v-flex x12>
+                <v-btn
+                  type="submit"
+                  color="success"
+                  :disabled="userExitst === true || emailExits === true || disabledSubmitButton === true"
+                  block
+                >Crear cuenta</v-btn>
+              </v-flex>
+              <v-flex x12 class="mt-4">
+                Ya tienes una cuenta ?
+                <v-btn color="primary" flat small class="ma-0 pa-0" to="/login">Inicia sesión!</v-btn>
+              </v-flex>
+            </v-layout>
+          </v-container>
         </form>
-      </div>
-    </div>
-  </div>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 <script>
 import axios from "axios";
@@ -123,7 +100,7 @@ import { mapState } from "vuex";
 
 export default {
   mounted: function() {
-    if (this.isLoged == 'true') {
+    if (this.isLoged == "true") {
       this.$router.push("product/list");
     }
   },
@@ -137,11 +114,12 @@ export default {
       lastName: null,
       password: null,
       password2: null,
-      disabledSubmitButton: false
+      disabledSubmitButton: false,
+      showPassword: false
     };
   },
   computed: {
-    ...mapState(['apiDomain', 'user','isLoged'])
+    ...mapState(["apiDomain", "user", "isLoged"])
   },
   methods: {
     validatedUserName() {

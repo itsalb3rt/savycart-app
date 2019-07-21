@@ -10,6 +10,7 @@ export default {
   mounted() {
     deleteState()
     this.$router.push("/login");
+    this.setLoginState(false);
   },
   methods: {
     ...mapMutations(["setLoginState"])

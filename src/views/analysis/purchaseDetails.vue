@@ -1,6 +1,5 @@
 <template>
   <div>
-    <MenuComponent title="Detalle de compra"></MenuComponent>
     <div class="container-app">
       <div class="row head-details" v-if="purchaseDetails.length == undefined">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

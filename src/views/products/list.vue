@@ -1,73 +1,95 @@
 <template>
-  <div>
-    <MenuComponent title="Lista" />
-    <div class="container-app">
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" v-if="products.length > 0">
-          <div class="input-group">
-            <input type="search" placeholder="Buscar..." v-model="searchProductName" />
-          </div>
-        </div>
-        <div
-          class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
-          style="margin-top: 20px;"
-          v-if="products.length > 0"
-        >
-          <div class="product-container" v-for="(product,index) in filterProducts" :key="index">
-            <div class="row">
-              <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                <div class="photo">
-                  <img src="./../../assets/img/product-default-img.png" alt />
-                </div>
-              </div>
-              <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 details">
-                <div class="name">
-                  <router-link
-                    :to="{ name: 'view_product', params: { id: product.id_product } }"
-                    :class="['primary' ,'important','undecoration']"
-                  >{{product.name}}</router-link>
-                  <a
-                    class="success undecoration important right"
-                    @click="$router.push( {name:'edit product', params:{id: product.id_product} } )"
-                  >Editar</a>
-                </div>
-                <div
-                  class="unit"
-                  style="color: var(--grey)"
-                >{{getMeasurementName(product.id_unit_measurement)}}</div>
-                <div class="price" style="font-weight: bold;">
-                  {{currency.symbol}} {{product.price}}
-                  <a
-                    class="danger undecoration important right"
-                    @click="dispatcherDeleteProduct(index)"
-                  >Eliminar</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div v-if="products.length == 0" style="margin-top:40%;">
-          <div class="panel">
-            <div class="body">
+  <v-container>
+    <v-layout row wrap>
+      <v-flex xs12>
+        <v-card flat>
+          <v-card-text>
+            <v-flex xs12 v-if="products.length > 0">
+              <v-text-field
+                prepend-inner-icon="fa-search"
+                v-model="searchProductName"
+                label="Buscar..."
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs12 class="mt-3" v-if="products.length > 0">
+              <v-layout
+                class="mt-2 mb-2"
+                row
+                wrap
+                v-for="(product,index) in filterProducts"
+                :key="index"
+              >
+                <v-flex xs12>
+                  <v-card>
+                    <v-card-text>
+                      <v-flex xs12>
+                        <div>
+                          <span
+                            @click="$router.push({ name: 'view_product', params: { id: product.id_product } })"
+                            flat
+                            small
+                            class="ma-0 pa-0 primary--text"
+                          >{{product.name}}</span>
+                        </div>
+                        <div
+                          class="unit"
+                          style="color: var(--grey)"
+                        >{{getMeasurementName(product.id_unit_measurement)}}</div>
+                        <div
+                          class="price"
+                          style="font-weight: bold;"
+                        >{{currency.symbol}} {{product.price}}</div>
+                      </v-flex>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-btn
+                        color="success"
+                        small
+                        depressed
+                        outline
+                        class="ma-0 pa-0 right"
+                        @click="$router.push({name:'edit product', params:{id: product.id_product} })"
+                      >
+                        <v-icon small class="mr-1">fa-edit</v-icon>Editar
+                      </v-btn>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        color="error"
+                        small
+                        flat
+                        class="ma-0 pa-0 right"
+                        @click="dispatcherDeleteProduct(product.id_product)"
+                      >
+                        <v-icon small class="mr-1">fa-trash</v-icon>Eliminar
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-flex>
+              </v-layout>
+            </v-flex>
+            <v-flex v-if="products.length == 0" xs12>
               <p
-                class="text x-large"
-                style="color:var(--grey)"
+                class="headline mt-5 grey--text font-weight-bold"
               >No se ha creado ningún producto, pulse el botón + para agregar productos.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="stiky-float-right-button">
-      <router-link
-        to="/product/add"
-        style="outline: none;"
-        :class="['undecoration','primary','important']"
-      >
-        <font-awesome-icon icon="plus-circle" />
-      </router-link>
-    </div>
-  </div>
+            </v-flex>
+            <v-btn
+              color="primary"
+              small
+              icon
+              dark
+              fixed
+              right
+              bottom
+              fab
+              @click="$router.push({path:'/product/add'})"
+            >
+              <span class="display-1">+</span>
+            </v-btn>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -143,7 +165,7 @@ export default {
       });
       return value;
     },
-    dispatcherDeleteProduct(index) {
+    dispatcherDeleteProduct(idProduct) {
       dndod.popup({
         title: "Eliminar producto",
         msg: "Esta seguro que desea eliminar este producto ?",
@@ -158,20 +180,25 @@ export default {
             text: "Eliminarlo",
             type: "danger",
             handler: (e, popup) => {
-              this.deleteProduct(this.products[index].id_product, index);
+              this.deleteProduct(idProduct);
               popup.close();
             }
           }
         ]
       });
     },
-    deleteProduct($idProduct, index) {
+    deleteProduct(idProduct) {
       axios
-        .get(`${this.apiDomain}/products/delete/${$idProduct}`)
+        .get(`${this.apiDomain}/products/delete/${idProduct}`)
         .then(response => {
           if (response.data.status == "success") {
             const notyf = new Notyf();
-            this.removeProduct(index);
+            this.products.forEach((product,index)=>{
+              if(product.id_product == idProduct){
+                this.removeProduct(index);
+                return;
+              }
+            });
             notyf.success("Producto eliminado.");
           }
         })
@@ -182,3 +209,8 @@ export default {
   }
 };
 </script>
+<style lang="css">
+.right {
+  float: right !important;
+}
+</style>

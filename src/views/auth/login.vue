@@ -1,92 +1,75 @@
 <template>
-  <div>
-    <div class="row center-xs center-sm center-md center-lg">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <h1 style="font-size: 40px!important;font-weight: bold;">
-          <a href="#" class="primary important undecoration">Sheiley Shop</a>
-        </h1>
-        <h5>
-          <a href="#" class="warning undecoration">shopping registration application</a>
-        </h5>
-      </div>
-    </div>
-    <div class="row" style="margin-top: 60px">
-      <div
-        class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
-        v-if="this.$route.query.create_user !== undefined"
-      >
-        <div class="panel">
-          <div class="head success text center">Usuario creado!</div>
-        </div>
-      </div>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" v-if="loginFailed">
-        <div class="panel">
-          <div class="head danger text center">Datos erroneos</div>
-        </div>
-      </div>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <form
-          action="<?= Assets::href('auth/login_check') ?>"
-          method="POST"
-          @submit.prevent="login"
-        >
-          <div class="panel">
-            <div class="body">
-              <div class="input-group">
-                <h4
-                  class="horizontal-line-text-main-container"
-                  style="font-weight: normal!important;"
-                >
-                  <span class="horizontal-line-text-container">Iniciar sesión</span>
-                </h4>
-                <div>
-                  <input
-                    type="text"
-                    name="user_name"
-                    placeholder="username"
-                    v-model="userName"
+  <v-container>
+    <v-layout row wrap align-center justify-center>
+      <v-flex xs12>
+        <p class="display-3 primary--text text-xs-center">Sheiley Shop</p>
+        <p class="warning--text text-xs-center">shopping registration application</p>
+      </v-flex>
+      <v-flex xs12 class="white--text" v-if="loginFailed">
+        <v-card flat dark color="error" class="text-xs-center">
+          <v-card-text class="subheading">Datos erroneos</v-card-text>
+        </v-card>
+      </v-flex>
+      <v-flex xs12 class="white--text" v-if="this.$route.query.create_user !== undefined">
+        <v-card flat dark color="success" class="text-xs-center">
+          <v-card-text class="subheading">Usuario creado!</v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+    <v-layout row wrap align-center justify-center>
+      <v-flex xs12>
+        <v-form method="POST" @submit.prevent="login">
+          <v-card flat>
+            <v-card-text>
+              <v-container>
+                <v-layout row wrap>
+                  <v-flex x12>
+                    <h4
+                      class="horizontal-line-text-main-container"
+                      style="font-weight: normal!important;"
+                    >
+                      <span class="horizontal-line-text-container white">
+                        <span class="black--text">Iniciar sesión</span>
+                      </span>
+                    </h4>
+                  </v-flex>
+                  <v-flex xs12>
+                    <v-text-field v-model="userName" label="Nombre usuario" required></v-text-field>
+                  </v-flex>
+                  <v-flex xs12>
+                    <v-text-field 
+                    v-model="password" 
+                    :type="showPassword ? 'text' : 'password'" 
+                    :append-icon="showPassword ? 'fa-eye' : 'fa-eye-slash'" 
+                    @click:append="showPassword = !showPassword"
+                    label="Password" 
                     required
-                  >
-                </div>
-                <div>
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    v-model="password"
-                    required
-                  >
-                </div>
-              </div>
-              <div>
-                <div class="body">
-                  <div class="text x-small right">
-                    <a href="#" class="important undecoration primary">Olvido su contraseña?</a>
-                  </div>
-                </div>
-              </div>
-              <div class="text center input-group">
-                <div>
-                  <button class="button primary">Iniciar sesión</button>
-                </div>
-              </div>
-              <div class="panel">
-                <div class="body">
-                  <div class="text small center">
+                    ></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 class="pt-2 pb-2">
+                    <v-btn
+                      color="primary"
+                      flat
+                      small
+                      class="ma-0 pa-0"
+                      href="#"
+                    >Olvido su contraseña?</v-btn>
+                  </v-flex>
+                  <v-flex xs12>
+                    <v-btn color="primary" type="submit" block>Iniciar sesión</v-btn>
+                  </v-flex>
+                  <v-flex xs12 class="pt-3">
                     Crear una cuenta...
-                    <router-link
-                      to="/register"
-                      :class="['important','primary','undecoration']"
-                    >CREAR CUENTA</router-link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+                    <v-btn color="primary" flat small class="ma-0 pa-0" to="/register">CREAR CUENTA</v-btn>
+                  </v-flex>
+                </v-layout>
+              </v-container>
+            </v-card-text>
+          </v-card>
+        </v-form>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -105,7 +88,8 @@ export default {
     return {
       userName: "",
       password: "",
-      loginFailed: false
+      loginFailed: false,
+      showPassword:false
     };
   },
   computed: {
@@ -127,7 +111,6 @@ export default {
       })
         .then(response => {
           if (response.data.status == "login_correct") {
-
             this.setUser(response.data.user);
             this.setLoginState("true");
             this.saveInIndexedDbCurrencies();

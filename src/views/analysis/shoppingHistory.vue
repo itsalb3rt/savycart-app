@@ -1,6 +1,5 @@
 <template>
   <div>
-    <MenuComponent title="Historial de compras"/>
     <div class="container-app">
       <div class="row" v-if="shoppingHistory.length > 0">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

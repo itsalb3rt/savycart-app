@@ -1,6 +1,5 @@
 <template>
   <div>
-    <MenuComponent title="Ajustes"></MenuComponent>
     <div class="container-app">
       <div class="currencies-container">
         <p

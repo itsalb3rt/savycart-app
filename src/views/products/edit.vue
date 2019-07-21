@@ -1,116 +1,82 @@
 <template>
-  <div>
-    <MenuComponent :title="'Editar / ' + product.name " />
-    <div class="container-app">
-      <div class="edit-form" v-if="online">
-        <form action="#" method="post" @submit.prevent="updateProduct">
-          <div class="input-group">
-            <div>
-              <label for="name">Nombre</label>
-              <input
-                type="text"
-                name="name"
+  <v-container>
+    <v-layout row wrap>
+      <v-flex xs12 class="edit-form" v-if="online">
+        <v-container class="white">
+        <v-form @submit.prevent="updateProduct">
+          <v-layout row wrap>
+            <v-flex xs12>
+              <v-text-field
                 id="name"
-                placeholder="Manzana"
                 v-model="name"
+                label="Nombre"
                 @keyup="uppercase"
+                placeholder="Manzana"
                 required
-              />
-            </div>
-            <div>
-              <label for="price">Precio</label>
-              <input
+              ></v-text-field>
+              <v-text-field
                 type="number"
-                name="price"
-                id="price"
-                min="1"
-                value="1"
-                step="0.01"
                 v-model="price"
+                label="Precio"
+                value="1"
+                min="1"
+                step="0.01"
                 required
-              />
-            </div>
-            <div>
-              <label for="measurement_units">Unidad medida</label>
-              <select
-                name="measurement_units"
-                id="measurement_units"
+              ></v-text-field>
+              <v-select
                 v-model="measurementUnit"
+                :items="measurement_units"
+                label="Unidad medida"
+                item-text="name"
+                item-value="id_unit_measurement"
                 required
-              >
-                <option value selected disabled>Seleccione una...</option>
-                <option
-                  v-for="(unit,index) in measurement_units"
-                  :key="index"
-                  :value="unit.id_unit_measurement"
-                >{{unit.name}}</option>
-              </select>
-            </div>
-            <div>
-              <label for="category">Categoria</label>
-              <select name="category" id="category" v-model="category" required>
-                <option value selected disabled>Seleccione una...</option>
-                <option
-                  v-for="(category,index) in categories"
-                  :key="index"
-                  :value="category.id_category"
-                >{{category.name}}</option>
-              </select>
-            </div>
-          </div>
-          <div>
-            <div style="margin-bottom:10px">
-              <strong>Incluir ITBIS</strong>
-            </div>
-            <div>
-              <span style="margin-right:30px;">
-                <input type="radio" name="itbis" value="1" id="itebis_si" v-model="itbis" checked />
-                &Tab;
-                <strong>
-                  <label for="itebis_si">SI</label>
-                </strong>
-              </span>
-              <span>
-                <input type="radio" name="itbis" value="0" id="itebis_no" v-model="itbis" />
-                &Tab;
-                <strong>
-                  <label for="itebis_no">NO</label>
-                </strong>
-              </span>
-              <div
-                class="information"
-                style="margin:10px 0px;"
-              >El porcentaje de ITBIS se asigna en ajustes.</div>
-              <div class="input-group">
-                <div>
-                  <label for="description">Descripción</label>
-                  <textarea
-                    name="description"
-                    id="description"
-                    placeholder="Agregue aquí una descripción breve, esto es opcional"
-                    rows="4"
-                    v-model="description"
-                  ></textarea>
-                </div>
-              </div>
-              <div style="margin-top:20px;margin-bottom:20px;">
-                <button class="button success small" :disabled="name.length == 0">
-                  <font-awesome-icon icon="save" />&Tab;Guardar
-                </button>
-                <button class="button danger small right" @click="$router.push('/product/list')">
-                  <font-awesome-icon icon="window-close" />&Tab;Cancelar
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div v-else>
+              ></v-select>
+              <v-select
+                v-model="category"
+                :items="categories"
+                label="Categoria"
+                item-text="name"
+                item-value="id_category"
+                required
+              ></v-select>
+              <v-switch
+                color="primary"
+                v-model="itbis"
+                :label="`Incluir ITBIS: ${(itbis == '1')? 'SI' : 'NO' }`"
+                true-value="1"
+                false-value="0"
+              ></v-switch>
+              <p class="grey--text">El porcentaje de ITBIS se asigna en ajustes.</p>
+              <v-divider></v-divider>
+              <v-textarea
+                label="Descripción"
+                v-model="description"
+                placeholder="Agregue aquí una descripción breve, esto es opcional"
+              ></v-textarea>
+            </v-flex>
+          </v-layout>
+          <v-layout row wrap>
+            <v-flex xs6>
+              <v-btn small color="success" :disabled="name.length == 0" type="submit">
+                <v-icon small class="mr-2">fa-save</v-icon>Guardar
+              </v-btn>
+            </v-flex>
+            <v-flex xs6>
+              <v-spacer></v-spacer>
+              <v-btn small class="mr-0" color="error" @click="$router.push('/product/list')">
+                <v-icon small class="mr-2">fa-window-close</v-icon>Cancelar
+              </v-btn>
+            </v-flex>
+          </v-layout>
+        </v-form>
+        </v-container>
+      </v-flex>
+      <v-flex xs12 v-else>
         <offline-infomation></offline-infomation>
-      </div>
-    </div>
+      </v-flex>
+    </v-layout>
     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -164,6 +130,7 @@ export default {
   methods: {
     ...mapMutations(["setCategories", "setMeasurementUnit"]),
     updateProduct() {
+      this.isLoading = true;
       const notyf = new Notyf();
       let formData = new FormData();
       let product = {
@@ -186,11 +153,13 @@ export default {
               notyf.success("Producto guardado!");
               this.$router.push("product/list");
             }
+            this.isLoading = false;
           })
           .catch(function(error) {
             console.log("TCL: createCategory -> error", error);
           });
       } else {
+        this.isLoading = false;
         notyf.error(
           "Debes estar conectado a internet para realizar esta accion."
         );

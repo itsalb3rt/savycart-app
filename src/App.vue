@@ -1,15 +1,18 @@
 <template>
-  <div class="container">
-    <router-view/>
+  <v-app >
+    <MenuComponent title=" " v-if="isLoged == 'true'"/>
+    <v-content>
+      <router-view />
+    </v-content>
     <!-- @detected-condition fires when the connectivity status of the device changes -->
     <offline @detected-condition="handleConnectivityChange"></offline>
-  </div>
+  </v-app>
 </template>
 
 <script>
 import MenuComponent from "./components/TheMenu.vue";
 import offline from "v-offline";
-import { mapMutations } from "vuex";
+import { mapMutations,mapState } from "vuex";
 
 export default {
   components: {
@@ -22,6 +25,9 @@ export default {
       this.setOnline(status);
       console.log("TCL: handleConnectivityChange -> status", status);
     }
+  },
+  computed:{
+    ...mapState(["isLoged"]),
   }
 };
 </script>
