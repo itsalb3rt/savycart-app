@@ -1,80 +1,89 @@
 <template>
   <div>
-    <ShoppingCar :count="shoppingCar.length"></ShoppingCar>
-    <div class="container-app">
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" v-if="shoppingCar.length > 0">
-          <div class="input-group">
-            <div>
-              <label for="name_establishment">Nombre de establecimiento</label>
-              <input
-                type="text"
-                id="name_establishment"
+    <v-container>
+      <v-card flat>
+        <v-card-text>
+          <v-layout row wrap v-if="shoppingCar.length > 0">
+            <v-flex xs12>
+              <v-text-field
+                name="name_establishment"
+                label="Nombre de establecimiento"
                 v-model="nameEstablishment"
+                id="name_establishment"
                 placeholder="Super mercado..."
+              ></v-text-field>
+              <v-btn
+                class="ml-0"
+                color="success"
+                small
+                @click="saveShop"
+                :disabled="disabledSubmitButton"
               >
-            </div>
-          </div>
-          <div>
-            <button class="button success small" @click="saveShop" :disabled="disabledSubmitButton">
-              <font-awesome-icon icon="save"/>&Tab;Confirmar y guardar
-            </button>
-          </div>
-        </div>
-        <div
-          class="col-xs-12 col-sm-12 col-md-12 col-lg-12 product-main-container"
-          v-if="shoppingCar.length > 0"
-        >
-          <div class="product-container" v-for="(product,index) in shoppingCar" :key="index">
-            <div class="row">
-              <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                <div class="photo">
-                  <img src="./../../assets/img/product-default-img.png" alt>
-                </div>
-              </div>
-              <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 details">
-                <div class="name input-group">
-                  <a href="#" class="primary important undecoration">{{product.name}}</a>
-                  <input
-                    type="number"
-                    class="right"
-                    name="quantity"
-                    id="quantity"
-                    value="1"
-                    min="1"
-                    placeholder="1"
-                    style="width: 30px!important"
-                    v-model="product.quantity"
-                  >
-                </div>
-                <div
-                  class="unit"
-                  style="color: var(--grey)"
-                >{{getMeasurementName(product.id_unit_measurement)}}</div>
-                <div class="price" style="font-weight: bold;">
-                  {{currency.symbol}} {{product.price * product.quantity}}
-                  <a
-                    class="danger undecoration important right"
+                <v-icon small class="mr-2">fa-save</v-icon>Confirmar y guardar
+              </v-btn>
+              <v-divider class="mt-3 mb-3"></v-divider>
+            </v-flex>
+            <v-flex xs12 v-for="(product,index) in shoppingCar" :key="index">
+              <v-card>
+                <v-card-text>
+                  <v-layout row wrap>
+                    <v-flex xs12>
+                      <span class="primary--text">{{product.name}}</span>
+                    </v-flex>
+                    <v-flex xs12>
+                      <span class="grey--text">{{getMeasurementName(product.id_unit_measurement)}}</span>
+                    </v-flex>
+                    <v-flex xs12>
+                      <strong>{{currency.symbol}} {{product.price * product.quantity}}</strong>
+                    </v-flex>
+                    <v-flex xs12>
+                      <v-text-field
+                        type="number"
+                        min="1"
+                        name="quantity"
+                        label="Cantidad"
+                        id="quantity"
+                        v-model="product.quantity"
+                      ></v-text-field>
+                    </v-flex>
+                  </v-layout>
+                </v-card-text>
+                <v-card-actions>
+                  <v-btn
+                    color="error"
+                    flat
+                    small
                     @click="removeItemFromShoppingCar(product.id_product)"
-                  >Eliminar del carro</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" v-else>
-          <h1 class="empty-car-information">
-            <font-awesome-icon icon="shopping-cart"/>&Tab;Tu carrito esta vacío
-          </h1>
-          <h3 @click="$router.push('/shop/registation')">
-            <a href="#" class="important primary undecoration">
-              <font-awesome-icon icon="plus-circle"/>&Tab;Ir al registro de compras
-            </a>
-          </h3>
-        </div>
-      </div>
-    </div>
-    <ShopResume :quantity="shoppingCar.length" :sub-total="subTotal" onCar="true" :currency-symbol="currency.symbol" :total-itbis="totalItbis"></ShopResume>
+                  >Eliminar del carro</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-flex>
+          </v-layout>
+          <v-layout row wrap v-else>
+            <v-flex xs12>
+              <h1 class="empty-car-information">
+                <v-icon large class="mr-2">fa-shopping-cart</v-icon>Tu carrito esta vacío
+              </h1>
+              <v-btn
+                flat
+                href="#"
+                class="primary--text ml-0"
+                @click="$router.push('/shop/registation')"
+              >
+                <v-icon class="mr-2">fa-plus-circle</v-icon>Ir al registro de compras
+              </v-btn>
+            </v-flex>
+          </v-layout>
+        </v-card-text>
+      </v-card>
+    </v-container>
+    <ShopResume
+      :quantity="shoppingCar.length"
+      :sub-total="subTotal"
+      onCar="true"
+      :currency-symbol="currency.symbol"
+      :total-itbis="totalItbis"
+    ></ShopResume>
   </div>
 </template>
 
@@ -89,11 +98,11 @@ import "notyf/notyf.min.css";
 import dndod from "dndod";
 import "dndod/dist/dndod-popup.min.css";
 import ShoppingCarMixin from "@/mixins/shop/ShoppingCar";
-import currencies from '@/mixins/miscellany/currencies';
-import itbisMixin from '@/mixins/miscellany/Itbis';
+import currencies from "@/mixins/miscellany/currencies";
+import itbisMixin from "@/mixins/miscellany/Itbis";
 
 export default {
-  mixins: [ShoppingCarMixin,currencies,itbisMixin],
+  mixins: [ShoppingCarMixin, currencies, itbisMixin],
   async mounted() {
     this.shoppingCar = await this.getShoppingCarItems();
     this.currency = await this.getPreferredCurrency();
@@ -109,12 +118,18 @@ export default {
       shoppingCar: [],
       nameEstablishment: "",
       disabledSubmitButton: false,
-      currency:[],
-      itbis:1
+      currency: [],
+      itbis: 1
     };
   },
   computed: {
-    ...mapState(["user", "online", "apiDomain", "measurement_units","categories"]),
+    ...mapState([
+      "user",
+      "online",
+      "apiDomain",
+      "measurement_units",
+      "categories"
+    ]),
     subTotal() {
       let total = 0;
       this.shoppingCar.forEach(item => {
@@ -122,10 +137,13 @@ export default {
       });
       return total;
     },
-    totalItbis(){
+    totalItbis() {
       let totalItbis = 0;
       this.shoppingCar.forEach(item => {
-        totalItbis += (parseFloat(item.price) * parseFloat(item.quantity)) * (this.itbis / 100);
+        totalItbis +=
+          parseFloat(item.price) *
+          parseFloat(item.quantity) *
+          (this.itbis / 100);
       });
       return totalItbis;
     }
@@ -153,16 +171,16 @@ export default {
 
           formData.append("shoppingCar", JSON.stringify(this.shoppingCar));
           formData.append("nameEstablishment", this.nameEstablishment);
-          formData.append('idUser',this.user.id_user);
+          formData.append("idUser", this.user.id_user);
 
           axios
             .post(`${this.apiDomain}/Shopping/shopping`, formData)
             .then(response => {
-              if(response.data.status == 'success'){
+              if (response.data.status == "success") {
                 notyf.success("Compra guardada");
               }
               this.clearShoppingCar();
-              this.$router.push('/product/list');
+              this.$router.push("/product/list");
             })
             .catch(function(error) {
               console.log("TCL: createCategory -> error", error);
@@ -178,26 +196,26 @@ export default {
         this.disabledSubmitButton = false;
       }
     },
-    setMeasurementNameToProductOnShoppinCar(){
-      this.shoppingCar.forEach(product=>{
-        this.measurement_units.forEach(unit=>{
-          if(product.id_unit_measurement == unit.id_unit_measurement){
+    setMeasurementNameToProductOnShoppinCar() {
+      this.shoppingCar.forEach(product => {
+        this.measurement_units.forEach(unit => {
+          if (product.id_unit_measurement == unit.id_unit_measurement) {
             product.measurementUnitName = unit.name;
             return;
           }
-        })
+        });
       });
     },
-    setCategoryNameToProductOnShoppinCar(){
-      this.shoppingCar.forEach(product=>{
-        this.categories.forEach(category=>{
-          if(product.id_category == category.id_category){
+    setCategoryNameToProductOnShoppinCar() {
+      this.shoppingCar.forEach(product => {
+        this.categories.forEach(category => {
+          if (product.id_category == category.id_category) {
             product.categoryName = category.name;
             return;
           }
-        })
+        });
       });
-    },
+    }
   }
 };
 </script>
