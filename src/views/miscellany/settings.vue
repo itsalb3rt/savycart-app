@@ -1,48 +1,49 @@
 <template>
-  <div>
-    <div class="container-app">
-      <div class="currencies-container">
-        <p
-          class="text"
-        >La moneda es el prefijo que aparecerá delante del precio de los productos, totales e impuestos. eje: RD$150.</p>
-        <div class="input-group">
-          <div>
-            <label for="currency">Moneda</label>
-            <select name="currency" id="currency" v-model="preferredCurrencyCode">
-              <option
-                :value="currency.code"
-                v-for=" (currency,index) in currencies "
-                :key="index"
-              >{{currency.symbol}} - {{currency.name}}</option>
-            </select>
-          </div>
-        </div>
+  <v-container grid-list-xs>
+    <v-layout row wrap>
+      <v-flex xs12>
+        <v-card flat>
+          <v-card-text>
+            <v-layout row wrap>
+              <v-flex xs12>
+                <p>La moneda es el prefijo que aparecerá delante del precio de los productos, totales e impuestos. eje: RD$150.</p>
+                <div>
+                  <v-select
+                    v-model="preferredCurrencyCode"
+                    :items="currenciesArray"
+                    label="Moneda"
+                    item-text="symbol"
+                    item-value="code"
+                    required
+                  ></v-select>
+                  <v-btn color="success" class="ml-0" @click="saveCurrency">
+                    <v-icon class="mr-2">fa-save</v-icon>Guardar moneda
+                  </v-btn>
+                </div>
+              </v-flex>
+              <v-flex xs12>
+                <v-divider class="mt-2 mb-2"></v-divider>
+              </v-flex>
+              <v-flex xs12>
+                <p>El ITBIS es el impuesto aplicado a todos los productos que sean marcados para aplicarle este, la cantidad se basa en porcentaje (%).</p>
 
-        <div>
-          <button class="button success small" @click="saveCurrency">
-            <font-awesome-icon icon="save"/>&Tab;Guardar moneda
-          </button>
-        </div>
-      </div>
-      <hr>
-      <div class="itbis-container">
-        <p
-          class="text"
-        >El ITBIS es el impuesto aplicado a todos los productos que sean marcados para aplicarle este, la cantidad se basa en porcentaje (%).</p>
-        <div class="input-group">
-          <div>
-            <label for="itbis_quantity">ITBIS</label>
-            <input type="number" v-model="itbis" id="itbis_quantity">
-          </div>
-        </div>
-        <div>
-          <button class="button success small" @click="saveItbis">
-            <font-awesome-icon icon="save"/>&Tab;Guardar ITBIS
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+                <v-text-field
+                  type="number"
+                  v-model="itbis"
+                  name="name"
+                  label="ITBIS"
+                  id="itbis_quantity"
+                ></v-text-field>
+                <v-btn color="success" @click="saveItbis">
+                  <v-icon class="mr-2">fa-save</v-icon>Guardar ITBIS
+                </v-btn>
+              </v-flex>
+            </v-layout>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -52,13 +53,22 @@ import axios from "axios";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 import currencies from "@/mixins/miscellany/currencies";
-import itbisMixin from '@/mixins/miscellany/Itbis';
+import itbisMixin from "@/mixins/miscellany/Itbis";
 
 export default {
-  mixins: [currencies,itbisMixin],
+  mixins: [currencies, itbisMixin],
   async mounted() {
     this.getItbis();
-    this.currencies = await this.getCurrencies();
+    this.getCurrencies().then(resp => {
+      this.currencies = resp;
+      for (let key in resp) {
+        this.currenciesArray.push({
+          code: resp[key].code,
+          symbol: resp[key].symbol,
+          name: resp[key].name
+        });
+      }
+    });
     this.preferredCurrency = await this.getPreferredCurrency();
     this.preferredCurrencyCode = this.preferredCurrency.code;
   },
@@ -70,8 +80,9 @@ export default {
       itbis: 1,
       db: [],
       currencies: [],
-      preferredCurrency:[],
-      preferredCurrencyCode:''
+      preferredCurrency: [],
+      preferredCurrencyCode: "",
+      currenciesArray: []
     };
   },
   methods: {
@@ -102,12 +113,13 @@ export default {
           console.log("TCL: saveItbis -> e", e);
         });
     },
-    saveCurrency(){
-      this.setPreferredCurrency(this.currencies[this.preferredCurrencyCode])
-      .then(()=>{
+    saveCurrency() {
+      this.setPreferredCurrency(
+        this.currencies[this.preferredCurrencyCode]
+      ).then(() => {
         const notyf = new Notyf();
-        notyf.success('Moneda guardada');
-      });      
+        notyf.success("Moneda guardada");
+      });
     }
   },
   computed: {

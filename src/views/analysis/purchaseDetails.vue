@@ -1,16 +1,25 @@
 <template>
-  <div>
-    <div class="container-app">
-      <div class="row head-details" v-if="purchaseDetails.length == undefined">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <div class="data">
+  <v-container grid-list-xs>
+    <v-card flat>
+      <v-card-text>
+        <v-layout row wrap v-if="purchaseDetails.length == undefined">
+          <v-flex xs12>
+            <strong>Nombre establecimiento</strong>
+            <p>{{purchaseDetails.establishment.name}}</p>
             <div>
-              <strong>Nombre establecimiento</strong>
-              <a href="#" @click="removePurchase" class="danger important undecoration right">
-                <font-awesome-icon icon="trash"/>&Tab;Eliminar
-              </a>
-              <div>{{purchaseDetails.establishment.name}}</div>
+              <v-btn
+                small
+                style="float:right"
+                @click="removePurchase"
+                flat
+                color="error"
+                class="ma-0"
+              >
+                <v-icon small class="mr-2">fa-trash</v-icon>Eliminar
+              </v-btn>
             </div>
+          </v-flex>
+          <v-flex xs12>
             <div>
               <strong>Compra #</strong>
               {{purchaseDetails.purchase.id_purchase}}
@@ -19,64 +28,73 @@
               <strong>Fecha</strong>
               {{purchaseDetails.purchase.date}}
             </div>
-          </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 product-details-container">
-          <div class="row" v-for="(product,index) in purchaseDetails.purchase_details" :key="index">
-            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-              {{product.quantity}}
-              <span class="quantity-indicator">x</span>
-            </div>
-            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-              <div>
+          </v-flex>
+          <v-flex xs12>
+            <v-divider class="mt-2 mb-2"></v-divider>
+          </v-flex>
+          <v-flex xs12>
+            <v-layout
+              row
+              wrap
+              align-center
+              v-for="(product,index) in purchaseDetails.purchase_details"
+              :key="index"
+              class="mt-1 mb-1 pt-2 pb-2"
+            >
+              <v-flex xs1>
+                {{product.quantity}}
+                <span class="quantity-indicator">x</span>
+              </v-flex>
+              <v-flex xs8>
                 <strong>{{product.product_name}}</strong>
-              </div>
-              <div
-                class="information"
-              >{{product.measurement_unit}} | ITBIS {{ (product.apply_itbis == '1')? 'SI':'NO' }}</div>
+                <div
+                  class="grey--text"
+                >{{product.measurement_unit}} | ITBIS {{ (product.apply_itbis == '1')? 'SI':'NO' }}</div>
+              </v-flex>
+              <v-flex xs3>
+                <span
+                  class="font-weight-bold"
+                >{{currency.symbol}} {{parseInt(product.unit_price) * parseInt(product.quantity) }}</span>
+              </v-flex>
+              <v-flex xs12>
+                <v-divider></v-divider>
+              </v-flex>
+            </v-layout>
+          </v-flex>
+          <v-flex xs12>
+            <v-divider class="mt-2 mb-2"></v-divider>
+          </v-flex>
+          <v-flex xs6>
+            <div class="mt-2 mb-2">
+              <strong>Sub-total</strong>
             </div>
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-              <a
-                href="#"
-                class="primary undecoration important"
-              >{{currency.symbol}} {{parseInt(product.unit_price) * parseInt(product.quantity) }}</a>
+            <div class="mt-2 mb-2">
+              <strong>ITBIS</strong>
             </div>
-          </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 final-price-details">
-          <div class="row">
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-              <div class="data">
-                <div>
-                  <strong>Sub-total</strong>
-                </div>
-                <div>
-                  <strong>ITBIS</strong>
-                </div>
-                <div>
-                  <strong>TOTAL</strong>
-                </div>
-              </div>
+            <div class="mt-2 mb-2">
+              <strong>TOTAL</strong>
             </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-              <div class="data">
-                <div>{{currency.symbol}} {{numberFormat(subTotal)}}</div>
-                <div>{{currency.symbol}} {{numberFormat(itbis)}}</div>
-                <div>
-                  <a href="#" class="primary important">{{currency.symbol}} {{numberFormat(totalPurchasePrice)}}</a>
-                </div>
-              </div>
+          </v-flex>
+          <v-flex xs6>
+            <div class="mt-2 mb-2">{{currency.symbol}} {{numberFormat(subTotal)}}</div>
+            <div class="mt-2 mb-2">{{currency.symbol}} {{numberFormat(itbis)}}</div>
+            <div class="mt-2 mb-2">
+              <span
+                class="primary--text font-weight-bold"
+              >{{currency.symbol}} {{numberFormat(totalPurchasePrice)}}</span>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="row" v-else>
-          <div class="col-xs">
-              <h1><font-awesome-icon icon="magic"/>&Tab;Nada por aqui...</h1>
-          </div>
-      </div>
-    </div>
-  </div>
+          </v-flex>
+        </v-layout>
+        <v-layout row wrap v-else>
+          <v-flex xs12>
+            <h1 class="mt-5">
+              <v-icon large class="mr-2">fa-magic</v-icon>Nada por aqui...
+            </h1>
+          </v-flex>
+        </v-layout>
+      </v-card-text>
+    </v-card>
+  </v-container>
 </template>
 
 <script>
@@ -87,10 +105,10 @@ import dndod from "dndod";
 import "dndod/dist/dndod-popup.min.css";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
-import currencies from '@/mixins/miscellany/currencies';
+import currencies from "@/mixins/miscellany/currencies";
 
 export default {
-  mixins:[currencies],
+  mixins: [currencies],
   async mounted() {
     this.requestPurchaseDetails();
     this.currency = await this.getPreferredCurrency();
@@ -101,7 +119,7 @@ export default {
   data() {
     return {
       purchaseDetails: [],
-      currency:[]
+      currency: []
     };
   },
   computed: {
@@ -132,9 +150,7 @@ export default {
     requestPurchaseDetails() {
       axios
         .get(
-          `${this.apiDomain}/shopping/shopping?id_purchase=${
-            this.$route.params.id
-          }`
+          `${this.apiDomain}/shopping/shopping?id_purchase=${this.$route.params.id}`
         )
         .then(response => {
           this.purchaseDetails = response.data;
@@ -157,16 +173,14 @@ export default {
             handler: (e, popup) => {
               axios
                 .delete(
-                  `${this.apiDomain}/shopping/shopping?id_purchase=${
-                    this.$route.params.id
-                  }`
+                  `${this.apiDomain}/shopping/shopping?id_purchase=${this.$route.params.id}`
                 )
                 .then(response => {
-                    if(response.data.status == 'success'){
-                        const notyf = new Notyf();
-                        notyf.success('Compra eliminada!');
-                        this.$router.push('/analysis/shopping_history');
-                    }
+                  if (response.data.status == "success") {
+                    const notyf = new Notyf();
+                    notyf.success("Compra eliminada!");
+                    this.$router.push("/analysis/shopping_history");
+                  }
                 });
               popup.close();
             }

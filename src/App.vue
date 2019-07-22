@@ -1,5 +1,5 @@
 <template>
-  <v-app >
+  <v-app>
     <MenuComponent title=" " v-if="isLoged == 'true'"/>
     <v-content>
       <router-view />

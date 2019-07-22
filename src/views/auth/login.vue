@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container grid-list-xs text-xs-center>
     <v-layout row wrap align-center justify-center>
       <v-flex xs12>
         <p class="display-3 primary--text text-xs-center">Sheiley Shop</p>
@@ -16,59 +16,51 @@
         </v-card>
       </v-flex>
     </v-layout>
-    <v-layout row wrap align-center justify-center>
-      <v-flex xs12>
-        <v-form method="POST" @submit.prevent="login">
+    <v-form method="POST" @submit.prevent="login">
+      <v-layout row wrap>
+        <v-flex xs12>
           <v-card flat>
             <v-card-text>
-              <v-container>
-                <v-layout row wrap>
-                  <v-flex x12>
-                    <h4
-                      class="horizontal-line-text-main-container"
-                      style="font-weight: normal!important;"
-                    >
-                      <span class="horizontal-line-text-container white">
-                        <span class="black--text">Iniciar sesión</span>
-                      </span>
-                    </h4>
-                  </v-flex>
-                  <v-flex xs12>
-                    <v-text-field v-model="userName" label="Nombre usuario" required></v-text-field>
-                  </v-flex>
-                  <v-flex xs12>
-                    <v-text-field 
-                    v-model="password" 
-                    :type="showPassword ? 'text' : 'password'" 
-                    :append-icon="showPassword ? 'fa-eye' : 'fa-eye-slash'" 
+              <v-layout row wrap>
+                <v-flex x12>
+                  <h4
+                    class="horizontal-line-text-main-container"
+                    style="font-weight: normal!important;"
+                  >
+                    <span class="horizontal-line-text-container white">
+                      <span class="black--text">Iniciar sesión</span>
+                    </span>
+                  </h4>
+                </v-flex>
+                <v-flex xs12>
+                  <v-text-field v-model="userName" label="Nombre usuario" required></v-text-field>
+                </v-flex>
+                <v-flex xs12>
+                  <v-text-field
+                    v-model="password"
+                    :type="showPassword ? 'text' : 'password'"
+                    :append-icon="showPassword ? 'fa-eye' : 'fa-eye-slash'"
                     @click:append="showPassword = !showPassword"
-                    label="Password" 
+                    label="Password"
                     required
-                    ></v-text-field>
-                  </v-flex>
-                  <v-flex xs12 class="pt-2 pb-2">
-                    <v-btn
-                      color="primary"
-                      flat
-                      small
-                      class="ma-0 pa-0"
-                      href="#"
-                    >Olvido su contraseña?</v-btn>
-                  </v-flex>
-                  <v-flex xs12>
-                    <v-btn color="primary" type="submit" block>Iniciar sesión</v-btn>
-                  </v-flex>
-                  <v-flex xs12 class="pt-3">
-                    Crear una cuenta...
-                    <v-btn color="primary" flat small class="ma-0 pa-0" to="/register">CREAR CUENTA</v-btn>
-                  </v-flex>
-                </v-layout>
-              </v-container>
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12 class="pt-2 pb-2">
+                  <v-btn color="primary" flat small class="ma-0 pa-0" href="#">Olvido su contraseña?</v-btn>
+                </v-flex>
+                <v-flex xs12>
+                  <v-btn color="primary" type="submit" block>Iniciar sesión</v-btn>
+                </v-flex>
+                <v-flex xs12 class="pt-3">
+                  Crear una cuenta...
+                  <v-btn color="primary" flat small class="ma-0 pa-0" to="/register">CREAR CUENTA</v-btn>
+                </v-flex>
+              </v-layout>
             </v-card-text>
           </v-card>
-        </v-form>
-      </v-flex>
-    </v-layout>
+        </v-flex>
+      </v-layout>
+    </v-form>
   </v-container>
 </template>
 
@@ -89,7 +81,7 @@ export default {
       userName: "",
       password: "",
       loginFailed: false,
-      showPassword:false
+      showPassword: false
     };
   },
   computed: {

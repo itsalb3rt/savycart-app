@@ -1,57 +1,61 @@
 <template>
   <div>
-    <div class="container-app">
-      <form action="#" method="POST" @submit.prevent="createCategory">
-        <div>
-          <p
-            class="text small"
-          >Las categorías te ayudan a realizar análisis más profundos para saber que categorías consumes más.</p>
-        </div>
-        <div class="input-group">
-          <div>
-            <label for="name">Nombre</label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              placeholder="Gastable, legumbres…."
-              v-model="name"
-              @keyup="uppercase"
-            >
-          </div>
-        </div>
-        <div>
-          <button type="submit" class="button primary small" :disabled="name.length == 0">
-            <font-awesome-icon icon="save"/>&Tab;Guardar
-          </button>
-        </div>
-      </form>
-      <div>
-        <h4>CATEGORIAS REGISTRADAS</h4>
-        <div class="text small">
-          <table class="table hover">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>CATEGORIA</th>
-                <th>ACCION</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(category,index) in categories" :key="index">
-                <td>{{index + 1}}</td>
-                <td>{{category.name}}</td>
-                <td>
-                  <a class="danger undecoration" href="#" @click="deleteCategory(index)">
-                    <font-awesome-icon icon="trash"/>
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+    <v-container grid-list-xs>
+      <v-layout row wrap>
+        <v-flex xs12>
+          <v-card flat>
+            <v-card-text>
+              <form @submit.prevent="createCategory">
+                <p>Las categorías te ayudan a realizar análisis más profundos para saber que categorías consumes más.</p>
+                <v-text-field
+                  name="name"
+                  label="Categoria"
+                  id="name"
+                  v-model="name"
+                  placeholder="Ej: Gastable, legumbres…."
+                  autocomplete="off"
+                  @keyup="uppercase"
+                ></v-text-field>
+                <v-btn color="primary" type="submit" class="ml-0" :disabled="name.length == 0">
+                  <v-icon class="mr-2">fa-save</v-icon>Guardar
+                </v-btn>
+              </form>
+              <v-layout row wrap>
+                <v-flex xs12>
+                  <h4>CATEGORIAS REGISTRADAS</h4>
+                </v-flex>
+                <v-flex xs12>
+                  <v-data-table :headers="headers" :items="categories">
+                    <template v-slot:no-data>
+                      <v-alert
+                        :value="true"
+                        color="error"
+                        icon="fa-warning"
+                      >No hay ningun dato para mostrar</v-alert>
+                    </template>
+                    <template v-slot:items="category">
+                      <td>{{category.index + 1}}</td>
+                      <td>{{ category.item.name }}</td>
+                      <td>
+                        <v-btn
+                          flat
+                          small
+                          color="error"
+                          class="ml-0 pl-0"
+                          @click="deleteCategory(category.index)"
+                        >
+                          <v-icon class="mr-2" small>fa-trash</v-icon>Eliminar
+                        </v-btn>
+                      </td>
+                    </template>
+                  </v-data-table>
+                </v-flex>
+              </v-layout>
+            </v-card-text>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
   </div>
 </template>
 
@@ -72,7 +76,12 @@ export default {
   },
   data: function() {
     return {
-      name: ""
+      name: "",
+      headers: [
+        { text: "#", value: "index" },
+        { text: "NOMBRE", value: "nombre" },
+        { text: "ACCION", value: "accion" }
+      ]
     };
   },
   components: {
@@ -120,9 +129,7 @@ export default {
         if (this.online) {
           axios
             .get(
-              `${this.apiDomain}/Miscellany/deleteCategory/${
-                this.categories[index].id_category
-              }`
+              `${this.apiDomain}/Miscellany/deleteCategory/${this.categories[index].id_category}`
             )
             .then(response => {
               if (response.data.status == "success") {

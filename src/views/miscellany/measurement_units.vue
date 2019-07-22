@@ -1,46 +1,53 @@
 <template>
-  <div>
-    <div class="container-app">
-      <form action="#" method="POST" @submit.prevent="createMeasurementUnit">
-        <div class="input-group">
-          <div>
-            <label for="name">Nombre</label>
-            <input type="text" name="name" id="name" placeholder="UNIDAD" v-model="name" @keyup="uppercase">
-          </div>
-        </div>
-        <div>
-          <button type="submit" class="button primary small" :disabled="name.length == 0">
-            <font-awesome-icon icon="save"/>&Tab;Guardar
-          </button>
-        </div>
-      </form>
-      <div>
-        <h4>UNIDADES DE MEDIDA REGISTRADAS</h4>
-        <div class="text small">
-          <table class="table hover">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>UNIDAD MEDIDA</th>
-                <th>ACCION</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(unit,index) in measurement_units" :key="index">
-                <td>{{index + 1}}</td>
-                <td>{{unit.name}}</td>
-                <td>
-                  <a class="danger undecoration" href="#" @click="deleteMeasurementUnit(index)">
-                    <font-awesome-icon icon="trash"/>
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
+  <v-container grid-list-xs>
+    <v-layout row wrap>
+      <v-flex xs12>
+        <v-card flat>
+          <v-card-text>
+            <form @submit.prevent="createMeasurementUnit">
+              <v-text-field
+                name="name"
+                label="Nombre"
+                id="name"
+                v-model="name"
+                @keyup="uppercase"
+                placeholder="Ej: UNIDAD"
+                autocomplete="off"
+              ></v-text-field>
+              <v-btn small type="submit" color="primary" class="ml-0" :disabled="name.length == 0">
+                <v-icon small class="mr-2">fa-save</v-icon>Guardar
+              </v-btn>
+            </form>
+            <v-layout row wrap>
+              <v-flex xs12>
+                <h4>UNIDADES DE MEDIDA REGISTRADAS</h4>
+              </v-flex>
+              <v-flex xs12>
+                <v-data-table :headers="headers" :items="measurement_units">
+                  <template v-slot:no-data>
+                    <v-alert
+                      :value="true"
+                      color="error"
+                      icon="fa-warning"
+                    >No hay ningun dato para mostrar</v-alert>
+                  </template>
+                  <template v-slot:items="unit">
+                    <td>{{unit.index + 1}}</td>
+                    <td>{{ unit.item.name }}</td>
+                    <td>
+                      <v-btn flat small color="error" class="ml-0 pl-0" @click="deleteMeasurementUnit(unit.index)">
+                        <v-icon class="mr-2" small>fa-trash</v-icon>Eliminar
+                      </v-btn>
+                    </td>
+                  </template>
+                </v-data-table>
+              </v-flex>
+            </v-layout>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -60,7 +67,12 @@ export default {
   },
   data: function() {
     return {
-      name: ""
+      name: "",
+      headers: [
+        { text: "#", value: "index" },
+        { text: "NOMBRE", value: "nombre" },
+        { text: "ACCION", value: "accion" }
+      ]
     };
   },
   components: {
@@ -113,9 +125,7 @@ export default {
         if (this.online) {
           axios
             .get(
-              `${this.apiDomain}/Miscellany/deleteMeasurementUnit/${
-                this.measurement_units[index].id_unit_measurement
-              }`
+              `${this.apiDomain}/Miscellany/deleteMeasurementUnit/${this.measurement_units[index].id_unit_measurement}`
             )
             .then(response => {
               if (response.data.status == "success") {
