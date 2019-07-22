@@ -1,71 +1,73 @@
 <template>
   <v-form @submit.prevent="createProduct">
     <v-container>
-      <v-layout row wrap class="white">
-        <v-flex xs12>
-          <v-text-field
-            id="name"
-            v-model="name"
-            label="Nombre"
-            @keyup="uppercase"
-            autocomplete="off"
-            placeholder="Manzana"
-            required
-          ></v-text-field>
-          <v-text-field
-            type="number"
-            v-model="price"
-            label="Precio"
-            value="1"
-            min="1"
-            step="0.01"
-            required
-          ></v-text-field>
-          <v-select
-            v-model="measurementUnit"
-            :items="measurement_units"
-            label="Unidad medida"
-            item-text="name"
-            item-value="id_unit_measurement"
-            required
-          ></v-select>
-          <v-select
-            v-model="category"
-            :items="categories"
-            label="Categoria"
-            item-text="name"
-            item-value="id_category"
-            required
-          ></v-select>
-          <v-switch
-            color="primary"
-            v-model="itbis"
-            :label="`Incluir ITBIS: ${(itbis == '1')? 'SI' : 'NO' }`"
-            true-value="1"
-            false-value="0"
-          ></v-switch>
-          <p class="grey--text">El porcentaje de ITBIS se asigna en ajustes.</p>
-          <v-divider></v-divider>
-          <v-textarea
-            label="Descripción"
-            v-model="description"
-            placeholder="Agregue aquí una descripción breve, esto es opcional"
-          ></v-textarea>
-        </v-flex>
-      </v-layout>
-      <v-layout row wrap>
-        <v-flex xs6>
-          <v-btn small color="primary" :disabled="name.length == 0" type="submit">
-            <v-icon small class="mr-2">fa-save</v-icon>Guardar
-          </v-btn>
-        </v-flex>
-        <v-flex xs6>
-          <v-spacer></v-spacer>
-          <v-btn small class="mr-0" color="error" @click="$router.push('/product/list')">
-            <v-icon small class="mr-2">fa-window-close</v-icon>Cancelar
-          </v-btn>
-        </v-flex>
-      </v-layout>
+      <v-card flat>
+        <v-card-text>
+          <v-layout row wrap>
+            <v-flex xs12>
+              <v-text-field
+                id="name"
+                v-model="name"
+                label="Nombre"
+                @keyup="uppercase"
+                autocomplete="off"
+                placeholder="Manzana"
+                required
+              ></v-text-field>
+              <v-text-field
+                type="number"
+                v-model="price"
+                label="Precio"
+                value="1"
+                min="1"
+                step="0.01"
+                required
+              ></v-text-field>
+              <v-select
+                v-model="measurementUnit"
+                :items="measurement_units"
+                label="Unidad medida"
+                item-text="name"
+                item-value="id_unit_measurement"
+                required
+              ></v-select>
+              <v-select
+                v-model="category"
+                :items="categories"
+                label="Categoria"
+                item-text="name"
+                item-value="id_category"
+                required
+              ></v-select>
+              <v-switch
+                color="primary"
+                v-model="itbis"
+                :label="`Incluir ITBIS: ${(itbis == '1')? 'SI' : 'NO' }`"
+                true-value="1"
+                false-value="0"
+              ></v-switch>
+              <p class="grey--text">El porcentaje de ITBIS se asigna en ajustes.</p>
+              <v-divider></v-divider>
+              <v-textarea
+                label="Descripción"
+                v-model="description"
+                placeholder="Agregue aquí una descripción breve, esto es opcional"
+              ></v-textarea>
+            </v-flex>
+            <v-flex xs6>
+              <v-btn small color="primary" :disabled="name.length == 0" type="submit">
+                <v-icon small class="mr-2">fa-save</v-icon>Guardar
+              </v-btn>
+            </v-flex>
+            <v-flex xs6>
+              <v-spacer></v-spacer>
+              <v-btn small class="mr-0" color="error" @click="$router.push('/product/list')">
+                <v-icon small class="mr-2">fa-window-close</v-icon>Cancelar
+              </v-btn>
+            </v-flex>
+          </v-layout>
+        </v-card-text>
+      </v-card>
     </v-container>
     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
   </v-form>

@@ -14,9 +14,9 @@ export default new Vuex.Store({
     categories: [],
     currencies: [],
     isLoged: false,
-    online:'',
-    products:[],
-    shoppingCar:[]
+    online: '',
+    products: [],
+    shoppingCar: [],
   },
   mutations: {
     addMeasurementUnit(state, unit) {
@@ -25,7 +25,7 @@ export default new Vuex.Store({
        */
       state.measurement_units.push(unit);
     },
-    setMeasurementUnit(state,units){
+    setMeasurementUnit(state, units) {
       state.measurement_units = units;
     },
     removeMeasurementUnit(state, index) {
@@ -64,7 +64,7 @@ export default new Vuex.Store({
     setLoginState(state, loginState) {
       state.isLoged = loginState;
     },
-    setOnline(state,value){
+    setOnline(state, value) {
       state.online = value;
     },
     loadFromCache(state, cached) {

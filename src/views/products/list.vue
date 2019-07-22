@@ -1,5 +1,5 @@
 <template>
-  <v-container >
+  <v-container>
     <v-layout row wrap>
       <v-flex xs12>
         <v-card flat>
@@ -28,17 +28,11 @@
                             @click="$router.push({ name: 'view_product', params: { id: product.id_product } })"
                             flat
                             small
-                            class="ma-0 pa-0 primary--text"
+                            class="ma-0 pa-0 primary--text font-weight-bold subheading"
                           >{{product.name}}</span>
                         </div>
-                        <div
-                          class="unit"
-                          style="color: var(--grey)"
-                        >{{getMeasurementName(product.id_unit_measurement)}}</div>
-                        <div
-                          class="price"
-                          style="font-weight: bold;"
-                        >{{currency.symbol}} {{product.price}}</div>
+                        <div class="grey--text">{{getMeasurementName(product.id_unit_measurement)}}</div>
+                        <div class="font-weight-bold subheading">{{currency.symbol}} {{product.price}}</div>
                       </v-flex>
                     </v-card-text>
                     <v-card-actions>
@@ -193,8 +187,8 @@ export default {
         .then(response => {
           if (response.data.status == "success") {
             const notyf = new Notyf();
-            this.products.forEach((product,index)=>{
-              if(product.id_product == idProduct){
+            this.products.forEach((product, index) => {
+              if (product.id_product == idProduct) {
                 this.removeProduct(index);
                 return;
               }

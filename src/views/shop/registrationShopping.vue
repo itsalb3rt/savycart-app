@@ -1,16 +1,18 @@
 <template>
   <v-container>
-    <v-layout row wrap>
-      <v-card flat v-if="products.length > 0">
-        <v-card-text>
-          <v-flex xs12>
-            <v-text-field
-              prepend-inner-icon="fa-search"
-              v-model="searchProductName"
-              label="Buscar..."
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs12 class="mb-5 pb-5">
+    <v-layout row wrap v-if="products.length > 0">
+      <v-flex xs12>
+        <v-card flat>
+          <v-card-text>
+            <v-flex xs12>
+              <v-text-field
+                prepend-inner-icon="fa-search"
+                v-model="searchProductName"
+                label="Buscar..."
+              ></v-text-field>
+            </v-flex>
+
+            <v-flex xs12 class="mb-5 pb-5">
               <v-layout
                 class="mt-2 mb-2"
                 row
@@ -73,23 +75,32 @@
                   </v-card>
                 </v-flex>
               </v-layout>
-          </v-flex>
-          <v-flex xs12>
-            <ShopResume
-              :quantity="shoppingCar.length"
-              :sub-total="subTotal"
-              :currency-symbol="currency.symbol"
-              :total-itbis="totalItbis"
-            ></ShopResume>
-          </v-flex>
-        </v-card-text>
-      </v-card>
+            </v-flex>
 
-      <v-flex xs12 class="mt-5 pt-5" v-if="products.length == 0">
-        <p class="headline grey--text">No se ha creado ningún producto</p>
-        <v-btn class="ml-0" color="primary" @click="$router.push('/product/add')">
-          <v-icon class="mr-2">fa-plus-circle</v-icon>Crear un producto
-        </v-btn>
+            <v-flex xs12>
+              <ShopResume
+                :quantity="shoppingCar.length"
+                :sub-total="subTotal"
+                :currency-symbol="currency.symbol"
+                :total-itbis="totalItbis"
+              ></ShopResume>
+            </v-flex>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+    <v-layout row wrap v-else>
+      <v-flex xs12>
+        <v-card flat>
+          <v-card-text>
+            <v-flex xs12>
+              <p class="headline grey--text">No se ha creado ningún producto</p>
+              <v-btn class="ml-0" color="primary" @click="$router.push('/product/add')">
+                <v-icon class="mr-2">fa-plus-circle</v-icon>Crear un producto
+              </v-btn>
+            </v-flex>
+          </v-card-text>
+        </v-card>
       </v-flex>
     </v-layout>
   </v-container>

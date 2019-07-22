@@ -28,6 +28,11 @@ export default {
   },
   computed:{
     ...mapState(["isLoged"]),
+  },
+  data(){
+    return {
+      isDark:false
+    }
   }
 };
 </script>
