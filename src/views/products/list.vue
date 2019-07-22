@@ -68,8 +68,7 @@
             </v-flex>
             <v-btn
               color="primary"
-              small
-              icon
+              large
               dark
               fixed
               right
@@ -77,7 +76,7 @@
               fab
               @click="$router.push({path:'/product/add'})"
             >
-              <span class="display-1">+</span>
+              <v-icon>fa-plus</v-icon>
             </v-btn>
           </v-card-text>
         </v-card>
