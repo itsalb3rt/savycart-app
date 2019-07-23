@@ -1,33 +1,35 @@
 <template>
   <v-layout row wrap v-if="quantity > 0" class="shop-resume-bar-container">
-    <v-flex xs9>
+    <v-flex xs12>
       <v-layout row wrap>
-        <v-flex xs12>
+        <v-flex xs6>
           <strong>{{quantity}}</strong> articulos
+        </v-flex>
+        <v-flex xs6>
+          <strong>{{currencySymbol}} {{getSubTotalInNumberFormat()}}</strong>
+        </v-flex>
+        <v-flex xs12>
           <v-divider></v-divider>
         </v-flex>
         <v-flex xs6>
-          <div>Sub-total</div>
           <div>ITBIS</div>
           <div>Total</div>
         </v-flex>
         <v-flex xs6>
-          <div>
-            <strong>{{currencySymbol}} {{getSubTotalInNumberFormat()}}</strong>
-          </div>
-          <div>
-            <strong>{{currencySymbol}} {{getTotalItebisInNumberFormat()}}</strong>
-          </div>
-          <div>
-            <p
-              class="primary--text font-weight-bold"
-            >{{currencySymbol}} {{getTotalInNumberFormat()}}</p>
-          </div>
+          <strong>{{currencySymbol}} {{getTotalItebisInNumberFormat()}}</strong>
+          <p class="primary--text font-weight-bold">{{currencySymbol}} {{getTotalInNumberFormat()}}</p>
+        </v-flex>
+        <v-flex xs12>
+          <v-btn
+            v-if="!onCar"
+            block
+            small
+            @click="$router.push('/shop/shopping_car')"
+            color="primary"
+            outline
+          >Ir a caja</v-btn>
         </v-flex>
       </v-layout>
-    </v-flex>
-    <v-flex xs3 v-if="!onCar">
-      <v-btn small @click="$router.push('/shop/shopping_car')" color="primary" outline>Ir a caja</v-btn>
     </v-flex>
   </v-layout>
 </template>

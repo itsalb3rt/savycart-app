@@ -1,7 +1,7 @@
 <template>
-  <v-app>
+  <v-app >
     <MenuComponent title=" " v-if="isLoged == 'true'"/>
-    <v-content>
+    <v-content >
       <router-view />
     </v-content>
     <!-- @detected-condition fires when the connectivity status of the device changes -->

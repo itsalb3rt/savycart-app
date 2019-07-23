@@ -3,7 +3,7 @@
     <v-container>
       <v-card flat>
         <v-card-text>
-          <v-layout row wrap v-if="shoppingCar.length > 0">
+          <v-layout row wrap v-if="shoppingCar.length > 0" class="mb-5 pb-5">
             <v-flex xs12>
               <v-text-field
                 name="name_establishment"
