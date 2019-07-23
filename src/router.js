@@ -46,11 +46,13 @@ const router = new Router({
       component: () => import('@/views/shop/registrationShopping.vue'),
       meta: {
         title: 'Registro compra',
+        isSubDir: false,
+        transitionName: 'slide'
       }
     },
     {
       path: '/auth/logout',
-      name: '/auth/logout',
+      name: 'logout',
       component: () => import('@/views/auth/logout.vue')
     },
     {
@@ -59,6 +61,8 @@ const router = new Router({
       component: () => import('@/views/products/list.vue'),
       meta: {
         title: 'Mi lista',
+        isSubDir: false,
+        transitionName: 'slide'
       }
     },
     {
@@ -67,6 +71,8 @@ const router = new Router({
       component: () => import('@/views/products/add.vue'),
       meta: {
         title: 'Nuevo producto',
+        isSubDir: true,
+        transitionName: 'slide'
       }
     },
     {
@@ -75,6 +81,8 @@ const router = new Router({
       component: () => import('@/views/products/edit.vue'),
       meta: {
         title: 'Editar producto',
+        isSubDir: true,
+        transitionName: 'slide'
       }
     },
     {
@@ -83,6 +91,8 @@ const router = new Router({
       component: () => import('@/views/products/view.vue'),
       meta: {
         title: 'Editar producto',
+        isSubDir: true,
+        transitionName: 'slide'
       }
     },
     {
@@ -91,6 +101,8 @@ const router = new Router({
       component: () => import('@/views/miscellany/measurement_units.vue'),
       meta: {
         title: 'Unidades de medida',
+        isSubDir: true,
+        transitionName: 'slide'
       }
     },
     {
@@ -99,6 +111,8 @@ const router = new Router({
       component: () => import('@/views/miscellany/categories.vue'),
       meta: {
         title: 'Categorias',
+        isSubDir: true,
+        transitionName: 'slide'
       }
     },
     {
@@ -107,6 +121,8 @@ const router = new Router({
       component: () => import('@/views/shop/shoppingCar.vue'),
       meta: {
         title: 'Carro de compra',
+        isSubDir: true,
+        transitionName: 'slide'
       }
     },
     {
@@ -115,6 +131,8 @@ const router = new Router({
       component: () => import('@/views/analysis/shoppingHistory.vue'),
       meta: {
         title: 'Historial de compras',
+        isSubDir: false,
+        transitionName: 'slide'
       }
     },
     {
@@ -123,6 +141,8 @@ const router = new Router({
       component: () => import('@/views/miscellany/settings.vue'),
       meta: {
         title: 'Ajustes',
+        isSubDir: true,
+        transitionName: 'slide'
       }
     },
     {
@@ -131,6 +151,8 @@ const router = new Router({
       component: () => import('@/views/analysis/purchaseDetails.vue'),
       meta: {
         title: 'Ver compra',
+        isSubDir: true,
+        transitionName: 'slide'
       }
     }
   ]

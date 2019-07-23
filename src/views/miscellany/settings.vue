@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xs>
+  <div>
     <v-layout row wrap>
       <v-flex xs12>
         <v-card flat>
@@ -43,7 +43,7 @@
         </v-card>
       </v-flex>
     </v-layout>
-  </v-container>
+  </div>
 </template>
 
 <script>

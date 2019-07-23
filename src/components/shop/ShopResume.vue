@@ -2,20 +2,20 @@
   <v-layout row wrap v-if="quantity > 0" class="shop-resume-bar-container">
     <v-flex xs12>
       <v-layout row wrap>
-        <v-flex xs6>
+        <v-flex xs6 class="text-xs-right">
           <strong>{{quantity}}</strong> articulos
         </v-flex>
-        <v-flex xs6>
+        <v-flex xs6 class="text-xs-right">
           <strong>{{currencySymbol}} {{getSubTotalInNumberFormat()}}</strong>
         </v-flex>
         <v-flex xs12>
           <v-divider></v-divider>
         </v-flex>
-        <v-flex xs6>
+        <v-flex xs6 class="text-xs-right">
           <div>ITBIS</div>
           <div>Total</div>
         </v-flex>
-        <v-flex xs6>
+        <v-flex xs6 class="text-xs-right">
           <strong>{{currencySymbol}} {{getTotalItebisInNumberFormat()}}</strong>
           <p class="primary--text font-weight-bold">{{currencySymbol}} {{getTotalInNumberFormat()}}</p>
         </v-flex>
@@ -27,6 +27,7 @@
             @click="$router.push('/shop/shopping_car')"
             color="primary"
             outline
+            class="mt-0"
           >Ir a caja</v-btn>
         </v-flex>
       </v-layout>
@@ -69,7 +70,7 @@ export default {
   left: 0px;
   background-color: white;
   padding: 10px 30px 0px 33px;
-  border: 1px dotted grey;
+  box-shadow: 0px 0px 4px 1px rgba(128, 128, 128, 0.16);
 }
 .shop-resume-bar-container hr {
   width: 100%;

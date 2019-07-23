@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div>
     <v-layout>
       <v-flex xs12 v-if="product.length == undefined">
         <v-card flat>
@@ -9,6 +9,7 @@
               outline
               color="success"
               @click="$router.push({ name: 'edit product', params: { id: product.id_product } })"
+              class="ml-0"
             >
               <v-icon class="mr-2" small>fa-edit</v-icon>Editar
             </v-btn>
@@ -45,7 +46,7 @@
         </div>
       </v-flex>
     </v-layout>
-  </v-container>
+  </div>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xs>
+  <div>
     <v-layout row wrap>
       <v-flex xs12>
         <v-card flat>
@@ -35,7 +35,13 @@
                     <td>{{unit.index + 1}}</td>
                     <td>{{ unit.item.name }}</td>
                     <td>
-                      <v-btn flat small color="error" class="ml-0 pl-0" @click="deleteMeasurementUnit(unit.index)">
+                      <v-btn
+                        flat
+                        small
+                        color="error"
+                        class="ml-0 pl-0"
+                        @click="deleteMeasurementUnit(unit.index)"
+                      >
                         <v-icon class="mr-2" small>fa-trash</v-icon>Eliminar
                       </v-btn>
                     </td>
@@ -47,7 +53,7 @@
         </v-card>
       </v-flex>
     </v-layout>
-  </v-container>
+  </div>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xs>
+  <div>
     <v-card flat>
       <v-card-text>
         <v-layout row wrap v-if="purchaseDetails.length == undefined">
@@ -94,7 +94,7 @@
         </v-layout>
       </v-card-text>
     </v-card>
-  </v-container>
+  </div>
 </template>
 
 <script>

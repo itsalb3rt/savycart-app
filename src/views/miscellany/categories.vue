@@ -1,61 +1,59 @@
 <template>
   <div>
-    <v-container grid-list-xs>
-      <v-layout row wrap>
-        <v-flex xs12>
-          <v-card flat>
-            <v-card-text>
-              <form @submit.prevent="createCategory">
-                <p>Las categorías te ayudan a realizar análisis más profundos para saber que categorías consumes más.</p>
-                <v-text-field
-                  name="name"
-                  label="Categoria"
-                  id="name"
-                  v-model="name"
-                  placeholder="Ej: Gastable, legumbres…."
-                  autocomplete="off"
-                  @keyup="uppercase"
-                ></v-text-field>
-                <v-btn color="primary" type="submit" class="ml-0" :disabled="name.length == 0">
-                  <v-icon class="mr-2">fa-save</v-icon>Guardar
-                </v-btn>
-              </form>
-              <v-layout row wrap>
-                <v-flex xs12>
-                  <h4>CATEGORIAS REGISTRADAS</h4>
-                </v-flex>
-                <v-flex xs12>
-                  <v-data-table :headers="headers" :items="categories">
-                    <template v-slot:no-data>
-                      <v-alert
-                        :value="true"
+    <v-layout row wrap>
+      <v-flex xs12>
+        <v-card flat>
+          <v-card-text>
+            <form @submit.prevent="createCategory">
+              <p>Las categorías te ayudan a realizar análisis más profundos para saber que categorías consumes más.</p>
+              <v-text-field
+                name="name"
+                label="Categoria"
+                id="name"
+                v-model="name"
+                placeholder="Ej: Gastable, legumbres…."
+                autocomplete="off"
+                @keyup="uppercase"
+              ></v-text-field>
+              <v-btn color="primary" type="submit" class="ml-0" :disabled="name.length == 0">
+                <v-icon class="mr-2">fa-save</v-icon>Guardar
+              </v-btn>
+            </form>
+            <v-layout row wrap>
+              <v-flex xs12>
+                <h4>CATEGORIAS REGISTRADAS</h4>
+              </v-flex>
+              <v-flex xs12>
+                <v-data-table :headers="headers" :items="categories">
+                  <template v-slot:no-data>
+                    <v-alert
+                      :value="true"
+                      color="error"
+                      icon="fa-warning"
+                    >No hay ningun dato para mostrar</v-alert>
+                  </template>
+                  <template v-slot:items="category">
+                    <td>{{category.index + 1}}</td>
+                    <td>{{ category.item.name }}</td>
+                    <td>
+                      <v-btn
+                        flat
+                        small
                         color="error"
-                        icon="fa-warning"
-                      >No hay ningun dato para mostrar</v-alert>
-                    </template>
-                    <template v-slot:items="category">
-                      <td>{{category.index + 1}}</td>
-                      <td>{{ category.item.name }}</td>
-                      <td>
-                        <v-btn
-                          flat
-                          small
-                          color="error"
-                          class="ml-0 pl-0"
-                          @click="deleteCategory(category.index)"
-                        >
-                          <v-icon class="mr-2" small>fa-trash</v-icon>Eliminar
-                        </v-btn>
-                      </td>
-                    </template>
-                  </v-data-table>
-                </v-flex>
-              </v-layout>
-            </v-card-text>
-          </v-card>
-        </v-flex>
-      </v-layout>
-    </v-container>
+                        class="ml-0 pl-0"
+                        @click="deleteCategory(category.index)"
+                      >
+                        <v-icon class="mr-2" small>fa-trash</v-icon>Eliminar
+                      </v-btn>
+                    </td>
+                  </template>
+                </v-data-table>
+              </v-flex>
+            </v-layout>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
   </div>
 </template>
 

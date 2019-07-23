@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container>
+    <div>
       <v-card flat>
         <v-card-text>
           <v-layout row wrap v-if="shoppingCar.length > 0" class="mb-5 pb-5">
@@ -15,7 +15,6 @@
               <v-btn
                 class="ml-0"
                 color="success"
-                small
                 @click="saveShop"
                 :disabled="disabledSubmitButton"
               >
@@ -23,7 +22,7 @@
               </v-btn>
               <v-divider class="mt-3 mb-3"></v-divider>
             </v-flex>
-            <v-flex xs12 v-for="(product,index) in shoppingCar" :key="index">
+            <v-flex xs12 v-for="(product,index) in shoppingCar" :key="index" class="mb-3">
               <v-card>
                 <v-card-text>
                   <v-layout row wrap>
@@ -51,8 +50,7 @@
                 <v-card-actions>
                   <v-btn
                     color="error"
-                    flat
-                    small
+                    outline
                     @click="removeItemFromShoppingCar(product.id_product)"
                   >Eliminar del carro</v-btn>
                 </v-card-actions>
@@ -76,7 +74,7 @@
           </v-layout>
         </v-card-text>
       </v-card>
-    </v-container>
+    </div>
     <ShopResume
       :quantity="shoppingCar.length"
       :sub-total="subTotal"

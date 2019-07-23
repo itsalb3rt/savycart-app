@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div>
     <v-layout row wrap v-if="products.length > 0">
       <v-flex xs12>
         <v-card flat>
@@ -12,7 +12,7 @@
               ></v-text-field>
             </v-flex>
 
-            <v-flex xs12 class="mb-5 pb-5">
+            <v-flex xs12 class="products-container">
               <v-layout
                 class="mt-2 mb-2"
                 row
@@ -60,14 +60,14 @@
                       <v-btn
                         color="primary"
                         class="ma-0"
-                        flat
+                        outline
                         v-if="!isOnCar(product.id_product)"
                         @click="addItemToShoppingCar(index)"
                       >Anadir al carro</v-btn>
                       <v-btn
                         color="error"
                         class="ma-0"
-                        flat
+                        outline
                         v-if="isOnCar(product.id_product)"
                         @click="removeItemFromShoppingCar(product.id_product)"
                       >Eliminar del carro</v-btn>
@@ -103,7 +103,7 @@
         </v-card>
       </v-flex>
     </v-layout>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -218,5 +218,8 @@ export default {
 }
 .add-remove-from-card-label {
   margin: 10px auto;
+}
+.products-container{
+  margin-bottom:130px;
 }
 </style>

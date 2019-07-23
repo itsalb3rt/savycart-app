@@ -1,7 +1,8 @@
 <template>
   <div>
-    <v-toolbar>
-      <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
+    <v-toolbar flat color="white">
+      <v-icon @click="goBack"  v-if="this.$route.meta.isSubDir">fa-angle-left</v-icon>
+      <v-toolbar-side-icon @click="drawer = !drawer" v-else></v-toolbar-side-icon>
       <v-toolbar-title class="primary--text">{{title}}</v-toolbar-title>
     </v-toolbar>
     <v-navigation-drawer app temporary v-model="drawer">
@@ -80,13 +81,13 @@ export default {
         {
           title: "Mi lista",
           icon: "fa-clipboard-list",
-          iconColor: "success",
+          iconColor: "",
           routePath: "/product/list"
         },
         {
           title: "Registrar compra",
           icon: "fa-shopping-cart",
-          iconColor: "primary",
+          iconColor: "",
           routePath: "/shop/registation"
         },
         {
@@ -98,7 +99,7 @@ export default {
         {
           title: "Analisis",
           icon: "fa-chart-bar",
-          iconColor: "purple",
+          iconColor: "",
           routePath: "/none"
         }
       ],
@@ -106,7 +107,7 @@ export default {
         {
           title: "Unidades de medidas",
           icon: "fa-balance-scale",
-          iconColor: "purple",
+          iconColor: "",
           routePath: "/measurement_units"
         },
         {
@@ -131,6 +132,11 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    goBack() {
+      window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
+    }
   }
 };
 </script>

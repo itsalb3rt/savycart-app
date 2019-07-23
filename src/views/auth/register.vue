@@ -17,7 +17,7 @@
       </v-flex>
     </v-layout>
 
-    <v-layout row wrap align-center justify-center class="white">
+    <v-layout row wrap align-center justify-center>
       <v-flex xs12>
         <form @submit.prevent="registerUser">
           <v-container>
@@ -27,7 +27,7 @@
                   class="horizontal-line-text-main-container"
                   style="font-weight: normal!important;"
                 >
-                  <span class="horizontal-line-text-container white">
+                  <span class="horizontal-line-text-container white" style="background-color:#fafafa">
                     <span class="black--text">Crear cuenta</span>
                   </span>
                 </h4>
@@ -198,3 +198,16 @@ export default {
   }
 };
 </script>
+<style>
+.horizontal-line-text-main-container {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid lightgray;
+    line-height: .1em;
+    margin: 10px 0 20px
+}
+
+.horizontal-line-text-main-container .horizontal-line-text-container {
+    padding: 0 10px
+}
+</style>

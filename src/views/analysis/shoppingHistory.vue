@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xs>
+  <div>
     <v-layout row wrap v-if="shoppingHistory.length > 0">
       <v-flex xs12>
         <v-card flat>
@@ -60,7 +60,7 @@
         </v-btn>
       </v-flex>
     </v-layout>
-  </v-container>
+  </div>
 </template>
 
 <script>
