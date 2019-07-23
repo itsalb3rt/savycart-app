@@ -1,6 +1,6 @@
 <template>
-  <v-app >
-    <MenuComponent title=" " v-if="isLoged == 'true'"/>
+  <v-app>
+    <MenuComponent :title="this.$route.meta.title" v-if="isLoged == 'true'"/>
     <v-content >
       <router-view />
     </v-content>

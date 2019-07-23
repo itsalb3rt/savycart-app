@@ -66,10 +66,10 @@ export default {
   position: fixed;
   bottom: 0;
   width: 100%;
-  left: 7px;
-  background-color: var(--white);
+  left: 0px;
+  background-color: white;
   padding: 10px 30px 0px 33px;
-  border: 1px dotted var(--grey);
+  border: 1px dotted grey;
 }
 .shop-resume-bar-container hr {
   width: 100%;

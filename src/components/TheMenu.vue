@@ -2,7 +2,7 @@
   <div>
     <v-toolbar>
       <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>{{title}}</v-toolbar-title>
+      <v-toolbar-title class="primary--text">{{title}}</v-toolbar-title>
     </v-toolbar>
     <v-navigation-drawer app temporary v-model="drawer">
       <v-layout mt-4 column align-center>
@@ -48,7 +48,7 @@
           </v-list-tile>
         </v-list-group>
 
-        <v-list-tile class="mt-5 pt-5" :to="{path:logout[0].routePath}">
+        <v-list-tile class="mt-5" :to="{path:logout[0].routePath}">
           <v-list-tile-action>
             <v-icon :color="logout[0].iconColor">{{ logout[0].icon }}</v-icon>
           </v-list-tile-action>

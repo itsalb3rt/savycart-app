@@ -27,7 +27,7 @@
                       <div class="grey--text">{{getMeasurementName(product.id_unit_measurement)}}</div>
                       <div>
                         <v-layout row wrap>
-                          <v-flex xs5 class="mr-1">
+                          <v-flex xs5 class="mr-1 ml-2">
                             <v-text-field
                               :label="currency.symbol"
                               type="number"
