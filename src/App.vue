@@ -96,4 +96,11 @@ export default {
   opacity: 0;
   transform: translate(-2em, 0);
 }
+@font-face {
+    font-family: Open-Sans;
+    src: url("~@/assets/fonts/open_Sans/OpenSans-Regular.ttf"), url("~@/assets/fonts/open_Sans/OpenSans-Bold.ttf")
+}
+#app {
+      font-family: Open-Sans
+}
 </style>
