@@ -100,7 +100,7 @@ import { mapState } from "vuex";
 
 export default {
   mounted: function() {
-    if (this.isLoged == "true") {
+    if (this.isLoged == true) {
       this.$router.push("product/list");
     }
   },

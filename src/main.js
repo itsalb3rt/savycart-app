@@ -10,6 +10,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@fortawesome/fontawesome-free/css/all.css'
+import '../node_modules/nprogress/nprogress.css';
 
 Vue.use(VueAxios, axios)
 

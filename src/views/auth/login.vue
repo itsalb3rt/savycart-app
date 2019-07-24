@@ -98,7 +98,7 @@ export default {
         .then(response => {
           if (response.data.status == "login_correct") {
             this.setUser(response.data.user);
-            this.setLoginState("true");
+            this.setLoginState(true);
             this.saveInIndexedDbCurrencies();
             this.$router.push("product/list");
           } else if (response.data.status == "login_failed") {

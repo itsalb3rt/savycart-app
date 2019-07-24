@@ -7,13 +7,13 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     initialized: false,
+    isLoged: false,
     apiDomain: (process.env.NODE_ENV == 'development') ? 'http://localhost/sheiley_shop_api' : 'https://gibucket.a2hosted.com/sheiley_shop_api',
     user: [],
     measurement_units: [],
     itbis: 0,
     categories: [],
     currencies: [],
-    isLoged: false,
     online: '',
     products: [],
     shoppingCar: [],
@@ -75,8 +75,10 @@ export default new Vuex.Store({
          * objeto
          * de {} a []
          */
+        console.log(cached);
+        console.log(state);
         Object.keys(cached).forEach((key) => {
-          state[key] = Object.assign([], state[key], cached[key]);
+          state[key] = Object.assign(state[key], cached[key]);
         });
       }
 
