@@ -83,7 +83,6 @@
         </v-card>
       </v-flex>
     </v-layout>
-    <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
   </div>
 </template>
 
@@ -97,8 +96,6 @@ import "dndod/dist/dndod-popup.min.css";
 
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
-import Loading from "vue-loading-overlay";
-import "vue-loading-overlay/dist/vue-loading.css";
 
 import products from "@/mixins/products/Products";
 import currencies from "@/mixins/miscellany/currencies";
@@ -111,12 +108,10 @@ export default {
   mixins: [products, currencies, measurementUnits, categories],
   async mounted() {
     if (this.online) {
-      this.isLoading = true;
       this.requestProducts(axios).then(response=>{
         this.setProducts(response.data);
         this.requestMeasurementUnit(axios);
         this.requestCategories(axios);
-        this.isLoading = false;
       });
       
       
@@ -126,13 +121,11 @@ export default {
   data() {
     return {
       searchProductName: "",
-      currency: [],
-      isLoading: false
+      currency: []
     };
   },
   components: {
-    MenuComponent,
-    Loading
+    MenuComponent
   },
   computed: {
     ...mapState([

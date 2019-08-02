@@ -68,7 +68,6 @@
         </v-layout>
       </v-card-text>
     </v-card>
-    <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
   </v-form>
 </template>
 
@@ -80,8 +79,6 @@ import measurementUnits from "@/mixins/miscellany/measurementUnits";
 import axios from "axios";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
-import Loading from "vue-loading-overlay";
-import "vue-loading-overlay/dist/vue-loading.css";
 
 export default {
   mixins: [categories, measurementUnits],
@@ -98,13 +95,11 @@ export default {
       measurementUnit: "",
       category: "",
       itbis: "1",
-      description: "",
-      isLoading: false
+      description: ""
     };
   },
   components: {
-    MenuComponent,
-    Loading
+    MenuComponent
   },
   computed: {
     ...mapState([
