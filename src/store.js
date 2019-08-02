@@ -75,8 +75,6 @@ export default new Vuex.Store({
          * objeto
          * de {} a []
          */
-        console.log(cached);
-        console.log(state);
         Object.keys(cached).forEach((key) => {
           state[key] = Object.assign(state[key], cached[key]);
         });

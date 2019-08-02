@@ -60,6 +60,7 @@
         </v-btn>
       </v-flex>
     </v-layout>
+    <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
   </div>
 </template>
 
@@ -68,15 +69,19 @@ import MenuComponent from "@/components/TheMenu.vue";
 import axios from "axios";
 import { mapState } from "vuex";
 import currencies from "@/mixins/miscellany/currencies";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 
 export default {
   mixins: [currencies],
   async mounted() {
+    this.isLoading = true;
     this.requestShoppingHistory();
     this.currency = await this.getPreferredCurrency();
   },
   components: {
-    MenuComponent
+    MenuComponent,
+    Loading
   },
   data() {
     return {
@@ -89,7 +94,8 @@ export default {
         { text: "Lugar", align: "left", value: "lugar" },
         { text: "Fecha", align: "left", value: "fecha" },
         { text: "Total", align: "left", value: "total" }
-      ]
+      ],
+      isLoading: false
     };
   },
   computed: {
@@ -115,6 +121,7 @@ export default {
         .then(response => {
           if (response.data.status == "success") {
             this.shoppingHistory = response.data.history;
+            this.isLoading = false;
           }
         });
     }

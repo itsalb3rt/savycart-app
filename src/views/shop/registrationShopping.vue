@@ -103,6 +103,7 @@
         </v-card>
       </v-flex>
     </v-layout>
+    <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
   </div>
 </template>
 
@@ -118,11 +119,18 @@ import ShoppingCarMixin from "@/mixins/shop/ShoppingCar";
 import currencies from "@/mixins/miscellany/currencies";
 import itbisMixin from "@/mixins/miscellany/Itbis";
 
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
+
 export default {
   mixins: [products, ShoppingCarMixin, currencies, itbisMixin],
   async mounted() {
     if (this.online) {
-      await this.requestProducts(axios);
+      this.isLoading = true;
+      this.requestProducts(axios).then(response=>{
+        this.setProducts(response.data);
+        this.isLoading = false;
+      });
     }
 
     let shoppingCarTemp = await this.getShoppingCarItems();
@@ -136,7 +144,8 @@ export default {
   components: {
     MenuComponent,
     ShoppingCar,
-    ShopResume
+    ShopResume,
+    Loading
   },
   computed: {
     ...mapState([
@@ -178,7 +187,8 @@ export default {
       searchProductName: "",
       shoppingCar: [],
       currency: [],
-      itbis: 1
+      itbis: 1,
+      isLoading:false
     };
   },
   methods: {
