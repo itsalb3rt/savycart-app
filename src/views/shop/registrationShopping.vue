@@ -9,6 +9,7 @@
                 prepend-inner-icon="fa-search"
                 v-model="searchProductName"
                 label="Buscar..."
+                clearable
               ></v-text-field>
             </v-flex>
 
@@ -156,6 +157,10 @@ export default {
       "measurement_units"
     ]),
     actualAvaliableProducts: function() {
+      if(this.searchProductName == null){
+        this.searchProductName = '';
+      }
+      
       let filteredProducts = this.products.filter(item =>
         item.name.toUpperCase().includes(this.searchProductName.toUpperCase())
       );
