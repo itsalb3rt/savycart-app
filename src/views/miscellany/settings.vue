@@ -43,6 +43,10 @@
         </v-card>
       </v-flex>
     </v-layout>
+    <v-snackbar :multi-line="snackbarMultiLine" v-model="snackbarShow" :color="snackbarColor">
+      {{snackbarMessage}}
+      <v-btn dark flat @click="snackbarShow = false">Cerrar</v-btn>
+    </v-snackbar>
   </div>
 </template>
 
@@ -50,8 +54,6 @@
 import MenuComponent from "@/components/TheMenu";
 import { mapState } from "vuex";
 import axios from "axios";
-import { Notyf } from "notyf";
-import "notyf/notyf.min.css";
 import currencies from "@/mixins/miscellany/currencies";
 import itbisMixin from "@/mixins/miscellany/Itbis";
 
@@ -82,7 +84,11 @@ export default {
       currencies: [],
       preferredCurrency: [],
       preferredCurrencyCode: "",
-      currenciesArray: []
+      currenciesArray: [],
+      snackbarShow: false,
+      snackbarMessage: "",
+      snackbarColor: "",
+      snackbarMultiLine: true
     };
   },
   methods: {
@@ -95,7 +101,6 @@ export default {
         });
     },
     saveItbis() {
-      const notyf = new Notyf();
       let formData = new FormData();
       formData.append("id_user", this.user.id_user);
       formData.append("quantity", this.itbis);
@@ -105,11 +110,15 @@ export default {
         .then(response => {
           if (response.data.status == "success") {
             this.saveInIndexedDbItbis(this.itbis);
-            notyf.success("Itbis guardado!");
+            this.snackbarShow = true;
+            this.snackbarMessage = "Itbis guardado!";
+            this.snackbarColor = "success";
           }
         })
         .catch(e => {
-          notyf.error("Se ha producido un error al guardar!");
+          this.snackbarShow = true;
+          this.snackbarMessage = "Se ha producido un error al guardar!";
+          this.snackbarColor = "error";
           console.log("TCL: saveItbis -> e", e);
         });
     },
@@ -117,8 +126,9 @@ export default {
       this.setPreferredCurrency(
         this.currencies[this.preferredCurrencyCode]
       ).then(() => {
-        const notyf = new Notyf();
-        notyf.success("Moneda guardada");
+        this.snackbarShow = true;
+        this.snackbarMessage = "Moneda guardada";
+        this.snackbarColor = "success";
       });
     }
   },
