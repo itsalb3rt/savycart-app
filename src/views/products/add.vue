@@ -47,6 +47,14 @@
             ></v-switch>
             <p class="grey--text">El porcentaje de ITBIS se asigna en ajustes.</p>
             <v-divider></v-divider>
+            <v-switch
+              color="primary"
+              v-model.number="favorite"
+              :label="`Marcar como favorito: ${(favorite == 1)? 'SI' : 'NO' }`"
+              true-value.number="1"
+              false-value.number="0"
+            ></v-switch>
+            <v-divider></v-divider>
             <v-textarea
               label="Descripción"
               v-model="description"
@@ -95,7 +103,8 @@ export default {
       measurementUnit: "",
       category: "",
       itbis: "1",
-      description: ""
+      description: "",
+      favorite: 0
     };
   },
   components: {
@@ -128,7 +137,8 @@ export default {
         id_unit_measurement: this.measurementUnit,
         id_category: this.category,
         itbis: this.itbis,
-        description: this.description
+        description: this.description,
+        favorite:this.favorite
       };
       formData.append("product", JSON.stringify(product));
 

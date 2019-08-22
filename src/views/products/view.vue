@@ -34,6 +34,10 @@
               <div>{{ (product.itbis == '1')? 'SI':'NO' }}</div>
             </div>
             <div>
+              <div for="name" class="subheading font-weight-bold mt-4 mb-2">Favorito</div>
+              <div>{{ (product.favorite == '1')? 'SI':'NO' }}</div>
+            </div>
+            <div>
               <div for="name" class="subheading font-weight-bold mt-4 mb-2">Descripción</div>
               <div>{{product.description}}</div>
             </div>

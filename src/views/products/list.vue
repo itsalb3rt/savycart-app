@@ -11,6 +11,14 @@
                 label="Buscar..."
                 clearable
               ></v-text-field>
+              <v-tabs fixed-tabs>
+                <v-tab @click="showFavorites = false">
+                  <v-icon class="mr-2">fa-list</v-icon>Todos
+                </v-tab>
+                <v-tab @click="showFavorites = true">
+                  <v-icon class="mr-2">fa-star</v-icon>Favoritos
+                </v-tab>
+              </v-tabs>
             </v-flex>
             <v-flex xs12 class="mt-3" v-if="products.length > 0">
               <v-layout
@@ -31,6 +39,9 @@
                             small
                             class="ma-0 pa-0 primary--text font-weight-bold subheading"
                           >{{product.name}}</span>
+                          <span v-if="product.favorite == '1' ">
+                            <v-icon small color="warning" class="ml-2">fa-star</v-icon>
+                          </span>
                         </div>
                         <div class="grey--text">{{getMeasurementName(product.id_unit_measurement)}}</div>
                         <div
@@ -103,10 +114,13 @@ import currencies from "@/mixins/miscellany/currencies";
 import measurementUnits from "@/mixins/miscellany/measurementUnits";
 import categories from "@/mixins/miscellany/categories";
 
+import itbisMixin from "@/mixins/miscellany/Itbis";
+
 export default {
-  mixins: [products, currencies, measurementUnits, categories],
+  mixins: [products, currencies, measurementUnits, categories, itbisMixin],
   async mounted() {
     if (this.online) {
+      this.getItbis();
       this.requestProducts(axios).then(response => {
         this.setProducts(response.data);
         this.requestMeasurementUnit(axios);
@@ -118,7 +132,8 @@ export default {
   data() {
     return {
       searchProductName: "",
-      currency: []
+      currency: [],
+      showFavorites: false
     };
   },
   components: {
@@ -143,6 +158,10 @@ export default {
       let filteredProducts = orderedProducts.filter(item =>
         item.name.toUpperCase().includes(this.searchProductName.toUpperCase())
       );
+
+      if (this.showFavorites) {
+        filteredProducts = filteredProducts.filter( product => product.favorite == '1');
+      }
 
       return filteredProducts;
     }
@@ -204,6 +223,14 @@ export default {
         })
         .catch(function(error) {
           console.log("TCL: deleteCategory -> error", error);
+        });
+    },
+    getItbis() {
+      axios
+        .get(`${this.apiDomain}/Miscellany/itbis?id_user=${this.user.id_user}`)
+        .then(response => {
+          this.itbis = response.data.quantity;
+          this.saveInIndexedDbItbis(this.itbis);
         });
     }
   }

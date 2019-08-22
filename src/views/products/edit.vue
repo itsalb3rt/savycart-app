@@ -48,6 +48,14 @@
                 ></v-switch>
                 <p class="grey--text">El porcentaje de ITBIS se asigna en ajustes.</p>
                 <v-divider></v-divider>
+                <v-switch
+                  color="primary"
+                  v-model="favorite"
+                  :label="`Marcar como favorito: ${(favorite == '1')? 'SI' : 'NO' }`"
+                  true-value="1"
+                  false-value="0"
+                ></v-switch>
+                <v-divider></v-divider>
                 <v-textarea
                   label="Descripción"
                   v-model="description"
@@ -121,7 +129,8 @@ export default {
       itbis: "1",
       description: "",
       product: [],
-      isLoading: false
+      isLoading: false,
+      favorite:"1"
     };
   },
   components: {
@@ -151,7 +160,8 @@ export default {
         id_unit_measurement: this.measurementUnit,
         id_category: this.category,
         itbis: this.itbis,
-        description: this.description
+        description: this.description,
+        favorite: this.favorite
       };
       formData.append("product", JSON.stringify(product));
       formData.append("id_product", this.$route.params.id);
@@ -190,6 +200,7 @@ export default {
           this.itbis = this.product.itbis;
           this.description = this.product.description;
           this.isLoading = false;
+          this.favorite = this.product.favorite;
         })
         .catch(function(error) {
           console.log("TCL: requestProducts -> error", error);

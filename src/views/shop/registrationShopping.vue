@@ -11,6 +11,14 @@
                 label="Buscar..."
                 clearable
               ></v-text-field>
+              <v-tabs fixed-tabs>
+                <v-tab @click="showFavorites = false">
+                  <v-icon class="mr-2">fa-list</v-icon>Todos
+                </v-tab>
+                <v-tab @click="showFavorites = true">
+                  <v-icon class="mr-2">fa-star</v-icon>Favoritos
+                </v-tab>
+              </v-tabs>
             </v-flex>
 
             <v-flex xs12 class="products-container">
@@ -24,7 +32,12 @@
                 <v-flex xs12>
                   <v-card>
                     <v-card-text>
-                      <div class="primary--text font-weight-bold">{{product.name}}</div>
+                      <div class="primary--text font-weight-bold" @click="$router.push({ name: 'view_product', params: { id: product.id_product } })">
+                        {{product.name}}
+                        <span v-if="product.favorite == '1' ">
+                          <v-icon small color="warning" class="ml-2">fa-star</v-icon>
+                        </span>
+                      </div>
                       <div class="grey--text">{{getMeasurementName(product.id_unit_measurement)}}</div>
                       <div>
                         <v-layout row wrap>
@@ -128,7 +141,7 @@ export default {
   async mounted() {
     if (this.online) {
       this.isLoading = true;
-      this.requestProducts(axios).then(response=>{
+      this.requestProducts(axios).then(response => {
         this.setProducts(response.data);
         this.isLoading = false;
       });
@@ -157,16 +170,24 @@ export default {
       "measurement_units"
     ]),
     actualAvaliableProducts: function() {
-      if(this.searchProductName == null){
-        this.searchProductName = '';
+      if (this.searchProductName == null) {
+        this.searchProductName = "";
       }
-      
+
       let filteredProducts = this.products.filter(item =>
         item.name.toUpperCase().includes(this.searchProductName.toUpperCase())
       );
+
       let orderedProducts = filteredProducts.sort((a, b) =>
         a.name > b.name ? 1 : -1
       );
+
+      if (this.showFavorites) {
+        orderedProducts = orderedProducts.filter(
+          product => product.favorite == "1"
+        );
+      }
+
       return orderedProducts;
     },
     subTotal() {
@@ -193,7 +214,8 @@ export default {
       shoppingCar: [],
       currency: [],
       itbis: 1,
-      isLoading:false
+      isLoading: false,
+      showFavorites: false
     };
   },
   methods: {
@@ -234,7 +256,7 @@ export default {
 .add-remove-from-card-label {
   margin: 10px auto;
 }
-.products-container{
-  margin-bottom:130px;
+.products-container {
+  margin-bottom: 130px;
 }
 </style>
