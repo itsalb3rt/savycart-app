@@ -163,7 +163,8 @@ router.beforeEach((to, from, next) => Promise.resolve()
 
     let publicPages = [
       'login',
-      'register'
+      'register',
+      'about'
     ];
 
     let state;

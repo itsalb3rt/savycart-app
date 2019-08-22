@@ -9,6 +9,7 @@
                 prepend-inner-icon="fa-search"
                 v-model="searchProductName"
                 label="Buscar..."
+                clearable
               ></v-text-field>
             </v-flex>
             <v-flex xs12 class="mt-3" v-if="products.length > 0">
@@ -102,19 +103,15 @@ import currencies from "@/mixins/miscellany/currencies";
 import measurementUnits from "@/mixins/miscellany/measurementUnits";
 import categories from "@/mixins/miscellany/categories";
 
-
-
 export default {
   mixins: [products, currencies, measurementUnits, categories],
   async mounted() {
     if (this.online) {
-      this.requestProducts(axios).then(response=>{
+      this.requestProducts(axios).then(response => {
         this.setProducts(response.data);
         this.requestMeasurementUnit(axios);
         this.requestCategories(axios);
       });
-      
-      
     }
     this.currency = await this.getPreferredCurrency();
   },
@@ -140,6 +137,9 @@ export default {
         a.name > b.name ? 1 : -1
       );
 
+      if (this.searchProductName == null) {
+        this.searchProductName = "";
+      }
       let filteredProducts = orderedProducts.filter(item =>
         item.name.toUpperCase().includes(this.searchProductName.toUpperCase())
       );
