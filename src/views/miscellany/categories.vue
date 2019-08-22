@@ -41,7 +41,7 @@
                         small
                         color="error"
                         class="ml-0 pl-0"
-                        @click="deleteCategory(category.index)"
+                        @click="dispatchDeleteCategory(category.index)"
                       >
                         <v-icon class="mr-2" small>fa-trash</v-icon>Eliminar
                       </v-btn>
@@ -54,6 +54,23 @@
         </v-card>
       </v-flex>
     </v-layout>
+    <v-layout row justify-center>
+      <v-dialog v-model="showDialogDeleteCategory" persistent full-width>
+        <v-card>
+          <v-card-title class="headline">Eliminar unidad de medida</v-card-title>
+          <v-card-text>Esta seguro que desea eliminar esta unidad de medida?</v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="error" @click="deleteCategory()">Eliminar</v-btn>
+            <v-btn color="primary" flat @click="showDialogDeleteCategory = false">Mantener unidad</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-layout>
+    <v-snackbar :multi-line="snackbarMultiLine" v-model="snackbarShow" :color="snackbarColor">
+      {{snackbarMessage}}
+      <v-btn dark flat @click="snackbarShow = false">Cerrar</v-btn>
+    </v-snackbar>
   </div>
 </template>
 
@@ -79,7 +96,13 @@ export default {
         { text: "#", value: "index" },
         { text: "NOMBRE", value: "nombre" },
         { text: "ACCION", value: "accion" }
-      ]
+      ],
+      snackbarShow: false,
+      snackbarMessage: "",
+      snackbarColor: "",
+      snackbarMultiLine: true,
+      showDialogDeleteCategory: false,
+      indexCategoryForDelete: ""
     };
   },
   components: {
@@ -106,50 +129,54 @@ export default {
                 name: this.name
               });
               this.name = "";
-              notyf.success("Categoria guardada!");
+              this.snackbarShow = true;
+              this.snackbarMessage = "Categoria guardada!";
+              this.snackbarColor = "success";
             }
           })
           .catch(function(error) {
             console.log("TCL: createCategory -> error", error);
           });
       } else {
-        notyf.error(
-          "Debes estar conectado a internet para realizar esta accion."
-        );
+        this.snackbarShow = true;
+        this.snackbarMessage =
+          "Debes estar conectado a internet para realizar esta accion.";
+        this.snackbarColor = "error";
       }
     },
-    deleteCategory(index) {
-      let request = confirm(
-        "Esta seguro que desea eliminar esta unidad de medida?"
-      );
-      const notyf = new Notyf();
-      if (request) {
-        if (this.online) {
-          axios
-            .get(
-              `${this.apiDomain}/Miscellany/deleteCategory/${this.categories[index].id_category}`
-            )
-            .then(response => {
-              if (response.data.status == "success") {
-                this.removeCategory(index);
-                notyf.success("Categoria eliminada!");
-              } else if (response.data.status == "hasDependency") {
-                notyf.error({
-                  message:
-                    "Esta categoría no puede ser elimina porque tiene productos asociados",
-                  duration: 9000
-                });
-              }
-            })
-            .catch(function(error) {
-              console.log("TCL: deleteCategory -> error", error);
-            });
-        } else {
-          notyf.error(
-            "Debes estar conectado a internet para realizar esta accion."
-          );
-        }
+    dispatchDeleteCategory(index) {
+      this.showDialogDeleteCategory = true;
+      this.indexCategoryForDelete = index;
+    },
+    deleteCategory() {
+      if (this.online) {
+        axios
+          .get(
+            `${this.apiDomain}/Miscellany/deleteCategory/${this.categories[this.indexCategoryForDelete].id_category}`
+          )
+          .then(response => {
+            if (response.data.status == "success") {
+              this.removeCategory(this.indexCategoryForDelete);
+              this.snackbarShow = true;
+              this.snackbarMessage = "Categoria eliminada!";
+              this.snackbarColor = "success";
+            } else if (response.data.status == "hasDependency") {
+              this.snackbarShow = true;
+              this.snackbarMessage =
+                "Esta categoría no puede ser elimina porque tiene productos asociados";
+              this.snackbarColor = "error";
+            }
+          })
+          .catch(function(error) {
+            console.log("TCL: deleteCategory -> error", error);
+          });
+      } else {
+        this.snackbarShow = true;
+        this.snackbarMessage =
+          "Debes estar conectado a internet para realizar esta accion.";
+        this.snackbarColor = "error";
       }
+      this.showDialogDeleteCategory = false;
     },
     uppercase() {
       this.name = this.name.toUpperCase();
