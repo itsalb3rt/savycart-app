@@ -79,8 +79,6 @@ import { mapState, mapMutations } from "vuex";
 import MenuComponent from "@/components/TheMenu.vue";
 import categories from "@/mixins/miscellany/categories";
 import axios from "axios";
-import { Notyf } from "notyf";
-import "notyf/notyf.min.css";
 
 export default {
   mixins: [categories],
@@ -117,7 +115,6 @@ export default {
       let formData = new FormData();
       formData.append("id_user", this.user.id_user);
       formData.append("name", this.name);
-      const notyf = new Notyf();
 
       if (this.online) {
         axios
