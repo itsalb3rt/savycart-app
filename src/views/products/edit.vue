@@ -95,6 +95,10 @@
       </v-flex>
     </v-layout>
     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
+    <v-snackbar v-model="snackbarShow" :color="snackbarColor">
+      {{snackbarMessage}}
+      <v-btn dark flat @click="snackbarShow = false">Cerrar</v-btn>
+    </v-snackbar>
   </div>
 </template>
 
@@ -104,11 +108,10 @@ import MenuComponent from "@/components/TheMenu.vue";
 import categories from "@/mixins/miscellany/categories";
 import measurementUnits from "@/mixins/miscellany/measurementUnits";
 import axios from "axios";
-import { Notyf } from "notyf";
-import "notyf/notyf.min.css";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
 import OfflineInfomation from "@/components/Offline/OfflineInformation";
+import { setTimeout } from 'timers';
 
 export default {
   mixins: [categories, measurementUnits],
@@ -130,7 +133,10 @@ export default {
       description: "",
       product: [],
       isLoading: false,
-      favorite:"1"
+      favorite: "1",
+      snackbarShow: false,
+      snackbarMessage: "",
+      snackbarColor: ""
     };
   },
   components: {
@@ -151,7 +157,6 @@ export default {
     ...mapMutations(["setCategories", "setMeasurementUnit"]),
     updateProduct() {
       this.isLoading = true;
-      const notyf = new Notyf();
       let formData = new FormData();
       let product = {
         id_user: this.user.id_user,
@@ -171,8 +176,11 @@ export default {
           .post(`${this.apiDomain}/Products/update`, formData)
           .then(response => {
             if (response.data.status == "success") {
-              notyf.success("Producto guardado!");
-              this.$router.push("product/list");
+              this.snackbarShow = true;
+              this.snackbarMessage = "Producto guardado!";
+              this.snackbarColor = "success";
+
+              setTimeout(()=>{this.$router.push("product/list");},1000);
             }
             this.isLoading = false;
           })
@@ -181,9 +189,10 @@ export default {
           });
       } else {
         this.isLoading = false;
-        notyf.error(
-          "Debes estar conectado a internet para realizar esta accion."
-        );
+        this.snackbarShow = true;
+        this.snackbarMessage =
+          "Debes estar conectado a internet para realizar esta accion.";
+        this.snackbarColor = "error";
       }
     },
     getProduct() {

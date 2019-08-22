@@ -43,7 +43,7 @@
                 <router-link
                   :to="{ name: 'purchase_details', params: { id: shop.item.id_purchase } }"
                   class="primary--text font-weight-bold"
-                >{{currency.symbol}} {{shop.item.total}}</router-link>
+                >{{currency.symbol}} {{createNumberFormat(shop.item.total)}}</router-link>
               </td>
             </template>
           </v-data-table>
@@ -124,6 +124,10 @@ export default {
             this.isLoading = false;
           }
         });
+    },
+    createNumberFormat(number) {
+      let l10nEN = new Intl.NumberFormat("en-US");
+      return l10nEN.format(number);
     }
   }
 };

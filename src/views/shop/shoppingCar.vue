@@ -82,6 +82,10 @@
       :currency-symbol="currency.symbol"
       :total-itbis="totalItbis"
     ></ShopResume>
+    <v-snackbar v-model="snackbarShow" :color="snackbarColor">
+      {{snackbarMessage}}
+      <v-btn dark flat @click="snackbarShow = false">Cerrar</v-btn>
+    </v-snackbar>
   </div>
 </template>
 
@@ -91,10 +95,7 @@ import ShopResume from "@/components/shop/ShopResume";
 import ShoppingCar from "@/components/shop/ShoppingCar";
 import { mapState, mapMutations } from "vuex";
 import axios from "axios";
-import { Notyf } from "notyf";
-import "notyf/notyf.min.css";
-import dndod from "dndod";
-import "dndod/dist/dndod-popup.min.css";
+
 import ShoppingCarMixin from "@/mixins/shop/ShoppingCar";
 import currencies from "@/mixins/miscellany/currencies";
 import itbisMixin from "@/mixins/miscellany/Itbis";
@@ -117,7 +118,10 @@ export default {
       nameEstablishment: "",
       disabledSubmitButton: false,
       currency: [],
-      itbis: 1
+      itbis: 1,
+      snackbarShow: false,
+      snackbarMessage: "",
+      snackbarColor: ""
     };
   },
   computed: {
@@ -158,7 +162,6 @@ export default {
       return value;
     },
     async saveShop() {
-      const notyf = new Notyf();
       this.disabledSubmitButton = true;
 
       if (this.online) {
@@ -175,22 +178,29 @@ export default {
             .post(`${this.apiDomain}/Shopping/shopping`, formData)
             .then(response => {
               if (response.data.status == "success") {
-                notyf.success("Compra guardada");
+                this.snackbarShow = true;
+                this.snackbarMessage = "Compra guardada";
+                this.snackbarColor = "success";
               }
               this.clearShoppingCar();
-              this.$router.push("/product/list");
+              setTimeout(() => {
+                this.$router.push("/product/list");
+              }, 1000);
             })
             .catch(function(error) {
               console.log("TCL: createCategory -> error", error);
             });
         } else {
-          notyf.error("Debe colocar un nombre de establecimiento");
+          this.snackbarShow = true;
+          this.snackbarMessage = "Debe colocar un nombre de establecimiento";
+          this.snackbarColor = "error";
           this.disabledSubmitButton = false;
         }
       } else {
-        notyf.error(
-          "Debe estar conectado a internet para realizar esta acción."
-        );
+        this.snackbarShow = true;
+        this.snackbarMessage =
+          "Debe estar conectado a internet para realizar esta acción.";
+        this.snackbarColor = "error";
         this.disabledSubmitButton = false;
       }
     },

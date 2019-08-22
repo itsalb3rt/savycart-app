@@ -66,7 +66,7 @@
                         small
                         flat
                         class="ma-0 pa-0 right"
-                        @click="dispatcherDeleteProduct(product.id_product)"
+                        @click="showDialogToDeleteProduct(product.id_product)"
                       >
                         <v-icon small class="mr-1">fa-trash</v-icon>Eliminar
                       </v-btn>
@@ -95,6 +95,23 @@
         </v-card>
       </v-flex>
     </v-layout>
+    <v-layout row justify-center>
+      <v-dialog v-model="dialog" persistent full-width>
+        <v-card>
+          <v-card-title class="headline">Eliminar producto</v-card-title>
+          <v-card-text>Esta seguro que desea eliminar este producto ?</v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="error" @click="deleteProduct()">Eliminarlo</v-btn>
+            <v-btn color="primary" flat @click="dialog = false">Mantener producto</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-layout>
+    <v-snackbar v-model="successDeleteProduct" color="success">
+      Producto eliminado.
+      <v-btn dark flat @click="successDeleteProduct = false">Cerrar</v-btn>
+    </v-snackbar>
   </div>
 </template>
 
@@ -102,12 +119,6 @@
 import MenuComponent from "@/components/TheMenu.vue";
 import axios from "axios";
 import { mapState, mapMutations } from "vuex";
-
-import dndod from "dndod";
-import "dndod/dist/dndod-popup.min.css";
-
-import { Notyf } from "notyf";
-import "notyf/notyf.min.css";
 
 import products from "@/mixins/products/Products";
 import currencies from "@/mixins/miscellany/currencies";
@@ -133,7 +144,10 @@ export default {
     return {
       searchProductName: "",
       currency: [],
-      showFavorites: false
+      showFavorites: false,
+      dialog: false,
+      deleteProductId: "",
+      successDeleteProduct: false
     };
   },
   components: {
@@ -160,7 +174,9 @@ export default {
       );
 
       if (this.showFavorites) {
-        filteredProducts = filteredProducts.filter( product => product.favorite == '1');
+        filteredProducts = filteredProducts.filter(
+          product => product.favorite == "1"
+        );
       }
 
       return filteredProducts;
@@ -184,41 +200,23 @@ export default {
       });
       return value;
     },
-    dispatcherDeleteProduct(idProduct) {
-      dndod.popup({
-        title: "Eliminar producto",
-        msg: "Esta seguro que desea eliminar este producto ?",
-        buttons: [
-          {
-            text: "Mantener producto",
-            handler: (e, popup) => {
-              popup.close();
-            }
-          },
-          {
-            text: "Eliminarlo",
-            type: "danger",
-            handler: (e, popup) => {
-              this.deleteProduct(idProduct);
-              popup.close();
-            }
-          }
-        ]
-      });
+    showDialogToDeleteProduct(idProduct) {
+      this.dialog = true;
+      this.deleteProductId = idProduct;
     },
-    deleteProduct(idProduct) {
+    deleteProduct() {
+      this.dialog = false;
       axios
-        .get(`${this.apiDomain}/products/delete/${idProduct}`)
+        .get(`${this.apiDomain}/products/delete/${this.deleteProductId}`)
         .then(response => {
           if (response.data.status == "success") {
-            const notyf = new Notyf();
             this.products.forEach((product, index) => {
-              if (product.id_product == idProduct) {
+              if (product.id_product == this.deleteProductId) {
                 this.removeProduct(index);
                 return;
               }
             });
-            notyf.success("Producto eliminado.");
+            this.successDeleteProduct = true;
           }
         })
         .catch(function(error) {

@@ -10,7 +10,7 @@
               <v-btn
                 small
                 style="float:right"
-                @click="removePurchase"
+                @click="dialogShowConfirmDelete = true"
                 flat
                 color="error"
                 class="ma-0"
@@ -94,6 +94,23 @@
         </v-layout>
       </v-card-text>
     </v-card>
+    <v-layout row justify-center>
+      <v-dialog v-model="dialogShowConfirmDelete" persistent full-width>
+        <v-card>
+          <v-card-title class="headline">Eliminar compra</v-card-title>
+          <v-card-text>Esta seguro que desea eliminar esta compra ?</v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="error" @click="removePurchase()">Eliminar</v-btn>
+            <v-btn color="primary" flat @click="dialogShowConfirmDelete = false">Mantener compra</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-layout>
+    <v-snackbar v-model="snackbarShow" :color="snackbarColor">
+      {{snackbarMessage}}
+      <v-btn dark flat @click="snackbarShow = false">Cerrar</v-btn>
+    </v-snackbar>
   </div>
 </template>
 
@@ -101,10 +118,6 @@
 import MenuComponent from "@/components/TheMenu.vue";
 import axios from "axios";
 import { mapState } from "vuex";
-import dndod from "dndod";
-import "dndod/dist/dndod-popup.min.css";
-import { Notyf } from "notyf";
-import "notyf/notyf.min.css";
 import currencies from "@/mixins/miscellany/currencies";
 
 export default {
@@ -119,7 +132,11 @@ export default {
   data() {
     return {
       purchaseDetails: [],
-      currency: []
+      currency: [],
+      dialogShowConfirmDelete: false,
+      snackbarShow: false,
+      snackbarMessage: "",
+      snackbarColor: ""
     };
   },
   computed: {
@@ -157,36 +174,22 @@ export default {
         });
     },
     removePurchase() {
-      dndod.popup({
-        title: "Eliminar compra",
-        msg: "Esta seguro que desea eliminar esta compra ?",
-        buttons: [
-          {
-            text: "Mantener compra",
-            handler: (e, popup) => {
-              popup.close();
-            }
-          },
-          {
-            text: "Eliminarlo",
-            type: "danger",
-            handler: (e, popup) => {
-              axios
-                .delete(
-                  `${this.apiDomain}/shopping/shopping?id_purchase=${this.$route.params.id}`
-                )
-                .then(response => {
-                  if (response.data.status == "success") {
-                    const notyf = new Notyf();
-                    notyf.success("Compra eliminada!");
-                    this.$router.push("/analysis/shopping_history");
-                  }
-                });
-              popup.close();
-            }
+      axios
+        .delete(
+          `${this.apiDomain}/shopping/shopping?id_purchase=${this.$route.params.id}`
+        )
+        .then(response => {
+          if (response.data.status == "success") {
+            this.snackbarShow = true;
+            this.snackbarMessage = "Compra eliminada!";
+            this.snackbarColor = "success";
+
+            setTimeout(() => {
+              this.$router.push("/analysis/shopping_history");
+            }, 1000);
+            
           }
-        ]
-      });
+        });
     },
     numberFormat(number) {
       let l10nEN = new Intl.NumberFormat("en-US");

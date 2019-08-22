@@ -76,6 +76,10 @@
         </v-layout>
       </v-card-text>
     </v-card>
+    <v-snackbar v-model="snackbarShow" :color="snackbarColor">
+      {{snackbarMessage}}
+      <v-btn dark flat @click="snackbarShow = false">Cerrar</v-btn>
+    </v-snackbar>
   </v-form>
 </template>
 
@@ -85,8 +89,6 @@ import MenuComponent from "@/components/TheMenu.vue";
 import categories from "@/mixins/miscellany/categories";
 import measurementUnits from "@/mixins/miscellany/measurementUnits";
 import axios from "axios";
-import { Notyf } from "notyf";
-import "notyf/notyf.min.css";
 
 export default {
   mixins: [categories, measurementUnits],
@@ -104,7 +106,10 @@ export default {
       category: "",
       itbis: "1",
       description: "",
-      favorite: 0
+      favorite: 0,
+      snackbarShow: false,
+      snackbarMessage: "",
+      snackbarColor: ""
     };
   },
   components: {
@@ -128,7 +133,6 @@ export default {
     ]),
     createProduct() {
       this.isLoading = true;
-      const notyf = new Notyf();
       let formData = new FormData();
       let product = {
         id_user: this.user.id_user,
@@ -138,7 +142,7 @@ export default {
         id_category: this.category,
         itbis: this.itbis,
         description: this.description,
-        favorite:this.favorite
+        favorite: this.favorite
       };
       formData.append("product", JSON.stringify(product));
 
@@ -149,24 +153,27 @@ export default {
             if (response.data.status == "success") {
               product.id_product = response.data.data.id_product;
               this.addProduct(product);
-              notyf.success("Producto guardado!");
+              this.snackbarShow = true;
+              this.snackbarMessage = "Producto guardado!";
+              this.snackbarColor = "success";
               this.name = "";
               this.price = 1;
               document.querySelector("#name").focus();
               this.isLoading = false;
             } else if (response.data.status == "exits") {
-              notyf.error(
-                `Ya existe un producto nombrado: ${response.data.data.name}`
-              );
+              this.snackbarShow = true;
+              this.snackbarMessage = `Ya existe un producto nombrado: ${response.data.data.name}`;
+              this.snackbarColor = "error";
             }
           })
           .catch(function(error) {
             console.log("TCL: createCategory -> error", error);
           });
       } else {
-        notyf.error(
-          "Debes estar conectado a internet para realizar esta accion."
-        );
+        this.snackbarShow = true;
+        this.snackbarMessage =
+          "Debes estar conectado a internet para realizar esta accion.";
+        this.snackbarColor = "error";
       }
     },
     uppercase() {
