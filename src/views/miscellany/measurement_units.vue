@@ -40,7 +40,7 @@
                         small
                         color="error"
                         class="ml-0 pl-0"
-                        @click="deleteMeasurementUnit(unit.index)"
+                        @click="dispatchDeleteMesasurementUnit(unit.index)"
                       >
                         <v-icon class="mr-2" small>fa-trash</v-icon>Eliminar
                       </v-btn>
@@ -53,6 +53,23 @@
         </v-card>
       </v-flex>
     </v-layout>
+    <v-layout row justify-center>
+      <v-dialog v-model="showDialogDeleteMeasurementUnit" persistent full-width>
+        <v-card>
+          <v-card-title class="headline">Eliminar unidad de medida</v-card-title>
+          <v-card-text>Esta seguro que desea eliminar esta unidad de medida?</v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="error" @click="deleteMeasurementUnit()">Eliminar</v-btn>
+            <v-btn color="primary" flat @click="showDialogDeleteMeasurementUnit = false">Mantener unidad</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-layout>
+    <v-snackbar :multi-line="snackbarMultiLine" v-model="snackbarShow" :color="snackbarColor">
+      {{snackbarMessage}}
+      <v-btn dark flat @click="snackbarShow = false">Cerrar</v-btn>
+    </v-snackbar>
   </div>
 </template>
 
@@ -61,8 +78,6 @@ import { mapState, mapMutations } from "vuex";
 import MenuComponent from "@/components/TheMenu.vue";
 import measurementUnits from "@/mixins/miscellany/measurementUnits";
 import axios from "axios";
-import { Notyf } from "notyf";
-import "notyf/notyf.min.css";
 
 export default {
   mixins: [measurementUnits],
@@ -78,7 +93,13 @@ export default {
         { text: "#", value: "index" },
         { text: "NOMBRE", value: "nombre" },
         { text: "ACCION", value: "accion" }
-      ]
+      ],
+      snackbarShow: false,
+      snackbarMessage: "",
+      snackbarColor: "",
+      snackbarMultiLine: true,
+      indexMeasurementUnitForDelete: "",
+      showDialogDeleteMeasurementUnit: false
     };
   },
   components: {
@@ -98,7 +119,6 @@ export default {
       let formData = new FormData();
       formData.append("id_user", this.user.id_user);
       formData.append("name", this.name);
-      const notyf = new Notyf();
 
       if (this.online) {
         axios
@@ -110,50 +130,55 @@ export default {
                 name: this.name
               });
               this.name = "";
-              notyf.success("Unidad guardada!");
+              this.snackbarShow = true;
+              this.snackbarMessage = "Unidad guardada!";
+              this.snackbarColor = "success";
             }
           })
           .catch(function(error) {
             console.log("TCL: addMeasurementUnit -> error", error);
           });
       } else {
-        notyf.error(
-          "Debes estar conectado a internet para realizar esta accion."
-        );
+        this.snackbarShow = true;
+        this.snackbarMessage =
+          "Debes estar conectado a internet para realizar esta accion.";
+        this.snackbarColor = "error";
       }
     },
-    deleteMeasurementUnit(index) {
-      let request = confirm(
-        "Esta seguro que desea eliminar esta unidad de medida?"
-      );
-      const notyf = new Notyf();
-      if (request) {
+    dispatchDeleteMesasurementUnit(index){
+      this.showDialogDeleteMeasurementUnit = true;
+      this.indexMeasurementUnitForDelete = index;
+    },
+    deleteMeasurementUnit() {
+      
         if (this.online) {
           axios
             .get(
-              `${this.apiDomain}/Miscellany/deleteMeasurementUnit/${this.measurement_units[index].id_unit_measurement}`
+              `${this.apiDomain}/Miscellany/deleteMeasurementUnit/${this.measurement_units[this.indexMeasurementUnitForDelete].id_unit_measurement}`
             )
             .then(response => {
               if (response.data.status == "success") {
-                this.removeMeasurementUnit(index);
-                notyf.success("Unidad eliminada!");
+                this.removeMeasurementUnit(this.indexMeasurementUnitForDelete);
+                this.snackbarShow = true;
+                this.snackbarMessage = "Unidad eliminada!";
+                this.snackbarColor = "success";
               } else if (response.data.status == "hasDependency") {
-                notyf.error({
-                  message:
-                    "Esta unidad de medida no puede ser elimina porque tiene productos asociados",
-                  duration: 9000
-                });
+                this.snackbarShow = true;
+                this.snackbarMessage =
+                  "Esta unidad de medida no puede ser elimina porque tiene productos asociados";
+                this.snackbarColor = "error";
               }
             })
             .catch(function(error) {
               console.log("TCL: deleteMeasurementUnit -> error", error);
             });
         } else {
-          notyf.error(
-            "Debes estar conectado a internet para realizar esta accion."
-          );
+          this.snackbarShow = true;
+          this.snackbarMessage =
+            "Debes estar conectado a internet para realizar esta accion.";
+          this.snackbarColor = "error";
         }
-      }
+        this.showDialogDeleteMeasurementUnit = false;
     },
     uppercase() {
       this.name = this.name.toUpperCase();
