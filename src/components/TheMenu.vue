@@ -1,20 +1,19 @@
 <template>
   <div>
     <v-toolbar flat color="white">
-      <v-icon @click="goBack"  v-if="this.$route.meta.isSubDir">fa-angle-left</v-icon>
+      <v-icon @click="goBack" v-if="this.$route.meta.isSubDir">fa-angle-left</v-icon>
       <v-toolbar-side-icon @click="drawer = !drawer" v-else></v-toolbar-side-icon>
       <v-toolbar-title class="primary--text">{{title}}</v-toolbar-title>
     </v-toolbar>
     <v-navigation-drawer app temporary v-model="drawer">
-      <v-layout mt-4 column align-center>
+      <v-layout mt-4 column align-center @click="$router.push('/user/profile')">
         <v-flex xs12>
           <v-avatar :size="80" color="indigo">
             <v-icon large dark>fa-user</v-icon>
           </v-avatar>
         </v-flex>
         <v-flex xs12>
-          <p class="mt-3 headline">{{user.first_name}} {{user.last_name}}</p>
-          <p class="mt-0">{{user.email}}</p>
+          <p class="mt-3 headline primary--text">{{user.first_name}} {{user.last_name}}</p>
         </v-flex>
       </v-layout>
 

@@ -5,7 +5,10 @@ import {
   getState
 } from './plugins/storage'
 import NProgress from 'nprogress';
-
+/**
+ * isSubDir Se utiliza para alternar el drawser, el que despliega el menu y el que 
+ * muestra una flecha para volver
+ **/
 Vue.use(Router)
 const router = new Router({
   mode: 'history',
@@ -154,7 +157,18 @@ const router = new Router({
         isSubDir: true,
         transitionName: 'slide'
       }
-    }
+    },
+    {
+      path: '/user/profile',
+      name: 'profile',
+      component: () => import('@/views/user/profile.vue'),
+      meta: {
+        title: 'Perfil usuario',
+        isSubDir: true,
+        transitionName: 'slide'
+      }
+    },
+    
   ]
 })
 
