@@ -128,6 +128,10 @@ export default {
         .then(response => {
           this.isLoading = false;
           if (response.data.message == "success") {
+            this.user.email = this.localUser.email;
+            this.user.first_name = this.localUser.firstName;
+            this.user.last_name = this.localUser.lastName;
+            
             this.snackbarShow = true;
             this.snackbarMessage = "Datos actualizados";
             this.snackbarColor = "success";
