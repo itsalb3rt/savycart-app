@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-hammer:swipe.right="onSwipeLeft">
     <v-toolbar flat color="white">
       <v-icon @click="goBack" v-if="this.$route.meta.isSubDir">fa-angle-left</v-icon>
       <v-toolbar-side-icon @click="drawer = !drawer" v-else></v-toolbar-side-icon>
@@ -135,6 +135,9 @@ export default {
   methods: {
     goBack() {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
+    },
+    onSwipeLeft(){
+      this.drawer = true;
     }
   }
 };
