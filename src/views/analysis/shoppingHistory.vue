@@ -6,11 +6,11 @@
           <v-card-text>
             <v-text-field
               type="search"
-              label="Buscar..."
+              :label=" $t('products.search') "
               v-model="search"
               prepend-inner-icon="fa-search"
             ></v-text-field>
-            <p>Al hacer click en el nombre o total de compra podrá ver el detalle.</p>
+            <p>{{ $t('shop.ux_shopping_details_view_instructions') }}</p>
           </v-card-text>
         </v-card>
         <v-divider></v-divider>
@@ -22,14 +22,14 @@
             :pagination.sync="pagination"
           >
             <template v-slot:no-data>
-              <v-alert :value="true" color="error" icon="fa-warning">No hay ningun dato para mostrar</v-alert>
+              <v-alert :value="true" color="error" icon="fa-warning">{{ $t('messages.nothing_to_display') }}</v-alert>
             </template>
             <template v-slot:no-results>
               <v-alert
                 :value="true"
                 color="error"
                 icon="fa-warning"
-              >No existen resultados para "{{ search }}"</v-alert>
+              >{{ $t('messages.no_match_found') }} "{{ search }}"</v-alert>
             </template>
             <template v-slot:items="shop">
               <td>
@@ -53,11 +53,8 @@
     <v-layout row wrap v-else>
       <v-flex xs12>
         <h1 class="empty-history-information">
-          <v-icon large class="mr-2">fa-history</v-icon> Tu historial de compras esta vacío
+          <v-icon large class="mr-2">fa-history</v-icon>{{ $t('messages.nothing_to_display') }}
         </h1>
-        <v-btn color="primary" class="ml-0" flat @click="$router.push('/shop/registation')">
-          <v-icon class="mr-2">fa-plus-circle</v-icon>Registrar una compra
-        </v-btn>
       </v-flex>
     </v-layout>
     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
@@ -91,9 +88,9 @@ export default {
       pagination: {},
       selected: [],
       headers: [
-        { text: "Lugar", align: "left", value: "lugar" },
-        { text: "Fecha", align: "left", value: "fecha" },
-        { text: "Total", align: "left", value: "total" }
+        { text: this.$t('shop.place'), align: "left", value: "lugar" },
+        { text: this.$t('messages.date'), align: "left", value: "fecha" },
+        { text: this.$t('messages.total'), align: "left", value: "total" }
       ],
       isLoading: false
     };

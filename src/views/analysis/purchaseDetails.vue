@@ -4,7 +4,7 @@
       <v-card-text>
         <v-layout row wrap v-if="purchaseDetails.length == undefined">
           <v-flex xs12>
-            <strong>Nombre establecimiento</strong>
+            <strong>{{ $t('shopping_car.name_establishment') }}</strong>
             <p>{{purchaseDetails.establishment.name}}</p>
             <div>
               <v-btn
@@ -15,17 +15,17 @@
                 color="error"
                 class="ma-0"
               >
-                <v-icon small class="mr-2">fa-trash</v-icon>Eliminar
+                <v-icon small class="mr-2">fa-trash</v-icon>{{ $t('call_action_buttons.delete') }}
               </v-btn>
             </div>
           </v-flex>
           <v-flex xs12>
             <div>
-              <strong>Compra #</strong>
+              <strong>{{ $t('shop.purchase') }} #</strong>
               {{purchaseDetails.purchase.id_purchase}}
             </div>
             <div>
-              <strong>Fecha</strong>
+              <strong>{{ $t('messages.date') }}</strong>
               {{purchaseDetails.purchase.date}}
             </div>
           </v-flex>
@@ -49,7 +49,7 @@
                 <strong>{{product.product_name}}</strong>
                 <div
                   class="grey--text"
-                >{{product.measurement_unit}} | ITBIS {{ (product.apply_itbis == '1')? 'SI':'NO' }}</div>
+                >{{product.measurement_unit}} | {{ $t('products.tax') }} {{ (product.apply_itbis == '1')? $t('messages.yes') : $t('messages.no') }}</div>
               </v-flex>
               <v-flex xs3>
                 <span
@@ -66,13 +66,13 @@
           </v-flex>
           <v-flex xs6>
             <div class="mt-2 mb-2">
-              <strong>Sub-total</strong>
+              <strong>{{ $t('messages.sub_total') }}</strong>
             </div>
             <div class="mt-2 mb-2">
-              <strong>ITBIS</strong>
+              <strong>{{ $t('products.tax') }}</strong>
             </div>
             <div class="mt-2 mb-2">
-              <strong>TOTAL</strong>
+              <strong>{{ $t('messages.total') }}</strong>
             </div>
           </v-flex>
           <v-flex xs6>
@@ -88,7 +88,7 @@
         <v-layout row wrap v-else>
           <v-flex xs12>
             <h1 class="mt-5">
-              <v-icon large class="mr-2">fa-magic</v-icon>Nada por aqui...
+              <v-icon large class="mr-2">fa-magic</v-icon>{{ $t('messages.nothing_to_display') }}
             </h1>
           </v-flex>
         </v-layout>
@@ -97,12 +97,12 @@
     <v-layout row justify-center>
       <v-dialog v-model="dialogShowConfirmDelete" persistent full-width>
         <v-card>
-          <v-card-title class="headline">Eliminar compra</v-card-title>
-          <v-card-text>Esta seguro que desea eliminar esta compra ?</v-card-text>
+          <v-card-title class="headline">{{ $t('shop.delete_purchase') }}</v-card-title>
+          <v-card-text>{{ $t('shop.delete_purchase_message') }}</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="error" @click="removePurchase()">Eliminar</v-btn>
-            <v-btn color="primary" flat @click="dialogShowConfirmDelete = false">Mantener compra</v-btn>
+            <v-btn color="error" @click="removePurchase()">{{ $t('call_action_buttons.delete') }}</v-btn>
+            <v-btn color="primary" flat @click="dialogShowConfirmDelete = false">{{ $t('messages.keep') }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -181,7 +181,7 @@ export default {
         .then(response => {
           if (response.data.status == "success") {
             this.snackbarShow = true;
-            this.snackbarMessage = "Compra eliminada!";
+            this.snackbarMessage = this.$t('call_action_buttons.delete');
             this.snackbarColor = "success";
 
             setTimeout(() => {
