@@ -1,4 +1,20 @@
 {
+  "page_titles":{
+    "login":"Login",
+    "register":"User register",
+    "logger_purchase": "Logger purchase",
+    "my_list":"My list",
+    "add_product":"Create product",
+    "edit_product":"Edit product",
+    "view_product":"View product",
+    "measurement_units":"Measurement units",
+    "categories":"Categories",
+    "shopping_car":"Shopping car",
+    "shopping_history":"Shopping history",
+    "settings":"Settings",
+    "view_purchase":"View purchase",
+    "user_profile":"Profile"
+  },
   "nav": {
     "my_list": "My list",
     "logger_purchase": "Logger purchase",

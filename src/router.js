@@ -5,6 +5,7 @@ import {
   getState
 } from './plugins/storage'
 import NProgress from 'nprogress';
+import i18n from './i18n'
 /**
  * isSubDir Se utiliza para alternar el drawser, el que despliega el menu y el que 
  * muestra una flecha para volver
@@ -32,7 +33,7 @@ const router = new Router({
       name: 'login',
       component: () => import('@/views/auth/login.vue'),
       meta: {
-        title: 'Login',
+        title: i18n.t('page_titles.login')
       }
     },
     {
@@ -40,7 +41,7 @@ const router = new Router({
       name: 'register',
       component: () => import('@/views/auth/register.vue'),
       meta: {
-        title: 'Registro de usuario',
+        title: i18n.t('page_titles.register')
       }
     },
     {
@@ -48,7 +49,7 @@ const router = new Router({
       name: 'registration shopping',
       component: () => import('@/views/shop/registrationShopping.vue'),
       meta: {
-        title: 'Registro compra',
+        title: i18n.t('page_titles.logger_purchase'),
         isSubDir: false,
         transitionName: 'slide'
       }
@@ -63,7 +64,7 @@ const router = new Router({
       name: 'list',
       component: () => import('@/views/products/list.vue'),
       meta: {
-        title: 'Mi lista',
+        title: i18n.t('page_titles.my_list'),
         isSubDir: false,
         transitionName: 'slide'
       }
@@ -73,7 +74,7 @@ const router = new Router({
       name: 'add product',
       component: () => import('@/views/products/add.vue'),
       meta: {
-        title: 'Nuevo producto',
+        title: i18n.t('page_titles.add_product'),
         isSubDir: true,
         transitionName: 'slide'
       }
@@ -83,7 +84,7 @@ const router = new Router({
       name: 'edit product',
       component: () => import('@/views/products/edit.vue'),
       meta: {
-        title: 'Editar producto',
+        title: i18n.t('page_titles.edit_product'),
         isSubDir: true,
         transitionName: 'slide'
       }
@@ -93,7 +94,7 @@ const router = new Router({
       name: 'view_product',
       component: () => import('@/views/products/view.vue'),
       meta: {
-        title: 'Vista producto',
+        title: i18n.t('page_titles.view_product'),
         isSubDir: true,
         transitionName: 'slide'
       }
@@ -103,7 +104,7 @@ const router = new Router({
       name: 'measurement_units',
       component: () => import('@/views/miscellany/measurement_units.vue'),
       meta: {
-        title: 'Unidades de medida',
+        title: i18n.t('page_titles.measurement_units'),
         isSubDir: true,
         transitionName: 'slide'
       }
@@ -113,7 +114,7 @@ const router = new Router({
       name: 'categories',
       component: () => import('@/views/miscellany/categories.vue'),
       meta: {
-        title: 'Categorias',
+        title: i18n.t('page_titles.categories'),
         isSubDir: true,
         transitionName: 'slide'
       }
@@ -123,7 +124,7 @@ const router = new Router({
       name: 'shopping car',
       component: () => import('@/views/shop/shoppingCar.vue'),
       meta: {
-        title: 'Carro de compra',
+        title: i18n.t('page_titles.shopping_car'),
         isSubDir: true,
         transitionName: 'slide'
       }
@@ -133,7 +134,7 @@ const router = new Router({
       name: 'shopping history',
       component: () => import('@/views/analysis/shoppingHistory.vue'),
       meta: {
-        title: 'Historial de compras',
+        title: i18n.t('page_titles.shopping_history'),
         isSubDir: false,
         transitionName: 'slide'
       }
@@ -143,7 +144,7 @@ const router = new Router({
       name: 'settings',
       component: () => import('@/views/miscellany/settings.vue'),
       meta: {
-        title: 'Ajustes',
+        title: i18n.t('page_titles.settings'),
         isSubDir: true,
         transitionName: 'slide'
       }
@@ -153,7 +154,7 @@ const router = new Router({
       name: 'purchase_details',
       component: () => import('@/views/analysis/purchaseDetails.vue'),
       meta: {
-        title: 'Ver compra',
+        title: i18n.t('page_titles.view_purchase'),
         isSubDir: true,
         transitionName: 'slide'
       }
@@ -163,7 +164,7 @@ const router = new Router({
       name: 'profile',
       component: () => import('@/views/user/profile.vue'),
       meta: {
-        title: 'Perfil usuario',
+        title: i18n.t('page_titles.user_profile'),
         isSubDir: true,
         transitionName: 'slide'
       }

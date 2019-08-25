@@ -1,15 +1,15 @@
-import '@babel/polyfill'
-import Vue from 'vue'
-import './plugins/vuetify'
-import './plugins/fontawesome'
-import App from './App.vue'
-import router from './router'
-import store from './store'
-import './registerServiceWorker'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-import 'roboto-fontface/css/roboto/roboto-fontface.css'
-import '@fortawesome/fontawesome-free/css/all.css'
+import '@babel/polyfill';
+import Vue from 'vue';
+import './plugins/vuetify';
+import './plugins/fontawesome';
+import App from './App.vue';
+import router from './router';
+import store from './store';
+import './registerServiceWorker';
+import axios from 'axios';
+import VueAxios from 'vue-axios';
+import 'roboto-fontface/css/roboto/roboto-fontface.css';
+import '@fortawesome/fontawesome-free/css/all.css';
 import '../node_modules/nprogress/nprogress.css';
 import { VueHammer } from 'vue2-hammer';
 import i18n from './i18n'
