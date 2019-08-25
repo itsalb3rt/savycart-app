@@ -69,7 +69,8 @@
     "delete": "Delete",
     "close": "Close",
     "cancel": "Cancel",
-    "go_to_resume":"Go to resume"
+    "go_to_resume":"Go to resume",
+    "action":"Action"
   },
   "messages": {
     "save": "Item save",
@@ -90,5 +91,14 @@
     "password_not_match":"Passwords do not match",
     "server_error":"something went wrong",
     "item":"Item"
+  },
+  "category":{
+    "name":"Name",
+    "category_description_section":"The categories help you to carry out deeper analyzes to know which categories you consume more",
+    "category":"Category",
+    "category_placeholder":"Expendable, legumes",
+    "registered_categories":"Registered categories",
+    "delete_category_message":"Are you sure you want to delete this category?",
+    "forbiden_delete":"This category cannot be deleted because it has associated products."
   }
 }

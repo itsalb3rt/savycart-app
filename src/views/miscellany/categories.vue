@@ -5,23 +5,23 @@
         <v-card flat>
           <v-card-text>
             <form @submit.prevent="createCategory">
-              <p>Las categorías te ayudan a realizar análisis más profundos para saber que categorías consumes más.</p>
+              <p>{{ $t('category.category_description_section') }}</p>
               <v-text-field
                 name="name"
-                label="Categoria"
+                :label=" $t('category.category') "
                 id="name"
                 v-model="name"
-                placeholder="Ej: Gastable, legumbres…."
+                :placeholder=" $t('category.category_placeholder') "
                 autocomplete="off"
                 @keyup="uppercase"
               ></v-text-field>
               <v-btn color="primary" type="submit" class="ml-0" :disabled="name.length == 0">
-                <v-icon class="mr-2">fa-save</v-icon>Guardar
+                <v-icon class="mr-2">fa-save</v-icon>{{ $t('call_action_buttons.save') }}
               </v-btn>
             </form>
             <v-layout row wrap>
               <v-flex xs12>
-                <h4>CATEGORIAS REGISTRADAS</h4>
+                <h4>{{ $t('category.registered_categories') }}</h4>
               </v-flex>
               <v-flex xs12>
                 <v-data-table :headers="headers" :items="categories">
@@ -30,7 +30,7 @@
                       :value="true"
                       color="error"
                       icon="fa-warning"
-                    >No hay ningun dato para mostrar</v-alert>
+                    >{{ $t('messages.nothing_to_display') }}</v-alert>
                   </template>
                   <template v-slot:items="category">
                     <td>{{category.index + 1}}</td>
@@ -43,7 +43,7 @@
                         class="ml-0 pl-0"
                         @click="dispatchDeleteCategory(category.index)"
                       >
-                        <v-icon class="mr-2" small>fa-trash</v-icon>Eliminar
+                        <v-icon class="mr-2" small>fa-trash</v-icon>{{ $t('call_action_buttons.delete') }}
                       </v-btn>
                     </td>
                   </template>
@@ -57,19 +57,19 @@
     <v-layout row justify-center>
       <v-dialog v-model="showDialogDeleteCategory" persistent full-width>
         <v-card>
-          <v-card-title class="headline">Eliminar unidad de medida</v-card-title>
-          <v-card-text>Esta seguro que desea eliminar esta unidad de medida?</v-card-text>
+          <v-card-title class="headline">{{ $t('call_action_buttons.delete') }} {{ $t('category.category') }}</v-card-title>
+          <v-card-text>{{ $t('category.delete_category_message') }}</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="error" @click="deleteCategory()">Eliminar</v-btn>
-            <v-btn color="primary" flat @click="showDialogDeleteCategory = false">Mantener unidad</v-btn>
+            <v-btn color="error" @click="deleteCategory()">{{ $t('call_action_buttons.delete') }}</v-btn>
+            <v-btn color="primary" flat @click="showDialogDeleteCategory = false">{{ $t('messages.keep') }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
     </v-layout>
     <v-snackbar :multi-line="snackbarMultiLine" v-model="snackbarShow" :color="snackbarColor">
       {{snackbarMessage}}
-      <v-btn dark flat @click="snackbarShow = false">Cerrar</v-btn>
+      <v-btn dark flat @click="snackbarShow = false">{{ $t('call_action_buttons.close') }}</v-btn>
     </v-snackbar>
   </div>
 </template>
@@ -92,8 +92,8 @@ export default {
       name: "",
       headers: [
         { text: "#", value: "index" },
-        { text: "NOMBRE", value: "nombre" },
-        { text: "ACCION", value: "accion" }
+        { text: this.$t('category.name'), value: "nombre" },
+        { text: this.$t('call_action_buttons.action'), value: "accion" }
       ],
       snackbarShow: false,
       snackbarMessage: "",
@@ -127,7 +127,7 @@ export default {
               });
               this.name = "";
               this.snackbarShow = true;
-              this.snackbarMessage = "Categoria guardada!";
+              this.snackbarMessage = this.$t('messages.save');
               this.snackbarColor = "success";
             }
           })
@@ -136,8 +136,7 @@ export default {
           });
       } else {
         this.snackbarShow = true;
-        this.snackbarMessage =
-          "Debes estar conectado a internet para realizar esta accion.";
+        this.snackbarMessage = this.$t('messages.intenet_required');
         this.snackbarColor = "error";
       }
     },
@@ -155,12 +154,11 @@ export default {
             if (response.data.status == "success") {
               this.removeCategory(this.indexCategoryForDelete);
               this.snackbarShow = true;
-              this.snackbarMessage = "Categoria eliminada!";
+              this.snackbarMessage = this.$t('call_action_buttons.delete');
               this.snackbarColor = "success";
             } else if (response.data.status == "hasDependency") {
               this.snackbarShow = true;
-              this.snackbarMessage =
-                "Esta categoría no puede ser elimina porque tiene productos asociados";
+              this.snackbarMessage = this.$t('category.forbiden_delete');
               this.snackbarColor = "error";
             }
           })
@@ -169,8 +167,7 @@ export default {
           });
       } else {
         this.snackbarShow = true;
-        this.snackbarMessage =
-          "Debes estar conectado a internet para realizar esta accion.";
+        this.snackbarMessage = this.$t('messages.intenet_required');
         this.snackbarColor = "error";
       }
       this.showDialogDeleteCategory = false;
