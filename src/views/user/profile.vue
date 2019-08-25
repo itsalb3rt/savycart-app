@@ -4,18 +4,18 @@
       <v-flex xs12 class="edit-form" v-if="online">
         <v-container class="white">
           <v-form autocomplete="off">
-            <p class="mb-2 mt-2">Basico</p>
+            <p class="mb-2 mt-2">{{ $t('messages.basic') }}</p>
             <v-text-field
               id="first-name"
               v-model="localUser.firstName"
-              label="Nombres"
+              :label=" $t('auth.first_name') "
               placeholder="Albert Eduardo"
               required
             ></v-text-field>
             <v-text-field
               id="last-name"
               v-model="localUser.lastName"
-              label="Apellidos"
+              :label=" $t('auth.last_name') "
               placeholder="Hidalgo Taveras"
               required
             ></v-text-field>
@@ -23,17 +23,17 @@
               id="email"
               type="email"
               v-model="localUser.email"
-              label="Email"
+              :label=" $t('auth.email') "
               placeholder="alhidalgo@domain.com"
               required
             ></v-text-field>
-            <p class="mb-2 mt-2">Seguridad</p>
-            <p>Escribe la contraseña solo si deseas cambiarla</p>
+            <p class="mb-2 mt-2">{{ $t('messages.security') }}</p>
+            <p>{{ $t('messages.password_change_instructions') }}</p>
             <v-text-field
               id="password"
               type="password"
               v-model="localUser.password"
-              label="Contraseña"
+              :label=" $t('auth.password') "
               placeholder="********"
               required
             ></v-text-field>
@@ -41,12 +41,12 @@
               id="password2"
               type="password"
               v-model="localUser.password2"
-              label="Repita contraseña"
+             :label=" $t('auth.second_password') "
               placeholder="********"
               required
             ></v-text-field>
             <v-btn class="mr-0" color="success" @click="updateUser()">
-              <v-icon class="mr-2">fa-save</v-icon>Guardar
+              <v-icon class="mr-2">fa-save</v-icon>{{ $t('call_action_buttons.save') }}
             </v-btn>
           </v-form>
         </v-container>
@@ -133,7 +133,7 @@ export default {
             this.user.last_name = this.localUser.lastName;
             
             this.snackbarShow = true;
-            this.snackbarMessage = "Datos actualizados";
+            this.snackbarMessage = this.$t('messages.save');
             this.snackbarColor = "success";
           }
         })
@@ -141,12 +141,11 @@ export default {
           this.isLoading = false;
           if (error.response.status === 409) {
             this.snackbarShow = true;
-            this.snackbarMessage = "Las contraseñas no coinciden";
+            this.snackbarMessage = this.$t('messages.password_not_match');
             this.snackbarColor = "error";
           } else {
             this.snackbarShow = true;
-            this.snackbarMessage =
-              "Ha ocurrido un error durante la actualización :(";
+            this.snackbarMessage = this.$t('messages.server_error');
             this.snackbarColor = "error";
           }
         });
