@@ -1,0 +1,30 @@
+{
+  "nav": {
+    "my_list":"Mi lista",
+    "logger_purchase":"Registrar compra",
+    "shopping_history":"Historial de compras",
+    "analysis":"Analisis",
+    "measurement_unit":"Unidades de medidas",
+    "categories":"Categorias",
+    "more_settings":"Mas ajustes",
+    "settings":"Ajustes",
+    "logout":"Cerrar sesion"
+  },
+  "auth":{
+    "login_title":"Iniciar sesión",
+    "user_name":"Nombre de usuario",
+    "password":"Contraseña",
+    "forgot_your_password":"¿Olvidaste tu contraseña?",
+    "login":"Iniciar sesión",
+    "create_an_account":"Crea una cuenta",
+    "first_name":"Nombres",
+    "last_name":"Apellidos",
+    "email":"Correo electronico",
+    "second_password":"Confirmar Contraseña",
+    "do_you_already_have_an_account":"Ya tienes una cuenta",
+    "wrong_data":"Información incorrecta",
+    "the_user_was_created":"El usuario fue creado",
+    "email_already_registered":"Este correo electrónico ya está registrado",
+    "user_name_already_registered":"Este nombre de usuario ya está registrado"
+  }
+}

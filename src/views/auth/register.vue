@@ -7,12 +7,12 @@
       </v-flex>
       <v-flex xs12 class="white--text" v-if="userExitst">
         <v-card flat dark color="error" class="text-xs-center">
-          <v-card-text class="subheading">Este nombre de usuario ya esta registrado</v-card-text>
+          <v-card-text class="subheading">{{ $t('auth.user_name_already_registered') }}</v-card-text>
         </v-card>
       </v-flex>
       <v-flex xs12 class="white--text" v-if="emailExits">
         <v-card flat dark color="error" class="text-xs-center">
-          <v-card-text class="subheading">Este email ya esta registrado</v-card-text>
+          <v-card-text class="subheading">{{ $t('auth.email_already_registered') }}</v-card-text>
         </v-card>
       </v-flex>
     </v-layout>
@@ -33,16 +33,16 @@
                 </h4>
               </v-flex>
               <v-flex xs12>
-                <v-text-field v-model="firstName" label="Nombres" required></v-text-field>
+                <v-text-field v-model="firstName" :label=" $t('auth.first_name') " required></v-text-field>
               </v-flex>
               <v-flex xs12>
-                <v-text-field v-model="lastName" label="Apellidos" required></v-text-field>
+                <v-text-field v-model="lastName" :label=" $t('auth.last_name') " required></v-text-field>
               </v-flex>
               <v-flex xs12>
                 <v-text-field
                   v-model="userName"
                   @change="validatedUserName"
-                  label="Nombre de usuario"
+                  :label=" $t('auth.user_name') "
                   required
                 ></v-text-field>
               </v-flex>
@@ -50,7 +50,8 @@
                 <v-text-field
                   v-model="email"
                   @change="validatedEmail"
-                  label="Email@domain.com"
+                  :label=" $t('auth.email') "
+                  placeholder="jhon@domain.com"
                   type="email"
                   required
                 ></v-text-field>
@@ -61,7 +62,7 @@
                   :type="showPassword ? 'text' : 'password'"
                   :append-icon="showPassword ? 'fa-eye' : 'fa-eye-slash'"
                   @click:append="showPassword = !showPassword"
-                  label="Password"
+                  :label=" $t('auth.password') "
                   required
                 ></v-text-field>
               </v-flex>
@@ -71,7 +72,7 @@
                   :type="showPassword ? 'text' : 'password'"
                   :append-icon="showPassword ? 'fa-eye' : 'fa-eye-slash'"
                   @click:append="showPassword = !showPassword"
-                  label="Confirmar contraseña"
+                  :label=" $t('auth.second_password') "
                   required
                 ></v-text-field>
               </v-flex>
@@ -81,11 +82,11 @@
                   color="success"
                   :disabled="userExitst === true || emailExits === true || disabledSubmitButton === true"
                   block
-                >Crear cuenta</v-btn>
+                >{{ $t('auth.create_an_account') }}</v-btn>
               </v-flex>
               <v-flex x12 class="mt-4">
-                Ya tienes una cuenta ?
-                <v-btn color="primary" flat small class="ma-0 pa-0" to="/login">Inicia sesión!</v-btn>
+                {{ $t('auth.do_you_already_have_an_account') }}?
+                <v-btn color="primary" flat small class="ma-0 pa-0" to="/login">{{ $t('auth.login') }}!</v-btn>
               </v-flex>
             </v-layout>
           </v-container>

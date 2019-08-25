@@ -2,10 +2,10 @@
   <div class="offline-information-container">
     <div class="offline-header">
          <font-awesome-icon icon="wifi"/>
-         ¡No tenemos conexión a internet!
+         {{ $t('messages.internet_conection_lost') }}
          </div>
     <div class="offline-body">
-        Debes tener conexión a internet para realizar esta acción...
+        {{ $t('messages.intenet_required') }}
     </div>
   </div>
 </template>

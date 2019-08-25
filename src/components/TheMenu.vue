@@ -33,7 +33,7 @@
         <v-list-group prepend-icon="fa-cog" no-action sub-group :value="false">
           <template v-slot:activator>
             <v-list-tile>
-              <v-list-tile-title>Ajustes</v-list-tile-title>
+              <v-list-tile-title>{{$t('nav.settings')}}</v-list-tile-title>
             </v-list-tile>
           </template>
 
@@ -78,25 +78,25 @@ export default {
       drawer: false,
       items: [
         {
-          title: "Mi lista",
+          title: this.$t('nav.my_list'),
           icon: "fa-clipboard-list",
           iconColor: "",
           routePath: "/product/list"
         },
         {
-          title: "Registrar compra",
+          title: this.$t('nav.logger_purchase'),
           icon: "fa-shopping-cart",
           iconColor: "",
           routePath: "/shop/registation"
         },
         {
-          title: "Historial de compras",
+          title: this.$t('nav.shopping_history'),
           icon: "fa-history",
           iconColor: "",
           routePath: "/analysis/shopping_history"
         },
         {
-          title: "Analisis",
+          title: this.$t('nav.analysis'),
           icon: "fa-chart-bar",
           iconColor: "",
           routePath: "/none"
@@ -104,19 +104,19 @@ export default {
       ],
       settings: [
         {
-          title: "Unidades de medidas",
+          title: this.$t('nav.measurement_unit'),
           icon: "fa-balance-scale",
           iconColor: "",
           routePath: "/measurement_units"
         },
         {
-          title: "Categorias",
+          title: this.$t('nav.categories'),
           icon: "fa-list-ul",
           iconColor: "",
           routePath: "/categories"
         },
         {
-          title: "Mas ajustes",
+          title: this.$t('nav.more_settings'),
           icon: "fa-cog",
           iconColor: "",
           routePath: "/settings"
@@ -124,7 +124,7 @@ export default {
       ],
       logout: [
         {
-          title: "Cerrar sesion",
+          title: this.$t('nav.logout'),
           icon: "fa-sign-out-alt",
           iconColor: "error",
           routePath: "/auth/logout"

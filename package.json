@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'"
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0-rc.1",
@@ -21,6 +22,7 @@
     "v-offline": "^1.1.0",
     "vue": "^2.6.10",
     "vue-axios": "^2.1.4",
+    "vue-i18n": "^8.14.0",
     "vue-loading-overlay": "^3.2.0",
     "vue-localforage": "^0.2.5",
     "vue-offline": "^2.0.8",
@@ -30,10 +32,12 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "@kazupon/vue-i18n-loader": "^0.3.0",
     "@vue/cli-plugin-babel": "^3.8.0",
     "@vue/cli-plugin-pwa": "^3.8.0",
     "@vue/cli-service": "^3.8.0",
     "vue-cli-plugin-fontawesome": "^0.2.0",
+    "vue-cli-plugin-i18n": "^0.6.0",
     "vue-cli-plugin-vuetify": "^0.5.0",
     "vue-template-compiler": "^2.6.10"
   }

@@ -93,7 +93,7 @@ const router = new Router({
       name: 'view_product',
       component: () => import('@/views/products/view.vue'),
       meta: {
-        title: 'Editar producto',
+        title: 'Vista producto',
         isSubDir: true,
         transitionName: 'slide'
       }

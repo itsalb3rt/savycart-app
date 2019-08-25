@@ -9,15 +9,15 @@
                 <v-text-field
                   id="name"
                   v-model="name"
-                  label="Nombre"
+                  :label=" $t('products.name') "
                   @keyup="uppercase"
-                  placeholder="Manzana"
+                  :placeholder=" $t('products.product_name_placeholder') "
                   required
                 ></v-text-field>
                 <v-text-field
                   type="number"
                   v-model="price"
-                  label="Precio"
+                  :label=" $t('products.price') "
                   value="1"
                   min="1"
                   step="0.01"
@@ -26,7 +26,7 @@
                 <v-select
                   v-model="measurementUnit"
                   :items="measurement_units"
-                  label="Unidad medida"
+                  :label=" $t('products.measurement_unit') "
                   item-text="name"
                   item-value="id_unit_measurement"
                   required
@@ -34,7 +34,7 @@
                 <v-select
                   v-model="category"
                   :items="categories"
-                  label="Categoria"
+                  :label=" $t('products.category') "
                   item-text="name"
                   item-value="id_category"
                   required
@@ -42,24 +42,24 @@
                 <v-switch
                   color="primary"
                   v-model="itbis"
-                  :label="`Incluir ITBIS: ${(itbis == '1')? 'SI' : 'NO' }`"
+                  :label="`${$t('products.tax')}: ${(itbis == '1')? $t('messages.yes') : $t('messages.no') }`"
                   true-value="1"
                   false-value="0"
                 ></v-switch>
-                <p class="grey--text">El porcentaje de ITBIS se asigna en ajustes.</p>
+                <p class="grey--text">{{ $t('products.tax_info') }}</p>
                 <v-divider></v-divider>
                 <v-switch
                   color="primary"
                   v-model="favorite"
-                  :label="`Marcar como favorito: ${(favorite == '1')? 'SI' : 'NO' }`"
+                  :label="`${$t('products.favorite_mark_message')}: ${(favorite == '1')? $t('messages.yes') : $t('messages.no') }`"
                   true-value="1"
                   false-value="0"
                 ></v-switch>
                 <v-divider></v-divider>
                 <v-textarea
-                  label="Descripción"
+                  :label=" $t('products.description') "
                   v-model="description"
-                  placeholder="Agregue aquí una descripción breve, esto es opcional"
+                  :placeholder=" $t('products.description_message') "
                 ></v-textarea>
               </v-flex>
             </v-layout>
@@ -72,7 +72,7 @@
                   type="submit"
                   class="ml-0"
                 >
-                  <v-icon small class="mr-2">fa-save</v-icon>Guardar
+                  <v-icon small class="mr-2">fa-save</v-icon>{{ $t('call_action_buttons.save') }}
                 </v-btn>
               </v-flex>
               <v-flex xs6 text-xs-right>
@@ -83,7 +83,7 @@
                   @click="$router.push('/product/list')"
                   class="mr-0"
                 >
-                  <v-icon small class="mr-2">fa-window-close</v-icon>Cancelar
+                  <v-icon small class="mr-2">fa-window-close</v-icon>{{ $t('call_action_buttons.cancel') }}
                 </v-btn>
               </v-flex>
             </v-layout>
@@ -97,7 +97,7 @@
     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
     <v-snackbar v-model="snackbarShow" :color="snackbarColor">
       {{snackbarMessage}}
-      <v-btn dark flat @click="snackbarShow = false">Cerrar</v-btn>
+      <v-btn dark flat @click="snackbarShow = false">{{ $t('call_action_buttons.close') }}</v-btn>
     </v-snackbar>
   </div>
 </template>
@@ -177,7 +177,7 @@ export default {
           .then(response => {
             if (response.data.status == "success") {
               this.snackbarShow = true;
-              this.snackbarMessage = "Producto guardado!";
+              this.snackbarMessage = this.$t('messages.save');
               this.snackbarColor = "success";
 
               setTimeout(()=>{this.$router.push("product/list");},1000);
@@ -190,8 +190,7 @@ export default {
       } else {
         this.isLoading = false;
         this.snackbarShow = true;
-        this.snackbarMessage =
-          "Debes estar conectado a internet para realizar esta accion.";
+        this.snackbarMessage = this.$t('messages.intenet_required') ;
         this.snackbarColor = "error";
       }
     },

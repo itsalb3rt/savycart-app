@@ -11,34 +11,34 @@
               @click="$router.push({ name: 'edit product', params: { id: product.id_product } })"
               class="ml-0"
             >
-              <v-icon class="mr-2" small>fa-edit</v-icon>Editar
+              <v-icon class="mr-2" small>fa-edit</v-icon>{{ $t('call_action_buttons.edit') }}
             </v-btn>
             <div>
-              <div for="name" class="subheading font-weight-bold mt-4 mb-2">Nombre</div>
+              <div for="name" class="subheading font-weight-bold mt-4 mb-2">{{ $t('products.name') }}</div>
               <div>{{product.name}}</div>
             </div>
             <div>
-              <div for="name" class="subheading font-weight-bold mt-4 mb-2">Precio</div>
+              <div for="name" class="subheading font-weight-bold mt-4 mb-2">{{ $t('products.price') }}</div>
               <div>{{currency.symbol}} {{product.price}}</div>
             </div>
             <div>
-              <div for="name" class="subheading font-weight-bold mt-4 mb-2">Unidad medida</div>
+              <div for="name" class="subheading font-weight-bold mt-4 mb-2">{{ $t('products.measurement_unit') }}</div>
               <div>{{getMeasurementName(product.id_unit_measurement)}}</div>
             </div>
             <div>
-              <div for="name" class="subheading font-weight-bold mt-4 mb-2">Categoria</div>
+              <div for="name" class="subheading font-weight-bold mt-4 mb-2">{{ $t('products.category') }}</div>
               <div>{{getCategory(product.id_category)}}</div>
             </div>
             <div>
-              <div for="name" class="subheading font-weight-bold mt-4 mb-2">Incluir ITBIS</div>
-              <div>{{ (product.itbis == '1')? 'SI':'NO' }}</div>
+              <div for="name" class="subheading font-weight-bold mt-4 mb-2">{{ $t('products.tax') }}</div>
+              <div>{{ (product.itbis == '1')? $t('messages.yes'): $t('messages.no') }}</div>
             </div>
             <div>
-              <div for="name" class="subheading font-weight-bold mt-4 mb-2">Favorito</div>
-              <div>{{ (product.favorite == '1')? 'SI':'NO' }}</div>
+              <div for="name" class="subheading font-weight-bold mt-4 mb-2">{{ $t('products.favorite_mark_message') }}</div>
+              <div>{{ (product.favorite == '1')? $t('messages.yes'): $t('messages.no') }}</div>
             </div>
             <div>
-              <div for="name" class="subheading font-weight-bold mt-4 mb-2">Descripción</div>
+              <div for="name" class="subheading font-weight-bold mt-4 mb-2">{{ $t('products.description') }}</div>
               <div>{{product.description}}</div>
             </div>
           </v-card-text>
@@ -46,7 +46,7 @@
       </v-flex>
       <v-flex xs12 v-else>
         <div class="display-1 mt-5">
-          <v-icon class="mr-2">fa-magic</v-icon>Nada por aqui...
+          <v-icon class="mr-2">fa-magic</v-icon>{{ $t('messages.nothing_to_display') }}
         </div>
       </v-flex>
     </v-layout>

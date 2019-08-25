@@ -7,10 +7,10 @@
       </v-flex>
     </v-layout>
     <v-flex xs12 class="white--text" v-if="loginFailed">
-      <v-alert type="error" :value="true">Datos erroneos</v-alert>
+      <v-alert type="error" :value="true">{{ $t('auth.wrong_data') }}</v-alert>
     </v-flex>
     <v-flex xs12 class="white--text" v-if="this.$route.query.create_user !== undefined">
-      <v-alert type="success" :value="true">Usuario creado!</v-alert>
+      <v-alert type="success" :value="true">{{ $t('auth.the_user_was_created') }}</v-alert>
     </v-flex>
     <v-flex xs12>
       <v-form method="POST" @submit.prevent="login">
@@ -23,12 +23,12 @@
                   style="font-weight: normal!important;"
                 >
                   <span class="horizontal-line-text-container font-weight-bold" style="background-color:#fafafa">
-                    <span class="black--text">Iniciar sesión</span>
+                    <span class="black--text">{{ $t('auth.login_title') }}</span>
                   </span>
                 </h4>
               </v-flex>
               <v-flex xs12>
-                <v-text-field v-model="userName" label="Nombre usuario" required></v-text-field>
+                <v-text-field v-model="userName" :label=" $t('auth.user_name') " required></v-text-field>
               </v-flex>
               <v-flex xs12>
                 <v-text-field
@@ -36,19 +36,18 @@
                   :type="showPassword ? 'text' : 'password'"
                   :append-icon="showPassword ? 'fa-eye' : 'fa-eye-slash'"
                   @click:append="showPassword = !showPassword"
-                  label="Password"
+                  :label=" $t('auth.password') "
                   required
                 ></v-text-field>
               </v-flex>
               <v-flex xs12 class="pt-2 pb-2">
-                <v-btn color="primary" flat small class="ma-0 pa-0" href="#">Olvido su contraseña?</v-btn>
+                <v-btn color="primary" flat small class="ma-0 pa-0" href="#">{{ $t('auth.forgot_your_password') }}</v-btn>
               </v-flex>
               <v-flex xs12>
-                <v-btn color="primary" type="submit" block>Iniciar sesión</v-btn>
+                <v-btn color="primary" type="submit" block>{{ $t('auth.login') }}</v-btn>
               </v-flex>
               <v-flex xs12 class="pt-3">
-                Crear una cuenta...
-                <v-btn color="primary" flat small class="ma-0 pa-0" to="/register">CREAR CUENTA</v-btn>
+                <v-btn color="primary" flat small class="ma-0 pa-0" to="/register">{{ $t('auth.create_an_account') }}</v-btn>
               </v-flex>
             </v-layout>
           </v-flex>

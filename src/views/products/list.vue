@@ -8,15 +8,15 @@
               <v-text-field
                 prepend-inner-icon="fa-search"
                 v-model="searchProductName"
-                label="Buscar..."
+                :label=" $t('products.search') + '...' "
                 clearable
               ></v-text-field>
               <v-tabs fixed-tabs>
                 <v-tab @click="showFavorites = false">
-                  <v-icon class="mr-2">fa-list</v-icon>Todos
+                  <v-icon class="mr-2">fa-list</v-icon>{{ $t('products.all') }}
                 </v-tab>
                 <v-tab @click="showFavorites = true">
-                  <v-icon class="mr-2">fa-star</v-icon>Favoritos
+                  <v-icon class="mr-2">fa-star</v-icon>{{ $t('products.favorites') }}
                 </v-tab>
               </v-tabs>
             </v-flex>
@@ -58,7 +58,7 @@
                         class="ma-0 pa-0 right"
                         @click="$router.push({name:'edit product', params:{id: product.id_product} })"
                       >
-                        <v-icon small class="mr-1">fa-edit</v-icon>Editar
+                        <v-icon small class="mr-1">fa-edit</v-icon>{{ $t('call_action_buttons.edit') }}
                       </v-btn>
                       <v-spacer></v-spacer>
                       <v-btn
@@ -68,7 +68,7 @@
                         class="ma-0 pa-0 right"
                         @click="showDialogToDeleteProduct(product.id_product)"
                       >
-                        <v-icon small class="mr-1">fa-trash</v-icon>Eliminar
+                        <v-icon small class="mr-1">fa-trash</v-icon>{{ $t('call_action_buttons.delete') }}
                       </v-btn>
                     </v-card-actions>
                   </v-card>
@@ -78,7 +78,7 @@
             <v-flex v-if="products.length == 0" xs12>
               <p
                 class="headline mt-5 grey--text font-weight-bold"
-              >No se ha creado ningún producto, pulse el botón + para agregar productos.</p>
+              >{{ $t('products.empty_list') }}</p>
             </v-flex>
             <v-btn
               color="primary"
@@ -98,19 +98,19 @@
     <v-layout row justify-center>
       <v-dialog v-model="dialog" persistent full-width>
         <v-card>
-          <v-card-title class="headline">Eliminar producto</v-card-title>
-          <v-card-text>Esta seguro que desea eliminar este producto ?</v-card-text>
+          <v-card-title class="headline">{{ $t('products.delete_product_modal_title') }}</v-card-title>
+          <v-card-text>{{ $t('products.delete_product_modal_message') }}</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="error" @click="deleteProduct()">Eliminarlo</v-btn>
-            <v-btn color="primary" flat @click="dialog = false">Mantener producto</v-btn>
+            <v-btn color="error" @click="deleteProduct()">{{ $t('call_action_buttons.delete') }}</v-btn>
+            <v-btn color="primary" flat @click="dialog = false">{{ $t('products.keep_item') }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
     </v-layout>
     <v-snackbar v-model="successDeleteProduct" color="success">
-      Producto eliminado.
-      <v-btn dark flat @click="successDeleteProduct = false">Cerrar</v-btn>
+      {{ $t('products.product_removed') }}
+      <v-btn dark flat @click="successDeleteProduct = false">{{ $t('call_action_buttons.close') }}</v-btn>
     </v-snackbar>
   </div>
 </template>
