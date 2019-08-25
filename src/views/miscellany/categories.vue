@@ -58,7 +58,7 @@
       <v-dialog v-model="showDialogDeleteCategory" persistent full-width>
         <v-card>
           <v-card-title class="headline">{{ $t('call_action_buttons.delete') }} {{ $t('category.category') }}</v-card-title>
-          <v-card-text>{{ $t('category.delete_category_message') }}</v-card-text>
+          <v-card-text>{{ $t('messages.confirm_delete_message') }} {{ $t('category.category') }}</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="error" @click="deleteCategory()">{{ $t('call_action_buttons.delete') }}</v-btn>
