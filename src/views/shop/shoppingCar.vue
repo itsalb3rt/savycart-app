@@ -7,10 +7,10 @@
             <v-flex xs12>
               <v-text-field
                 name="name_establishment"
-                label="Nombre de establecimiento"
+                :label=" $t('shopping_car.name_establishment') "
                 v-model="nameEstablishment"
                 id="name_establishment"
-                placeholder="Super mercado..."
+                :placeholder=" $t('shopping_car.name_establishment_placeholder') "
               ></v-text-field>
               <v-btn
                 class="ml-0"
@@ -18,7 +18,7 @@
                 @click="saveShop"
                 :disabled="disabledSubmitButton"
               >
-                <v-icon small class="mr-2">fa-save</v-icon>Confirmar y guardar
+                <v-icon small class="mr-2">fa-save</v-icon>{{ $t('call_action_buttons.save') }}
               </v-btn>
               <v-divider class="mt-3 mb-3"></v-divider>
             </v-flex>
@@ -40,7 +40,7 @@
                         type="number"
                         min="1"
                         name="quantity"
-                        label="Cantidad"
+                        :label=" $t('products.quantity') "
                         id="quantity"
                         v-model="product.quantity"
                       ></v-text-field>
@@ -52,7 +52,7 @@
                     color="error"
                     outline
                     @click="removeItemFromShoppingCar(product.id_product)"
-                  >Eliminar del carro</v-btn>
+                  >{{ $t('shopping_car.remove_from_shopping_car') }}</v-btn>
                 </v-card-actions>
               </v-card>
             </v-flex>
@@ -60,7 +60,7 @@
           <v-layout row wrap v-else>
             <v-flex xs12>
               <h1 class="empty-car-information">
-                <v-icon large class="mr-2">fa-shopping-cart</v-icon>Tu carrito esta vacío
+                <v-icon large class="mr-2">fa-shopping-cart</v-icon>{{ $t('shopping_car.empty_car') }}
               </h1>
               <v-btn
                 flat
@@ -68,7 +68,7 @@
                 class="primary--text ml-0"
                 @click="$router.push('/shop/registation')"
               >
-                <v-icon class="mr-2">fa-plus-circle</v-icon>Ir al registro de compras
+                <v-icon class="mr-2">fa-plus-circle</v-icon>{{ $t('shopping_car.go_to_logger_purchase') }}
               </v-btn>
             </v-flex>
           </v-layout>

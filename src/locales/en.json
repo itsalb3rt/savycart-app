@@ -37,6 +37,7 @@
     "keep_item":"Keep product",
     "product_removed":"Product removed",
     "name":"Name",
+    "quantity":"Quantity",
     "product_name_placeholder":"Apple",
     "price":"Price",
     "measurement_unit":"Measurement unit",
@@ -46,6 +47,14 @@
     "favorite_mark_message":"Mark as favorite",
     "description":"Description",
     "description_message":"Add a brief description here, this is optional"
+  },
+  "shopping_car":{
+    "add_to_shopping_car":"Add to cart",
+    "remove_from_shopping_car":"Remove from cart",
+    "name_establishment":"Name of establishment",
+    "name_establishment_placeholder":"Super market",
+    "empty_car":"Your cart is empty",
+    "go_to_logger_purchase":"Go to the shopping register"
   },
   "call_action_buttons":{
     "save":"Save",
@@ -62,6 +71,5 @@
     "no":"Nope",
     "nothing_to_display":"Nothing to display",
     "internet_conection_lost":"We have no internet connection!"
-
   }
 }

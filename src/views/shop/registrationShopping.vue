@@ -8,15 +8,15 @@
               <v-text-field
                 prepend-inner-icon="fa-search"
                 v-model="searchProductName"
-                label="Buscar..."
+                :label=" $t('products.search') "
                 clearable
               ></v-text-field>
               <v-tabs fixed-tabs>
                 <v-tab @click="showFavorites = false">
-                  <v-icon class="mr-2">fa-list</v-icon>Todos
+                  <v-icon class="mr-2">fa-list</v-icon>{{ $t('products.all') }}
                 </v-tab>
                 <v-tab @click="showFavorites = true">
-                  <v-icon class="mr-2">fa-star</v-icon>Favoritos
+                  <v-icon class="mr-2">fa-star</v-icon>{{ $t('products.favorites') }}
                 </v-tab>
               </v-tabs>
             </v-flex>
@@ -56,7 +56,7 @@
                           </v-flex>
                           <v-flex xs5 class="ml-1">
                             <v-text-field
-                              label="Cantidad"
+                              :label=" $t('products.quantity') "
                               type="number"
                               name="quantity"
                               id="quantity"
@@ -77,14 +77,14 @@
                         outline
                         v-if="!isOnCar(product.id_product)"
                         @click="addItemToShoppingCar(index)"
-                      >Anadir al carro</v-btn>
+                      >{{ $t('shopping_car.add_to_shopping_car') }}</v-btn>
                       <v-btn
                         color="error"
                         class="ma-0"
                         outline
                         v-if="isOnCar(product.id_product)"
                         @click="removeItemFromShoppingCar(product.id_product)"
-                      >Eliminar del carro</v-btn>
+                      >{{ $t('shopping_car.remove_from_shopping_car') }}</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-flex>
@@ -108,9 +108,9 @@
         <v-card flat>
           <v-card-text>
             <v-flex xs12>
-              <p class="headline grey--text">No se ha creado ningún producto</p>
+              <p class="headline grey--text">{{ $t('products.empty_list') }}</p>
               <v-btn class="ml-0" color="primary" @click="$router.push('/product/add')">
-                <v-icon class="mr-2">fa-plus-circle</v-icon>Crear un producto
+                <v-icon class="mr-2">fa-plus-circle</v-icon>
               </v-btn>
             </v-flex>
           </v-card-text>
