@@ -3,7 +3,7 @@
     <v-flex xs12>
       <v-layout row wrap>
         <v-flex xs6 class="text-xs-right">
-          <strong>{{quantity}}</strong> articulos
+          <strong>{{quantity}}</strong> {{ $t('messages.item') }}
         </v-flex>
         <v-flex xs6 class="text-xs-right">
           <strong>{{currencySymbol}} {{getSubTotalInNumberFormat()}}</strong>
@@ -12,8 +12,8 @@
           <v-divider></v-divider>
         </v-flex>
         <v-flex xs6 class="text-xs-right">
-          <div>ITBIS</div>
-          <div>Total</div>
+          <div>{{ $t('products.tax') }}</div>
+          <div>{{ $t('messages.total') }}</div>
         </v-flex>
         <v-flex xs6 class="text-xs-right">
           <strong>{{currencySymbol}} {{getTotalItebisInNumberFormat()}}</strong>
@@ -28,7 +28,7 @@
             color="primary"
             outline
             class="mt-0"
-          >Ir a caja</v-btn>
+          >{{ $t('call_action_buttons.go_to_resume') }}</v-btn>
         </v-flex>
       </v-layout>
     </v-flex>
