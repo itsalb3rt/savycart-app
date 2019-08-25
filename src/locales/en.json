@@ -108,5 +108,11 @@
     "measurement_placeholder":"Unit, Sixpack",
     "registered_measurement":"Registered measurement unit",
     "forbiden_delete":"This unit of measure cannot be eliminated because it has associated products"
+  },
+  "settings":{
+    "currency":"Currency",
+    "currency_description":"Currency is the prefix that appears in front of the price of products, totals and taxes. Example: RD $ 150",
+    "tax":"Tax",
+    "tax_description":"The TAX is the tax applied to all products that are marked to apply this, the amount is based on percentage (%)."
   }
 }

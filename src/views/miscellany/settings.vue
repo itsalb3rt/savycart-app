@@ -6,18 +6,18 @@
           <v-card-text>
             <v-layout row wrap>
               <v-flex xs12>
-                <p>La moneda es el prefijo que aparecerá delante del precio de los productos, totales e impuestos. eje: RD$150.</p>
+                <p>{{ $t('settings.currency_description') }}</p>
                 <div>
                   <v-select
                     v-model="preferredCurrencyCode"
                     :items="currenciesArray"
-                    label="Moneda"
+                    :label=" $t('settings.currency') "
                     item-text="symbol"
                     item-value="code"
                     required
                   ></v-select>
                   <v-btn color="success" class="ml-0" @click="saveCurrency">
-                    <v-icon class="mr-2">fa-save</v-icon>Guardar moneda
+                    <v-icon class="mr-2">fa-save</v-icon>{{ $t('call_action_buttons.save') }} {{ $t('settings.currency') }}
                   </v-btn>
                 </div>
               </v-flex>
@@ -25,17 +25,17 @@
                 <v-divider class="mt-2 mb-2"></v-divider>
               </v-flex>
               <v-flex xs12>
-                <p>El ITBIS es el impuesto aplicado a todos los productos que sean marcados para aplicarle este, la cantidad se basa en porcentaje (%).</p>
+                <p>{{ $t('settings.tax_description') }}</p>
 
                 <v-text-field
                   type="number"
                   v-model="itbis"
                   name="name"
-                  label="ITBIS"
+                  :label=" $t('settings.tax') "
                   id="itbis_quantity"
                 ></v-text-field>
                 <v-btn color="success" @click="saveItbis">
-                  <v-icon class="mr-2">fa-save</v-icon>Guardar ITBIS
+                  <v-icon class="mr-2">fa-save</v-icon>{{ $t('call_action_buttons.save') }} {{ $t('settings.tax') }}
                 </v-btn>
               </v-flex>
             </v-layout>
@@ -111,13 +111,13 @@ export default {
           if (response.data.status == "success") {
             this.saveInIndexedDbItbis(this.itbis);
             this.snackbarShow = true;
-            this.snackbarMessage = "Itbis guardado!";
+            this.snackbarMessage = this.$t('call_action_buttons.save');
             this.snackbarColor = "success";
           }
         })
         .catch(e => {
           this.snackbarShow = true;
-          this.snackbarMessage = "Se ha producido un error al guardar!";
+          this.snackbarMessage = this.$t('messages.server_error');
           this.snackbarColor = "error";
           console.log("TCL: saveItbis -> e", e);
         });
@@ -127,7 +127,7 @@ export default {
         this.currencies[this.preferredCurrencyCode]
       ).then(() => {
         this.snackbarShow = true;
-        this.snackbarMessage = "Moneda guardada";
+        this.snackbarMessage = this.$t('call_action_buttons.save');
         this.snackbarColor = "success";
       });
     }
