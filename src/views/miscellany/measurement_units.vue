@@ -7,7 +7,7 @@
             <form @submit.prevent="createMeasurementUnit">
               <v-text-field
                 :name=" $t('measurement_unit.name') "
-                label="Nombre"
+                :label=" $t('measurement_unit.name') "
                 id="name"
                 v-model="name"
                 @keyup="uppercase"

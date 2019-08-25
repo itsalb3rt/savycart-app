@@ -1,16 +1,28 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import Router from 'vue-router';
 import store from './store';
 import {
   getState
-} from './plugins/storage'
+} from './plugins/storage';
 import NProgress from 'nprogress';
-import i18n from './i18n'
+import i18n from './i18n';
 /**
  * isSubDir Se utiliza para alternar el drawser, el que despliega el menu y el que 
  * muestra una flecha para volver
  **/
 Vue.use(Router)
+
+/**
+ * Cambio de idioma se realiza aquí porque las rutas poseen títulos dinámicos que 
+ * también son traducidos
+ */
+let language = window.localStorage.getItem('language');
+if (!language) {
+  language = 'en'
+}
+// set the current language for i18n.
+i18n.locale = language
+
 const router = new Router({
   mode: 'history',
   base: '/sheiley_shop',

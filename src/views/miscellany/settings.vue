@@ -17,7 +17,8 @@
                     required
                   ></v-select>
                   <v-btn color="success" class="ml-0" @click="saveCurrency">
-                    <v-icon class="mr-2">fa-save</v-icon>{{ $t('call_action_buttons.save') }} {{ $t('settings.currency') }}
+                    <v-icon class="mr-2">fa-save</v-icon>
+                    {{ $t('call_action_buttons.save') }} {{ $t('settings.currency') }}
                   </v-btn>
                 </div>
               </v-flex>
@@ -35,7 +36,25 @@
                   id="itbis_quantity"
                 ></v-text-field>
                 <v-btn color="success" @click="saveItbis">
-                  <v-icon class="mr-2">fa-save</v-icon>{{ $t('call_action_buttons.save') }} {{ $t('settings.tax') }}
+                  <v-icon class="mr-2">fa-save</v-icon>
+                  {{ $t('call_action_buttons.save') }} {{ $t('settings.tax') }}
+                </v-btn>
+              </v-flex>
+              <v-flex xs12>
+                <v-divider class="mt-2 mb-2"></v-divider>
+              </v-flex>
+              <v-flex xs12>
+                <v-select
+              v-model="language"
+              :items="languageList"
+              :label=" $t('settings.language') "
+              item-text="name"
+              item-value="value"
+              required
+            ></v-select>
+                <v-btn color="success" @click="saveLanguage">
+                  <v-icon class="mr-2">fa-save</v-icon>
+                  {{ $t('call_action_buttons.save') }} {{ $t('settings.language') }}
                 </v-btn>
               </v-flex>
             </v-layout>
@@ -60,6 +79,10 @@ import itbisMixin from "@/mixins/miscellany/Itbis";
 export default {
   mixins: [currencies, itbisMixin],
   async mounted() {
+    this.language =
+      window.localStorage.getItem("language") == null
+        ? "en"
+        : window.localStorage.getItem("language");
     this.getItbis();
     this.getCurrencies().then(resp => {
       this.currencies = resp;
@@ -88,7 +111,12 @@ export default {
       snackbarShow: false,
       snackbarMessage: "",
       snackbarColor: "",
-      snackbarMultiLine: true
+      snackbarMultiLine: true,
+      language: "",
+      languageList:[
+        {name:'Español',value:'es'},
+        {name:'English',value:'en'},
+      ]
     };
   },
   methods: {
@@ -111,13 +139,13 @@ export default {
           if (response.data.status == "success") {
             this.saveInIndexedDbItbis(this.itbis);
             this.snackbarShow = true;
-            this.snackbarMessage = this.$t('call_action_buttons.save');
+            this.snackbarMessage = this.$t("call_action_buttons.save");
             this.snackbarColor = "success";
           }
         })
         .catch(e => {
           this.snackbarShow = true;
-          this.snackbarMessage = this.$t('messages.server_error');
+          this.snackbarMessage = this.$t("messages.server_error");
           this.snackbarColor = "error";
           console.log("TCL: saveItbis -> e", e);
         });
@@ -127,9 +155,13 @@ export default {
         this.currencies[this.preferredCurrencyCode]
       ).then(() => {
         this.snackbarShow = true;
-        this.snackbarMessage = this.$t('call_action_buttons.save');
+        this.snackbarMessage = this.$t("call_action_buttons.save");
         this.snackbarColor = "success";
       });
+    },
+    saveLanguage(){
+      window.localStorage.setItem("language",this.language);
+      this.$i18n.locale = this.language;
     }
   },
   computed: {

@@ -128,6 +128,7 @@
     "currency": "Moneda",
     "currency_description": "La moneda es el prefijo que aparece frente al precio de los productos, totales e impuestos. Ejemplo: RD $ 150",
     "tax": "Impuesto",
-    "tax_description": "El IMPUESTO es el impuesto aplicado a todos los productos que están marcados para aplicar esto, el monto se basa en el porcentaje (%)."
+    "tax_description": "El IMPUESTO es el impuesto aplicado a todos los productos que están marcados para aplicar esto, el monto se basa en el porcentaje (%).",
+    "language":"Idioma"
   }
 }

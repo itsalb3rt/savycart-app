@@ -129,6 +129,7 @@
     "currency":"Currency",
     "currency_description":"Currency is the prefix that appears in front of the price of products, totals and taxes. Example: RD $ 150",
     "tax":"Tax",
-    "tax_description":"The TAX is the tax applied to all products that are marked to apply this, the amount is based on percentage (%)."
+    "tax_description":"The TAX is the tax applied to all products that are marked to apply this, the amount is based on percentage (%).",
+    "language":"Language"
   }
 }

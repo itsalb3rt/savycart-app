@@ -26,14 +26,14 @@
           </v-list-tile-action>
 
           <v-list-tile-content>
-            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+            <v-list-tile-title>{{ $t(`nav.${item.title}`) }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
 
         <v-list-group prepend-icon="fa-cog" no-action sub-group :value="false">
           <template v-slot:activator>
             <v-list-tile>
-              <v-list-tile-title>{{$t('nav.settings')}}</v-list-tile-title>
+              <v-list-tile-title>{{ $t('nav.settings') }}</v-list-tile-title>
             </v-list-tile>
           </template>
 
@@ -43,7 +43,7 @@
             </v-list-tile-action>
 
             <v-list-tile-content>
-              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+              <v-list-tile-title>{{ $t(`nav.${item.title}`) }}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list-group>
@@ -54,7 +54,7 @@
           </v-list-tile-action>
 
           <v-list-tile-content>
-            <v-list-tile-title>{{ logout[0].title }}</v-list-tile-title>
+            <v-list-tile-title>{{ $t(`nav.${logout[0].title}`) }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -78,25 +78,25 @@ export default {
       drawer: false,
       items: [
         {
-          title: this.$t('nav.my_list'),
+          title: 'my_list',
           icon: "fa-clipboard-list",
           iconColor: "",
           routePath: "/product/list"
         },
         {
-          title: this.$t('nav.logger_purchase'),
+          title: 'logger_purchase',
           icon: "fa-shopping-cart",
           iconColor: "",
           routePath: "/shop/registation"
         },
         {
-          title: this.$t('nav.shopping_history'),
+          title: 'shopping_history',
           icon: "fa-history",
           iconColor: "",
           routePath: "/analysis/shopping_history"
         },
         {
-          title: this.$t('nav.analysis'),
+          title: 'analysis',
           icon: "fa-chart-bar",
           iconColor: "",
           routePath: "/none"
@@ -104,19 +104,19 @@ export default {
       ],
       settings: [
         {
-          title: this.$t('nav.measurement_unit'),
+          title: 'measurement_unit',
           icon: "fa-balance-scale",
           iconColor: "",
           routePath: "/measurement_units"
         },
         {
-          title: this.$t('nav.categories'),
+          title: 'categories',
           icon: "fa-list-ul",
           iconColor: "",
           routePath: "/categories"
         },
         {
-          title: this.$t('nav.more_settings'),
+          title: 'more_settings',
           icon: "fa-cog",
           iconColor: "",
           routePath: "/settings"
@@ -124,7 +124,7 @@ export default {
       ],
       logout: [
         {
-          title: this.$t('nav.logout'),
+          title: 'logout',
           icon: "fa-sign-out-alt",
           iconColor: "error",
           routePath: "/auth/logout"
