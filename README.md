@@ -37,17 +37,23 @@ Esta aplicación consta de 2 partes el Front-End que está construido sobre VUE 
 
 **PWA**
 
-`git clone https://github.com/itsalb3rt/sheiley_shop_app.git`
+```bash
+$ git clone https://github.com/itsalb3rt/sheiley_shop_app.git
+```
 
 Después de clonado el repositorio ejecutar 
 
-`npm install `
+```bash
+$ npm install 
+```
 
 **API REST**
 
 El API REST está hecho en PHP por lo que se requiere un servidor con PHP 7.1 o superior.
 
-`composer require itsalb3rt/sheiley-shop-api`
+```bash
+$ composer require itsalb3rt/sheiley-shop-api
+```
  
 ### Configuración
 
@@ -76,8 +82,9 @@ Con esto ya estarás listo para comenzar a utilizar la app en entorno de desarro
 
 ### Desplegar app para producción
 
-`npm run build`
-
+```bash
+npm run build
+```
 Una vez culmine de compilarse la versión para producción, dentro del directorio raíz del front-end encontraras un archivo `.htaccess` el cual debes copiar en el nuevo directorio `dist`.
 
 Crear un directorio en tu servidor llamado `sheiley_shop` y copia todo el contenido del directorio `dist` junto al `.htaccess`
