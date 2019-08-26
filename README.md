@@ -37,7 +37,7 @@ Después de clonado el repositorio ejecutar
 
 El API REST está hecho en PHP por lo que se requiere un servidor con PHP 7.1 o superior.
 
-`composer require itsalb3rt/sheiley_shop_api`
+`composer require itsalb3rt/sheiley-shop-api`
  
 ### Configuración
 
