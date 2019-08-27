@@ -28,6 +28,8 @@
               :label=" $t('products.measurement_unit') "
               item-text="name"
               item-value="id_unit_measurement"
+              append-outer-icon="fa-plus"
+              @click:append-outer="$router.push('/measurement_units')"
               required
             ></v-select>
             <v-select
@@ -36,6 +38,8 @@
               :label=" $t('products.category') "
               item-text="name"
               item-value="id_category"
+              append-outer-icon="fa-plus"
+              @click:append-outer="$router.push('/categories')"
               required
             ></v-select>
             <v-switch
