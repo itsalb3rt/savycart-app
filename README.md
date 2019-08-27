@@ -107,3 +107,10 @@ Este archivo contiene las reglas de enrutamiento principales para que todo funci
 ### Desplegar API REST
 
 En el directorio `system/webroot/` encontraras un archivo con nombrado `FrontController.php` dentro de este debes modificar la constante `ENVIROMENT` y colocarle el valor `pro`.
+
+---
+
+### Extra
+
+Dentro del directorio `etc` del repositorio del [API REST](https://github.com/itsalb3rt/sheiley-shop-api) 
+encontraras el diagrama entidad relación creada en `starUML` y el prototipo creado en `Adobe XD`, puedes jugar con esto.
