@@ -41,7 +41,7 @@
             <v-switch
               color="primary"
               v-model="itbis"
-              :label="` ${$t('products.tax')} : ${(itbis == '1')? $t('messages.yes') : $t('messages.no') }`"
+              :label="` ${$t('products.tax')} ${itbisQuantity}% : ${(itbis == '1')? $t('messages.yes') : $t('messages.no') }`"
               true-value="1"
               false-value="0"
             ></v-switch>
@@ -90,12 +90,15 @@ import categories from "@/mixins/miscellany/categories";
 import measurementUnits from "@/mixins/miscellany/measurementUnits";
 import axios from "axios";
 
+import itbisMixin from "@/mixins/miscellany/Itbis";
+
 export default {
-  mixins: [categories, measurementUnits],
-  mounted() {
+  mixins: [categories, measurementUnits,itbisMixin],
+  async mounted() {
     if (this.online) {
       this.requestCategories(axios);
       this.requestMeasurementUnit(axios);
+      this.itbisQuantity = await this.getItbisFromIndexedDb();
     }
   },
   data() {
@@ -110,7 +113,8 @@ export default {
       snackbarShow: false,
       snackbarMessage: "",
       snackbarColor: "",
-      snackbarMultiLine:true
+      snackbarMultiLine:true,
+      itbisQuantity:0
     };
   },
   components: {
