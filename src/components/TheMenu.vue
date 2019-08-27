@@ -30,7 +30,7 @@
           </v-list-tile-content>
         </v-list-tile>
 
-        <v-list-group prepend-icon="fa-cog" no-action sub-group :value="false">
+        <v-list-group prepend-icon="fa-cog" no-action :value="false">
           <template v-slot:activator>
             <v-list-tile>
               <v-list-tile-title>{{ $t('nav.settings') }}</v-list-tile-title>
