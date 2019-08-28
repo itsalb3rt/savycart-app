@@ -107,7 +107,8 @@
     "password_not_match": "Las contraseñas no coinciden",
     "server_error": "algo salió mal",
     "item": "Articulo",
-    "confirm_delete_message": "Estás seguro que quieres eliminar esto"
+    "confirm_delete_message": "Estás seguro que quieres eliminar esto",
+    "saved":"Guardado"
   },
   "category": {
     "name": "Nombre",

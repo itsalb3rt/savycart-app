@@ -107,7 +107,8 @@
     "password_not_match":"Passwords do not match",
     "server_error":"something went wrong",
     "item":"Item",
-    "confirm_delete_message":"Are you sure you want to delete this"
+    "confirm_delete_message":"Are you sure you want to delete this",
+    "saved":"Saved"
   },
   "category":{
     "name":"Name",

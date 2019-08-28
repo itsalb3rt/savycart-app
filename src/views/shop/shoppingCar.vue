@@ -18,7 +18,8 @@
                 @click="saveShop"
                 :disabled="disabledSubmitButton"
               >
-                <v-icon small class="mr-2">fa-save</v-icon>{{ $t('call_action_buttons.save') }}
+                <v-icon small class="mr-2">fa-save</v-icon>
+                {{ $t('call_action_buttons.save') }}
               </v-btn>
               <v-divider class="mt-3 mb-3"></v-divider>
             </v-flex>
@@ -60,7 +61,8 @@
           <v-layout row wrap v-else>
             <v-flex xs12>
               <h1 class="empty-car-information">
-                <v-icon large class="mr-2">fa-shopping-cart</v-icon>{{ $t('shopping_car.empty_car') }}
+                <v-icon large class="mr-2">fa-shopping-cart</v-icon>
+                {{ $t('shopping_car.empty_car') }}
               </h1>
               <v-btn
                 flat
@@ -68,7 +70,8 @@
                 class="primary--text ml-0"
                 @click="$router.push('/shop/registation')"
               >
-                <v-icon class="mr-2">fa-plus-circle</v-icon>{{ $t('shopping_car.go_to_logger_purchase') }}
+                <v-icon class="mr-2">fa-plus-circle</v-icon>
+                {{ $t('shopping_car.go_to_logger_purchase') }}
               </v-btn>
             </v-flex>
           </v-layout>
@@ -179,16 +182,20 @@ export default {
             .then(response => {
               if (response.data.status == "success") {
                 this.snackbarShow = true;
-                this.snackbarMessage = "Compra guardada";
+                this.snackbarMessage = `${this.$t('shop.purchase')} ${this.$t('messages.saved')}`;
                 this.snackbarColor = "success";
+                this.clearShoppingCar();
+                setTimeout(() => {
+                  this.$router.push("/product/list");
+                }, 1000);
               }
-              this.clearShoppingCar();
-              setTimeout(() => {
-                this.$router.push("/product/list");
-              }, 1000);
             })
             .catch(function(error) {
-              console.log("TCL: createCategory -> error", error);
+              if (error.response.status === 500)
+                this.snackbarShow = true;
+                this.snackbarMessage = this.$t('message.server_error');
+                this.snackbarColor = "error";
+                console.log("TCL: createCategory -> error", error);
             });
         } else {
           this.snackbarShow = true;
