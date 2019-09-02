@@ -108,7 +108,8 @@
     "server_error": "algo salió mal",
     "item": "Articulo",
     "confirm_delete_message": "Estás seguro que quieres eliminar esto",
-    "saved":"Guardado"
+    "saved":"Guardado",
+    "invalid_input":"Not valid input for"
   },
   "category": {
     "name": "Nombre",

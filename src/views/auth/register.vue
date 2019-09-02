@@ -5,16 +5,6 @@
         <p class="display-3 primary--text text-xs-center">Sheiley Shop</p>
         <p class="warning--text text-xs-center">shopping registration application</p>
       </v-flex>
-      <v-flex xs12 class="white--text" v-if="userExitst">
-        <v-card flat dark color="error" class="text-xs-center">
-          <v-card-text class="subheading">{{ $t('auth.user_name_already_registered') }}</v-card-text>
-        </v-card>
-      </v-flex>
-      <v-flex xs12 class="white--text" v-if="emailExits">
-        <v-card flat dark color="error" class="text-xs-center">
-          <v-card-text class="subheading">{{ $t('auth.email_already_registered') }}</v-card-text>
-        </v-card>
-      </v-flex>
     </v-layout>
 
     <v-layout row wrap align-center justify-center>
@@ -27,7 +17,10 @@
                   class="horizontal-line-text-main-container"
                   style="font-weight: normal!important;"
                 >
-                  <span class="horizontal-line-text-container white" style="background-color:#fafafa">
+                  <span
+                    class="horizontal-line-text-container white"
+                    style="background-color:#fafafa"
+                  >
                     <span class="black--text">Crear cuenta</span>
                   </span>
                 </h4>
@@ -43,8 +36,15 @@
                   v-model="userName"
                   @change="validatedUserName"
                   :label=" $t('auth.user_name') "
+                  @keyup="purifyUserName"
                   required
                 ></v-text-field>
+                <div xs12 v-if="userExitst">
+                  <p class="error--text">{{ $t('auth.user_name_already_registered') }}</p>
+                </div>
+                <div xs12 v-if="!isUserNameValid">
+                  <p class="error--text">{{ $t('messages.invalid_input') }} {{$t('auth.user_name')}}</p>
+                </div>
               </v-flex>
               <v-flex xs12>
                 <v-text-field
@@ -55,6 +55,9 @@
                   type="email"
                   required
                 ></v-text-field>
+                <div color="error" v-if="emailExits">
+                  <p  class="error--text">{{ $t('auth.email_already_registered') }}</p>
+                </div>
               </v-flex>
               <v-flex xs12>
                 <v-text-field
@@ -80,13 +83,19 @@
                 <v-btn
                   type="submit"
                   color="success"
-                  :disabled="userExitst === true || emailExits === true || disabledSubmitButton === true"
+                  :disabled="userExitst === true || emailExits === true || disabledSubmitButton === true || isUserNameValid === false"
                   block
                 >{{ $t('auth.create_an_account') }}</v-btn>
               </v-flex>
               <v-flex x12 class="mt-4">
                 {{ $t('auth.do_you_already_have_an_account') }}?
-                <v-btn color="primary" flat small class="ma-0 pa-0" to="/login">{{ $t('auth.login') }}!</v-btn>
+                <v-btn
+                  color="primary"
+                  flat
+                  small
+                  class="ma-0 pa-0"
+                  to="/login"
+                >{{ $t('auth.login') }}!</v-btn>
               </v-flex>
             </v-layout>
           </v-container>
@@ -116,11 +125,15 @@ export default {
       password: null,
       password2: null,
       disabledSubmitButton: false,
-      showPassword: false
+      showPassword: false,
+      regex: '^[a-z0-9_-]{3,15}$',
     };
   },
   computed: {
-    ...mapState(["apiDomain", "user", "isLoged"])
+    ...mapState(["apiDomain", "user", "isLoged"]),
+    isUserNameValid(){
+      return /^[a-z0-9_-]{3,15}$/.test(this.userName);
+    }
   },
   methods: {
     validatedUserName() {
@@ -195,20 +208,23 @@ export default {
           this.disabledSubmitButton = false;
           console.log(error);
         });
+    },
+    purifyUserName(){
+      this.userName = this.userName.toLowerCase();
     }
   }
 };
 </script>
 <style>
 .horizontal-line-text-main-container {
-    width: 100%;
-    text-align: center;
-    border-bottom: 1px solid lightgray;
-    line-height: .1em;
-    margin: 10px 0 20px
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid lightgray;
+  line-height: 0.1em;
+  margin: 10px 0 20px;
 }
 
 .horizontal-line-text-main-container .horizontal-line-text-container {
-    padding: 0 10px
+  padding: 0 10px;
 }
 </style>

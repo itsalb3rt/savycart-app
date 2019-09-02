@@ -108,7 +108,8 @@
     "server_error":"something went wrong",
     "item":"Item",
     "confirm_delete_message":"Are you sure you want to delete this",
-    "saved":"Saved"
+    "saved":"Saved",
+    "invalid_input":"Not valid input for"
   },
   "category":{
     "name":"Name",
