@@ -109,7 +109,7 @@
     "item": "Articulo",
     "confirm_delete_message": "Estás seguro que quieres eliminar esto",
     "saved":"Guardado",
-    "invalid_input":"Not valid input for"
+    "invalid_input":"Entrada no válida para"
   },
   "category": {
     "name": "Nombre",
