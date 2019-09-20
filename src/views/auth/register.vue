@@ -105,7 +105,6 @@
   </v-container>
 </template>
 <script>
-import axios from "axios";
 import { mapState } from "vuex";
 
 export default {
@@ -138,7 +137,7 @@ export default {
   methods: {
     validatedUserName() {
       let route = `${this.apiDomain}/auth/userAlreadyExists/${this.userName}`;
-      axios({
+      this.axios({
         method: "get",
         url: route
       })
@@ -157,7 +156,7 @@ export default {
       let route = `${this.apiDomain}/auth/emailAlreadyExists`;
       let data = new FormData();
       data.append("email", this.email);
-      axios({
+      this.axios({
         method: "POST",
         url: route,
         data: data
@@ -185,7 +184,7 @@ export default {
       data.append("password", this.password);
       data.append("password2", this.password2);
 
-      axios({
+      this.axios({
         method: "POST",
         url: route,
         data: data

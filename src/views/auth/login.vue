@@ -58,7 +58,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import { mapState, mapMutations } from "vuex";
 import curriencies from "@/mixins/miscellany/currencies";
 
@@ -89,7 +88,7 @@ export default {
       data.append("user_name", this.userName);
       data.append("password", this.password);
 
-      axios({
+      this.axios({
         method: "POST",
         url: route,
         data: data
