@@ -62,7 +62,6 @@
 <script>
 import { mapMutations, mapState } from "vuex";
 import MenuComponent from "@/components/TheMenu.vue";
-import axios from "axios";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
 import OfflineInfomation from "@/components/Offline/OfflineInformation";
@@ -101,7 +100,7 @@ export default {
     requestUser() {
       let route = `${this.apiDomain}/user/user/${this.user.id_user}`;
 
-      axios
+      this.axios
         .get(route)
         .then(response => {
           this.localUser.id_user = response.data.id_user;
@@ -117,7 +116,7 @@ export default {
     updateUser() {
       this.isLoading = true;
       let route = `${this.apiDomain}/user/user`;
-      axios({
+      this.axios({
         method: "PATCH",
         url: route,
         data: JSON.stringify(this.localUser),
