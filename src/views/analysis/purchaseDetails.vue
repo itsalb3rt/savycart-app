@@ -116,7 +116,6 @@
 
 <script>
 import MenuComponent from "@/components/TheMenu.vue";
-import axios from "axios";
 import { mapState } from "vuex";
 import currencies from "@/mixins/miscellany/currencies";
 
@@ -165,7 +164,7 @@ export default {
   },
   methods: {
     requestPurchaseDetails() {
-      axios
+      this.axios
         .get(
           `${this.apiDomain}/shopping/shopping?id_purchase=${this.$route.params.id}`
         )
@@ -174,7 +173,7 @@ export default {
         });
     },
     removePurchase() {
-      axios
+      this.axios
         .delete(
           `${this.apiDomain}/shopping/shopping?id_purchase=${this.$route.params.id}`
         )

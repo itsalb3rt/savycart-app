@@ -63,7 +63,6 @@
 
 <script>
 import MenuComponent from "@/components/TheMenu.vue";
-import axios from "axios";
 import { mapState } from "vuex";
 import currencies from "@/mixins/miscellany/currencies";
 import Loading from "vue-loading-overlay";
@@ -111,7 +110,7 @@ export default {
   },
   methods: {
     requestShoppingHistory() {
-      axios
+      this.axios
         .get(
           `${this.apiDomain}/Analysis/shoppingHistory?id_user=${this.user.id_user}`
         )
