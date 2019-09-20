@@ -117,7 +117,6 @@
 
 <script>
 import MenuComponent from "@/components/TheMenu.vue";
-import axios from "axios";
 import { mapState, mapMutations } from "vuex";
 
 import products from "@/mixins/products/Products";
@@ -132,10 +131,10 @@ export default {
   async mounted() {
     if (this.online) {
       this.getItbis();
-      this.requestProducts(axios).then(response => {
+      this.requestProducts().then(response => {
         this.setProducts(response.data);
-        this.requestMeasurementUnit(axios);
-        this.requestCategories(axios);
+        this.requestMeasurementUnit();
+        this.requestCategories();
       });
     }
     this.currency = await this.getPreferredCurrency();
@@ -206,7 +205,7 @@ export default {
     },
     deleteProduct() {
       this.dialog = false;
-      axios
+      this.axios
         .get(`${this.apiDomain}/products/delete/${this.deleteProductId}`)
         .then(response => {
           if (response.data.status == "success") {
@@ -224,7 +223,7 @@ export default {
         });
     },
     getItbis() {
-      axios
+      this.axios
         .get(`${this.apiDomain}/Miscellany/itbis?id_user=${this.user.id_user}`)
         .then(response => {
           this.itbis = response.data.quantity;

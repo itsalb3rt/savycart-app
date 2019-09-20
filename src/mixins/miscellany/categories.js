@@ -1,7 +1,7 @@
 export default {
     methods: {
-        requestCategories(axios) {
-            axios
+        requestCategories() {
+            this.axios
                 .get(
                     `${this.apiDomain}/Miscellany/categories/${this.user.id_user}`
                 )

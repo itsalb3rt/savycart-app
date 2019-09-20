@@ -1,7 +1,7 @@
 export default {
   methods: {
-    requestMeasurementUnit(axios) {
-      axios
+    requestMeasurementUnit() {
+      this.axios
         .get(
           `${this.apiDomain}/Miscellany/measurementUnits/${this.user.id_user}`
         )
