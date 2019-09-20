@@ -78,13 +78,12 @@
 import { mapState, mapMutations } from "vuex";
 import MenuComponent from "@/components/TheMenu.vue";
 import categories from "@/mixins/miscellany/categories";
-import axios from "axios";
 
 export default {
   mixins: [categories],
   mounted() {
     if (this.online) {
-      this.requestCategories(axios);
+      this.requestCategories();
     }
   },
   data: function() {
@@ -117,7 +116,7 @@ export default {
       formData.append("name", this.name);
 
       if (this.online) {
-        axios
+        this.axios
           .post(`${this.apiDomain}/Miscellany/addCategory`, formData)
           .then(response => {
             if (response.data.status == "success") {
@@ -146,7 +145,7 @@ export default {
     },
     deleteCategory() {
       if (this.online) {
-        axios
+        this.axios
           .get(
             `${this.apiDomain}/Miscellany/deleteCategory/${this.categories[this.indexCategoryForDelete].id_category}`
           )
