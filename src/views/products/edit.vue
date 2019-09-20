@@ -107,7 +107,6 @@ import { mapMutations, mapState } from "vuex";
 import MenuComponent from "@/components/TheMenu.vue";
 import categories from "@/mixins/miscellany/categories";
 import measurementUnits from "@/mixins/miscellany/measurementUnits";
-import axios from "axios";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
 import OfflineInfomation from "@/components/Offline/OfflineInformation";
@@ -117,8 +116,8 @@ export default {
   mixins: [categories, measurementUnits],
   mounted() {
     if (this.online) {
-      this.requestCategories(axios);
-      this.requestMeasurementUnit(axios);
+      this.requestCategories();
+      this.requestMeasurementUnit();
       this.getProduct();
       this.isLoading = true;
     }
@@ -172,7 +171,7 @@ export default {
       formData.append("id_product", this.$route.params.id);
 
       if (this.online) {
-        axios
+        this.axios
           .post(`${this.apiDomain}/Products/update`, formData)
           .then(response => {
             if (response.data.status == "success") {
@@ -195,7 +194,7 @@ export default {
       }
     },
     getProduct() {
-      axios
+      this.axios
         .get(
           `${this.apiDomain}/products/products?idProduct=${this.$route.params.id}`
         )
