@@ -77,13 +77,12 @@
 import { mapState, mapMutations } from "vuex";
 import MenuComponent from "@/components/TheMenu.vue";
 import measurementUnits from "@/mixins/miscellany/measurementUnits";
-import axios from "axios";
 
 export default {
   mixins: [measurementUnits],
   mounted() {
     if (this.online) {
-      this.requestMeasurementUnit(axios);
+      this.requestMeasurementUnit();
     }
   },
   data: function() {
@@ -121,7 +120,7 @@ export default {
       formData.append("name", this.name);
 
       if (this.online) {
-        axios
+        this.axios
           .post(`${this.apiDomain}/Miscellany/addMeasurementUnit`, formData)
           .then(response => {
             if (response.data.status == "success") {
@@ -151,7 +150,7 @@ export default {
     deleteMeasurementUnit() {
       
         if (this.online) {
-          axios
+          this.axios
             .get(
               `${this.apiDomain}/Miscellany/deleteMeasurementUnit/${this.measurement_units[this.indexMeasurementUnitForDelete].id_unit_measurement}`
             )

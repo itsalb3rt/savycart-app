@@ -72,7 +72,6 @@
 <script>
 import MenuComponent from "@/components/TheMenu";
 import { mapState } from "vuex";
-import axios from "axios";
 import currencies from "@/mixins/miscellany/currencies";
 import itbisMixin from "@/mixins/miscellany/Itbis";
 
@@ -121,7 +120,7 @@ export default {
   },
   methods: {
     getItbis() {
-      axios
+      this.axios
         .get(`${this.apiDomain}/Miscellany/itbis?id_user=${this.user.id_user}`)
         .then(response => {
           this.itbis = response.data.quantity;
@@ -133,7 +132,7 @@ export default {
       formData.append("id_user", this.user.id_user);
       formData.append("quantity", this.itbis);
 
-      axios
+      this.axios
         .post(`${this.apiDomain}/Miscellany/itbis`, formData)
         .then(response => {
           if (response.data.status == "success") {
