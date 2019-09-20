@@ -97,7 +97,6 @@ import MenuComponent from "@/components/TheMenu";
 import ShopResume from "@/components/shop/ShopResume";
 import ShoppingCar from "@/components/shop/ShoppingCar";
 import { mapState, mapMutations } from "vuex";
-import axios from "axios";
 
 import ShoppingCarMixin from "@/mixins/shop/ShoppingCar";
 import currencies from "@/mixins/miscellany/currencies";
@@ -177,7 +176,7 @@ export default {
           formData.append("nameEstablishment", this.nameEstablishment);
           formData.append("idUser", this.user.id_user);
 
-          axios
+          this.axios
             .post(`${this.apiDomain}/Shopping/shopping`, formData)
             .then(response => {
               if (response.data.status == "success") {

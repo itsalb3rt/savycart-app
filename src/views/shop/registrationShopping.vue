@@ -124,7 +124,6 @@
 <script>
 import MenuComponent from "@/components/TheMenu.vue";
 import { mapState, mapMutations } from "vuex";
-import axios from "axios";
 import ShoppingCar from "@/components/shop/ShoppingCar";
 import ShopResume from "@/components/shop/ShopResume";
 
@@ -141,7 +140,7 @@ export default {
   async mounted() {
     if (this.online) {
       this.isLoading = true;
-      this.requestProducts(axios).then(response => {
+      this.requestProducts().then(response => {
         this.setProducts(response.data);
         this.isLoading = false;
       });
