@@ -92,7 +92,6 @@ import { mapMutations, mapState } from "vuex";
 import MenuComponent from "@/components/TheMenu.vue";
 import categories from "@/mixins/miscellany/categories";
 import measurementUnits from "@/mixins/miscellany/measurementUnits";
-import axios from "axios";
 
 import itbisMixin from "@/mixins/miscellany/Itbis";
 
@@ -100,8 +99,8 @@ export default {
   mixins: [categories, measurementUnits,itbisMixin],
   async mounted() {
     if (this.online) {
-      this.requestCategories(axios);
-      this.requestMeasurementUnit(axios);
+      this.requestCategories();
+      this.requestMeasurementUnit();
       this.itbisQuantity = await this.getItbisFromIndexedDb();
     }
   },
@@ -156,7 +155,7 @@ export default {
       formData.append("product", JSON.stringify(product));
 
       if (this.online) {
-        axios
+        this.axios
           .post(`${this.apiDomain}/Products/add`, formData)
           .then(response => {
             if (response.data.status == "success") {

@@ -58,15 +58,14 @@ import { mapMutations, mapState } from "vuex";
 import MenuComponent from "@/components/TheMenu.vue";
 import categories from "@/mixins/miscellany/categories";
 import measurementUnits from "@/mixins/miscellany/measurementUnits";
-import axios from "axios";
 import currencies from "@/mixins/miscellany/currencies";
 
 export default {
   mixins: [categories, measurementUnits, currencies],
   async mounted() {
     if (this.online) {
-      await this.requestCategories(axios);
-      await this.requestMeasurementUnit(axios);
+      await this.requestCategories();
+      await this.requestMeasurementUnit();
       await this.getProduct();
     }
     this.currency = await this.getPreferredCurrency();
@@ -92,7 +91,7 @@ export default {
   methods: {
     ...mapMutations(["setCategories", "setMeasurementUnit"]),
     getProduct() {
-      axios
+      this.axios
         .get(
           `${this.apiDomain}/products/products?idProduct=${this.$route.params.id}`
         )
