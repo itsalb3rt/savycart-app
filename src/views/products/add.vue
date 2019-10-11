@@ -1,5 +1,5 @@
 <template>
-  <v-form @submit.prevent="createProduct">
+  <v-form @submit.prevent="createProduct" ref="createProduct">
     <v-card flat>
       <v-card-text>
         <v-layout row wrap>
@@ -30,6 +30,7 @@
               item-value="id_unit_measurement"
               append-outer-icon="fa-plus"
               @click:append-outer="$router.push('/measurement_units')"
+              :rules="[v => !!v || $t('messages.required_item_selection') ]"
               required
             ></v-select>
             <v-select
@@ -40,6 +41,7 @@
               item-value="id_category"
               append-outer-icon="fa-plus"
               @click:append-outer="$router.push('/categories')"
+              :rules="[v => !!v || $t('messages.required_item_selection') ]"
               required
             ></v-select>
             <v-switch
@@ -140,8 +142,13 @@ export default {
       "setMeasurementUnit"
     ]),
     createProduct() {
+        if (!this.$refs.createProduct.validate()) {
+          return false;
+        }
+
       this.isLoading = true;
       let formData = new FormData();
+
       let product = {
         id_user: this.user.id_user,
         name: this.name,
@@ -152,6 +159,7 @@ export default {
         description: this.description,
         favorite: this.favorite
       };
+
       formData.append("product", JSON.stringify(product));
 
       if (this.online) {
