@@ -109,7 +109,8 @@
     "item": "Articulo",
     "confirm_delete_message": "Estás seguro que quieres eliminar esto",
     "saved":"Guardado",
-    "invalid_input":"Entrada no válida para"
+    "invalid_input":"Entrada no válida para",
+    "required_item_selection":"Seleccione un elemento de la lista"
   },
   "category": {
     "name": "Nombre",

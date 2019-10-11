@@ -109,7 +109,8 @@
     "item":"Item",
     "confirm_delete_message":"Are you sure you want to delete this",
     "saved":"Saved",
-    "invalid_input":"Not valid input for"
+    "invalid_input":"Not valid input for",
+    "required_item_selection":"Please select a item from the list"
   },
   "category":{
     "name":"Name",
