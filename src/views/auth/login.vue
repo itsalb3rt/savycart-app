@@ -41,7 +41,7 @@
                 ></v-text-field>
               </v-flex>
               <v-flex xs12 class="pt-2 pb-2">
-                <v-btn color="primary" flat small class="ma-0 pa-0" href="#">{{ $t('auth.forgot_your_password') }}</v-btn>
+                <v-btn color="primary" to="/auth/recovery" flat small class="ma-0 pa-0" href="#">{{ $t('auth.forgot_your_password') }}</v-btn>
               </v-flex>
               <v-flex xs12>
                 <v-btn color="primary" type="submit" block>{{ $t('auth.login') }}</v-btn>

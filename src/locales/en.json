@@ -13,7 +13,8 @@
     "shopping_history":"Shopping history",
     "settings":"Settings",
     "view_purchase":"View purchase",
-    "user_profile":"Profile"
+    "user_profile":"Profile",
+    "recovery_account":"Recovery account"
   },
   "nav": {
     "my_list": "My list",
@@ -28,6 +29,8 @@
   },
   "auth": {
     "login_title": "Log in",
+    "recovery_title":"Recovery account",
+    "account_recovery_description":"Enter your email to send an email with your account recovery information.",
     "user_name": "User name",
     "password": "Password",
     "forgot_your_password": "Forgot your password?",
@@ -41,7 +44,10 @@
     "wrong_data": "Wrong data",
     "the_user_was_created": "The user was created",
     "email_already_registered": "This email is already registered.",
-    "user_name_already_registered": "This username is already registered"
+    "user_name_already_registered": "This username is already registered",
+    "email_required":"Email is required",
+    "email_invalid":"Email must be valid",
+    "account_recovery_information":"You will soon be receiving an email with the instructions for recovering the account. This email expires in 2 hours."
   },
   "products": {
     "search": "Search",

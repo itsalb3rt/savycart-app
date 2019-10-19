@@ -49,6 +49,14 @@ const router = new Router({
       }
     },
     {
+      path: '/auth/recovery',
+      name: 'recovery account',
+      component: () => import('@/views/auth/recoveryAccount.vue'),
+      meta: {
+        title: i18n.t('page_titles.recovery_account')
+      }
+    },
+    {
       path: '/register',
       name: 'register',
       component: () => import('@/views/auth/register.vue'),
