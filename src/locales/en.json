@@ -47,6 +47,7 @@
     "user_name_already_registered": "This username is already registered",
     "email_required":"Email is required",
     "email_invalid":"Email must be valid",
+    "email_not_register":"The email is not registered",
     "account_recovery_information":"You will soon be receiving an email with the instructions for recovering the account. This email expires in 2 hours."
   },
   "products": {

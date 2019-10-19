@@ -23,6 +23,9 @@
       </v-flex>
     </v-flex>
     <v-flex xs12 v-else>
+      <v-flex xs12 class="white--text" v-if="emailNotExits">
+        <v-alert type="error" :value="true">{{ $t('auth.email_not_register') }}</v-alert>
+      </v-flex>
       <v-form method="POST" ref="form" @submit.prevent="recoveryAccount">
         <v-layout row wrap>
           <v-flex xs12>
@@ -98,7 +101,8 @@ export default {
         v => !!v || this.$t("auth.email_required"),
         v => /.+@.+/.test(v) || this.$t("auth.email_invalid")
       ],
-      recoveryWasRequested: false
+      recoveryWasRequested: false,
+      emailNotExits:false
     };
   },
   computed: {
@@ -106,6 +110,7 @@ export default {
   },
   methods: {
     recoveryAccount() {
+      this.emailNotExits = false;
       if (!this.$refs.form.validate()) {
         return false;
       }
@@ -126,6 +131,7 @@ export default {
           if (response.data.status === "success") {
             this.recoveryWasRequested = true;
           } else {
+            this.emailNotExits = true;
           }
         })
         .catch(function(error) {

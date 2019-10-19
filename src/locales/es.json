@@ -47,6 +47,7 @@
     "user_name_already_registered": "Este nombre de usuario ya está registrado",
     "email_required":"Email es requerido",
     "email_invalid":"El email debe ser válido",
+    "email_not_register":"El email no está registrado",
     "account_recovery_information":"En breve estara recibiendo un correo electronico con las instrucciones de recuperacion de la cuenta. Este correo expira en 2 horas."
   },
   "products": {
