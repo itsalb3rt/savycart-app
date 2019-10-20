@@ -57,6 +57,14 @@ const router = new Router({
       }
     },
     {
+      path: '/auth/recoverypassword',
+      name: 'recovery password',
+      component: () => import('@/views/auth/recoveryAccountNewPassword.vue'),
+      meta: {
+        title: i18n.t('page_titles.recovery_account')
+      }
+    },
+    {
       path: '/register',
       name: 'register',
       component: () => import('@/views/auth/register.vue'),
@@ -199,7 +207,9 @@ router.beforeEach((to, from, next) => Promise.resolve()
     let publicPages = [
       'login',
       'register',
-      'about'
+      'about',
+      'recovery account',
+      'recovery password'
     ];
 
     let state;
