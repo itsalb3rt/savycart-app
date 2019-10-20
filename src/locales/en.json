@@ -48,7 +48,8 @@
     "email_required":"Email is required",
     "email_invalid":"Email must be valid",
     "email_not_register":"The email is not registered",
-    "account_recovery_information":"You will soon be receiving an email with the instructions for recovering the account. This email expires in 2 hours."
+    "account_recovery_information":"You will soon be receiving an email with the instructions for recovering the account. This email expires in 2 hours.",
+    "new_password_information":"Please enter a new password"
   },
   "products": {
     "search": "Search",
@@ -117,7 +118,10 @@
     "confirm_delete_message":"Are you sure you want to delete this",
     "saved":"Saved",
     "invalid_input":"Not valid input for",
-    "required_item_selection":"Please select a item from the list"
+    "required_item_selection":"Please select a item from the list",
+    "password_length":"Password must be less than",
+    "characters":"characters",
+    "invalid_token":"the token is not valid, please request a new account recovery email"
   },
   "category":{
     "name":"Name",
