@@ -21,7 +21,7 @@
                     class="horizontal-line-text-container white"
                     style="background-color:#fafafa"
                   >
-                    <span class="black--text">Crear cuenta</span>
+                    <span class="black--text">{{$t('auth.create_an_account')}}</span>
                   </span>
                 </h4>
               </v-flex>
