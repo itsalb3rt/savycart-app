@@ -4,7 +4,7 @@ import './plugins/vuetify';
 import './plugins/fontawesome';
 import App from './App.vue';
 import router from './router';
-import store from './store';
+import store from './store/store';
 import './registerServiceWorker';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
