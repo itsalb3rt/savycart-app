@@ -1,10 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import cache from './plugins/cache';
-import sync from './plugins/sync';
-
+import cache from '../plugins/cache';
+import sync from '../plugins/sync';
+import auth from './Modules/Auth/Auth'
 Vue.use(Vuex)
 export default new Vuex.Store({
+  plugins: [cache, sync],
+  modules: {
+    auth
+  },
   state: {
     initialized: false,
     isLoged: false,
@@ -85,6 +89,5 @@ export default new Vuex.Store({
   },
   actions: {
 
-  },
-  plugins: [cache, sync],
+  }
 })
