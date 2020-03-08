@@ -21,10 +21,8 @@
 import MenuComponent from "./components/TheMenu.vue";
 import offline from "v-offline";
 import { mapMutations, mapState } from "vuex";
-import {loadProgressBar } from 'axios-progress-bar';
 import 'axios-progress-bar/dist/nprogress.css'
 const DEFAULT_TRANSITION = "fade";
-loadProgressBar();
 
 export default {
   created() {
