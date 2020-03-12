@@ -112,6 +112,7 @@ export default {
                         this.setUser(response.data.data);
                         this.setLoginState(true);
                         this.saveInIndexedDbCurrencies();
+                        window.localStorage.setItem('token',response.data.data.token)
                         this.$router.push('product/list');
                     }
                 })
