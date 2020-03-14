@@ -4,13 +4,15 @@ import cache from '../plugins/cache';
 import sync from '../plugins/sync';
 import auth from './Modules/Auth/Auth'
 import products from './Modules/Products';
+import categories from './Modules/Categories';
 
 Vue.use(Vuex)
 export default new Vuex.Store({
   plugins: [cache, sync],
   modules: {
     auth,
-    products
+    products,
+    categories
   },
   state: {
     initialized: false,
@@ -19,7 +21,6 @@ export default new Vuex.Store({
     user: [],
     measurement_units: [],
     itbis: 0,
-    categories: [],
     currencies: [],
     online: '',
     products: [],
@@ -37,18 +38,6 @@ export default new Vuex.Store({
     },
     removeMeasurementUnit(state, index) {
       state.measurement_units.splice(index, 1);
-    },
-    addCategory(state, category) {
-      /*
-       * category => {id:1,name:bar}
-       */
-      state.categories.push(category);
-    },
-    setCategories(state, categories) {
-      state.categories = categories;
-    },
-    removeCategory(state, index) {
-      state.categories.splice(index, 1);
     },
     setCurrency(state, currency) {
       state.currencies.push(currency);
