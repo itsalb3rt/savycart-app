@@ -18,7 +18,7 @@ export default {
             return httpClient.post(`/measurementUnits/measurementUnits`, payload)
         },
         delete({commit},payload){
-            return httpClient.post(`/measurementUnits/measurementUnits/${payload.id}`)
+            return httpClient.delete(`/measurementUnits/measurementUnits/${payload.id}`)
         }
     },
     mutations:{
