@@ -1,25 +1,23 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import cache from '../plugins/cache';
-import sync from '../plugins/sync';
 import auth from './Modules/Auth/Auth'
 import products from './Modules/Products';
 import categories from './Modules/Categories';
+import measurementUnits from './Modules/MeasurementUnits';
 
 Vue.use(Vuex)
 export default new Vuex.Store({
-  plugins: [cache, sync],
   modules: {
     auth,
     products,
-    categories
+    categories,
+    measurementUnits
   },
   state: {
     initialized: false,
     isLoged: false,
     apiDomain: (process.env.NODE_ENV == 'development') ? 'http://localhost/sheiley_shop_api' : 'https://gibucket.a2hosted.com/sheiley_shop_api',
     user: [],
-    measurement_units: [],
     itbis: 0,
     currencies: [],
     online: '',
@@ -27,18 +25,6 @@ export default new Vuex.Store({
     shoppingCar: [],
   },
   mutations: {
-    addMeasurementUnit(state, unit) {
-      /*
-       * unit => {id:1,name:bar}
-       */
-      state.measurement_units.push(unit);
-    },
-    setMeasurementUnit(state, units) {
-      state.measurement_units = units;
-    },
-    removeMeasurementUnit(state, index) {
-      state.measurement_units.splice(index, 1);
-    },
     setCurrency(state, currency) {
       state.currencies.push(currency);
     },
