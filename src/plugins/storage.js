@@ -8,12 +8,8 @@ const mapStateForCache = (state) => {
   return {
     'user': state.user,
     initialized: state.initialized,
-    isLoged:state.isLoged,
-    measurement_units:state.measurement_units,
     itbis:state.itbis,
-    categories:state.categories,
     currencies:state.currencies,
-    products:state.products
   }
 };
 
