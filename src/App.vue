@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <MenuComponent :title="this.$route.meta.title" v-if="isLoged === true" />
+    <MenuComponent :title="$route.meta.title" v-if="$store.getters['auth/getIsLogged']" />
     <v-content>
       <transition
         :name="transitionName"
