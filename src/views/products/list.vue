@@ -4,7 +4,7 @@
       <v-flex xs12>
         <v-card flat>
           <v-card-text>
-            <v-flex xs12 v-if="products.length > 0">
+            <v-flex xs12 v-if="filterProducts.length > 0">
               <v-text-field
                 prepend-inner-icon="fa-search"
                 v-model="searchProductName"
@@ -20,7 +20,7 @@
                 </v-tab>
               </v-tabs>
             </v-flex>
-            <v-flex xs12 class="mt-3" v-if="products.length > 0">
+            <v-flex xs12 class="mt-3" v-if="filterProducts.length > 0">
               <v-layout
                 class="mt-2 mb-2"
                 row
@@ -75,7 +75,7 @@
                 </v-flex>
               </v-layout>
             </v-flex>
-            <v-flex v-if="products.length == 0" xs12>
+            <v-flex v-if="filterProducts.length == 0" xs12>
               <p
                 class="headline mt-5 grey--text font-weight-bold"
               >{{ $t('products.empty_list') }}</p>
@@ -119,19 +119,18 @@
 import MenuComponent from "@/components/TheMenu.vue";
 import { mapState, mapMutations } from "vuex";
 
-import products from "@/mixins/products/Products";
 import currencies from "@/mixins/miscellany/currencies";
-import measurementUnits from "@/mixins/miscellany/measurementUnits";
-import categories from "@/mixins/miscellany/categories";
 
 import itbisMixin from "@/mixins/miscellany/Itbis";
 
 export default {
-  mixins: [products, currencies, measurementUnits, categories, itbisMixin],
+  mixins: [currencies, itbisMixin],
   async mounted() {
+    this.products = this.$store.getters['products/getProducts'];
     if (this.online) {
       this.getItbis();
-      this.requestProducts().then(response => {
+      this.$store.dispatch('products/getAll')
+      .then(response => {
         this.setProducts(response.data);
         this.requestMeasurementUnit();
         this.requestCategories();
@@ -146,7 +145,8 @@ export default {
       showFavorites: false,
       dialog: false,
       deleteProductId: "",
-      successDeleteProduct: false
+      successDeleteProduct: false,
+      products: []
     };
   },
   components: {
@@ -154,13 +154,11 @@ export default {
   },
   computed: {
     ...mapState([
-      "products",
       "user",
       "online",
       "apiDomain",
-      "measurement_units"
     ]),
-    filterProducts: function() {
+    filterProducts() {
       let orderedProducts = this.products.sort((a, b) =>
         a.name > b.name ? 1 : -1
       );
@@ -186,12 +184,10 @@ export default {
       "addProduct",
       "removeProduct",
       "setProducts",
-      "setMeasurementUnit",
-      "setCategories"
     ]),
     getMeasurementName(id) {
       let value;
-      this.measurement_units.forEach(unit => {
+      this.$store.getters['measurementUnits/getAll'].forEach(unit => {
         if (unit.id_unit_measurement == id) {
           value = unit.name;
           return;
@@ -209,7 +205,7 @@ export default {
         .get(`${this.apiDomain}/products/delete/${this.deleteProductId}`)
         .then(response => {
           if (response.data.status == "success") {
-            this.products.forEach((product, index) => {
+            this.$store.getters['products/getProducts'].forEach((product, index) => {
               if (product.id_product == this.deleteProductId) {
                 this.removeProduct(index);
                 return;
@@ -229,7 +225,16 @@ export default {
           this.itbis = response.data.quantity;
           this.saveInIndexedDbItbis(this.itbis);
         });
-    }
+    },
+    requestCategories(){
+			this.$store.dispatch('categories/getAll')
+			.then(response=>{
+				this.$store.commit('categories/SET',response.data.data);
+			})
+			.catch(error=>{
+				console.log(error)
+			})
+		}
   }
 };
 </script>
