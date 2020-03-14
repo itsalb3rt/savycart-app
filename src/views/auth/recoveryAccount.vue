@@ -88,7 +88,7 @@ import curriencies from "@/mixins/miscellany/currencies";
 export default {
   mixins: [curriencies],
   mounted: function() {
-    if (this.isLoged == true) {
+    if (this.$store.getters['auth/getIsLogged']) {
       this.$router.push("product/list");
     }
   },
@@ -106,7 +106,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["apiDomain", "user", "isLoged"])
+    ...mapState(["apiDomain", "user"])
   },
   methods: {
     recoveryAccount() {

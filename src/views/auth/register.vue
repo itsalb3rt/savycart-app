@@ -109,7 +109,7 @@ import { mapState } from "vuex";
 
 export default {
   mounted: function() {
-    if (this.isLoged == true) {
+    if (this.$store.getters['auth/getIsLogged']) {
       this.$router.push("product/list");
     }
   },
@@ -129,7 +129,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["apiDomain", "user", "isLoged"]),
+    ...mapState(["apiDomain", "user"]),
     isUserNameValid(){
       return /^[a-z0-9_-]{3,15}$/.test(this.userName);
     }

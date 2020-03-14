@@ -97,7 +97,7 @@ export default {
       this.$router.push("/login");
     }
 
-    if (this.isLoged == true) {
+    if (this.$store.getters['auth/getIsLogged']) {
       this.$router.push("product/list");
     }
   },
@@ -120,7 +120,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["apiDomain", "user", "isLoged"]),
+    ...mapState(["apiDomain", "user"]),
     passwordMatch() {
       if (this.password !== this.confirmPassword) {
         return false;
