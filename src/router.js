@@ -211,22 +211,23 @@ router.beforeEach((to, from, next) => Promise.resolve()
       'recovery account',
       'recovery password'
     ];
-
-    let state;
     let authRequired = !publicPages.includes(to.name);
 
-    if (!store.state.initialized) {
+    let state = await getState('state', {});
+    store.commit('loadFromCache', state);
 
-      state = await getState('state', {});
-      store.commit('loadFromCache', state);
+    const token = window.localStorage.getItem("token");
 
-      if (state != null) {
-        //Verificando si esta logueado
-        if (authRequired && state.isLoged == false) {
-          return next('/login');
-        }
+    if (authRequired) {
+      if (token === null) {
+        next('/login');
+      } else {
+        store.commit('auth/SET_LOGGED',true);
+        next();
       }
     }
+    
+    next();
 
     // Cambiará el título cuando se cambie el enrutador
     if (to.meta.title) {
