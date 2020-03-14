@@ -18,7 +18,7 @@ export default {
             return httpClient.post(`/categories/categories`, payload)
         },
         delete({commit},payload){
-            return httpClient.post(`/categories/categories/${payload.id}`)
+            return httpClient.delete(`/categories/categories/${payload.id}`)
         }
     },
     mutations:{
