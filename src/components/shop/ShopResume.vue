@@ -16,7 +16,7 @@
           <div>{{ $t('messages.total') }}</div>
         </v-flex>
         <v-flex xs6 class="text-xs-right">
-          <strong>{{currencySymbol}} {{getTotalItebisInNumberFormat()}}</strong>
+          <strong>{{currencySymbol}} {{getTotalTaxInNumberFormat()}}</strong>
           <p class="primary--text font-weight-bold">{{currencySymbol}} {{getTotalInNumberFormat()}}</p>
         </v-flex>
         <v-flex xs12>
@@ -40,16 +40,16 @@ export default {
   props: {
     quantity: 0,
     subTotal: 0,
-    totalItbis: 0,
+    totalTax: 0,
     onCar: false,
     currencySymbol: ""
   },
   methods: {
     getTotalInNumberFormat() {
-      return this.createNumberFormat(this.subTotal + this.totalItbis);
+      return this.createNumberFormat(this.subTotal + this.totalTax);
     },
-    getTotalItebisInNumberFormat() {
-      return this.createNumberFormat(this.totalItbis);
+    getTotalTaxInNumberFormat() {
+      return this.createNumberFormat(this.totalTax);
     },
     getSubTotalInNumberFormat() {
       return this.createNumberFormat(this.subTotal);
