@@ -5,6 +5,8 @@ import products from './Modules/Products';
 import categories from './Modules/Categories';
 import measurementUnits from './Modules/MeasurementUnits';
 import taxes from './Modules/Taxes';
+import shoppingCar from './Modules/ShoppingCar';
+import shoppings from './Modules/Shoppings';
 
 Vue.use(Vuex)
 Vue.config.devtools = true
@@ -14,7 +16,9 @@ export default new Vuex.Store({
     products,
     categories,
     measurementUnits,
-    taxes
+    taxes,
+    shoppingCar,
+    shoppings
   },
   state: {
     initialized: false,
@@ -30,18 +34,6 @@ export default new Vuex.Store({
   mutations: {
     setCurrency(state, currency) {
       state.currencies.push(currency);
-    },
-    addProduct(state, product) {
-      /*
-       * product => {id_product:1,name:bar, ...}
-       */
-      state.products.push(product);
-    },
-    setProducts(state, products) {
-      state.products = products;
-    },
-    removeProduct(state, index) {
-      state.products.splice(index, 1);
     },
     setUser(state, user) {
       state.user = user;
@@ -68,7 +60,5 @@ export default new Vuex.Store({
       state.initialized = true;
     },
   },
-  actions: {
-
-  }
+  actions: {}
 })
