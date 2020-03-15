@@ -14,6 +14,9 @@ export default {
         getAll({ commit }) {
             return httpClient.get(`/shoppings/shoppings`)
         },
+        get({ commit }, payload) {
+            return httpClient.get(`/shoppings/shoppings/${payload.id}`)
+        },
         create({commit}, payload){
             return httpClient.post(`/shoppings/shoppings`, payload)
         },
