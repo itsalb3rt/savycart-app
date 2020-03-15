@@ -2,11 +2,11 @@ import httpClient from '@/api/HttpClient'
 
 export default {
     namespaced: true,
-    state:{
+    state: {
         products: []
     },
-    getters:{
-        getProducts(state){
+    getters: {
+        getProducts(state) {
             return state.products;
         }
     },
@@ -17,10 +17,10 @@ export default {
         get({ commit }, payload) {
             return httpClient.get(`/products/products/${payload.id}`)
         },
-        create({commit}, payload){
+        create({ commit }, payload) {
             return httpClient.post(`/products/products`, payload)
         },
-        delete({commit}, payload){
+        delete({ commit }, payload) {
             return httpClient.delete(`/products/products/${payload.id}`)
         }
     },
