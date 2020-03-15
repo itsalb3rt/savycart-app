@@ -136,33 +136,30 @@ export default {
 	methods: {
 		updateProduct() {
 			this.isLoading = true;
-			let formData = new FormData();
 			let product = {
-				id_user: this.user.id_user,
 				name: this.name,
 				price: this.price,
 				id_unit_measurement: this.measurementUnit,
 				id_category: this.category,
-				itbis: this.itbis,
+				include_tax: this.itbis,
 				description: this.description,
 				favorite: this.favorite
 			};
-			formData.append('product', JSON.stringify(product));
-			formData.append('id_product', this.$route.params.id);
 
 			if (this.online) {
-				this.axios
-					.post(`${this.apiDomain}/Products/update`, formData)
+				this.$store
+					.dispatch('products/update', {
+						id: this.product.id_product,
+						data: product
+					})
 					.then(response => {
-						if (response.data.status == 'success') {
-							this.snackbarShow = true;
-							this.snackbarMessage = this.$t('messages.save');
-							this.snackbarColor = 'success';
+						this.snackbarShow = true;
+						this.snackbarMessage = this.$t('messages.save');
+						this.snackbarColor = 'success';
 
-							setTimeout(() => {
-								this.$router.push('product/list');
-							}, 1000);
-						}
+						setTimeout(() => {
+							this.$router.go(-1);
+						}, 1000);
 						this.isLoading = false;
 					})
 					.catch(function(error) {
@@ -176,17 +173,16 @@ export default {
 			}
 		},
 		getProduct() {
-			this.axios
-				.get(
-					`${this.apiDomain}/products/products?idProduct=${this.$route.params.id}`
-				)
+			this.$store
+				.dispatch('products/get', { id: this.$route.params.id })
 				.then(response => {
-					this.product = response.data;
+					this.product = response.data.data;
+
 					this.name = this.product.name;
 					this.price = this.product.price;
 					this.measurementUnit = this.product.id_unit_measurement;
 					this.category = this.product.id_category;
-					this.itbis = this.product.itbis;
+					this.include_tax = this.product.include_tax;
 					this.description = this.product.description;
 					this.isLoading = false;
 					this.favorite = this.product.favorite;
