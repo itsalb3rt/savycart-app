@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex';
+import { mapState } from 'vuex';
 import MenuComponent from '@/components/TheMenu.vue';
 
 import itbisMixin from '@/mixins/miscellany/Itbis';
@@ -114,6 +114,7 @@ export default {
 	},
 	data() {
 		return {
+			isLoading: false,
 			name: '',
 			price: 1,
 			measurementUnit: '',
@@ -135,10 +136,6 @@ export default {
 		...mapState(['online'])
 	},
 	methods: {
-		...mapMutations([
-			'addProduct',
-			'deleteProduct'
-		]),
 		createProduct() {
 			if (!this.$refs.createProduct.validate()) {
 				return false;
@@ -161,16 +158,14 @@ export default {
 				this.$store
 					.dispatch('products/create', product)
 					.then(response => {
-						if (response.data.status == 'success') {
-							product.id_product = response.data.data.id_product;
-							this.addProduct(product);
-							this.snackbarShow = true;
-							this.snackbarMessage = this.$t('messages.save');
-							this.snackbarColor = 'success';
-							this.name = '';
-							this.price = 1;
-							document.querySelector('#name').focus();
-						}
+						product.id_product = response.data.data.id_product;
+						this.$store.commit('products/ADD', response.data.data);
+						this.snackbarShow = true;
+						this.snackbarMessage = this.$t('messages.save');
+						this.snackbarColor = 'success';
+						this.name = '';
+						this.price = 1;
+						document.querySelector('#name').focus();
 					})
 					.catch(error => {
 						if (error.response.status === 409) {
@@ -194,23 +189,28 @@ export default {
 		uppercase() {
 			this.name = this.name.toUpperCase();
 		},
-		requestCategories(){
-			this.$store.dispatch('categories/getAll')
-			.then(response=>{
-				this.$store.commit('categories/SET',response.data.data);
-			})
-			.catch(error=>{
-				console.log(error)
-			})
+		requestCategories() {
+			this.$store
+				.dispatch('categories/getAll')
+				.then(response => {
+					this.$store.commit('categories/SET', response.data.data);
+				})
+				.catch(error => {
+					console.log(error);
+				});
 		},
-		requestMeasurementUnit(){
-			this.$store.dispatch('measurementUnits/getAll')
-			.then(response=>{
-				this.$store.commit('measurementUnits/SET',response.data.data);
-			})
-			.catch(error=>{
-				console.log(error)
-			})
+		requestMeasurementUnit() {
+			this.$store
+				.dispatch('measurementUnits/getAll')
+				.then(response => {
+					this.$store.commit(
+						'measurementUnits/SET',
+						response.data.data
+					);
+				})
+				.catch(error => {
+					console.log(error);
+				});
 		}
 	}
 };
