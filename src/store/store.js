@@ -7,6 +7,7 @@ import measurementUnits from './Modules/MeasurementUnits';
 import taxes from './Modules/Taxes';
 
 Vue.use(Vuex)
+Vue.config.devtools = true
 export default new Vuex.Store({
   modules: {
     auth,
