@@ -14,8 +14,22 @@ export default {
         getAll({ commit }) {
             return httpClient.get(`/products/products`)
         },
+        get({ commit }, payload) {
+            return httpClient.get(`/products/products/${payload.id}`)
+        },
         create({commit}, payload){
             return httpClient.post(`/products/products`, payload)
+        }
+    },
+    mutations: {
+        SET(state, payload) {
+            state.products = payload;
+        },
+        ADD(state, payload) {
+            state.products.push(payload);
+        },
+        REMOVE(state, index) {
+            state.products.splice(index, 1);
         }
     }
 }
