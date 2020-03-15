@@ -4,6 +4,7 @@ import auth from './Modules/Auth/Auth'
 import products from './Modules/Products';
 import categories from './Modules/Categories';
 import measurementUnits from './Modules/MeasurementUnits';
+import taxes from './Modules/Taxes';
 
 Vue.use(Vuex)
 export default new Vuex.Store({
@@ -11,7 +12,8 @@ export default new Vuex.Store({
     auth,
     products,
     categories,
-    measurementUnits
+    measurementUnits,
+    taxes
   },
   state: {
     initialized: false,
