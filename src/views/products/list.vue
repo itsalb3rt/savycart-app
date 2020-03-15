@@ -4,7 +4,7 @@
 			<v-flex xs12>
 				<v-card flat>
 					<v-card-text>
-						<v-flex xs12 v-if="filterProducts.length > 0">
+						<v-flex xs12 >
 							<v-text-field
 								prepend-inner-icon="fa-search"
 								v-model="searchProductName"
@@ -171,9 +171,9 @@ export default {
 			this.deleteProductId = idProduct;
 		},
 		deleteProduct() {
-      /**
-       * Delete the product from store, local copy and database
-       */
+			/**
+			 * Delete the product from store, local copy and database
+			 */
 			this.$store
 				.dispatch('products/delete', { id: this.deleteProductId })
 				.then(response => {
@@ -186,11 +186,11 @@ export default {
 					const productIndexInView = this.products.findIndex(
 						product => product.id_product === this.deleteProductId
 					);
-          this.$store.commit('products/REMOVE', productIndexInStore);
-          this.products.splice(productIndexInView, 1);
-          this.successDeleteProduct = true;
-          //Reset the search
-          this.searchProductName = '';
+					this.$store.commit('products/REMOVE', productIndexInStore);
+					this.products.splice(productIndexInView, 1);
+					this.successDeleteProduct = true;
+					//Reset the search
+					this.searchProductName = '';
 				})
 				.catch(function(error) {
 					console.log('TCL: deleteCategory -> error', error);
