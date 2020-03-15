@@ -94,7 +94,6 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex';
-import MenuComponent from '@/components/TheMenu.vue';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import OfflineInfomation from '@/components/Offline/OfflineInformation';
@@ -126,7 +125,6 @@ export default {
 		};
 	},
 	components: {
-		MenuComponent,
 		Loading,
 		OfflineInfomation
 	},
