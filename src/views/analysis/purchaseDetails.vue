@@ -101,7 +101,7 @@
           <v-card-text>{{ $t('shop.delete_purchase_message') }}</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="error" @click="removePurchase()">{{ $t('call_action_buttons.delete') }}</v-btn>
+            <v-btn color="error" @click="deletePurchase()">{{ $t('call_action_buttons.delete') }}</v-btn>
             <v-btn color="primary" flat @click="dialogShowConfirmDelete = false">{{ $t('messages.keep') }}</v-btn>
           </v-card-actions>
         </v-card>
@@ -115,7 +115,6 @@
 </template>
 
 <script>
-import MenuComponent from "@/components/TheMenu.vue";
 import { mapState } from "vuex";
 import currencies from "@/mixins/miscellany/currencies";
 
@@ -124,9 +123,6 @@ export default {
   async mounted() {
     this.requestPurchaseDetails();
     this.currency = await this.getPreferredCurrency();
-  },
-  components: {
-    MenuComponent
   },
   data() {
     return {
@@ -154,7 +150,7 @@ export default {
         itbis +=
           parseFloat(product.unit_price) *
           parseFloat(product.quantity) *
-          (parseFloat(this.purchaseDetails.itbis_quantity.quantity) / 100);
+          (parseFloat(this.purchaseDetails.tax.quantity) / 100);
       });
       return itbis;
     },
@@ -164,21 +160,14 @@ export default {
   },
   methods: {
     requestPurchaseDetails() {
-      this.axios
-        .get(
-          `${this.apiDomain}/shopping/shopping?id_purchase=${this.$route.params.id}`
-        )
+      this.$store.dispatch('shoppings/get',{id:this.$route.params.id})
         .then(response => {
-          this.purchaseDetails = response.data;
+          this.purchaseDetails = response.data.data;
         });
     },
-    removePurchase() {
-      this.axios
-        .delete(
-          `${this.apiDomain}/shopping/shopping?id_purchase=${this.$route.params.id}`
-        )
+    deletePurchase() {
+      this.$store.dispatch('shoppings/delete',{id:this.$route.params.id})
         .then(response => {
-          if (response.data.status == "success") {
             this.snackbarShow = true;
             this.snackbarMessage = this.$t('call_action_buttons.delete');
             this.snackbarColor = "success";
@@ -186,9 +175,9 @@ export default {
             setTimeout(() => {
               this.$router.push("/analysis/shopping_history");
             }, 1000);
-            
-          }
-        });
+        }).catch(error=>{
+          console.log(error)
+        })
     },
     numberFormat(number) {
       let l10nEN = new Intl.NumberFormat("en-US");

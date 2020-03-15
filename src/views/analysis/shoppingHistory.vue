@@ -38,7 +38,7 @@
                   class="primary--text font-weight-bold"
                 >{{shop.item.names_establishments}}</router-link>
               </td>
-              <td>{{ shop.item.date.substring(0, 10) }}</td>
+              <td>{{ shop.item.create_at.substring(0, 10) }}</td>
               <td>
                 <router-link
                   :to="{ name: 'purchase_details', params: { id: shop.item.id_purchase } }"
@@ -62,7 +62,6 @@
 </template>
 
 <script>
-import MenuComponent from "@/components/TheMenu.vue";
 import { mapState } from "vuex";
 import currencies from "@/mixins/miscellany/currencies";
 import Loading from "vue-loading-overlay";
@@ -76,7 +75,6 @@ export default {
     this.currency = await this.getPreferredCurrency();
   },
   components: {
-    MenuComponent,
     Loading
   },
   data() {
@@ -87,15 +85,15 @@ export default {
       pagination: {},
       selected: [],
       headers: [
-        { text: this.$t('shop.place'), align: "left", value: "lugar" },
-        { text: this.$t('messages.date'), align: "left", value: "fecha" },
+        { text: this.$t('shop.place'), align: "left", value: "names_establishments" },
+        { text: this.$t('messages.date'), align: "left", value: "create_at" },
         { text: this.$t('messages.total'), align: "left", value: "total" }
       ],
       isLoading: false
     };
   },
   computed: {
-    ...mapState(["apiDomain", "user"]),
+    ...mapState(["user"]),
     pages() {
       if (
         this.pagination.rowsPerPage == null ||
@@ -110,16 +108,13 @@ export default {
   },
   methods: {
     requestShoppingHistory() {
-      this.axios
-        .get(
-          `${this.apiDomain}/Analysis/shoppingHistory?id_user=${this.user.id_user}`
-        )
+      this.$store.dispatch('shoppings/getAll')
         .then(response => {
-          if (response.data.status == "success") {
-            this.shoppingHistory = response.data.history;
+            this.shoppingHistory = response.data.data;
             this.isLoading = false;
-          }
-        });
+        }).catch(error=>{
+          console.log(error)
+        })
     },
     createNumberFormat(number) {
       let l10nEN = new Intl.NumberFormat("en-US");
