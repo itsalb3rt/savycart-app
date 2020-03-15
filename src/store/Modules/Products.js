@@ -19,6 +19,9 @@ export default {
         },
         create({commit}, payload){
             return httpClient.post(`/products/products`, payload)
+        },
+        delete({commit}, payload){
+            return httpClient.delete(`/products/products/${payload.id}`)
         }
     },
     mutations: {
