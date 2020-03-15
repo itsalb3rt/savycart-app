@@ -3,11 +3,14 @@ import httpClient from '@/api/HttpClient'
 export default {
     namespaced: true,
     state:{
-        tax: {}
+        tax: {
+            quatity:1
+        }
     },
     getters:{
         getAll(state){
-            return state.tax;
+            const tax = window.localStorage.getItem('tax');
+            return (tax === null) ? state.tax.quatity : tax;
         }
     },
     actions: {
@@ -21,6 +24,7 @@ export default {
     mutations:{
         SET(state,payload){
             state.tax = payload;
+            window.localStorage('tax',payload)
         }
     }
 }
