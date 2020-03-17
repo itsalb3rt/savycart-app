@@ -24,7 +24,7 @@ export default {
     mutations:{
         SET(state,payload){
             state.tax = payload;
-            window.localStorage('tax',payload)
+            window.localStorage.setItem('tax',payload)
         }
     }
 }
