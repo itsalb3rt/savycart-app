@@ -43,22 +43,7 @@ export default new Vuex.Store({
     },
     setOnline(state, value) {
       state.online = value;
-    },
-    loadFromCache(state, cached) {
-      if (cached) {
-        /* 
-         * Object.assign se cambio el primer parametro para guardar 
-         * todo lo que este vacio como array, por defecto estaba como
-         * objeto
-         * de {} a []
-         */
-        Object.keys(cached).forEach((key) => {
-          state[key] = Object.assign(state[key], cached[key]);
-        });
-      }
-
-      state.initialized = true;
-    },
+    }
   },
   actions: {}
 })
