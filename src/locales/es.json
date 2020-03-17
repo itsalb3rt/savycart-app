@@ -89,6 +89,7 @@
   },
   "call_action_buttons": {
     "save": "Guardar",
+    "saved": "Guardado",
     "edit": "Editar",
     "delete": "Eliminar",
     "close": "Cerrar",
