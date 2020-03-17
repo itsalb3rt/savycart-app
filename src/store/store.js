@@ -27,7 +27,7 @@ export default new Vuex.Store({
     user: [],
     itbis: 0,
     currencies: [],
-    online: '',
+    online: true,
     products: [],
     shoppingCar: [],
   },
