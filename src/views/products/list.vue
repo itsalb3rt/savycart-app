@@ -112,11 +112,14 @@ export default {
 		deleteDialog
 	},
 	async mounted() {
+		
 		this.products = this.$store.getters['products/getProducts'];
+
 		if (this.online) {
 			this.getTaxes();
 			this.$store.dispatch('products/getAll').then(response => {
 				this.$store.commit('products/SET', response.data.data);
+				this.products = this.$store.getters['products/getProducts'];
 				this.requestMeasurementUnit();
 				this.requestCategories();
 			});
