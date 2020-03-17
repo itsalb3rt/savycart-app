@@ -46,8 +46,8 @@
 						></v-select>
 						<v-switch
 							color="primary"
-							v-model="itbis"
-							:label="` ${$t('products.tax')} ${itbisQuantity}% : ${(itbis == '1')? $t('messages.yes') : $t('messages.no') }`"
+							v-model="tax"
+							:label="` ${$t('products.tax')} ${taxQuantity}% : ${(tax == '1')? $t('messages.yes') : $t('messages.no') }`"
 							true-value="1"
 							false-value="0"
 						></v-switch>
@@ -101,15 +101,12 @@
 import { mapState } from 'vuex';
 import MenuComponent from '@/components/TheMenu.vue';
 
-import itbisMixin from '@/mixins/miscellany/Itbis';
-
 export default {
-	mixins: [itbisMixin],
 	async mounted() {
 		if (this.online) {
 			this.requestCategories();
 			this.requestMeasurementUnit();
-			this.itbisQuantity = await this.getItbisFromIndexedDb();
+			this.taxQuantity = this.$store.getters['taxes/getAll'];
 		}
 	},
 	data() {
@@ -119,14 +116,14 @@ export default {
 			price: 1,
 			measurementUnit: '',
 			category: '',
-			itbis: '1',
+			tax: '1',
 			description: '',
 			favorite: 0,
 			snackbarShow: false,
 			snackbarMessage: '',
 			snackbarColor: '',
 			snackbarMultiLine: true,
-			itbisQuantity: 0
+			taxQuantity: 0
 		};
 	},
 	components: {
@@ -149,7 +146,7 @@ export default {
 				price: this.price,
 				id_unit_measurement: this.measurementUnit,
 				id_category: this.category,
-				include_tax: this.itbis,
+				include_tax: this.tax,
 				description: this.description,
 				favorite: this.favorite
 			};
