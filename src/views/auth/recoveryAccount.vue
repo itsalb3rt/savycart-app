@@ -82,11 +82,9 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
-import curriencies from "@/mixins/miscellany/currencies";
+import { mapState } from "vuex";
 
 export default {
-  mixins: [curriencies],
   mounted: function() {
     if (this.$store.getters['auth/getIsLogged']) {
       this.$router.push("product/list");
@@ -106,7 +104,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["apiDomain", "user"])
+    ...mapState(["user"])
   },
   methods: {
     recoveryAccount() {
@@ -116,28 +114,17 @@ export default {
       }
 
       this.loading = true;
-      let route = `${this.apiDomain}/auth/recovery`;
-      let data = new FormData();
 
-      data.append("email", this.email);
-
-      this.axios({
-        method: "POST",
-        url: route,
-        data: data
-      })
+      this.$store.dispatch('auth/recoveryAccount',{email:this.email})
         .then(response => {
           this.loading = false;
-          if (response.data.status === "success") {
             this.recoveryWasRequested = true;
-          } else {
-            this.emailNotExits = true;
-          }
         })
         .catch(function(error) {
-          this.loading = false;
           console.log(error);
-        });
+        }).finally(()=>{
+          this.loading = false;
+        })
     }
   }
 };
