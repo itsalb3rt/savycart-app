@@ -26,14 +26,14 @@
                 </h4>
               </v-flex>
               <v-flex xs12>
-                <v-text-field v-model="firstName" :label=" $t('auth.first_name') " required></v-text-field>
+                <v-text-field v-model="newUser.first_name" :label=" $t('auth.first_name') " required></v-text-field>
               </v-flex>
               <v-flex xs12>
-                <v-text-field v-model="lastName" :label=" $t('auth.last_name') " required></v-text-field>
+                <v-text-field v-model="newUser.last_name" :label=" $t('auth.last_name') " required></v-text-field>
               </v-flex>
               <v-flex xs12>
                 <v-text-field
-                  v-model="userName"
+                  v-model="newUser.user_name"
                   @change="validatedUserName"
                   :label=" $t('auth.user_name') "
                   @keyup="purifyUserName"
@@ -48,7 +48,7 @@
               </v-flex>
               <v-flex xs12>
                 <v-text-field
-                  v-model="email"
+                  v-model="newUser.email"
                   @change="validatedEmail"
                   :label=" $t('auth.email') "
                   placeholder="jhon@domain.com"
@@ -61,7 +61,7 @@
               </v-flex>
               <v-flex xs12>
                 <v-text-field
-                  v-model="password"
+                  v-model="newUser.password"
                   :type="showPassword ? 'text' : 'password'"
                   :append-icon="showPassword ? 'fa-eye' : 'fa-eye-slash'"
                   @click:append="showPassword = !showPassword"
@@ -71,7 +71,7 @@
               </v-flex>
               <v-flex xs12>
                 <v-text-field
-                  v-model="password2"
+                  v-model="newUser.password2"
                   :type="showPassword ? 'text' : 'password'"
                   :append-icon="showPassword ? 'fa-eye' : 'fa-eye-slash'"
                   @click:append="showPassword = !showPassword"
@@ -115,21 +115,23 @@ export default {
   },
   data: function() {
     return {
+      newUser:{
+        user_name:'',
+        password: '',
+        password2: '',
+        first_name: '',
+        last_name: '',
+        email:''
+      },
       userExitst: false,
       emailExits: false,
-      userName: null,
-      email: null,
-      firstName: null,
-      lastName: null,
-      password: null,
-      password2: null,
       disabledSubmitButton: false,
       showPassword: false,
       regex: '^[a-z0-9_-]{3,15}$',
     };
   },
   computed: {
-    ...mapState(["apiDomain", "user"]),
+    ...mapState([ "user"]),
     isUserNameValid(){
       return /^[a-z0-9_-]{3,15}$/.test(this.userName);
     }
@@ -174,8 +176,6 @@ export default {
     },
     registerUser() {
       this.disabledSubmitButton = true;
-      let route = `${this.apiDomain}/auth/register_user`;
-      let data = new FormData();
 
       data.append("first_name", this.firstName);
       data.append("last_name", this.lastName);
@@ -184,11 +184,7 @@ export default {
       data.append("password", this.password);
       data.append("password2", this.password2);
 
-      this.axios({
-        method: "POST",
-        url: route,
-        data: data
-      })
+      this.$store.dispatch('auth/register')
         .then(response => {
           if (response.data.status == "register") {
             this.$router.push({
