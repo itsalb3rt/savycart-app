@@ -45,7 +45,7 @@
               </v-flex>
               <v-flex xs12>
                 <v-text-field
-                  v-model="password"
+                  v-model="passwordReset.password"
                   :type="showPassword ? 'text' : 'password'"
                   :append-icon="showPassword ? 'fa-eye' : 'fa-eye-slash'"
                   @click:append="showPassword = !showPassword"
@@ -55,7 +55,7 @@
                   required
                 ></v-text-field>
                 <v-text-field
-                  v-model="confirmPassword"
+                  v-model="passwordReset.password_confirm"
                   :type="showPassword ? 'text' : 'password'"
                   :append-icon="showPassword ? 'fa-eye' : 'fa-eye-slash'"
                   @click:append="showPassword = !showPassword"
@@ -87,11 +87,9 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
-import curriencies from "@/mixins/miscellany/currencies";
+import { mapState } from "vuex";
 
 export default {
-  mixins: [curriencies],
   mounted: function() {
     if (this.$route.query.token === undefined) {
       this.$router.push("/login");
@@ -100,11 +98,16 @@ export default {
     if (this.$store.getters['auth/getIsLogged']) {
       this.$router.push("product/list");
     }
+
+    this.passwordReset.token =  this.$route.query.token;
   },
   data: function() {
     return {
-      password: "",
-      confirmPassword: "",
+      passwordReset:{
+        password:'',
+        password_confirm:'',
+        token:''
+      },
       showPassword: false,
       loginFailed: false,
       loading: false,
@@ -120,9 +123,9 @@ export default {
     };
   },
   computed: {
-    ...mapState(["apiDomain", "user"]),
+    ...mapState(["user"]),
     passwordMatch() {
-      if (this.password !== this.confirmPassword) {
+      if (this.passwordReset.password !== this.passwordReset.password_confirm) {
         return false;
       } else {
         return true;
@@ -135,18 +138,8 @@ export default {
         return false;
       }
       this.loading = true;
-      let route = `${this.apiDomain}/auth/resetPassword`;
-      let data = new FormData();
 
-      data.append("password", this.password);
-      data.append("confirm_password", this.confirmPassword);
-      data.append("token", this.$route.query.token);
-
-      this.axios({
-        method: "POST",
-        url: route,
-        data: data
-      })
+      this.$store.dispatch('auth/passwordReset',this.passwordReset)
         .then(response => {
           this.snackbarShow = true;
           this.snackbarMessage = this.$t('messages.saved');
