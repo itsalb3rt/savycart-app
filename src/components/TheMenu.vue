@@ -32,9 +32,8 @@
 
 				<v-list-group prepend-icon="fa-cog" no-action :value="false">
 					<template v-slot:activator>
-						<v-list-tile-title>{{ $t('nav.settings') }}</v-list-tile-title>
+						<v-list-item-title>{{ $t('nav.settings') }}</v-list-item-title>
 					</template>
-
 					<v-list-item v-for="(item,index) in settings" :key="index" :to="{path:item.routePath}" link>
 						<v-list-item-icon>
 							<v-icon :color="item.iconColor">{{ item.icon }}</v-icon>
