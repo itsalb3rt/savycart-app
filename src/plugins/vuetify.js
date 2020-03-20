@@ -2,7 +2,12 @@ import Vue from 'vue'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 
-Vue.use(Vuetify, {
+Vue.use(Vuetify);
+
+export default new Vuetify({
+  icons: {
+    iconfont: 'fa',
+  },
   theme: {
     primary: '#03A9F4',
     secondary: '#607D8B',
@@ -15,5 +20,4 @@ Vue.use(Vuetify, {
   options: {
     customProperties: true
   },
-  iconfont: 'fa',
-})
+});

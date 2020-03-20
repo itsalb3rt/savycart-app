@@ -9,7 +9,9 @@
         @enter="enter"
         @afterEnter="afterEnter"
       >
-        <router-view />
+        <v-container grid-list-xs>
+          <router-view />
+        </v-container>
       </transition>
     </v-content>
     <!-- @detected-condition fires when the connectivity status of the device changes -->
