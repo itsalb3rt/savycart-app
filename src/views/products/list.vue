@@ -48,8 +48,7 @@
 												color="success"
 												small
 												depressed
-												outline
-												class="ma-0 pa-0 right"
+												outlined
 												@click="$router.push({name:'edit product', params:{id: product.id_product} })"
 											>
 												<v-icon small class="mr-1">fa-edit</v-icon>
@@ -59,7 +58,7 @@
 											<v-btn
 												color="error"
 												small
-												flat
+												text
 												class="ma-0 pa-0 right"
 												@click="showDialogToDeleteProduct(product.id_product)"
 											>
