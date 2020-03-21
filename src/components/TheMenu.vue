@@ -1,7 +1,7 @@
 <template>
 	<div v-hammer:swipe.right="onSwipeLeft">
 		<v-toolbar flat color="white">
-			<v-icon @click="goBack" v-if="this.$route.meta.isSubDir">fa-angle-left</v-icon>
+			<v-icon @click="goBack" v-if="this.$route.meta.isSubDir" class="mr-2">fa-angle-left</v-icon>
 			<v-app-bar-nav-icon @click="drawer = !drawer" v-else></v-app-bar-nav-icon>
 			<v-toolbar-title class="primary--text">{{title}}</v-toolbar-title>
 		</v-toolbar>
