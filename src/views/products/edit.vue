@@ -64,18 +64,17 @@
 					</v-row>
 					<v-row>
 						<v-col cols="12">
-							<v-btn small color="success" :disabled="name.length == 0" type="submit">
-								<v-icon small class="mr-2">fa-save</v-icon>
+							<v-btn color="success" :disabled="name.length == 0" type="submit">
+								<v-icon class="mr-2">fa-save</v-icon>
 								{{ $t('call_action_buttons.save') }}
 							</v-btn>
 							<v-btn
-								small
 								outlined
 								color="error"
 								@click="$router.push('/product/list')"
 								class="float-right"
 							>
-								<v-icon small class="mr-2">fa-window-close</v-icon>
+								<v-icon class="mr-2">fa-window-close</v-icon>
 								{{ $t('call_action_buttons.cancel') }}
 							</v-btn>
 						</v-col>
