@@ -52,10 +52,11 @@
     "new_password_information":"Please enter a new password"
   },
   "products": {
+    "product":"Product",
     "search": "Search",
     "all": "All",
     "favorites": "Favorites",
-    "empty_list": "No products have been created, press the + button to add products",
+    "empty_list": "No products have been created",
     "delete_product_modal_title": "Remove product",
     "delete_product_modal_message": "Are you sure you want to delete this product?",
     "keep_item": "Keep product",
@@ -88,6 +89,7 @@
     "delete_purchase_message":"Are you sure you want to delete this purchase?"
   },
   "call_action_buttons": {
+    "create":"Create",
     "save": "Save",
     "saved":"Saved",
     "edit": "Edit",
