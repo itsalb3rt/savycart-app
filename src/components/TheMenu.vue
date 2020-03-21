@@ -17,7 +17,7 @@
 				</v-col>
 			</v-row>
 
-			<v-list class="pt-0" dense nav>
+			<v-list class="pt-0" nav>
 				<v-divider></v-divider>
 
 				<v-list-item v-for="(item,index) in items" :key="index" :to="{path:item.routePath}">
@@ -136,3 +136,9 @@ export default {
 	}
 };
 </script>
+<style lang="css">
+.v-list-item--active .v-list-item__content,
+.v-list-item--active .v-list-item__icon {
+	color: var(--v-primary-base) !important;
+}
+</style>
