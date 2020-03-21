@@ -1,89 +1,91 @@
 <template>
 	<div>
-		<v-layout row wrap>
-			<v-flex xs12 class="edit-form" v-if="online">
-				<v-container class="white">
-					<v-form @submit.prevent="updateProduct">
-						<v-layout row wrap>
-							<v-flex xs12>
-								<v-text-field
-									id="name"
-									v-model="name"
-									:label=" $t('products.name') "
-									@keyup="uppercase"
-									:placeholder=" $t('products.product_name_placeholder') "
-									required
-								></v-text-field>
-								<v-text-field
-									type="number"
-									v-model="price"
-									:label=" $t('products.price') "
-									value="1"
-									min="1"
-									step="0.01"
-									required
-								></v-text-field>
-								<v-select
-									v-model="measurementUnit"
-									:items="$store.getters['measurementUnits/getAll']"
-									:label=" $t('products.measurement_unit') "
-									item-text="name"
-									item-value="id_unit_measurement"
-									required
-								></v-select>
-								<v-select
-									v-model="category"
-									:items="$store.getters['categories/getAll']"
-									:label=" $t('products.category') "
-									item-text="name"
-									item-value="id_category"
-									required
-								></v-select>
-								<v-switch
-									color="primary"
-									v-model="itbis"
-									:label="`${$t('products.tax')}: ${(itbis == '1')? $t('messages.yes') : $t('messages.no') }`"
-									true-value="1"
-									false-value="0"
-								></v-switch>
-								<p class="grey--text">{{ $t('products.tax_info') }}</p>
-								<v-divider></v-divider>
-								<v-switch
-									color="primary"
-									v-model="favorite"
-									:label="`${$t('products.favorite_mark_message')}: ${(favorite == '1')? $t('messages.yes') : $t('messages.no') }`"
-									true-value="1"
-									false-value="0"
-								></v-switch>
-								<v-divider></v-divider>
-								<v-textarea
-									:label=" $t('products.description') "
-									v-model="description"
-									:placeholder=" $t('products.description_message') "
-								></v-textarea>
-							</v-flex>
-						</v-layout>
-						<v-layout align-center>
-							<v-flex xs6>
-								<v-btn small color="success" :disabled="name.length == 0" type="submit" class="ml-0">
-									<v-icon small class="mr-2">fa-save</v-icon>
-									{{ $t('call_action_buttons.save') }}
-								</v-btn>
-							</v-flex>
-							<v-flex xs6 text-xs-right>
-								<v-btn small outline color="error" @click="$router.push('/product/list')" class="mr-0">
-									<v-icon small class="mr-2">fa-window-close</v-icon>
-									{{ $t('call_action_buttons.cancel') }}
-								</v-btn>
-							</v-flex>
-						</v-layout>
-					</v-form>
-				</v-container>
-			</v-flex>
-			<v-flex xs12 v-else>
+		<v-row>
+			<v-col cols="12" v-if="online">
+				<v-form @submit.prevent="updateProduct">
+					<v-row>
+						<v-col cols="12">
+							<v-text-field
+								id="name"
+								v-model="name"
+								:label=" $t('products.name') "
+								@keyup="uppercase"
+								:placeholder=" $t('products.product_name_placeholder') "
+								required
+							></v-text-field>
+							<v-text-field
+								type="number"
+								v-model="price"
+								:label=" $t('products.price') "
+								value="1"
+								min="1"
+								step="0.01"
+								required
+							></v-text-field>
+							<v-select
+								v-model="measurementUnit"
+								:items="$store.getters['measurementUnits/getAll']"
+								:label=" $t('products.measurement_unit') "
+								item-text="name"
+								item-value="id_unit_measurement"
+								required
+							></v-select>
+							<v-select
+								v-model="category"
+								:items="$store.getters['categories/getAll']"
+								:label=" $t('products.category') "
+								item-text="name"
+								item-value="id_category"
+								required
+							></v-select>
+							<v-switch
+								color="primary"
+								v-model="itbis"
+								:label="`${$t('products.tax')}: ${(itbis == '1')? $t('messages.yes') : $t('messages.no') }`"
+								true-value="1"
+								false-value="0"
+							></v-switch>
+							<p class="grey--text">{{ $t('products.tax_info') }}</p>
+							<v-divider></v-divider>
+							<v-switch
+								color="primary"
+								v-model="favorite"
+								:label="`${$t('products.favorite_mark_message')}: ${(favorite == '1')? $t('messages.yes') : $t('messages.no') }`"
+								true-value="1"
+								false-value="0"
+							></v-switch>
+							<v-divider></v-divider>
+							<v-textarea
+								:label=" $t('products.description') "
+								v-model="description"
+								:placeholder=" $t('products.description_message') "
+							></v-textarea>
+						</v-col>
+					</v-row>
+					<v-row>
+						<v-col cols="12">
+							<v-btn small color="success" :disabled="name.length == 0" type="submit">
+								<v-icon small class="mr-2">fa-save</v-icon>
+								{{ $t('call_action_buttons.save') }}
+							</v-btn>
+							<v-btn
+								small
+								outlined
+								color="error"
+								@click="$router.push('/product/list')"
+								class="float-right"
+							>
+								<v-icon small class="mr-2">fa-window-close</v-icon>
+								{{ $t('call_action_buttons.cancel') }}
+							</v-btn>
+						</v-col>
+					</v-row>
+				</v-form>
+			</v-col>
+			<v-col cols="12" v-else>
 				<offline-infomation></offline-infomation>
-			</v-flex>
-		</v-layout>
+			</v-col>
+		</v-row>
 		<loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
 		<v-snackbar v-model="snackbarShow" :color="snackbarColor">
 			{{snackbarMessage}}
@@ -206,10 +208,7 @@ export default {
 			this.$store
 				.dispatch('measurementUnits/getAll')
 				.then(response => {
-					this.$store.commit(
-						'measurementUnits/SET',
-						response.data.data
-					);
+					this.$store.commit('measurementUnits/SET', response.data.data);
 				})
 				.catch(error => {
 					console.log(error);
