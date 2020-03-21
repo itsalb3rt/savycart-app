@@ -20,8 +20,8 @@
 				</v-tabs>
 			</v-col>
 			<v-col cols="12" v-if="filterProducts.length > 0">
-				<v-row v-for="(product,index) in filterProducts" :key="index">
-					<v-col cols="12">
+				<v-row>
+					<v-col cols="12" v-for="(product,index) in filterProducts" :key="index">
 						<v-card>
 							<v-card-text>
 								<div>
