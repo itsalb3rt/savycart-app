@@ -1,67 +1,59 @@
 <template>
 	<div>
-		<v-layout row wrap>
-			<v-flex xs12>
-				<v-card flat>
-					<v-card-text>
-						<v-layout row wrap>
-							<v-flex xs12>
-								<p>{{ $t('settings.currency_description') }}</p>
-								<div>
-									<v-select
-										v-model="preferredCurrencyCode"
-										:items="currenciesArray"
-										:label=" $t('settings.currency') "
-										item-text="symbol"
-										item-value="code"
-										required
-									></v-select>
-									<v-btn color="success" class="ml-0" @click="saveCurrency">
-										<v-icon class="mr-2">fa-save</v-icon>
-										{{ $t('call_action_buttons.save') }} {{ $t('settings.currency') }}
-									</v-btn>
-								</div>
-							</v-flex>
-							<v-flex xs12>
-								<v-divider class="mt-2 mb-2"></v-divider>
-							</v-flex>
-							<v-flex xs12>
-								<p>{{ $t('settings.tax_description') }}</p>
+		<v-row>
+			<v-col cols="12">
+				<p>{{ $t('settings.currency_description') }}</p>
+				<div>
+					<v-select
+						v-model="preferredCurrencyCode"
+						:items="currenciesArray"
+						:label=" $t('settings.currency') "
+						item-text="symbol"
+						item-value="code"
+						required
+					></v-select>
+					<v-btn color="success" class="ml-0" @click="saveCurrency">
+						<v-icon class="mr-2">fa-save</v-icon>
+						{{ $t('call_action_buttons.save') }} {{ $t('settings.currency') }}
+					</v-btn>
+				</div>
+			</v-col>
+			<v-col cols="12">
+				<v-divider class="mt-2 mb-2"></v-divider>
+			</v-col>
+			<v-col cols="12">
+				<p>{{ $t('settings.tax_description') }}</p>
 
-								<v-text-field
-									type="number"
-									v-model.number="tax"
-									name="name"
-									:label=" $t('settings.tax') "
-									id="tax_quantity"
-								></v-text-field>
-								<v-btn color="success" @click="saveTax()">
-									<v-icon class="mr-2">fa-save</v-icon>
-									{{ $t('call_action_buttons.save') }} {{ $t('settings.tax') }}
-								</v-btn>
-							</v-flex>
-							<v-flex xs12>
-								<v-divider class="mt-2 mb-2"></v-divider>
-							</v-flex>
-							<v-flex xs12>
-								<v-select
-									v-model="language"
-									:items="languageList"
-									:label=" $t('settings.language') "
-									item-text="name"
-									item-value="value"
-									required
-								></v-select>
-								<v-btn color="success" @click="saveLanguage">
-									<v-icon class="mr-2">fa-save</v-icon>
-									{{ $t('call_action_buttons.save') }} {{ $t('settings.language') }}
-								</v-btn>
-							</v-flex>
-						</v-layout>
-					</v-card-text>
-				</v-card>
-			</v-flex>
-		</v-layout>
+				<v-text-field
+					type="number"
+					v-model.number="tax"
+					name="name"
+					:label=" $t('settings.tax') "
+					id="tax_quantity"
+				></v-text-field>
+				<v-btn color="success" @click="saveTax()">
+					<v-icon class="mr-2">fa-save</v-icon>
+					{{ $t('call_action_buttons.save') }} {{ $t('settings.tax') }}
+				</v-btn>
+			</v-col>
+			<v-col cols="12">
+				<v-divider class="mt-2 mb-2"></v-divider>
+			</v-col>
+			<v-col cols="12">
+				<v-select
+					v-model="language"
+					:items="languageList"
+					:label=" $t('settings.language') "
+					item-text="name"
+					item-value="value"
+					required
+				></v-select>
+				<v-btn color="success" @click="saveLanguage">
+					<v-icon class="mr-2">fa-save</v-icon>
+					{{ $t('call_action_buttons.save') }} {{ $t('settings.language') }}
+				</v-btn>
+			</v-col>
+		</v-row>
 		<v-snackbar :multi-line="snackbarMultiLine" v-model="snackbarShow" :color="snackbarColor">
 			{{snackbarMessage}}
 			<v-btn dark flat @click="snackbarShow = false">Cerrar</v-btn>
@@ -155,7 +147,7 @@ export default {
 		},
 		saveLanguage() {
 			window.localStorage.setItem('language', this.language);
-      this.$i18n.locale = this.language;
+			this.$i18n.locale = this.language;
 			this.snackbarShow = true;
 			this.snackbarMessage = this.$t('call_action_buttons.saved');
 			this.snackbarColor = 'success';
