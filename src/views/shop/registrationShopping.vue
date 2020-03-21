@@ -1,127 +1,110 @@
 <template>
 	<div>
-		<v-layout row wrap v-if="products.length > 0">
-			<v-flex xs12>
-				<v-card flat>
-					<v-card-text>
-						<v-flex xs12>
-							<v-text-field
-								prepend-inner-icon="fa-search"
-								v-model="searchProductName"
-								:label=" $t('products.search') "
-								clearable
-							></v-text-field>
-							<v-tabs fixed-tabs>
-								<v-tab @click="showFavorites = false">
-									<v-icon class="mr-2">fa-list</v-icon>
-									{{ $t('products.all') }}
-								</v-tab>
-								<v-tab @click="showFavorites = true">
-									<v-icon class="mr-2">fa-star</v-icon>
-									{{ $t('products.favorites') }}
-								</v-tab>
-							</v-tabs>
-						</v-flex>
+		<v-row v-if="products.length > 0">
+			<v-col cols="12">
+				<v-text-field
+					prepend-inner-icon="fa-search"
+					v-model="searchProductName"
+					:label=" $t('products.search') "
+					clearable
+				></v-text-field>
+				<v-tabs fixed-tabs>
+					<v-tab @click="showFavorites = false">
+						<v-icon class="mr-2">fa-list</v-icon>
+						{{ $t('products.all') }}
+					</v-tab>
+					<v-tab @click="showFavorites = true">
+						<v-icon class="mr-2">fa-star</v-icon>
+						{{ $t('products.favorites') }}
+					</v-tab>
+				</v-tabs>
+			</v-col>
 
-						<v-flex xs12 class="products-container">
-							<v-layout
-								class="mt-2 mb-2"
-								row
-								wrap
-								v-for="(product,index) in actualAvaliableProducts"
-								:key="index"
-							>
-								<v-flex xs12>
-									<v-card>
-										<v-card-text>
-											<div
-												class="primary--text font-weight-bold"
-												@click="$router.push({ name: 'view_product', params: { id: product.id_product } })"
-											>
-												{{product.name}}
-												<span v-if="product.favorite == '1' ">
-													<v-icon small color="warning" class="ml-2">fa-star</v-icon>
-												</span>
-											</div>
-											<div class="grey--text">{{getMeasurementName(product.id_unit_measurement)}}</div>
-											<div>
-												<v-layout row wrap>
-													<v-flex xs5 class="mr-1 ml-2">
-														<v-text-field
-															:label="currency.symbol"
-															type="number"
-															name="price"
-															id="price"
-															step="0.01"
-															min="1"
-															placeholder="1"
-															v-model.number="product.price"
-															:disabled="isOnCar(product.id_product)"
-														></v-text-field>
-													</v-flex>
-													<v-flex xs5 class="ml-1">
-														<v-text-field
-															:label=" $t('products.quantity') "
-															type="number"
-															name="quantity"
-															id="quantity"
-															value="1"
-															min="1"
-															placeholder="1"
-															v-model.number="product.quantity"
-															:disabled="isOnCar(product.id_product)"
-														></v-text-field>
-													</v-flex>
-												</v-layout>
-											</div>
-										</v-card-text>
-										<v-card-actions>
-											<v-btn
-												color="primary"
-												class="ma-0"
-												outline
-												v-if="!isOnCar(product.id_product)"
-												@click="addItemToShoppingCar(index)"
-											>{{ $t('shopping_car.add_to_shopping_car') }}</v-btn>
-											<v-btn
-												color="error"
-												class="ma-0"
-												outline
-												v-if="isOnCar(product.id_product)"
-												@click="removeItemFromShoppingCar(product.id_product)"
-											>{{ $t('shopping_car.remove_from_shopping_car') }}</v-btn>
-										</v-card-actions>
-									</v-card>
+			<v-col cols="12" class="products-container">
+				<v-card v-for="(product,index) in actualAvaliableProducts" :key="index" class="mb-4">
+					<v-card-text>
+						<div
+							class="primary--text font-weight-bold"
+							@click="$router.push({ name: 'view_product', params: { id: product.id_product } })"
+						>
+							{{product.name}}
+							<span v-if="product.favorite == '1' ">
+								<v-icon small color="warning" class="ml-2">fa-star</v-icon>
+							</span>
+						</div>
+						<div class="grey--text">{{getMeasurementName(product.id_unit_measurement)}}</div>
+						<div>
+							<v-layout row wrap>
+								<v-flex xs5 class="mr-1 ml-2">
+									<v-text-field
+										:label="currency.symbol"
+										type="number"
+										name="price"
+										id="price"
+										step="0.01"
+										min="1"
+										placeholder="1"
+										v-model.number="product.price"
+										:disabled="isOnCar(product.id_product)"
+									></v-text-field>
+								</v-flex>
+								<v-flex xs5 class="ml-1">
+									<v-text-field
+										:label=" $t('products.quantity') "
+										type="number"
+										name="quantity"
+										id="quantity"
+										value="1"
+										min="1"
+										placeholder="1"
+										v-model.number="product.quantity"
+										:disabled="isOnCar(product.id_product)"
+									></v-text-field>
 								</v-flex>
 							</v-layout>
-						</v-flex>
-
-						<v-flex xs12>
-							<shop-resume
-								:quantity="shoppingCar.length"
-								:sub-total="subTotal"
-								:currency-symbol="currency.symbol"
-								:total-tax="totalTax"
-							></shop-resume>
-						</v-flex>
+						</div>
 					</v-card-text>
+					<v-card-actions>
+						<v-btn
+							color="primary"
+							class="ma-0"
+							outlined
+							v-if="!isOnCar(product.id_product)"
+							@click="addItemToShoppingCar(index)"
+						>{{ $t('shopping_car.add_to_shopping_car') }}</v-btn>
+						<v-btn
+							color="error"
+							class="ma-0"
+							outlined
+							v-if="isOnCar(product.id_product)"
+							@click="removeItemFromShoppingCar(product.id_product)"
+						>{{ $t('shopping_car.remove_from_shopping_car') }}</v-btn>
+					</v-card-actions>
 				</v-card>
-			</v-flex>
-		</v-layout>
-		<v-layout row wrap v-else>
-			<v-flex xs12>
+			</v-col>
+
+			<v-col cols="12">
+				<shop-resume
+					:quantity="shoppingCar.length"
+					:sub-total="subTotal"
+					:currency-symbol="currency.symbol"
+					:total-tax="totalTax"
+				></shop-resume>
+			</v-col>
+		</v-row>
+		<v-row v-else>
+			<v-col cols="12">
 				<v-card flat>
 					<v-card-text>
-						<v-flex xs12>
-							<p class="headline grey--text">{{ $t('products.empty_list') }}</p>
-							<v-btn class="ml-0" color="primary" @click="$router.push('/product/add')">
-								<v-icon class="mr-2">fa-plus-circle</v-icon>
-							</v-btn>
-						</v-flex>
+						<p class="headline grey--text">{{ $t('products.empty_list') }}</p>
+						<v-btn color="primary" @click="$router.push('/product/add')">
+							<v-icon class="mr-2">fa-plus-circle</v-icon>
+							{{$t('call_action_buttons.create')}} {{ $t('products.product') }}
+						</v-btn>
 					</v-card-text>
 				</v-card>
-			</v-flex>
-		</v-layout>
+			</v-col>
+		</v-row>
 		<loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
 	</div>
 </template>

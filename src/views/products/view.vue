@@ -1,17 +1,16 @@
 <template>
 	<div>
-		<v-layout>
-			<v-flex xs12 v-if="product.length == undefined">
+		<v-row>
+			<v-col cols="12" v-if="product.id_product">
 				<v-card flat>
 					<v-card-text>
 						<v-btn
-							small
-							outline
+							outlined
 							color="success"
 							@click="$router.push({ name: 'edit product', params: { id: product.id_product } })"
 							class="ml-0"
 						>
-							<v-icon class="mr-2" small>fa-edit</v-icon>
+							<v-icon class="mr-2">fa-edit</v-icon>
 							{{ $t('call_action_buttons.edit') }}
 						</v-btn>
 						<div>
@@ -53,26 +52,28 @@
 						</div>
 					</v-card-text>
 				</v-card>
-			</v-flex>
-			<v-flex xs12 v-else>
+			</v-col>
+			<v-col cols="12" v-else-if="product.id_product == undefined && loading === false">
 				<div class="display-1 mt-5">
 					<v-icon class="mr-2">fa-magic</v-icon>
 					{{ $t('messages.nothing_to_display') }}
 				</div>
-			</v-flex>
-		</v-layout>
+			</v-col>
+		</v-row>
+		<loading :active.sync="loading" :can-cancel="false" :is-full-page="true"></loading>
 	</div>
 </template>
 
 <script>
 import { mapMutations, mapState } from 'vuex';
-import MenuComponent from '@/components/TheMenu.vue';
 import currencies from '@/mixins/miscellany/currencies';
+import Loading from 'vue-loading-overlay';
 
 export default {
 	mixins: [currencies],
 	async mounted() {
 		if (this.online) {
+			this.loading = true;
 			await this.requestCategories();
 			await this.requestMeasurementUnit();
 			await this.getProduct();
@@ -81,12 +82,13 @@ export default {
 	},
 	data() {
 		return {
+			loading:false,
 			product: [],
 			currency: []
 		};
 	},
 	components: {
-		MenuComponent
+		Loading
 	},
 	computed: {
 		...mapState(['user', 'online', 'apiDomain'])
@@ -94,16 +96,15 @@ export default {
 	methods: {
 		...mapMutations(['setCategories']),
 		getProduct() {
-			this.axios
-				.get(
-					`${this.apiDomain}/products/products?idProduct=${this.$route.params.id}`
-				)
+			this.$store.dispatch('products/get',{id:this.$route.params.id})
 				.then(response => {
-					this.product = response.data;
+					this.product = response.data.data;
 				})
 				.catch(function(error) {
 					console.log('TCL: requestProducts -> error', error);
-				});
+				}).finally(()=>{
+					this.loading = false
+				})
 		},
 		getMeasurementName(id) {
 			let value;
@@ -130,6 +131,16 @@ export default {
 				.dispatch('categories/getAll')
 				.then(response => {
 					this.$store.commit('categories/SET', response.data.data);
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		},
+				requestMeasurementUnit() {
+			this.$store
+				.dispatch('measurementUnits/getAll')
+				.then(response => {
+					this.$store.commit('measurementUnits/SET', response.data.data);
 				})
 				.catch(error => {
 					console.log(error);
