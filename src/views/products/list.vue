@@ -79,9 +79,7 @@
 
 <script>
 import deleteDialog from '@/components/Interface/Dialogs/Delete';
-
 import { mapState, mapMutations } from 'vuex';
-
 import currencies from '@/mixins/miscellany/currencies';
 
 export default {
@@ -90,16 +88,18 @@ export default {
 		deleteDialog
 	},
 	async mounted() {
-		this.products = this.$store.getters['products/getProducts'];
+		this.products = this.$store.getters['products/getAll'];
 
 		if (this.online) {
 			this.getTaxes();
 			this.$store.dispatch('products/getAll').then(response => {
 				this.$store.commit('products/SET', response.data.data);
-				this.products = this.$store.getters['products/getProducts'];
+				this.products = this.$store.getters['products/getAll'];
 				this.requestMeasurementUnit();
 				this.requestCategories();
 			});
+		}else{
+			this.products = this.$store.getters['products/getAll'];
 		}
 		this.currency = await this.getPreferredCurrency();
 	},
@@ -157,7 +157,7 @@ export default {
 				.then(response => {
 					this.dialog = false;
 					const productIndexInStore = this.$store.getters[
-						'products/getProducts'
+						'products/getAll'
 					].findIndex(product => product.id_product === this.deleteProductId);
 					const productIndexInView = this.products.findIndex(
 						product => product.id_product === this.deleteProductId
