@@ -7,7 +7,8 @@ export default {
     },
     getters:{
         getAll(state){
-            return state.categories;
+            const localCategories = JSON.parse(window.localStorage.getItem('categories'));
+            return (localCategories === null) ? state.categories : localCategories;
         }
     },
     actions: {
@@ -24,12 +25,15 @@ export default {
     mutations:{
         SET(state,payload){
             state.categories = payload;
+            window.localStorage.setItem('categories',JSON.stringify(state.categories));
         },
         ADD(state,payload){
             state.categories.push(payload);
+            window.localStorage.setItem('categories', JSON.stringify(state.categories));
         },
         REMOVE(state,index){
             state.categories.splice(index, 1);
+            window.localStorage.setItem('categories', JSON.stringify(state.categories));
         }
     }
 }
