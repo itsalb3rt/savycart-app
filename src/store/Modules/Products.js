@@ -6,8 +6,9 @@ export default {
         products: []
     },
     getters: {
-        getProducts(state) {
-            return state.products;
+        getAll(state) {
+            const localProducts = JSON.parse(window.localStorage.getItem('products'));
+            return (localProducts === null) ? state.products: localProducts;
         }
     },
     actions: {
@@ -30,12 +31,15 @@ export default {
     mutations: {
         SET(state, payload) {
             state.products = payload;
+            window.localStorage.setItem('products', JSON.stringify(state.products))
         },
         ADD(state, payload) {
             state.products.push(payload);
+            window.localStorage.setItem('products', JSON.stringify(state.products))
         },
         REMOVE(state, index) {
             state.products.splice(index, 1);
+            window.localStorage.setItem('products', JSON.stringify(state.products))
         }
     }
 }
