@@ -25,11 +25,8 @@ export default new Vuex.Store({
     isLoged: false,
     apiDomain: (process.env.NODE_ENV == 'development') ? 'http://localhost/sheiley_shop_api' : 'https://gibucket.a2hosted.com/sheiley_shop_api',
     user: [],
-    itbis: 0,
     currencies: [],
     online: true,
-    products: [],
-    shoppingCar: [],
   },
   mutations: {
     setCurrency(state, currency) {
