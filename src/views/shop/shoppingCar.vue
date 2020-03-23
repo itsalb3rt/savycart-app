@@ -71,27 +71,25 @@
 		></ShopResume>
 		<v-snackbar v-model="snackbarShow" :color="snackbarColor">
 			{{snackbarMessage}}
-			<v-btn dark flat @click="snackbarShow = false">Cerrar</v-btn>
+			<v-btn dark text @click="snackbarShow = false">Cerrar</v-btn>
 		</v-snackbar>
 	</div>
 </template>
 
 <script>
 import ShopResume from '@/components/shop/ShopResume';
-import ShoppingCar from '@/components/shop/ShoppingCar';
 import { mapState, mapMutations } from 'vuex';
 
 import currencies from '@/mixins/miscellany/currencies';
 
 export default {
 	mixins: [currencies],
-	async mounted() {
+	mounted() {
 		this.shoppingCar = this.$store.getters['shoppingCar/getAll'];
-		this.currency = await this.getPreferredCurrency();
+		this.currency = this.getPreferredCurrency();
 	},
 	components: {
-		ShopResume,
-		ShoppingCar
+		ShopResume
 	},
 	data() {
 		return {

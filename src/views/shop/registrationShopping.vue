@@ -196,7 +196,7 @@ export default {
 		},
 		isOnCar(idProduct) {
 			let result = this.shoppingCar.find(item => item.id_product === idProduct);
-			return (result)?true:false;
+			return result ? true : false;
 		},
 		numberFormat(number) {
 			let l10nEN = new Intl.NumberFormat('en-US');
