@@ -119,16 +119,19 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
 	mixins: [currencies],
-	async mounted() {
+	mounted() {
 		if (this.online) {
 			this.isLoading = true;
 			this.$store.dispatch('products/getAll').then(response => {
-				this.products = response.data.data;
+				this.$store.commit('products/SET', response.data.data);
+				this.products = this.$store.getters['products/getAll'];
 				this.isLoading = false;
 			});
-			this.shoppingCar = this.$store.getters['shoppingCar/getAll'];
+		} else {
+			this.products = this.$store.getters['products/getAll'];
 		}
-		this.currency = await this.getPreferredCurrency();
+		this.shoppingCar = this.$store.getters['shoppingCar/getAll'];
+		this.currency = this.getPreferredCurrency();
 	},
 	data() {
 		return {
@@ -192,14 +195,8 @@ export default {
 			return value;
 		},
 		isOnCar(idProduct) {
-			let result;
-			this.shoppingCar.forEach(item => {
-				if (item.id_product == idProduct) {
-					result = true;
-					return;
-				}
-			});
-			return result;
+			let result = this.shoppingCar.find(item => item.id_product === idProduct);
+			return (result)?true:false;
 		},
 		numberFormat(number) {
 			let l10nEN = new Intl.NumberFormat('en-US');
