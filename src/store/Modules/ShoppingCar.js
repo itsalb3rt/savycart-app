@@ -6,26 +6,25 @@ export default {
     },
     getters: {
         getAll(state) {
-            const shoppingCard = JSON.parse(window.localStorage.getItem('shoppingCard'));
-            return (shoppingCard === null) ? state.shoppingCard : shoppingCard;
+            const localShoppingCar = JSON.parse(window.localStorage.getItem('shoppingCar'));
+            return (localShoppingCar === null) ? state.shoppingCar : localShoppingCar;
         }
     },
     mutations: {
         SET(state, payload) {
-            state.shoppingCard = payload;
-            window.localStorage.setItem('shoppingCard', JSON.stringify(state.shoppingCar))
+            state.shoppingCar = payload;
+            window.localStorage.setItem('shoppingCar', JSON.stringify(state.shoppingCar));
         },
-        ADD(state, payload){
-            
+        ADD(state, payload){            
             state.shoppingCar.push(payload);
-            window.localStorage.setItem('shoppingCard', JSON.stringify(state.shoppingCar))
+            window.localStorage.setItem('shoppingCar', JSON.stringify(state.shoppingCar));
         },
         REMOVE(state, payload){
             /**
              * payload is the array index
              */
             state.shoppingCar.splice(payload,1);
-            window.localStorage.setItem('shoppingCard', JSON.stringify(state.shoppingCar))
+            window.localStorage.setItem('shoppingCar', JSON.stringify(state.shoppingCar));
         }
     }
 }
