@@ -7,7 +7,8 @@ export default {
     },
     getters:{
         getAll(state){
-            return state.measurementUnits;
+            const localMeasurementsUnits = JSON.parse(window.localStorage.getItem('measurementUnits'));
+            return (localMeasurementsUnits === null) ? state.measurementUnits : localMeasurementsUnits;
         }
     },
     actions: {
@@ -24,12 +25,15 @@ export default {
     mutations:{
         SET(state,payload){
             state.measurementUnits = payload;
+            window.localStorage.setItem('measurementUnits', JSON.stringify(state.measurementUnits))
         },
         ADD(state,payload){
             state.measurementUnits.push(payload);
+            window.localStorage.setItem('measurementUnits', JSON.stringify(state.measurementUnits))
         },
         REMOVE(state,index){
             state.measurementUnits.splice(index, 1);
+            window.localStorage.setItem('measurementUnits', JSON.stringify(state.measurementUnits))
         }
     }
 }
