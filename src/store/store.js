@@ -21,9 +21,7 @@ export default new Vuex.Store({
     shoppings
   },
   state: {
-    initialized: false,
     isLoged: false,
-    apiDomain: (process.env.NODE_ENV == 'development') ? 'http://localhost/sheiley_shop_api' : 'https://gibucket.a2hosted.com/sheiley_shop_api',
     user: [],
     currencies: [],
     online: true,
@@ -34,9 +32,6 @@ export default new Vuex.Store({
     },
     setUser(state, user) {
       state.user = user;
-    },
-    setLoginState(state, loginState) {
-      state.isLoged = loginState;
     },
     setOnline(state, value) {
       state.online = value;

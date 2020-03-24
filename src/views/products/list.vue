@@ -88,8 +88,6 @@ export default {
 		deleteDialog
 	},
 	async mounted() {
-		this.products = this.$store.getters['products/getAll'];
-
 		if (this.online) {
 			this.getTaxes();
 			this.$store.dispatch('products/getAll').then(response => {

@@ -10,11 +10,7 @@ export default {
   mounted() {
     deleteState()
     this.$router.push("/login");
-    this.setLoginState(false);
     this.$store.commit('auth/SET_LOGGED', false);
-  },
-  methods: {
-    ...mapMutations(["setLoginState"])
   }
 };
 </script>
