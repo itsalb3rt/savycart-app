@@ -100,7 +100,6 @@ export default {
         ...mapState(['apiDomain', 'user'])
     },
     methods: {
-        ...mapMutations(['setUser', 'setLoginState']),
         login() {
             this.$store
                 .dispatch('auth/login', {
@@ -110,7 +109,6 @@ export default {
                 .then(response => {
                     if (response.status === 200) {
                         this.setUser(response.data.data);
-                        this.setLoginState(true);
                         this.saveInIndexedDbCurrencies();
                         window.localStorage.setItem('token',response.data.data.token)
                         this.$router.push('product/list');

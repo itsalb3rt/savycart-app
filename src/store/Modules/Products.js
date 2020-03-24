@@ -6,8 +6,8 @@ export default {
         products: []
     },
     getters: {
-        getProducts(state) {
-            return state.products;
+        getAll(state) {
+            return state.products
         }
     },
     actions: {

@@ -9,8 +9,7 @@ export default {
     },
     getters:{
         getAll(state){
-            const tax = window.localStorage.getItem('tax');
-            return (tax === null) ? state.tax.quatity : tax;
+            return  state.tax.quatity
         }
     },
     actions: {
@@ -24,7 +23,6 @@ export default {
     mutations:{
         SET(state,payload){
             state.tax = payload;
-            window.localStorage.setItem('tax',payload)
         }
     }
 }

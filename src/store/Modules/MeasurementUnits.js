@@ -7,7 +7,7 @@ export default {
     },
     getters:{
         getAll(state){
-            return state.measurementUnits;
+            return state.measurementUnits
         }
     },
     actions: {
