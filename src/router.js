@@ -199,7 +199,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  
+
   if (to.name) {
     // Start the route progress bar.
     NProgress.start()
@@ -214,11 +214,13 @@ router.beforeEach((to, from, next) => {
   let authRequired = !publicPages.includes(to.name);
 
   const token = window.localStorage.getItem("token");
+  const user = JSON.parse(window.localStorage.getItem('user'));
 
   if (authRequired) {
     if (token === null) {
       next('/login');
     } else {
+      store.commit('auth/SET_USER', user);
       store.commit('auth/SET_LOGGED', true);
       next();
     }
