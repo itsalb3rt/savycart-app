@@ -4,6 +4,7 @@ export default {
     namespaced: true,
     state:{
         isLogged: false,
+        user: {}
     },
     actions: {
         login({
@@ -31,16 +32,28 @@ export default {
             commit
         }, payload) {
             return httpClient.post(`/auth/resetPassword`, payload)
+        },
+        user({commit},payload){
+            return httpClient.get(`/users/users/${payload.id}`)
+        },
+        updateUser({commit},payload){
+            return httpClient.patch(`/users/users/${payload.id}`,payload.data)
         }
     },
     getters:{
         getIsLogged(state){
             return state.isLogged;
+        },
+        getUser(state){
+            return state.user;
         }
     },
     mutations:{
         SET_LOGGED(state,value){
             state.isLogged = value;
+        },
+        SET_USER(state,payload){
+            state.user = payload;
         }
     }
 }
