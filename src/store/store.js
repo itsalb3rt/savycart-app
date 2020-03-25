@@ -7,6 +7,7 @@ import measurementUnits from './Modules/MeasurementUnits';
 import taxes from './Modules/Taxes';
 import shoppingCar from './Modules/ShoppingCar';
 import shoppings from './Modules/Shoppings';
+import snackbar from './Modules/Snackbar';
 
 Vue.use(Vuex)
 Vue.config.devtools = true
@@ -18,7 +19,8 @@ export default new Vuex.Store({
     measurementUnits,
     taxes,
     shoppingCar,
-    shoppings
+    shoppings,
+    snackbar
   },
   state: {
     isLoged: false,
