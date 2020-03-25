@@ -72,10 +72,6 @@
 				</v-col>
 			</v-row>
 		</v-form>
-		<v-snackbar :multi-line="snackbarMultiLine" v-model="snackbarShow" :color="snackbarColor">
-			{{snackbarMessage}}
-			<v-btn dark flat @click="snackbarShow = false">Cerrar</v-btn>
-		</v-snackbar>
 	</div>
 </template>
 
@@ -108,11 +104,7 @@ export default {
 			passwordRules: [
 				v => !!v || this.$t('messages.invalid_input'),
 				v => v.length >= 8 || 'Password must be less than 8 characters'
-			],
-			snackbarShow: false,
-			snackbarMessage: '',
-			snackbarColor: '',
-			snackbarMultiLine: true
+			]
 		};
 	},
 	computed: {
@@ -135,9 +127,12 @@ export default {
 			this.$store
 				.dispatch('auth/passwordReset', this.passwordReset)
 				.then(response => {
-					this.snackbarShow = true;
-					this.snackbarMessage = this.$t('messages.saved');
-					this.snackbarColor = 'success';
+					this.$store.commit('snackbar/setSnackbar', {
+						show: true,
+						message: this.$t('messages.saved'),
+						color: 'success',
+						top: true
+					});
 
 					setTimeout(() => {
 						this.$router.push('/login');
@@ -147,8 +142,19 @@ export default {
 					this.loading = false;
 					if (error.response.status === 401) {
 						this.invalidToken = true;
+						this.$store.commit('snackbar/setSnackbar', {
+							show: true,
+							message: this.$t('messages.invalid_token'),
+							color: 'error',
+							top: true
+						});
 					} else if (error.response.status === 409) {
-						console.log('the password not match');
+						this.$store.commit('snackbar/setSnackbar', {
+							show: true,
+							message: this.$t('messages.password_not_match'),
+							color: 'error',
+							top: true
+						});
 					}
 					console.log(error);
 				});

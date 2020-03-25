@@ -16,6 +16,16 @@
 		</v-content>
 		<!-- @detected-condition fires when the connectivity status of the device changes -->
 		<offline @detected-condition="handleConnectivityChange"></offline>
+		<v-snackbar
+			:value="$store.state.snackbar.snackbar.show"
+			:multi-line="$store.state.snackbar.snackbar.multiLine"
+			:top="$store.state.snackbar.snackbar.top === 'top'"
+			:bottom="$store.state.snackbar.snackbar.bottom === 'bottom'"
+			:color="$store.state.snackbar.snackbar.color"
+		>
+			{{ $store.state.snackbar.snackbar.message }}
+			<v-btn dark text @click="$store.commit('snackbar/setSnackbarShow', false)">Cerrar</v-btn>
+		</v-snackbar>
 	</v-app>
 </template>
 

@@ -70,10 +70,6 @@
 			<v-icon>fa-plus</v-icon>
 		</v-btn>
 		<delete-dialog :show="dialog" @cancel="dialog = false" @confirm="deleteProduct()" />
-		<v-snackbar v-model="successDeleteProduct" color="success">
-			{{ $t('products.product_removed') }}
-			<v-btn dark flat @click="successDeleteProduct = false">{{ $t('call_action_buttons.close') }}</v-btn>
-		</v-snackbar>
 	</div>
 </template>
 
@@ -96,7 +92,7 @@ export default {
 				this.requestMeasurementUnit();
 				this.requestCategories();
 			});
-		}else{
+		} else {
 			this.products = this.$store.getters['products/getAll'];
 		}
 		this.currency = await this.getPreferredCurrency();
@@ -108,7 +104,6 @@ export default {
 			showFavorites: false,
 			dialog: false,
 			deleteProductId: '',
-			successDeleteProduct: false,
 			products: []
 		};
 	},
@@ -162,11 +157,22 @@ export default {
 					);
 					this.$store.commit('products/REMOVE', productIndexInStore);
 					this.products.splice(productIndexInView, 1);
-					this.successDeleteProduct = true;
+					this.$store.commit('snackbar/setSnackbar', {
+						show: true,
+						message: this.$t('products.product_removed'),
+						color: 'success',
+						top: true
+					});
 					//Reset the search
 					this.searchProductName = '';
 				})
-				.catch(function(error) {
+				.catch(error => {
+					this.$store.commit('snackbar/setSnackbar', {
+						show: true,
+						message: this.$t('messages.server_error'),
+						color: 'error',
+						top: true
+					});
 					console.log('TCL: deleteCategory -> error', error);
 				});
 		},

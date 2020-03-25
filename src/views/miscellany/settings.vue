@@ -54,10 +54,6 @@
 				</v-btn>
 			</v-col>
 		</v-row>
-		<v-snackbar :multi-line="snackbarMultiLine" v-model="snackbarShow" :color="snackbarColor">
-			{{snackbarMessage}}
-			<v-btn dark flat @click="snackbarShow = false">Cerrar</v-btn>
-		</v-snackbar>
 	</div>
 </template>
 
@@ -98,10 +94,6 @@ export default {
 			preferredCurrency: [],
 			preferredCurrencyCode: '',
 			currenciesArray: [],
-			snackbarShow: false,
-			snackbarMessage: '',
-			snackbarColor: '',
-			snackbarMultiLine: true,
 			language: '',
 			languageList: [
 				{ name: 'Español', value: 'es' },
@@ -125,36 +117,48 @@ export default {
 				.dispatch('taxes/update', { quantity: this.tax })
 				.then(response => {
 					this.$store.commit('taxes/SET', this.tax);
-					this.snackbarShow = true;
-					this.snackbarMessage = this.$t('call_action_buttons.save');
-					this.snackbarColor = 'success';
+					this.$store.commit('snackbar/setSnackbar', {
+						show: true,
+						message: this.$t('call_action_buttons.saved'),
+						color: 'success',
+						top: true
+					});
 				})
-				.catch(e => {
-					this.snackbarShow = true;
-					this.snackbarMessage = this.$t('messages.server_error');
-					this.snackbarColor = 'error';
-					console.log('TCL: saveTax -> e', e);
+				.catch(error => {
+					this.$store.commit('snackbar/setSnackbar', {
+						show: true,
+						message: this.$t('messages.server_error'),
+						color: 'error',
+						top: true
+					});
+					console.log('TCL: saveTax -> e', error);
 				});
 		},
 		saveCurrency() {
 			this.setPreferredCurrency(
 				this.currencies[this.preferredCurrencyCode]
 			).then(() => {
-				this.snackbarShow = true;
-				this.snackbarMessage = this.$t('call_action_buttons.saved');
-				this.snackbarColor = 'success';
+				this.$store.commit('snackbar/setSnackbar', {
+					show: true,
+					message: this.$t('call_action_buttons.saved'),
+					color: 'success',
+					top: true
+				});
 			});
 		},
 		saveLanguage() {
 			window.localStorage.setItem('language', this.language);
 			this.$i18n.locale = this.language;
-			this.snackbarShow = true;
-			this.snackbarMessage = this.$t('call_action_buttons.saved');
-			this.snackbarColor = 'success';
+			this.$store.commit('snackbar/setSnackbar', {
+				show: true,
+				message: this.$t('call_action_buttons.saved'),
+				color: 'success',
+				top: true
+			});
 		}
 	},
 	computed: {
-		...mapState(['apiDomain', 'user'])
+		...mapState(['user'])
 	}
 };
 </script>

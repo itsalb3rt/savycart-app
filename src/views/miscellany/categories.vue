@@ -45,10 +45,6 @@
 			@cancel="showDialogDeleteCategory = false"
 			@confirm="deleteCategory()"
 		/>
-		<v-snackbar :multi-line="snackbarMultiLine" v-model="snackbarShow" :color="snackbarColor">
-			{{snackbarMessage}}
-			<v-btn dark flat @click="snackbarShow = false">{{ $t('call_action_buttons.close') }}</v-btn>
-		</v-snackbar>
 	</div>
 </template>
 
@@ -72,10 +68,6 @@ export default {
 				{ text: this.$t('category.name'), value: 'name' },
 				{ text: this.$t('call_action_buttons.action'), value: 'action' }
 			],
-			snackbarShow: false,
-			snackbarMessage: '',
-			snackbarColor: '',
-			snackbarMultiLine: true,
 			showDialogDeleteCategory: false,
 			indexCategoryForDelete: ''
 		};
@@ -91,17 +83,23 @@ export default {
 					.then(response => {
 						this.$store.commit('categories/ADD', response.data.data);
 						this.name = '';
-						this.snackbarShow = true;
-						this.snackbarMessage = this.$t('messages.save');
-						this.snackbarColor = 'success';
+						this.$store.commit('snackbar/setSnackbar', {
+							show: true,
+							message: this.$t('messages.saved'),
+							color: 'success',
+							top: true
+						});
 					})
 					.catch(function(error) {
 						console.log('TCL: createCategory -> error', error);
 					});
 			} else {
-				this.snackbarShow = true;
-				this.snackbarMessage = this.$t('messages.intenet_required');
-				this.snackbarColor = 'error';
+				this.$store.commit('snackbar/setSnackbar', {
+					show: true,
+					message: this.$t('messages.intenet_required'),
+					color: 'success',
+					top: true
+				});
 			}
 		},
 		dispatchDeleteCategory(item) {
@@ -124,22 +122,31 @@ export default {
 							'categories/REMOVE',
 							this.indexCategoryForDelete
 						);
-						this.snackbarShow = true;
-						this.snackbarMessage = this.$t('call_action_buttons.delete');
-						this.snackbarColor = 'success';
+						this.$store.commit('snackbar/setSnackbar', {
+							show: true,
+							message: this.$t('call_action_buttons.deleted'),
+							color: 'success',
+							top: true
+						});
 					})
-					.catch(function(error) {
+					.catch(error => {
 						if (error.response.status === 409) {
-							this.snackbarShow = true;
-							this.snackbarMessage = this.$t('category.forbiden_delete');
-							this.snackbarColor = 'error';
+							this.$store.commit('snackbar/setSnackbar', {
+								show: true,
+								message: this.$t('category.forbiden_delete'),
+								color: 'error',
+								top: true
+							});
 						}
 						console.log('TCL: deleteCategory -> error', error);
 					});
 			} else {
-				this.snackbarShow = true;
-				this.snackbarMessage = this.$t('messages.intenet_required');
-				this.snackbarColor = 'error';
+				this.$store.commit('snackbar/setSnackbar', {
+					show: true,
+					message: this.$t('messages.intenet_required'),
+					color: 'error',
+					top: true
+				});
 			}
 			this.showDialogDeleteCategory = false;
 		},

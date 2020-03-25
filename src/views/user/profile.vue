@@ -50,15 +50,10 @@
 					</v-btn>
 				</v-form>
 			</v-col>
-      <v-col cols="12" v-else>
-        <offline-infomation/>
-      </v-col>
+			<v-col cols="12" v-else>
+				<offline-infomation />
+			</v-col>
 		</v-row>
-		<loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
-		<v-snackbar :multi-line="snackbarMultiLine" v-model="snackbarShow" :color="snackbarColor">
-			{{snackbarMessage}}
-			<v-btn dark flat @click="snackbarShow = false">Cerrar</v-btn>
-		</v-snackbar>
 	</div>
 </template>
 <script>
@@ -74,10 +69,6 @@ export default {
 	},
 	data() {
 		return {
-			snackbarShow: false,
-			snackbarMessage: '',
-			snackbarColor: '',
-			snackbarMultiLine: true,
 			isLoading: false,
 			localUser: {
 				id_user: '',
@@ -128,20 +119,29 @@ export default {
 					this.user.first_name = this.localUser.firstName;
 					this.user.last_name = this.localUser.lastName;
 
-					this.snackbarShow = true;
-					this.snackbarMessage = this.$t('messages.save');
-					this.snackbarColor = 'success';
+					this.$store.commit('snackbar/setSnackbar', {
+						show: true,
+						message: this.$t('call_action_buttons.saved'),
+						color: 'success',
+						top: true
+					});
 				})
 				.catch(error => {
 					this.isLoading = false;
 					if (error.response.status === 409) {
-						this.snackbarShow = true;
-						this.snackbarMessage = this.$t('messages.password_not_match');
-						this.snackbarColor = 'error';
+						this.$store.commit('snackbar/setSnackbar', {
+							show: true,
+							message: this.$t('messages.password_not_match'),
+							color: 'error',
+							top: true
+						});
 					} else {
-						this.snackbarShow = true;
-						this.snackbarMessage = this.$t('messages.server_error');
-						this.snackbarColor = 'error';
+						this.$store.commit('snackbar/setSnackbar', {
+							show: true,
+							message: this.$t('messages.server_error'),
+							color: 'error',
+							top: true
+						});
 					}
 				});
 		}

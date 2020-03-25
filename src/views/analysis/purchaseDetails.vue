@@ -84,10 +84,6 @@
 				</h1>
 			</v-col>
 		</v-row>
-		<v-snackbar v-model="snackbarShow" :color="snackbarColor">
-			{{snackbarMessage}}
-			<v-btn dark flat @click="snackbarShow = false">Cerrar</v-btn>
-		</v-snackbar>
 		<delete-dialog
 			:show="dialogShowConfirmDelete"
 			@cancel="dialogShowConfirmDelete = false"
@@ -112,10 +108,7 @@ export default {
 		return {
 			purchaseDetails: [],
 			currency: [],
-			dialogShowConfirmDelete: false,
-			snackbarShow: false,
-			snackbarMessage: '',
-			snackbarColor: ''
+			dialogShowConfirmDelete: false
 		};
 	},
 	computed: {
@@ -154,9 +147,12 @@ export default {
 			this.$store
 				.dispatch('shoppings/delete', { id: this.$route.params.id })
 				.then(response => {
-					this.snackbarShow = true;
-					this.snackbarMessage = this.$t('call_action_buttons.delete');
-					this.snackbarColor = 'success';
+					this.$store.commit('snackbar/setSnackbar', {
+						show: true,
+						message: this.$t('call_action_buttons.deleted'),
+						color: 'success',
+						top: true
+					});
 
 					setTimeout(() => {
 						this.$router.push('/analysis/shopping_history');
