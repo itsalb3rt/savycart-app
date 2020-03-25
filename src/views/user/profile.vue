@@ -50,6 +50,9 @@
 					</v-btn>
 				</v-form>
 			</v-col>
+      <v-col cols="12" v-else>
+        <offline-infomation/>
+      </v-col>
 		</v-row>
 		<loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
 		<v-snackbar :multi-line="snackbarMultiLine" v-model="snackbarShow" :color="snackbarColor">
@@ -60,7 +63,6 @@
 </template>
 <script>
 import { mapMutations, mapState } from 'vuex';
-import MenuComponent from '@/components/TheMenu.vue';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import OfflineInfomation from '@/components/Offline/OfflineInformation';
@@ -88,7 +90,6 @@ export default {
 		};
 	},
 	components: {
-		MenuComponent,
 		Loading,
 		OfflineInfomation
 	},
