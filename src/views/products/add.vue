@@ -68,20 +68,16 @@
 		</v-row>
 		<v-row>
 			<v-col cols="12">
-				<v-btn  color="primary" type="submit" :disabled="name.length == 0 || isLoading">
+				<v-btn color="primary" type="submit" :disabled="name.length == 0 || isLoading">
 					<v-icon class="mr-2">fa-save</v-icon>
 					{{ $t('call_action_buttons.save') }}
 				</v-btn>
-				<v-btn  outlined color="error" @click="$router.push('/product/list')" class="float-right">
+				<v-btn outlined color="error" @click="$router.push('/product/list')" class="float-right">
 					<v-icon class="mr-2">fa-window-close</v-icon>
 					{{ $t('call_action_buttons.cancel') }}
 				</v-btn>
 			</v-col>
 		</v-row>
-		<v-snackbar :multi-line="snackbarMultiLine" v-model="snackbarShow" :color="snackbarColor">
-			{{snackbarMessage}}
-			<v-btn dark flat @click="snackbarShow = false">Cerrar</v-btn>
-		</v-snackbar>
 	</v-form>
 </template>
 
@@ -107,10 +103,6 @@ export default {
 			tax: '1',
 			description: '',
 			favorite: 0,
-			snackbarShow: false,
-			snackbarMessage: '',
-			snackbarColor: '',
-			snackbarMultiLine: true,
 			taxQuantity: 0
 		};
 	},
@@ -145,20 +137,24 @@ export default {
 					.then(response => {
 						product.id_product = response.data.data.id_product;
 						this.$store.commit('products/ADD', response.data.data);
-						this.snackbarShow = true;
-						this.snackbarMessage = this.$t('messages.save');
-						this.snackbarColor = 'success';
 						this.name = '';
 						this.price = 1;
 						document.querySelector('#name').focus();
+						this.$store.commit('snackbar/setSnackbar', {
+							show: true,
+							message: this.$t('call_action_buttons.saved'),
+							color: 'success',
+							top: true
+						});
 					})
 					.catch(error => {
 						if (error.response.status === 409) {
-							this.snackbarShow = true;
-							this.snackbarMessage = `${this.$t(
-								'messages.item_already_exists'
-							)}`;
-							this.snackbarColor = 'error';
+							this.$store.commit('snackbar/setSnackbar', {
+								show: true,
+								message: this.$t('messages.item_already_exists'),
+								color: 'error',
+								top: true
+							});
 						}
 						console.log('TCL: createCategory -> error', error);
 					})
@@ -166,9 +162,12 @@ export default {
 						this.isLoading = false;
 					});
 			} else {
-				this.snackbarShow = true;
-				this.snackbarMessage = this.$t('messages.intenet_required');
-				this.snackbarColor = 'error';
+				this.$store.commit('snackbar/setSnackbar', {
+					show: true,
+					message: this.$t('messages.intenet_required'),
+					color: 'error',
+					top: true
+				});
 			}
 		},
 		uppercase() {

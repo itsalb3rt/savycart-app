@@ -47,10 +47,6 @@
 				</v-row>
 			</v-col>
 		</v-row>
-		<v-snackbar :multi-line="snackbarMultiLine" v-model="snackbarShow" :color="snackbarColor">
-			{{snackbarMessage}}
-			<v-btn dark flat @click="snackbarShow = false">{{ $t('call_action_buttons.close') }}</v-btn>
-		</v-snackbar>
 		<delete-dialog
 			:show="showDialogDeleteMeasurementUnit"
 			@cancel="showDialogDeleteMeasurementUnit = false"
@@ -77,10 +73,6 @@ export default {
 				{ text: this.$t('measurement_unit.name'), value: 'name' },
 				{ text: this.$t('call_action_buttons.action'), value: 'action' }
 			],
-			snackbarShow: false,
-			snackbarMessage: '',
-			snackbarColor: '',
-			snackbarMultiLine: true,
 			indexMeasurementUnitForDelete: '',
 			showDialogDeleteMeasurementUnit: false
 		};
@@ -105,17 +97,23 @@ export default {
 					.then(response => {
 						this.$store.commit('measurementUnits/ADD', response.data.data);
 						this.name = '';
-						this.snackbarShow = true;
-						this.snackbarMessage = this.$t('messages.save');
-						this.snackbarColor = 'success';
+						this.$store.commit('snackbar/setSnackbar', {
+							show: true,
+							message: this.$t('messages.saved'),
+							color: 'success',
+							top: true
+						});
 					})
 					.catch(function(error) {
 						console.log('TCL: addMeasurementUnit -> error', error);
 					});
 			} else {
-				this.snackbarShow = true;
-				this.snackbarMessage = this.$t('messages.intenet_required');
-				this.snackbarColor = 'error';
+				this.$store.commit('snackbar/setSnackbar', {
+					show: true,
+					message: this.$t('messages.intenet_required'),
+					color: 'error',
+					top: true
+				});
 			}
 		},
 		dispatchDeleteMesasurementUnit(item) {
@@ -138,24 +136,31 @@ export default {
 							'measurementUnits/REMOVE',
 							this.indexMeasurementUnitForDelete
 						);
-						this.snackbarShow = true;
-						this.snackbarMessage = this.$t('call_action_buttons.delete');
-						this.snackbarColor = 'success';
+						this.$store.commit('snackbar/setSnackbar', {
+							show: true,
+							message: this.$t('call_action_buttons.deleted'),
+							color: 'success',
+							top: true
+						});
 					})
-					.catch(function(error) {
+					.catch(error => {
 						if (error.response.status === 409) {
-							this.snackbarShow = true;
-							this.snackbarMessage = this.$t(
-								'measurement_unit.forbiden_delete'
-							);
-							this.snackbarColor = 'error';
+							this.$store.commit('snackbar/setSnackbar', {
+								show: true,
+								message: this.$t('measurement_unit.forbiden_delete'),
+								color: 'error',
+								top: true
+							});
 						}
 						console.log('TCL: deleteMeasurementUnit -> error', error);
 					});
 			} else {
-				this.snackbarShow = true;
-				this.snackbarMessage = this.$t('messages.intenet_required');
-				this.snackbarColor = 'error';
+				this.$store.commit('snackbar/setSnackbar', {
+					show: true,
+					message: this.$t('messages.intenet_required'),
+					color: 'error',
+					top: true
+				});
 			}
 			this.showDialogDeleteMeasurementUnit = false;
 		},

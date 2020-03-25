@@ -68,12 +68,7 @@
 								<v-icon class="mr-2">fa-save</v-icon>
 								{{ $t('call_action_buttons.save') }}
 							</v-btn>
-							<v-btn
-								outlined
-								color="error"
-								@click="$router.push('/product/list')"
-								class="float-right"
-							>
+							<v-btn outlined color="error" @click="$router.push('/product/list')" class="float-right">
 								<v-icon class="mr-2">fa-window-close</v-icon>
 								{{ $t('call_action_buttons.cancel') }}
 							</v-btn>
@@ -86,10 +81,6 @@
 			</v-col>
 		</v-row>
 		<loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
-		<v-snackbar v-model="snackbarShow" :color="snackbarColor">
-			{{snackbarMessage}}
-			<v-btn dark flat @click="snackbarShow = false">{{ $t('call_action_buttons.close') }}</v-btn>
-		</v-snackbar>
 	</div>
 </template>
 
@@ -119,10 +110,7 @@ export default {
 			description: '',
 			product: [],
 			isLoading: false,
-			favorite: '1',
-			snackbarShow: false,
-			snackbarMessage: '',
-			snackbarColor: ''
+			favorite: '1'
 		};
 	},
 	components: {
@@ -152,9 +140,12 @@ export default {
 						data: product
 					})
 					.then(response => {
-						this.snackbarShow = true;
-						this.snackbarMessage = this.$t('messages.save');
-						this.snackbarColor = 'success';
+						this.$store.commit('snackbar/setSnackbar', {
+							show: true,
+							message: this.$t('call_action_buttons.saved'),
+							color: 'success',
+							top: true
+						});
 
 						setTimeout(() => {
 							this.$router.go(-1);
@@ -165,10 +156,13 @@ export default {
 						console.log('TCL: createCategory -> error', error);
 					});
 			} else {
+				this.$store.commit('snackbar/setSnackbar', {
+					show: true,
+					message: this.$t('messages.intenet_required'),
+					color: 'error',
+					top: true
+				});
 				this.isLoading = false;
-				this.snackbarShow = true;
-				this.snackbarMessage = this.$t('messages.intenet_required');
-				this.snackbarColor = 'error';
 			}
 		},
 		getProduct() {

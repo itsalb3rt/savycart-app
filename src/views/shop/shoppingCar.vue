@@ -69,10 +69,6 @@
 			:currency-symbol="currency.symbol"
 			:total-tax="totalTax"
 		></ShopResume>
-		<v-snackbar v-model="snackbarShow" :color="snackbarColor">
-			{{snackbarMessage}}
-			<v-btn dark text @click="snackbarShow = false">Cerrar</v-btn>
-		</v-snackbar>
 	</div>
 </template>
 
@@ -96,10 +92,7 @@ export default {
 			shoppingCar: [],
 			nameEstablishment: '',
 			disabledSubmitButton: false,
-			currency: [],
-			snackbarShow: false,
-			snackbarMessage: '',
-			snackbarColor: ''
+			currency: []
 		};
 	},
 	computed: {
@@ -145,33 +138,46 @@ export default {
 					this.$store
 						.dispatch('shoppings/create', details)
 						.then(response => {
-							this.snackbarShow = true;
-							this.snackbarMessage = `${this.$t('shop.purchase')} ${this.$t(
-								'messages.saved'
-							)}`;
-							this.snackbarColor = 'success';
+							this.$store.commit('snackbar/setSnackbar', {
+								show: true,
+								message: `${this.$t('shop.purchase')} ${this.$t(
+									'messages.saved'
+								)}`,
+								color: 'success',
+								top: true
+							});
 							this.$store.commit('shoppingCar/SET', []);
 							setTimeout(() => {
 								this.$router.push('/product/list');
 							}, 1000);
 						})
 						.catch(error => {
-							if (error.response.status === 500) this.snackbarShow = true;
-							this.snackbarMessage = this.$t('message.server_error');
-							this.snackbarColor = 'error';
+							if (error.response.status === 500) {
+								this.$store.commit('snackbar/setSnackbar', {
+									show: true,
+									message: this.$t('message.server_error'),
+									color: 'error',
+									top: true
+								});
+							}
 							console.log('TCL: createCategory -> error', error);
 						});
 				} else {
-					this.snackbarShow = true;
-					this.snackbarMessage = 'Debe colocar un nombre de establecimiento';
-					this.snackbarColor = 'error';
+					this.$store.commit('snackbar/setSnackbar', {
+						show: true,
+						message: this.$t('shopping_car.name_establishment'),
+						color: 'error',
+						top: true
+					});
 					this.disabledSubmitButton = false;
 				}
 			} else {
-				this.snackbarShow = true;
-				this.snackbarMessage =
-					'Debe estar conectado a internet para realizar esta acción.';
-				this.snackbarColor = 'error';
+				this.$store.commit('snackbar/setSnackbar', {
+					show: true,
+					message: this.$t('messages.intenet_required'),
+					color: 'error',
+					top: true
+				});
 				this.disabledSubmitButton = false;
 			}
 		},
@@ -218,10 +224,10 @@ export default {
 .product-main-container {
 	margin-bottom: 100px;
 }
-.reduce-20-margin-bottom{
-	margin-bottom: -20px!important;
+.reduce-20-margin-bottom {
+	margin-bottom: -20px !important;
 }
-.products-container{
+.products-container {
 	margin-bottom: 150px;
 	padding-bottom: 20px;
 }
