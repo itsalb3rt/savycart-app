@@ -12,8 +12,8 @@
 						<v-icon large dark>fa-user</v-icon>
 					</v-avatar>
 				</v-col>
-				<v-col cols="12">
-					<p class="mt-3 headline primary--text">{{user.first_name}} {{user.last_name}}</p>
+				<v-col cols="12" class="text-center">
+					<p class="headline primary--text" @click="$router.push('/user/profile')">{{$store.getters['auth/getUser'].first_name}} {{$store.getters['auth/getUser'].last_name}}</p>
 				</v-col>
 			</v-row>
 
@@ -64,7 +64,7 @@ export default {
 		title: ''
 	},
 	computed: {
-		...mapState(['user', 'online'])
+		...mapState(['online'])
 	},
 	data() {
 		return {
