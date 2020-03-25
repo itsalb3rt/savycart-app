@@ -92,6 +92,8 @@ export default {
 					if (response.status === 200) {
 						this.saveInIndexedDbCurrencies();
 						window.localStorage.setItem('token', response.data.data.token);
+						window.localStorage.setItem('user', JSON.stringify(response.data.data));
+						this.$store.commit('auth/SET_USER',response.data.data);
 						this.$router.push('product/list');
 					}
 				})
