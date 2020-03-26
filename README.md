@@ -8,23 +8,26 @@
 
 ---
 
-### Introducción
+### Description
 
-**Sheiley Shop** es una **PWA**  para dar seguimiento a las compras personales, del hogar y hasta de una micro empresa, para que pueda gastar menos y ahorrar más. Se acabó el tener que escribir con papel y lápiz las compras que va a realizar.
+**Sheiley Shop**is a **PWA** to track personal purchases, No more paper and pencil to go to the supermarket.
 
-### Características
+### Features
 
-**Sheiley Shop** cuenta con un montón de funciones, a continuación algunas de las más relevantes.
+- Multi-user
+- Multi-languages
+- Very intuitive and easy to use, it has a clean interface with few buttons
+- List of products
+- Favorite products
+- Product categories
+- Unit of measurement
+- Shopping history
+- Shopping cart
+- And more...
 
-- Multi-usuario
-- Multi-idiomas
-- Muy intuitivo y fácil de usar, cuenta con una interfaz limpia con pocos botones
-- Crea una lista de productos personalizados
-- Obtén un precio final más acercado a la realidad tomando en cuenta el impuesto de cada artículo
+### Get started 
 
-### InstalaciónInstalación 
-
-**Requisitos:**
+**Requirements:**
 - PHP 7.1.2 o superior
 - Mysql 5.6
 - NodeJs 10
@@ -32,64 +35,37 @@
 - Composer 1.8
 
 ---
-Esta aplicación consta de 2 partes el Front-End que está construido sobre VUE y un API REST construido con PHP.
 
-
-**PWA**
+## Frontend
 
 ```bash
 $ git clone https://github.com/itsalb3rt/sheiley_shop_app.git
 ```
 
-Después de clonado el repositorio ejecutar 
-
 ```bash
 $ npm install 
 ```
 
-**API REST**
-
-El API REST está hecho en PHP por lo que se requiere un servidor con PHP 7.1 o superior.
-
 ```bash
-$ composer require itsalb3rt/sheiley-shop-api
+$ npm run serve
+# or run the next command for production
+$ npm run build
 ```
- 
-### Configuración
 
-**Base de datos**
+### API entry point
 
-Dentro del directorio *raíz* del API REST ingresar a `etc/ sheiley_shop.sql` este archivo contiene todo el script de la base de datos.
+change the API entry pont in `env` file
 
-Luego de ejecutado el script en la base de datos Mysql resta ingresar al directorio
-`config/ config.php.ini` e ingresar los datos correspondiente a tu base de datos, usuario y password.
-
----
-
-**App**
-
-Para que el Front-End interactúe con el API REST se debe ingresar al directorio `src/store.js` en el objeto `state` cambiar la dirección del API según corresponda;
-
-```javascript
-apiDomain: (process.env.NODE_ENV == 'development') ?
-'http://localhost/sheiley_shop_api' : 
-'https://production.domain.com/sheiley_shop_api' ;
-
+```env
+VUE_APP_API_DEV=http://localhost/sheiley_shop_api
+VUE_APP_API_PRO=https://example.com/sheiley_shop_api
 ```
-Con esto ya estarás listo para comenzar a utilizar la app en entorno de desarrollo, **¡Felicidades!**
 
----
+:tada: This is all you need to test it in your local environment!
 
-### Desplegar app para producción
+## Frontend production
 
-```bash
-npm run build
-```
-Una vez culmine de compilarse la versión para producción, dentro del directorio raíz del front-end encontraras un archivo `.htaccess` el cual debes copiar en el nuevo directorio `dist`.
-
-Crear un directorio en tu servidor llamado `sheiley_shop` y copia todo el contenido del directorio `dist` junto al `.htaccess`
-
-Este archivo contiene las reglas de enrutamiento principales para que todo funcione a la hora de ingresar la URL en el navegador, de ser necesario puedes modificarlo según corresponda.
+To launch frontend to production copy the `.htaccess` inside your build dir and put the directory name;
 
 ```
 <IfModule mod_rewrite.c>
@@ -98,19 +74,49 @@ Este archivo contiene las reglas de enrutamiento principales para que todo funci
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /sheiley_shop/index.html [L] < -- Ruta de tu directorio en producción
+  RewriteRule . /sheiley_shop/index.html [L] # route in yout production server
 </IfModule>
 ```
 
----
+## Backend
 
-### Desplegar API REST
+The REST API is made in PHP so a server with PHP 7.1 or higher is required.
 
-En el directorio `system/webroot/` encontraras un archivo con nombrado `FrontController.php` dentro de este debes modificar la constante `ENVIROMENT` y colocarle el valor `pro`.
+```bash
+$ git clone https://github.com/itsalb3rt/sheiley-shop-api.git
+```
+
+```bash
+$ composer require itsalb3rt/sheiley-shop-api
+```
+
+### Database
+
+Inside the *root* directory of the REST API enter `etc/sheiley_shop.sql` this file contains all the script from the database.
+
+After executing the script in the Mysql database, it remains to enter the directory `config/config.php.ini` and set user database, username and password.
+
+```ini
+<?php return; ?>
+; Database config
+host=localhost
+user=root
+pass=toor
+dbname=sheiley_shop
+driver=mysql
+charset=utf8
+collation=utf8mb4_unicode_ci
+prefix=""
+port=""
+```
+
+### Backend production
+
+In the `system/webroot/` directory you will find a file named `FrontController.php` inside this you must modify the constant `ENVIROMENT` and put the value `pro`.
 
 ---
 
 ### Extra
 
-Dentro del directorio `etc` del repositorio del [API REST](https://github.com/itsalb3rt/sheiley-shop-api) 
-encontraras el diagrama entidad relación creada en `starUML` y el prototipo creado en `Adobe XD`, puedes jugar con esto.
+Inside the `etc` directory of the [API REST repository](https://github.com/itsalb3rt/sheiley-shop-api)
+You will find the entity relationship diagram created in `starUML` and the prototype created in` Adobe XD`, you can play with this.
