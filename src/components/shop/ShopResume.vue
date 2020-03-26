@@ -1,79 +1,79 @@
 <template>
-  <v-layout row wrap v-if="quantity > 0" class="shop-resume-bar-container">
-    <v-flex xs12>
-      <v-layout row wrap>
-        <v-flex xs6 class="text-xs-right">
-          <strong>{{quantity}}</strong> {{ $t('messages.item') }}
-        </v-flex>
-        <v-flex xs6 class="text-xs-right">
-          <strong>{{currencySymbol}} {{getSubTotalInNumberFormat()}}</strong>
-        </v-flex>
-        <v-flex xs12>
-          <v-divider></v-divider>
-        </v-flex>
-        <v-flex xs6 class="text-xs-right">
-          <div>{{ $t('products.tax') }}</div>
-          <div>{{ $t('messages.total') }}</div>
-        </v-flex>
-        <v-flex xs6 class="text-xs-right">
-          <strong>{{currencySymbol}} {{getTotalItebisInNumberFormat()}}</strong>
-          <p class="primary--text font-weight-bold">{{currencySymbol}} {{getTotalInNumberFormat()}}</p>
-        </v-flex>
-        <v-flex xs12>
-          <v-btn
-            v-if="!onCar"
-            block
-            small
-            @click="$router.push('/shop/shopping_car')"
-            color="primary"
-            outline
-            class="mt-0"
-          >{{ $t('call_action_buttons.go_to_resume') }}</v-btn>
-        </v-flex>
-      </v-layout>
-    </v-flex>
-  </v-layout>
+	<v-row v-if="quantity > 0" class="shop-resume-bar-container">
+		<v-col cols="6" class="text-xs-right reduce-20-magin-bottom">
+			<strong>{{quantity}}</strong>
+			{{ $t('messages.item') }}
+		</v-col>
+		<v-col cols="6" class="text-xs-right reduce-20-magin-bottom">
+			<strong>{{currencySymbol}} {{getSubTotalInNumberFormat()}}</strong>
+		</v-col>
+		<v-col cols="12">
+			<v-divider></v-divider>
+		</v-col>
+		<v-col cols="6" class="text-xs-right reduce-20-magin-bottom">
+			<div>{{ $t('products.tax') }}</div>
+			<div>{{ $t('messages.total') }}</div>
+		</v-col>
+		<v-col cols="6" class="text-xs-right reduce-20-magin-bottom">
+			<strong>{{currencySymbol}} {{getTotalTaxInNumberFormat()}}</strong>
+			<p class="primary--text font-weight-bold">{{currencySymbol}} {{getTotalInNumberFormat()}}</p>
+		</v-col>
+		<v-col cols="12">
+			<v-btn
+				v-if="!onCar"
+				block
+				small
+				@click="$router.push('/shop/shopping_car')"
+				color="primary"
+				outlined
+				class="mt-0"
+			>{{ $t('call_action_buttons.go_to_resume') }}</v-btn>
+		</v-col>
+	</v-row>
 </template>
 
 <script>
 export default {
-  props: {
-    quantity: 0,
-    subTotal: 0,
-    totalItbis: 0,
-    onCar: false,
-    currencySymbol: ""
-  },
-  methods: {
-    getTotalInNumberFormat() {
-      return this.createNumberFormat(this.subTotal + this.totalItbis);
-    },
-    getTotalItebisInNumberFormat() {
-      return this.createNumberFormat(this.totalItbis);
-    },
-    getSubTotalInNumberFormat() {
-      return this.createNumberFormat(this.subTotal);
-    },
-    createNumberFormat(number) {
-      let l10nEN = new Intl.NumberFormat("en-US");
-      return l10nEN.format(number);
-    }
-  }
+	props: {
+		quantity: 0,
+		subTotal: 0,
+		totalTax: 0,
+		onCar: false,
+		currencySymbol: ''
+	},
+	methods: {
+		getTotalInNumberFormat() {
+			return this.createNumberFormat(this.subTotal + this.totalTax);
+		},
+		getTotalTaxInNumberFormat() {
+			return this.createNumberFormat(this.totalTax);
+		},
+		getSubTotalInNumberFormat() {
+			return this.createNumberFormat(this.subTotal);
+		},
+		createNumberFormat(number) {
+			let l10nEN = new Intl.NumberFormat('en-US');
+			return l10nEN.format(number);
+		}
+	}
 };
 </script>
 
 <style>
 .shop-resume-bar-container {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  left: 0px;
-  background-color: white;
-  padding: 10px 30px 0px 33px;
-  box-shadow: 0px 0px 4px 1px rgba(128, 128, 128, 0.16);
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	left: 10px;
+	background-color: white;
+	padding: 10px 30px 0px 33px;
+	box-shadow: 0px 0px 4px 1px rgba(128, 128, 128, 0.16);
 }
 .shop-resume-bar-container hr {
-  width: 100%;
-  margin-left: 0px;
+	width: 100%;
+	margin-left: 0px;
+}
+.reduce-20-magin-bottom{
+  margin-bottom: -20px!important;
 }
 </style>

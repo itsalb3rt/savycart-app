@@ -52,10 +52,11 @@
     "new_password_information":"Por favor ingrese una nueva contraseña"
   },
   "products": {
+    "product": "Producto",
     "search": "Buscar",
     "all": "Todo",
     "favorites": "Favoritos",
-    "empty_list": "No se han creado productos, presione el botón + para agregar productos",
+    "empty_list": "No se han creado productos",
     "delete_product_modal_title": "Eliminar producto",
     "delete_product_modal_message": "¿Estás seguro de que deseas eliminar este producto?",
     "keep_item": "Mantener producto",
@@ -88,9 +89,12 @@
     "delete_purchase_message": "¿Estás seguro de que deseas eliminar esta compra?"
   },
   "call_action_buttons": {
+    "create": "Crear",
     "save": "Guardar",
+    "saved": "Guardado",
     "edit": "Editar",
     "delete": "Eliminar",
+    "deleted": "Eliminado",
     "close": "Cerrar",
     "cancel": "Cancelar",
     "go_to_resume": "Ir al resumen",
