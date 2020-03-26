@@ -26,7 +26,7 @@
 
 ### Description
 
-**Sheiley Shop**is a **PWA** to track personal purchases, No more paper and pencil to go to the supermarket :department_store:
+**Sheiley Shop** is a **PWA** to track personal purchases, No more paper and pencil to go to the supermarket :department_store:
 
 
 ### Features
