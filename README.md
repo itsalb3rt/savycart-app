@@ -1,4 +1,5 @@
-# Sheiley Shop <img src="https://user-images.githubusercontent.com/3104648/28351989-7f68389e-6c4b-11e7-9bf2-e9fcd4977e7a.png" width="50"/>
+# Sheiley Shop 
+<img src="https://user-images.githubusercontent.com/3104648/28351989-7f68389e-6c4b-11e7-9bf2-e9fcd4977e7a.png" width="50"/>
 </div>
 <p style="float:left;">
 <img src="https://i.imgur.com/UqnVH51.png" width="150" />
@@ -8,9 +9,25 @@
 
 ---
 
+## Content
+
+  - [Description](#description)
+  - [Features](#features)
+  - [Get started :star:](#get-started)
+  - [Frontend :heart_eyes: ](#frontend)
+    - [API entry point](#api-entry-point)
+    - [Frontend production](#frontend-production)
+  - [Backend :sunglasses: ](#backend)
+    - [Database](#database)
+    - [Backend production](#backend-production)
+    - [Extra](#extra)
+
+---
+
 ### Description
 
-**Sheiley Shop**is a **PWA** to track personal purchases, No more paper and pencil to go to the supermarket.
+**Sheiley Shop**is a **PWA** to track personal purchases, No more paper and pencil to go to the supermarket :department_store:
+
 
 ### Features
 
@@ -77,6 +94,7 @@ To launch frontend to production copy the `.htaccess` inside your build dir and 
   RewriteRule . /sheiley_shop/index.html [L] # route in yout production server
 </IfModule>
 ```
+---
 
 ## Backend
 
