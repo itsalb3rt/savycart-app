@@ -107,6 +107,7 @@ export default {
 				.dispatch('taxes/getAll')
 				.then(response => {
 					this.tax = response.data.data.quantity;
+					this.$store.commit('taxes/SET',response.data.data.quantity);
 				})
 				.catch(error => {
 					console.log(error);
