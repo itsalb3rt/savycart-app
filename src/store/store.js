@@ -8,10 +8,16 @@ import taxes from './Modules/Taxes';
 import shoppingCar from './Modules/ShoppingCar';
 import shoppings from './Modules/Shoppings';
 import snackbar from './Modules/Snackbar';
+import VuexPersistence from 'vuex-persist'
+
+const vuexLocal = new VuexPersistence({
+  storage: window.localStorage
+})
 
 Vue.use(Vuex)
 Vue.config.devtools = true
 export default new Vuex.Store({
+  plugins: [vuexLocal.plugin],
   modules: {
     auth,
     products,
