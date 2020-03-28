@@ -85,7 +85,7 @@
 
 			<v-col cols="12">
 				<shop-resume
-					:quantity="shoppingCar.length"
+					:quantity="$store.getters['shoppingCar/getAll'].length"
 					:sub-total="subTotal"
 					:currency-symbol="currency.symbol"
 					:total-tax="totalTax"
@@ -130,13 +130,11 @@ export default {
 		} else {
 			this.products = this.$store.getters['products/getAll'];
 		}
-		this.shoppingCar = this.$store.getters['shoppingCar/getAll'];
 		this.currency = this.getPreferredCurrency();
 	},
 	data() {
 		return {
 			searchProductName: '',
-			shoppingCar: [],
 			currency: [],
 			isLoading: false,
 			showFavorites: false,
@@ -167,14 +165,14 @@ export default {
 		},
 		subTotal() {
 			let total = 0;
-			this.shoppingCar.forEach(item => {
+			this.$store.getters['shoppingCar/getAll'].forEach(item => {
 				total += parseFloat(item.price) * parseFloat(item.quantity);
 			});
 			return total;
 		},
 		totalTax() {
 			let totalTax = 0;
-			this.shoppingCar.forEach(item => {
+			this.$store.getters['shoppingCar/getAll'].forEach(item => {
 				totalTax +=
 					parseFloat(item.price) *
 					parseFloat(item.quantity) *
@@ -195,7 +193,7 @@ export default {
 			return value;
 		},
 		isOnCar(idProduct) {
-			let result = this.shoppingCar.find(item => item.id_product === idProduct);
+			let result = this.$store.getters['shoppingCar/getAll'].find(item => item.id_product === idProduct);
 			return result ? true : false;
 		},
 		numberFormat(number) {
@@ -207,22 +205,15 @@ export default {
 			if (!this.actualAvaliableProducts[index].quantity) {
 				this.actualAvaliableProducts[index].quantity = 1;
 			}
-
-			this.shoppingCar.push(this.actualAvaliableProducts[index]);
 			this.$store.commit(
 				'shoppingCar/ADD',
 				this.actualAvaliableProducts[index]
 			);
 		},
 		removeItemFromShoppingCar(idProduct) {
-			const indexInStore = this.shoppingCar.findIndex(
+			const indexInStore = this.$store.getters['shoppingCar/getAll'].findIndex(
 				item => item.id_product === idProduct
 			);
-			const indexInView = this.shoppingCar.findIndex(
-				item => item.id_product === idProduct
-			);
-
-			this.shoppingCar.splice(indexInView, 1);
 			this.$store.commit('shoppingCar/REMOVE', indexInStore);
 		}
 	}
