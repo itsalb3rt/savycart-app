@@ -22,7 +22,7 @@ export default {
     },
     mutations:{
         SET(state,payload){
-            state.tax = payload;
+            state.tax.quatity = payload;
         }
     }
 }
