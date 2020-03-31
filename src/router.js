@@ -22,7 +22,7 @@ i18n.locale = language
 
 const router = new Router({
   mode: 'history',
-  base: '/sheiley_shop',
+  base: '/',
   routes: [{
     //Todas las URLS insertadas que no existan redireccionaran a login
     path: '*',

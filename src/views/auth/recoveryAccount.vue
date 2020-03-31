@@ -10,7 +10,7 @@
 			<v-alert type="error" :value="true">{{ $t('auth.wrong_data') }}</v-alert>
 		</v-col>
 		<v-col cols="12" v-if="recoveryWasRequested">
-			<p class="text-xs-center">
+			<p class="text-center">
 				<v-avatar size="80" color="success" class="mb-4 mt-4">
 					<v-icon x-large dark>fa-check</v-icon>
 				</v-avatar>
