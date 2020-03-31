@@ -12,13 +12,13 @@ export default {
     },
     actions: {
         getAll({ commit }) {
-            return httpClient.get(`/measurementUnits/measurementUnits`)
+            return httpClient.get(`/measurementunits/measurementunits`)
         },
         create({commit}, payload){
-            return httpClient.post(`/measurementUnits/measurementUnits`, payload)
+            return httpClient.post(`/measurementunits/measurementunits`, payload)
         },
         delete({commit},payload){
-            return httpClient.delete(`/measurementUnits/measurementUnits/${payload.id}`)
+            return httpClient.delete(`/measurementunits/measurementunits/${payload.id}`)
         }
     },
     mutations:{
