@@ -9,8 +9,10 @@ import { mapMutations } from "vuex";
 export default {
   mounted() {
     deleteState()
-    this.$router.push("/login");
+    window.localStorage.removeItem('user');
+    window.localStorage.removeItem('token');
     this.$store.commit('auth/SET_LOGGED', false);
+    this.$router.push("/login");
   }
 };
 </script>
