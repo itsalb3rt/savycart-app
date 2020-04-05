@@ -125,7 +125,8 @@
     "required_item_selection":"Seleccione un elemento de la lista",
     "password_length":"La contraseña no debe tener menos de",
     "characters":"caracteres",
-    "invalid_token":"the token is not valid, please request a new account recovery email"
+    "invalid_token":"El token no es válido, solicite un nuevo correo electrónico de recuperación de cuenta",
+    "select_or_add_brand": "Seleccione o escriba el nombre de una marca"
   },
   "category": {
     "name": "Nombre",
