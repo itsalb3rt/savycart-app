@@ -32,7 +32,10 @@
 								<v-icon small color="warning" class="ml-2">fa-star</v-icon>
 							</span>
 						</div>
-						<div class="grey--text">{{getMeasurementName(product.id_unit_measurement)}}</div>
+						<div class="grey--text">
+							<span>{{getMeasurementName(product.id_unit_measurement)}}</span>
+							<span class="float-right">{{product.brand}}</span>
+						</div>
 						<div>
 							<v-layout row wrap>
 								<v-flex xs5 class="mr-1 ml-2">
@@ -193,7 +196,9 @@ export default {
 			return value;
 		},
 		isOnCar(idProduct) {
-			let result = this.$store.getters['shoppingCar/getAll'].find(item => item.id_product === idProduct);
+			let result = this.$store.getters['shoppingCar/getAll'].find(
+				item => item.id_product === idProduct
+			);
 			return result ? true : false;
 		},
 		numberFormat(number) {
