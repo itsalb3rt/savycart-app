@@ -17,6 +17,10 @@
 							<div for="name" class="subheading font-weight-bold mt-4 mb-2">{{ $t('products.name') }}</div>
 							<div>{{product.name}}</div>
 						</div>
+						<div v-if="product.brand">
+							<div for="name" class="subheading font-weight-bold mt-4 mb-2">{{ $t('products.brand') }}</div>
+							<div>{{product.brand}}</div>
+						</div>
 						<div>
 							<div for="name" class="subheading font-weight-bold mt-4 mb-2">{{ $t('products.price') }}</div>
 							<div>{{currency.symbol}} {{product.price}}</div>

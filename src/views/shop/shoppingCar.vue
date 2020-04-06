@@ -23,7 +23,10 @@
 								<span class="primary--text">{{product.name}}</span>
 							</v-col>
 							<v-col cols="12" class="reduce-20-margin-bottom">
-								<span class="grey--text">{{getMeasurementName(product.id_unit_measurement)}}</span>
+								<div class="grey--text">
+									<span>{{getMeasurementName(product.id_unit_measurement)}}</span>
+									<span class="float-right">{{product.brand}}</span>
+								</div>
 							</v-col>
 							<v-col cols="12" class="reduce-20-margin-bottom">
 								<strong>{{currency.symbol}} {{product.price * product.quantity}}</strong>

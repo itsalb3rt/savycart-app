@@ -53,6 +53,7 @@
   },
   "products": {
     "product":"Product",
+    "brand":"Brand",
     "search": "Search",
     "all": "All",
     "favorites": "Favorites",
@@ -125,7 +126,8 @@
     "required_item_selection":"Please select a item from the list",
     "password_length":"Password must be less than",
     "characters":"characters",
-    "invalid_token":"the token is not valid, please request a new account recovery email"
+    "invalid_token":"the token is not valid, please request a new account recovery email",
+    "select_or_add_brand":"Select or write a brand name"
   },
   "category":{
     "name":"Name",
