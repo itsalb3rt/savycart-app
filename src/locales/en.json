@@ -53,6 +53,7 @@
   },
   "products": {
     "product":"Product",
+    "brand":"Brand",
     "search": "Search",
     "all": "All",
     "favorites": "Favorites",

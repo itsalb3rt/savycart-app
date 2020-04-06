@@ -14,7 +14,7 @@
     "settings": "Ajustes",
     "view_purchase": "Ver compra",
     "user_profile": "Perfil",
-    "recovery_account":"Recuperar cuenta"
+    "recovery_account": "Recuperar cuenta"
   },
   "nav": {
     "my_list": "Mi lista",
@@ -29,8 +29,8 @@
   },
   "auth": {
     "login_title": "Iniciar sesión",
-    "recovery_title":"Recuperar cuenta",
-    "account_recovery_description":"Escriba su correo para enviarle un email con la información de recuperación de su cuenta.",
+    "recovery_title": "Recuperar cuenta",
+    "account_recovery_description": "Escriba su correo para enviarle un email con la información de recuperación de su cuenta.",
     "user_name": "Nombre de usuario",
     "password": "Contraseña",
     "forgot_your_password": "¿Olvidaste tu contraseña?",
@@ -45,14 +45,15 @@
     "the_user_was_created": "El usuario fue creado",
     "email_already_registered": "Este correo electrónico ya está registrado",
     "user_name_already_registered": "Este nombre de usuario ya está registrado",
-    "email_required":"Email es requerido",
-    "email_invalid":"El email debe ser válido",
-    "email_not_register":"El email no está registrado",
-    "account_recovery_information":"En breve estara recibiendo un correo electronico con las instrucciones de recuperacion de la cuenta. Este correo expira en 2 horas.",
-    "new_password_information":"Por favor ingrese una nueva contraseña"
+    "email_required": "Email es requerido",
+    "email_invalid": "El email debe ser válido",
+    "email_not_register": "El email no está registrado",
+    "account_recovery_information": "En breve estara recibiendo un correo electronico con las instrucciones de recuperacion de la cuenta. Este correo expira en 2 horas.",
+    "new_password_information": "Por favor ingrese una nueva contraseña"
   },
   "products": {
     "product": "Producto",
+    "brand": "Marca",
     "search": "Buscar",
     "all": "Todo",
     "favorites": "Favoritos",
@@ -120,12 +121,12 @@
     "server_error": "algo salió mal",
     "item": "Articulo",
     "confirm_delete_message": "Estás seguro que quieres eliminar esto",
-    "saved":"Guardado",
-    "invalid_input":"Entrada no válida para",
-    "required_item_selection":"Seleccione un elemento de la lista",
-    "password_length":"La contraseña no debe tener menos de",
-    "characters":"caracteres",
-    "invalid_token":"El token no es válido, solicite un nuevo correo electrónico de recuperación de cuenta",
+    "saved": "Guardado",
+    "invalid_input": "Entrada no válida para",
+    "required_item_selection": "Seleccione un elemento de la lista",
+    "password_length": "La contraseña no debe tener menos de",
+    "characters": "caracteres",
+    "invalid_token": "El token no es válido, solicite un nuevo correo electrónico de recuperación de cuenta",
     "select_or_add_brand": "Seleccione o escriba el nombre de una marca"
   },
   "category": {
@@ -148,6 +149,6 @@
     "currency_description": "La moneda es el prefijo que aparece frente al precio de los productos, totales e impuestos. Ejemplo: RD $ 150",
     "tax": "Impuesto",
     "tax_description": "El IMPUESTO es el impuesto aplicado a todos los productos que están marcados para aplicar esto, el monto se basa en el porcentaje (%).",
-    "language":"Idioma"
+    "language": "Idioma"
   }
 }
