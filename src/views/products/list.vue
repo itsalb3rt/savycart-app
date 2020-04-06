@@ -92,6 +92,9 @@ export default {
 				this.requestMeasurementUnit();
 				this.requestCategories();
 			});
+			this.$store.dispatch('products/getAllBrands').then(response => {
+				this.$store.commit('products/SET_BRANDS', response.data.data);
+			});
 		} else {
 			this.products = this.$store.getters['products/getAll'];
 		}
@@ -178,7 +181,7 @@ export default {
 		},
 		getTaxes() {
 			this.$store.dispatch('taxes/getAll').then(response => {
-				this.$store.commit('taxes/SET',response.data.data.quantity);
+				this.$store.commit('taxes/SET', response.data.data.quantity);
 			});
 		},
 		requestCategories() {
