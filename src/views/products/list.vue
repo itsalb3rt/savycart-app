@@ -34,7 +34,10 @@
 										<v-icon color="warning" class="ml-2">fa-star</v-icon>
 									</span>
 								</div>
-								<div class="grey--text">{{getMeasurementName(product.id_unit_measurement)}}</div>
+								<div class="grey--text">
+									<span>{{getMeasurementName(product.id_unit_measurement)}}</span>
+									<span class="float-right">{{product.brand}}</span>
+								</div>
 								<div class="font-weight-bold subheading">{{currency.symbol}} {{product.price}}</div>
 							</v-card-text>
 							<v-card-actions>
