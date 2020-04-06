@@ -38,9 +38,13 @@
 					</v-col>
 					<v-col cols="8">
 						<strong>{{product.product_name}}</strong>
+						<div class="grey--text">
+							{{product.brand}} 
+						</div>
 						<div
 							class="grey--text"
-						>{{product.measurement_unit}} | {{ $t('products.tax') }} {{ (product.apply_itbis == '1')? $t('messages.yes') : $t('messages.no') }}</div>
+						>{{product.measurement_unit}} | {{ $t('products.tax') }} {{ (product.apply_itbis == '1')? $t('messages.yes') : $t('messages.no') }}
+						</div>
 					</v-col>
 					<v-col cols="3">
 						<span

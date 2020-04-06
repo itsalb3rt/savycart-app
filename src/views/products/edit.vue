@@ -22,6 +22,11 @@
 								step="0.01"
 								required
 							></v-text-field>
+							<v-combobox
+								v-model.trim="brand"
+								:items="$store.getters['products/getBrands']"
+								:label="$t('messages.select_or_add_brand')"
+							></v-combobox>
 							<v-select
 								v-model="measurementUnit"
 								:items="$store.getters['measurementUnits/getAll']"
@@ -98,6 +103,9 @@ export default {
 			this.requestMeasurementUnit();
 			this.getProduct();
 			this.isLoading = true;
+			this.$store.dispatch('products/getAllBrands').then(response => {
+				this.$store.commit('products/SET_BRANDS', response.data.data);
+			});
 		}
 	},
 	data() {
@@ -110,7 +118,8 @@ export default {
 			description: '',
 			product: [],
 			isLoading: false,
-			favorite: '1'
+			favorite: '1',
+			brand: ''
 		};
 	},
 	components: {
@@ -130,7 +139,8 @@ export default {
 				id_category: this.category,
 				include_tax: this.itbis,
 				description: this.description,
-				favorite: this.favorite
+				favorite: this.favorite,
+				brand: this.brand.toUpperCase()
 			};
 
 			if (this.online) {
@@ -179,6 +189,7 @@ export default {
 					this.description = this.product.description;
 					this.isLoading = false;
 					this.favorite = this.product.favorite;
+					this.brand = this.product.brand;
 				})
 				.catch(function(error) {
 					console.log('TCL: requestProducts -> error', error);
