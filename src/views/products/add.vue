@@ -21,8 +21,8 @@
 					required
 				></v-text-field>
 				<v-combobox
-					v-model="brand"
-					:items="brands"
+					v-model.trim="brand"
+					:items="$store.getters['products/getBrands']"
 					:label="$t('messages.select_or_add_brand')"
 				></v-combobox>
 				<v-select
@@ -96,6 +96,9 @@ export default {
 			this.requestCategories();
 			this.requestMeasurementUnit();
 			this.taxQuantity = this.$store.getters['taxes/getAll'];
+			this.$store.dispatch('products/getAllBrands').then(response => {
+				this.$store.commit('products/SET_BRANDS', response.data.data);
+			});
 		}
 	},
 	data() {
@@ -109,8 +112,7 @@ export default {
 			description: '',
 			favorite: 0,
 			taxQuantity: 0,
-			brand: '',
-			brands: []
+			brand: ''
 		};
 	},
 	components: {
@@ -136,7 +138,7 @@ export default {
 				include_tax: this.tax,
 				description: this.description,
 				favorite: this.favorite,
-				brand: this.brand
+				brand: this.brand.toUpperCase()
 			};
 
 			if (this.online) {
