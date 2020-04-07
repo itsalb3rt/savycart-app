@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: '/',
+  publicPath: '/sheiley_shop/',
 
   pluginOptions: {
     i18n: {
