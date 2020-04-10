@@ -11,7 +11,6 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
-
 # build app for production with minification
 RUN npm run build
 
