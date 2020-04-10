@@ -138,7 +138,7 @@ export default {
 				include_tax: this.tax,
 				description: this.description,
 				favorite: this.favorite,
-				brand: this.brand.toUpperCase()
+				brand: (this.brand)? this.brand.toUpperCase() : this.brand
 			};
 
 			if (this.online) {
