@@ -21,6 +21,7 @@
     - [Database](#database)
     - [Backend production](#backend-production)
     - [Extra](#extra)
+  - [Docker](#docker)
 
 ---
 
@@ -133,6 +134,14 @@ port=""
 In the `system/webroot/` directory you will find a file named `FrontController.php` inside this you must modify the constant `ENVIROMENT` and put the value `pro`.
 
 ---
+
+## Docker
+
+Remember set the `.env` file vars before.
+
+```bash
+$ docker-compose up -d
+```
 
 ### Extra
 
