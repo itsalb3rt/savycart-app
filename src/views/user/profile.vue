@@ -115,9 +115,9 @@ export default {
 				})
 				.then(response => {
 					this.isLoading = false;
-					this.user.email = this.localUser.email;
-					this.user.first_name = this.localUser.firstName;
-					this.user.last_name = this.localUser.lastName;
+					this.localUser.email = this.localUser.email;
+					this.localUser.first_name = this.localUser.firstName;
+					this.localUser.last_name = this.localUser.lastName;
 
 					this.$store.commit('snackbar/setSnackbar', {
 						show: true,
