@@ -83,18 +83,9 @@ VUE_APP_API_PRO=https://example.com/sheiley_shop_api
 
 ## Frontend production
 
-To launch frontend to production copy the `.htaccess` inside your build dir and put the directory name;
 
-```
-<IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteBase /
-  RewriteRule ^index\.html$ - [L]
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /sheiley_shop/index.html [L] # route in yout production server
-</IfModule>
-```
+If you hosted the app in subdirectory go to `vue.config.js` and set the subdirectory name in `publicPath` property 
+
 ---
 
 ## Backend
