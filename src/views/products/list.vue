@@ -20,32 +20,37 @@
 				</v-tabs>
 			</v-col>
 			<v-col cols="12" v-if="filterProducts.length > 0">
-				<v-row>
-					<v-col cols="12" v-for="(product,index) in filterProducts" :key="index">
+				<v-virtual-scroll
+          :bench="benched"
+          :items="filterProducts"
+          item-height="170"
+					:height="screenHeightForProductContainer"
+        >
+					<template v-slot:default="{ item }">
 						<v-card>
 							<v-card-text>
 								<div>
 									<span
-										@click="$router.push({ name: 'view_product', params: { id: product.id_product } })"
+										@click="$router.push({ name: 'view_product', params: { id: item.id_product } })"
 										text
 										class="ma-0 pa-0 primary--text font-weight-bold subheading"
-									>{{product.name}}</span>
-									<span v-if="product.favorite == '1' ">
+									>{{item.name}}</span>
+									<span v-if="item.favorite == '1' ">
 										<v-icon color="warning" class="ml-2">fa-star</v-icon>
 									</span>
 								</div>
 								<div class="grey--text">
-									<span>{{getMeasurementName(product.id_unit_measurement)}}</span>
-									<span class="float-right">{{product.brand}}</span>
+									<span>{{getMeasurementName(item.id_unit_measurement)}}</span>
+									<span class="float-right">{{item.brand}}</span>
 								</div>
-								<div class="font-weight-bold subheading">{{currency.symbol}} {{product.price}}</div>
+								<div class="font-weight-bold subheading">{{currency.symbol}} {{item.price}}</div>
 							</v-card-text>
 							<v-card-actions>
 								<v-btn
 									color="success"
 									depressed
 									outlined
-									@click="$router.push({name:'edit product', params:{id: product.id_product} })"
+									@click="$router.push({name:'edit product', params:{id: item.id_product} })"
 								>
 									<v-icon class="mr-1">fa-edit</v-icon>
 									{{ $t('call_action_buttons.edit') }}
@@ -55,15 +60,15 @@
 									color="error"
 									text
 									class="ma-0 pa-0 right"
-									@click="showDialogToDeleteProduct(product.id_product)"
+									@click="showDialogToDeleteProduct(item.id_product)"
 								>
 									<v-icon class="mr-1">fa-trash</v-icon>
 									{{ $t('call_action_buttons.delete') }}
 								</v-btn>
 							</v-card-actions>
 						</v-card>
-					</v-col>
-				</v-row>
+					</template>
+				</v-virtual-scroll>
 			</v-col>
 			<v-col v-if="filterProducts.length == 0" cols="12">
 				<p class="headline mt-5 grey--text font-weight-bold">{{ $t('products.empty_list') }}</p>
@@ -110,7 +115,8 @@ export default {
 			showFavorites: false,
 			dialog: false,
 			deleteProductId: '',
-			products: []
+			products: [],
+			benched: 2
 		};
 	},
 	computed: {
@@ -130,6 +136,10 @@ export default {
 			}
 
 			return filteredProducts;
+		},
+		screenHeightForProductContainer () {
+			const reduce = screen.height > 736 ? 350 : 280
+			return screen.height - reduce
 		}
 	},
 	methods: {
