@@ -11,11 +11,11 @@
 				<v-tabs fixed-tabs>
 					<v-tab @click="showFavorites = false">
 						<v-icon class="mr-2">fa-list</v-icon>
-						{{ $t('products.all') }}
+						{{ $t('products.all') }} {{!showFavorites ? actualAvaliableProducts.length : null}}
 					</v-tab>
 					<v-tab @click="showFavorites = true">
 						<v-icon class="mr-2">fa-star</v-icon>
-						{{ $t('products.favorites') }}
+						{{ $t('products.favorites') }} {{showFavorites ? actualAvaliableProducts.length : null}}
 					</v-tab>
 				</v-tabs>
 			</v-col>
