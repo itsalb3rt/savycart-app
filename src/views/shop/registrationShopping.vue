@@ -19,71 +19,79 @@
 					</v-tab>
 				</v-tabs>
 			</v-col>
-
 			<v-col cols="12" class="products-container">
-				<v-card v-for="(product,index) in actualAvaliableProducts" :key="index" class="mb-4">
-					<v-card-text>
-						<div
-							class="primary--text font-weight-bold"
-							@click="$router.push({ name: 'view_product', params: { id: product.id_product } })"
-						>
-							{{product.name}}
-							<span v-if="product.favorite == '1' ">
-								<v-icon small color="warning" class="ml-2">fa-star</v-icon>
-							</span>
-						</div>
-						<div class="grey--text">
-							<span>{{getMeasurementName(product.id_unit_measurement)}}</span>
-							<span class="float-right">{{product.brand}}</span>
-						</div>
-						<div>
-							<v-layout row wrap>
-								<v-flex xs5 class="mr-1 ml-2">
-									<v-text-field
-										:label="currency.symbol"
-										type="number"
-										name="price"
-										id="price"
-										step="0.01"
-										min="1"
-										placeholder="1"
-										v-model.number="product.price"
-										:disabled="isOnCar(product.id_product)"
-									></v-text-field>
-								</v-flex>
-								<v-flex xs5 class="ml-1">
-									<v-text-field
-										:label=" $t('products.quantity') "
-										type="number"
-										name="quantity"
-										id="quantity"
-										value="1"
-										min="1"
-										placeholder="1"
-										v-model.number="product.quantity"
-										:disabled="isOnCar(product.id_product)"
-									></v-text-field>
-								</v-flex>
-							</v-layout>
-						</div>
-					</v-card-text>
-					<v-card-actions>
-						<v-btn
-							color="primary"
-							class="ma-0"
-							outlined
-							v-if="!isOnCar(product.id_product)"
-							@click="addItemToShoppingCar(index)"
-						>{{ $t('shopping_car.add_to_shopping_car') }}</v-btn>
-						<v-btn
-							color="error"
-							class="ma-0"
-							outlined
-							v-if="isOnCar(product.id_product)"
-							@click="removeItemFromShoppingCar(product.id_product)"
-						>{{ $t('shopping_car.remove_from_shopping_car') }}</v-btn>
-					</v-card-actions>
-				</v-card>
+				<v-virtual-scroll
+          :bench="benched"
+          :items="actualAvaliableProducts"
+          item-height="220"
+					:height="screenHeightForProductContainer"
+        >				
+					<template v-slot:default="{ item, index }">
+						<v-card class="mb-4">
+							<v-card-text>
+								<div
+									class="primary--text font-weight-bold"
+									@click="$router.push({ name: 'view_product', params: { id: item.id_product } })"
+								>
+									{{item.name}}
+									<span v-if="item.favorite == '1' ">
+										<v-icon small color="warning" class="ml-2">fa-star</v-icon>
+									</span>
+								</div>
+								<div class="grey--text">
+									<span>{{getMeasurementName(item.id_unit_measurement)}}</span>
+									<span class="float-right">{{item.brand}}</span>
+								</div>
+								<div>
+									<v-layout row wrap>
+										<v-flex xs5 class="mr-1 ml-2">
+											<v-text-field
+												:label="currency.symbol"
+												type="number"
+												name="price"
+												id="price"
+												step="0.01"
+												min="1"
+												placeholder="1"
+												v-model.number="item.price"
+												:disabled="isOnCar(item.id_product)"
+											></v-text-field>
+										</v-flex>
+										<v-flex xs5 class="ml-1">
+											<v-text-field
+												:label=" $t('products.quantity') "
+												type="number"
+												name="quantity"
+												id="quantity"
+												value="1"
+												min="1"
+												placeholder="1"
+												v-model.number="item.quantity"
+												:disabled="isOnCar(item.id_product)"
+											></v-text-field>
+										</v-flex>
+									</v-layout>
+								</div>
+							</v-card-text>
+							<v-card-actions>
+								<v-btn
+									color="primary"
+									class="ma-0"
+									outlined
+									v-if="!isOnCar(item.id_product)"
+									@click="addItemToShoppingCar(index)"
+								>{{ $t('shopping_car.add_to_shopping_car') }}</v-btn>
+								<v-btn
+									color="error"
+									class="ma-0"
+									outlined
+									v-if="isOnCar(item.id_product)"
+									@click="removeItemFromShoppingCar(item.id_product)"
+								>{{ $t('shopping_car.remove_from_shopping_car') }}</v-btn>
+							</v-card-actions>
+						</v-card>
+					</template>
+				</v-virtual-scroll>
 			</v-col>
 
 			<v-col cols="12">
@@ -141,7 +149,8 @@ export default {
 			currency: [],
 			isLoading: false,
 			showFavorites: false,
-			products: []
+			products: [],
+			benched: 2
 		};
 	},
 	components: {
@@ -182,6 +191,10 @@ export default {
 					(this.$store.getters['taxes/getAll'] / 100);
 			});
 			return totalTax;
+		},
+		screenHeightForProductContainer () {
+			const reduce = screen.height > 736 ? 350 : 280
+			return screen.height - reduce
 		}
 	},
 	methods: {
@@ -233,7 +246,7 @@ export default {
 .add-remove-from-card-label {
 	margin: 10px auto;
 }
-.products-container {
-	margin-bottom: 130px;
+.products-container .v-virtual-scroll .v-virtual-scroll__item:last-child {
+	padding-bottom: 130px;
 }
 </style>
