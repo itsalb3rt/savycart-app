@@ -1,5 +1,5 @@
 <template>
-	<v-row v-if="quantity > 0" class="shop-resume-bar-container">
+	<v-row v-if="quantity > 0" class="shop-resume-bar-container constrain">
 		<v-col cols="6" class="text-xs-right reduce-20-magin-bottom">
 			<strong>{{quantity}}</strong>
 			{{ $t('messages.item') }}
@@ -64,10 +64,16 @@ export default {
 	position: fixed;
 	bottom: 0;
 	width: 100%;
-	left: 10px;
+	margin: auto;
 	background-color: white;
 	padding: 10px 30px 0px 33px;
 	box-shadow: 0px 0px 4px 1px rgba(128, 128, 128, 0.16);
+}
+
+@media only screen and (max-width: 900px) {
+  .shop-resume-bar-container  {
+    left: 0;
+  }
 }
 .shop-resume-bar-container hr {
 	width: 100%;

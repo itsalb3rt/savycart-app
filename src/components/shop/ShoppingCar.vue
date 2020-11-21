@@ -1,5 +1,5 @@
 <template>
-  <div class="shopping-car-container" v-if="count > 0">
+  <div class="shopping-car-container constrain" v-if="count > 0">
     <div class="car" @click="$router.push('/shop/shopping_car')">
       <font-awesome-icon icon="shopping-cart"/>
       <span class="count">{{count}}</span>

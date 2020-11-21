@@ -1,5 +1,5 @@
 <template>
-	<v-app>
+	<v-app class="constrain">
 		<MenuComponent :title="$route.meta.title" v-if="$store.getters['auth/getIsLogged']" />
 		<v-content>
 			<transition
@@ -116,5 +116,9 @@ export default {
 }
 #app {
 	font-family: Open-Sans;
+}
+.constrain{
+	max-width: 900px;
+	margin: auto;
 }
 </style>
