@@ -45,16 +45,20 @@
 			@cancel="showDialogDeleteCategory = false"
 			@confirm="deleteCategory()"
 		/>
+		<loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true" />
 	</div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import deleteDialog from '@/components/Interface/Dialogs/Delete';
+import Loading from 'vue-loading-overlay';
 
 export default {
+	name: 'categories',
 	components: {
-		deleteDialog
+		deleteDialog,
+		Loading
 	},
 	mounted() {
 		if (this.online) {
@@ -69,7 +73,8 @@ export default {
 				{ text: this.$t('call_action_buttons.action'), value: 'action' }
 			],
 			showDialogDeleteCategory: false,
-			indexCategoryForDelete: ''
+			indexCategoryForDelete: '',
+			isLoading: false
 		};
 	},
 	computed: {
@@ -78,6 +83,7 @@ export default {
 	methods: {
 		createCategory() {
 			if (this.online) {
+				this.isLoading = true;
 				this.$store
 					.dispatch('categories/create', { name: this.name })
 					.then(response => {
@@ -92,6 +98,9 @@ export default {
 					})
 					.catch(function(error) {
 						console.log('TCL: createCategory -> error', error);
+					})
+					.finally(() => {
+						this.isLoading = false;
 					});
 			} else {
 				this.$store.commit('snackbar/setSnackbar', {
