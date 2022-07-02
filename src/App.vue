@@ -33,6 +33,8 @@
 import MenuComponent from './components/TheMenu.vue';
 import offline from 'v-offline';
 import { mapMutations, mapState } from 'vuex';
+import 'vue-loading-overlay/dist/vue-loading.css';
+
 const DEFAULT_TRANSITION = 'fade';
 
 export default {
