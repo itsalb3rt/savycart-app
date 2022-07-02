@@ -1,7 +1,7 @@
 <template>
 	<v-app class="constrain">
 		<MenuComponent :title="$route.meta.title" v-if="$store.getters['auth/getIsLogged']" />
-		<v-content>
+		<v-main>
 			<transition
 				:name="transitionName"
 				mode="out-in"
@@ -13,7 +13,7 @@
 					<router-view />
 				</v-container>
 			</transition>
-		</v-content>
+		</v-main>
 		<!-- @detected-condition fires when the connectivity status of the device changes -->
 		<offline @detected-condition="handleConnectivityChange"></offline>
 		<v-snackbar
