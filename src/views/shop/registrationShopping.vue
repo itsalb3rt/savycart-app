@@ -27,7 +27,7 @@
 					:height="screenHeightForProductContainer"
         >				
 					<template v-slot:default="{ item, index }">
-						<v-card style="max-width:850px; margin:auto" class="mb-4">
+						<v-card outlined style="max-width:850px; margin:auto" class="mb-4">
 							<v-card-text>
 								<div
 									class="primary--text font-weight-bold"
