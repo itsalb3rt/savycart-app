@@ -6,7 +6,7 @@
 			<v-toolbar-title class="primary--text">{{title}}</v-toolbar-title>
 		</v-toolbar>
 		<v-navigation-drawer app temporary v-model="drawer">
-			<v-row>
+			<v-row class="mt-2">
 				<v-col cols="12" class="text-center" @click="$router.push('/user/profile')">
 					<v-avatar :size="80" color="indigo">
 						<v-icon large dark>fa-user</v-icon>
