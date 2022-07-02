@@ -8,12 +8,14 @@
 		<v-navigation-drawer app temporary v-model="drawer">
 			<v-row class="mt-2">
 				<v-col cols="12" class="text-center" @click="$router.push('/user/profile')">
-					<v-avatar :size="80" color="indigo">
+					<v-avatar :size="80" color="indigo" style="cursor:pointer;" @click="$router.push('/user/profile')">
 						<v-icon large dark>fa-user</v-icon>
 					</v-avatar>
 				</v-col>
 				<v-col cols="12" class="text-center">
-					<p class="headline primary--text" @click="$router.push('/user/profile')">{{$store.getters['auth/getUser'].first_name}} {{$store.getters['auth/getUser'].last_name}}</p>
+					<p class="headline primary--text" style="cursor:pointer;" @click="$router.push('/user/profile')">
+						{{$store.getters['auth/getUser'].first_name}} {{$store.getters['auth/getUser'].last_name}}
+					</p>
 				</v-col>
 			</v-row>
 
