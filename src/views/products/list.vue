@@ -19,7 +19,17 @@
 					</v-tab>
 				</v-tabs>
 			</v-col>
-			<v-col cols="12" v-if="filterProducts.length > 0">
+			<v-col v-if="loading" cols="12" class="text-center">
+				<v-skeleton-loader 
+					v-for="i in 10" 
+					:key="i"
+					class="mx-auto my-2"
+					max-width="95%"
+					max-height="150"
+					type="card"
+				/>
+			</v-col>
+			<v-col cols="12" v-else-if="filterProducts.length > 0">
 				<v-virtual-scroll
           :bench="benched"
           :items="filterProducts"
@@ -70,8 +80,8 @@
 					</template>
 				</v-virtual-scroll>
 			</v-col>
-			<v-col v-if="filterProducts.length == 0" cols="12">
-				<p class="headline mt-5 grey--text font-weight-bold">{{ $t('products.empty_list') }}</p>
+			<v-col v-else-if="filterProducts.length == 0" cols="12">
+				<p class="headline mt-5 grey--text text-center font-weight-bold">{{ $t('products.empty_list') }}</p>
 			</v-col>
 		</v-row>
 		<v-btn color="primary" dark fixed right bottom fab @click="$router.push({path:'/product/add'})">
@@ -87,19 +97,25 @@ import { mapState, mapMutations } from 'vuex';
 import currencies from '@/mixins/miscellany/currencies';
 
 export default {
+	name: 'products',
 	mixins: [currencies],
 	components: {
 		deleteDialog
 	},
 	async mounted() {
 		if (this.online) {
+			this.loading = true;
 			this.getTaxes();
 			this.$store.dispatch('products/getAll').then(response => {
 				this.$store.commit('products/SET', response.data.data);
 				this.products = this.$store.getters['products/getAll'];
 				this.requestMeasurementUnit();
 				this.requestCategories();
+			})
+			.finally(() => {
+				this.loading = false;
 			});
+
 			this.$store.dispatch('products/getAllBrands').then(response => {
 				this.$store.commit('products/SET_BRANDS', response.data.data);
 			});
@@ -116,7 +132,8 @@ export default {
 			dialog: false,
 			deleteProductId: '',
 			products: [],
-			benched: 2
+			benched: 2,
+			loading: false
 		};
 	},
 	computed: {
