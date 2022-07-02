@@ -52,14 +52,17 @@
 			@cancel="showDialogDeleteMeasurementUnit = false"
 			@confirm="deleteMeasurementUnit()"
 		/>
+		<loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true" />
 	</div>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex';
 import deleteDialog from '@/components/Interface/Dialogs/Delete';
+import Loading from 'vue-loading-overlay';
 
 export default {
+	name: 'MeasurementUnits',
 	mounted() {
 		if (this.online) {
 			this.requestMeasurementUnits();
@@ -74,11 +77,13 @@ export default {
 				{ text: this.$t('call_action_buttons.action'), value: 'action' }
 			],
 			indexMeasurementUnitForDelete: '',
-			showDialogDeleteMeasurementUnit: false
+			showDialogDeleteMeasurementUnit: false,
+			isLoading: false
 		};
 	},
 	components: {
-		deleteDialog
+		deleteDialog,
+		Loading
 	},
 	computed: {
 		...mapState(['measurement_units', 'online', 'apiDomain', 'user'])
@@ -92,6 +97,7 @@ export default {
 
 		createMeasurementUnit() {
 			if (this.online) {
+				this.isLoading = true;
 				this.$store
 					.dispatch('measurementUnits/create', { name: this.name })
 					.then(response => {
@@ -106,6 +112,9 @@ export default {
 					})
 					.catch(function(error) {
 						console.log('TCL: addMeasurementUnit -> error', error);
+					})
+					.finally(() => {
+						this.isLoading = false;
 					});
 			} else {
 				this.$store.commit('snackbar/setSnackbar', {

@@ -54,6 +54,7 @@
 				</v-btn>
 			</v-col>
 		</v-row>
+		<loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true" />
 	</div>
 </template>
 
@@ -61,10 +62,13 @@
 import MenuComponent from '@/components/TheMenu';
 import { mapState } from 'vuex';
 import currencies from '@/mixins/miscellany/currencies';
+import Loading from 'vue-loading-overlay';
 
 export default {
+	name: 'Settings',
 	mixins: [currencies],
 	async mounted() {
+		this.isLoading = true;
 		this.language =
 			window.localStorage.getItem('language') == null
 				? 'en'
@@ -82,9 +86,11 @@ export default {
 		});
 		this.preferredCurrency = await this.getPreferredCurrency();
 		this.preferredCurrencyCode = this.preferredCurrency.code;
+		this.isLoading = false;
 	},
 	components: {
-		MenuComponent
+		MenuComponent,
+		Loading
 	},
 	data() {
 		return {
@@ -98,7 +104,8 @@ export default {
 			languageList: [
 				{ name: 'Español', value: 'es' },
 				{ name: 'English', value: 'en' }
-			]
+			],
+			isLoading: false
 		};
 	},
 	methods: {

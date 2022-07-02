@@ -1,7 +1,7 @@
 <template>
 	<v-app class="constrain">
 		<MenuComponent :title="$route.meta.title" v-if="$store.getters['auth/getIsLogged']" />
-		<v-content>
+		<v-main>
 			<transition
 				:name="transitionName"
 				mode="out-in"
@@ -13,7 +13,7 @@
 					<router-view />
 				</v-container>
 			</transition>
-		</v-content>
+		</v-main>
 		<!-- @detected-condition fires when the connectivity status of the device changes -->
 		<offline @detected-condition="handleConnectivityChange"></offline>
 		<v-snackbar
@@ -33,7 +33,8 @@
 import MenuComponent from './components/TheMenu.vue';
 import offline from 'v-offline';
 import { mapMutations, mapState } from 'vuex';
-import 'axios-progress-bar/dist/nprogress.css';
+import 'vue-loading-overlay/dist/vue-loading.css';
+
 const DEFAULT_TRANSITION = 'fade';
 
 export default {

@@ -57,17 +57,17 @@
 ## Frontend
 
 ```bash
-$ git clone https://github.com/itsalb3rt/sheiley_shop_app.git
+git clone https://github.com/itsalb3rt/sheiley_shop_app.git
 ```
 
 ```bash
-$ npm install 
+yarn install 
 ```
 
 ```bash
-$ npm run serve
+yarn serve
 # or run the next command for production
-$ npm run build
+yarn build
 ```
 
 ### API entry point
