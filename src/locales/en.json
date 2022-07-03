@@ -50,7 +50,8 @@
     "email_not_register":"The email is not registered",
     "account_recovery_information":"You will soon be receiving an email with the instructions for recovering the account. This email expires in 2 hours.",
     "new_password_information":"Please enter a new password",
-    "fullname": "Full name"
+    "fullname": "Full name",
+    "usernameOrEmail": "Username or email"
   },
   "products": {
     "product":"Product",
