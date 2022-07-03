@@ -16,21 +16,7 @@
 					</h4>
 				</v-col>
 				<v-col cols="12">
-					<v-text-field v-model="newUser.first_name" :label=" $t('auth.first_name') " required></v-text-field>
-					<v-text-field v-model="newUser.last_name" :label=" $t('auth.last_name') " required></v-text-field>
-					<v-text-field
-						v-model="newUser.user_name"
-						@change="validatedUserName"
-						:label=" $t('auth.user_name') "
-						@keyup="purifyUserName"
-						required
-					></v-text-field>
-					<div v-if="userExitst">
-						<p class="error--text">{{ $t('auth.user_name_already_registered') }}</p>
-					</div>
-					<div v-if="!isUserNameValid">
-						<p class="error--text">{{ $t('messages.invalid_input') }} {{$t('auth.user_name')}}</p>
-					</div>
+					<v-text-field v-model="newUser.fullname" :label=" $t('auth.fullname') " required></v-text-field>
 				</v-col>
 				<v-col cols="12">
 					<v-text-field
@@ -67,7 +53,7 @@
 					<v-btn
 						type="submit"
 						color="success"
-						:disabled="userExitst === true || emailExits === true || disabledSubmitButton === true || isUserNameValid === false"
+						:disabled="userExitst === true || emailExits === true || disabledSubmitButton === true || newUser.fullname === '' || newUser.email === '' || newUser.password === '' || newUser.password2 === ''"
 						block
 					>{{ $t('auth.create_an_account') }}</v-btn>
 				</v-col>
@@ -91,11 +77,9 @@ export default {
 	data: function() {
 		return {
 			newUser: {
-				user_name: '',
 				password: '',
 				password2: '',
-				first_name: '',
-				last_name: '',
+				fullname: '',
 				email: ''
 			},
 			userExitst: false,
@@ -107,29 +91,12 @@ export default {
 	},
 	computed: {
 		...mapState(['user']),
-		isUserNameValid() {
-			return /^[a-z0-9_-]{3,15}$/.test(this.newUser.user_name);
-		}
 	},
 	methods: {
-		validatedUserName() {
-			this.$store
-				.dispatch('auth/checkIsUserExists', {
-					userName: this.newUser.user_name
-				})
-				.then(response => {
-					this.userExitst = true;
-				})
-				.catch(error => {
-					if (error.response.status === 404) {
-						this.userExitst = false;
-					}
-				});
-		},
 		validatedEmail() {
 			this.$store
 				.dispatch('auth/checkIsEmailExists', { email: this.newUser.email })
-				.then(response => {
+				.then(() => {
 					this.emailExits = true;
 				})
 				.catch(error => {
@@ -143,21 +110,25 @@ export default {
 
 			this.$store
 				.dispatch('auth/register', this.newUser)
-				.then(response => {
+				.then(() => {
 					this.$router.push({
 						path: 'login',
 						query: { create_user: 'created' }
 					});
 				})
-				.catch(function(error) {
-					console.log(error);
+				.catch((error) => {
+					this.$store.commit('snackbar/setSnackbar', {
+						show: true,
+						message: error.response.data && error.response.data.errors ? error.response.data.errors.toString() : 'Unknown error',
+						color: 'error',
+						top: true,
+						close: false,
+						showClose: false
+					});
 				})
 				.finally(() => {
 					this.disabledSubmitButton = false;
 				});
-		},
-		purifyUserName() {
-			this.newUser.user_name = this.newUser.user_name.toLowerCase();
 		}
 	}
 };

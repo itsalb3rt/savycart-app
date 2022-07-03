@@ -25,7 +25,7 @@
 							</h4>
 						</v-col>
 						<v-col cols="12">
-							<v-text-field v-model="userName" :label="$t('auth.user_name')" required></v-text-field>
+							<v-text-field v-model="userName" :label="$t('auth.usernameOrEmail')" required></v-text-field>
 							<v-text-field
 								v-model="password"
 								:type="showPassword ? 'text' : 'password'"

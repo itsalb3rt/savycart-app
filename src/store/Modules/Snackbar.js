@@ -7,7 +7,8 @@ const snackbar = {
       color: "",
       top: null,
       bottom: null,
-      multiLine: true
+      multiLine: true,
+      showClose: true
     }
   },
   mutations: {
@@ -16,6 +17,7 @@ const snackbar = {
       state.snackbar.message = snackbar.message;
       state.snackbar.color = snackbar.color;
       state.snackbar.top = snackbar.top === undefined ? null : snackbar.top;
+      state.snackbar.showClose = snackbar.showClose === undefined ? true : snackbar.showClose;
       state.snackbar.bottom =
         snackbar.bottom === undefined ? null : snackbar.bottom;
       setTimeout(() => {

@@ -24,7 +24,7 @@
 			:color="$store.state.snackbar.snackbar.color"
 		>
 			{{ $store.state.snackbar.snackbar.message }}
-			<v-btn dark text @click="$store.commit('snackbar/setSnackbarShow', false)">Cerrar</v-btn>
+			<v-btn v-if="$store.state.snackbar.snackbar.showClose" dark text @click="$store.commit('snackbar/setSnackbarShow', false)">Cerrar</v-btn>
 		</v-snackbar>
 	</v-app>
 </template>

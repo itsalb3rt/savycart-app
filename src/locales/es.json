@@ -49,7 +49,9 @@
     "email_invalid": "El email debe ser válido",
     "email_not_register": "El email no está registrado",
     "account_recovery_information": "En breve estara recibiendo un correo electronico con las instrucciones de recuperacion de la cuenta. Este correo expira en 2 horas.",
-    "new_password_information": "Por favor ingrese una nueva contraseña"
+    "new_password_information": "Por favor ingrese una nueva contraseña",
+    "fullname": "Nombre completo",
+    "usernameOrEmail": "Nombre de usuario o correo electronico"
   },
   "products": {
     "product": "Producto",
