@@ -39,6 +39,7 @@
 					<template v-slot:default="{ item }">
 						<list-product 
 							:product="item"
+							:currency="currency"
 							@view-details="product => $router.push({ name: 'view_product', params: { id: product.id_product } })" 
 							@on-edit="product => $router.push({ name: 'edit product', params: { id: product.id_product } })" 
 							@on-delete="product => showDialogToDeleteProduct(product.id_product)"

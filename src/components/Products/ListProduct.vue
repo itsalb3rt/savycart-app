@@ -41,24 +41,20 @@
 </v-card>
 </template>
 <script>
-import currencies from '@/mixins/miscellany/currencies';
-
 export default {
   name: 'listProduct',
   props: {
     product: {
       type: Object,
       required: true
+    },
+    currency: {
+      type: Object,
+      required: true,
+      default: () => ({
+        symbol: '$'
+      })
     }
-  },
-  mixins: [currencies],
-  data () {
-    return {
-			currency: [],
-    }
-  },
-  async created () {
-    this.currency = await this.getPreferredCurrency();
   },
   methods: {
 		getMeasurementName(id) {
