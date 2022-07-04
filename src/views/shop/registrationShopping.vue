@@ -27,69 +27,14 @@
 					:height="screenHeightForProductContainer"
         >				
 					<template v-slot:default="{ item, index }">
-						<v-card outlined style="max-width:850px; margin:auto" class="mb-4">
-							<v-card-text>
-								<div
-									class="primary--text font-weight-bold"
-									@click="$router.push({ name: 'view_product', params: { id: item.id_product } })"
-								>
-									{{item.name}}
-									<span v-if="item.favorite == '1' ">
-										<v-icon small color="warning" class="ml-2">fa-star</v-icon>
-									</span>
-								</div>
-								<div class="grey--text">
-									<span>{{getMeasurementName(item.id_unit_measurement)}}</span>
-									<span class="float-right">{{item.brand}}</span>
-								</div>
-								<div>
-									<v-layout row wrap>
-										<v-flex xs5 class="mr-1 ml-2">
-											<v-text-field
-												:label="currency.symbol"
-												type="number"
-												name="price"
-												id="price"
-												step="0.01"
-												min="1"
-												placeholder="1"
-												v-model.number="item.price"
-												:disabled="isOnCar(item.id_product)"
-											></v-text-field>
-										</v-flex>
-										<v-flex xs5 class="ml-1">
-											<v-text-field
-												:label=" $t('products.quantity') "
-												type="number"
-												name="quantity"
-												id="quantity"
-												value="1"
-												min="1"
-												placeholder="1"
-												v-model.number="item.quantity"
-												:disabled="isOnCar(item.id_product)"
-											></v-text-field>
-										</v-flex>
-									</v-layout>
-								</div>
-							</v-card-text>
-							<v-card-actions>
-								<v-btn
-									color="primary"
-									class="ma-0"
-									outlined
-									v-if="!isOnCar(item.id_product)"
-									@click="addItemToShoppingCar(index)"
-								>{{ $t('shopping_car.add_to_shopping_car') }}</v-btn>
-								<v-btn
-									color="error"
-									class="ma-0"
-									outlined
-									v-if="isOnCar(item.id_product)"
-									@click="removeItemFromShoppingCar(item.id_product)"
-								>{{ $t('shopping_car.remove_from_shopping_car') }}</v-btn>
-							</v-card-actions>
-						</v-card>
+						<purchase-product 
+							:product="item"
+							:currency="currency"
+							:is-on-car="isOnCar(item.id_product)"
+							@view-details="product => $router.push({ name: 'view_product', params: { id: product.id_product } })"
+							@add-to-car="addItemToShoppingCar(index)"
+							@remove-from-car="product => removeItemFromShoppingCar(product.id_product)"
+						 />
 					</template>
 				</v-virtual-scroll>
 			</v-col>
@@ -125,10 +70,11 @@ import { mapState } from 'vuex';
 import ShopResume from '@/components/shop/ShopResume';
 import currencies from '@/mixins/miscellany/currencies';
 import Loading from 'vue-loading-overlay';
+import PurchaseProduct from '@/components/Products/PurchaseProduct';
 
 export default {
 	mixins: [currencies],
-	mounted() {
+	async mounted() {
 		if (this.online) {
 			this.isLoading = true;
 			this.$store.dispatch('products/getAll').then(response => {
@@ -139,7 +85,7 @@ export default {
 		} else {
 			this.products = this.$store.getters['products/getAll'];
 		}
-		this.currency = this.getPreferredCurrency();
+		this.currency = await this.getPreferredCurrency();
 	},
 	data() {
 		return {
@@ -153,7 +99,8 @@ export default {
 	},
 	components: {
 		ShopResume,
-		Loading
+		Loading,
+		PurchaseProduct
 	},
 	computed: {
 		...mapState(['user', 'online']),
@@ -196,16 +143,6 @@ export default {
 		}
 	},
 	methods: {
-		getMeasurementName(id) {
-			let value;
-			this.$store.getters['measurementUnits/getAll'].forEach(unit => {
-				if (unit.id_unit_measurement == id) {
-					value = unit.name;
-					return;
-				}
-			});
-			return value;
-		},
 		isOnCar(idProduct) {
 			let result = this.$store.getters['shoppingCar/getAll'].find(
 				item => item.id_product === idProduct

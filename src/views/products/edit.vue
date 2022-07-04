@@ -90,12 +90,13 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex';
+import { mapState } from 'vuex';
 import Loading from 'vue-loading-overlay';
 import OfflineInfomation from '@/components/Offline/OfflineInformation';
 import { setTimeout } from 'timers';
 
 export default {
+	name: 'ProductEdit',
 	mounted() {
 		if (this.online) {
 			this.requestCategories();
