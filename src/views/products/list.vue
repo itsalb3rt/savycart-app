@@ -37,46 +37,12 @@
 					:height="screenHeightForProductContainer"
         >
 					<template v-slot:default="{ item }">
-						<v-card outlined style="max-width:850px; margin:auto" class="mb-4">
-							<v-card-text>
-								<div>
-									<span
-										@click="$router.push({ name: 'view_product', params: { id: item.id_product } })"
-										text
-										class="ma-0 pa-0 primary--text font-weight-bold subheading"
-									>{{item.name}}</span>
-									<span v-if="item.favorite == '1' ">
-										<v-icon color="warning" class="ml-2">fa-star</v-icon>
-									</span>
-								</div>
-								<div class="grey--text">
-									<span>{{getMeasurementName(item.id_unit_measurement)}}</span>
-									<span class="float-right">{{item.brand}}</span>
-								</div>
-								<div class="font-weight-bold subheading">{{currency.symbol}} {{item.price}}</div>
-							</v-card-text>
-							<v-card-actions>
-								<v-btn
-									color="success"
-									depressed
-									outlined
-									@click="$router.push({name:'edit product', params:{id: item.id_product} })"
-								>
-									<v-icon class="mr-1">fa-edit</v-icon>
-									{{ $t('call_action_buttons.edit') }}
-								</v-btn>
-								<v-spacer></v-spacer>
-								<v-btn
-									color="error"
-									text
-									class="ma-0 pa-0 right"
-									@click="showDialogToDeleteProduct(item.id_product)"
-								>
-									<v-icon class="mr-1">fa-trash</v-icon>
-									{{ $t('call_action_buttons.delete') }}
-								</v-btn>
-							</v-card-actions>
-						</v-card>
+						<list-product 
+							:product="item"
+							@view-details="product => $router.push({ name: 'view_product', params: { id: product.id_product } })" 
+							@on-edit="product => $router.push({ name: 'edit product', params: { id: product.id_product } })" 
+							@on-delete="product => showDialogToDeleteProduct(product.id_product)"
+						/>
 					</template>
 				</v-virtual-scroll>
 			</v-col>
@@ -95,12 +61,14 @@
 import deleteDialog from '@/components/Interface/Dialogs/Delete';
 import { mapState, mapMutations } from 'vuex';
 import currencies from '@/mixins/miscellany/currencies';
+import ListProduct from '@/components/Products/ListProduct';
 
 export default {
 	name: 'products',
 	mixins: [currencies],
 	components: {
-		deleteDialog
+		deleteDialog,
+		ListProduct
 	},
 	async mounted() {
 		if (this.online) {
@@ -127,7 +95,6 @@ export default {
 	data() {
 		return {
 			searchProductName: '',
-			currency: [],
 			showFavorites: false,
 			dialog: false,
 			deleteProductId: '',
@@ -160,16 +127,6 @@ export default {
 		}
 	},
 	methods: {
-		getMeasurementName(id) {
-			let value;
-			this.$store.getters['measurementUnits/getAll'].forEach(unit => {
-				if (unit.id_unit_measurement == id) {
-					value = unit.name;
-					return;
-				}
-			});
-			return value;
-		},
 		showDialogToDeleteProduct(idProduct) {
 			this.dialog = true;
 			this.deleteProductId = idProduct;
