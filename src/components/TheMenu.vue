@@ -90,12 +90,6 @@ export default {
 					icon: 'fa-history',
 					iconColor: '',
 					routePath: '/analysis/shopping_history'
-				},
-				{
-					title: 'analysis',
-					icon: 'fa-chart-bar',
-					iconColor: '',
-					routePath: '/none'
 				}
 			],
 			settings: [
