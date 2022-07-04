@@ -34,11 +34,23 @@ import MenuComponent from './components/TheMenu.vue';
 import offline from 'v-offline';
 import { mapMutations, mapState } from 'vuex';
 import 'vue-loading-overlay/dist/vue-loading.css';
+import i18n from './i18n';
 
 const DEFAULT_TRANSITION = 'fade';
 
 export default {
 	created() {
+
+		const localStorageLanguage = window.localStorage.getItem('language');
+		if (!localStorageLanguage) {
+			const userLanguage = navigator.language || navigator.userLanguage;
+			if (userLanguage.includes('es')) {
+				i18n.locale = 'es';
+			} else {
+				i18n.locale = 'en';
+			}
+		}
+
 		this.$router.beforeEach((to, from, next) => {
 			let transitionName = to.meta.transitionName || from.meta.transitionName;
 
