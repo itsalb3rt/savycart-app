@@ -5,17 +5,10 @@
 				<v-form autocomplete="off">
 					<p class="mb-2 mt-2">{{ $t('messages.basic') }}</p>
 					<v-text-field
-						id="first-name"
-						v-model="localUser.firstName"
-						:label=" $t('auth.first_name') "
+						id="fullname"
+						v-model="localUser.fullname"
+						:label=" $t('auth.fullname') "
 						placeholder="Albert Eduardo"
-						required
-					></v-text-field>
-					<v-text-field
-						id="last-name"
-						v-model="localUser.lastName"
-						:label=" $t('auth.last_name') "
-						placeholder="Hidalgo Taveras"
 						required
 					></v-text-field>
 					<v-text-field
@@ -71,8 +64,7 @@ export default {
 			isLoading: false,
 			localUser: {
 				id_user: '',
-				firstName: '',
-				lastName: '',
+				fullname:'',
 				email: '',
 				password: '',
 				password2: ''
@@ -96,8 +88,7 @@ export default {
 					const user = response.data.data;
 
 					this.localUser.id_user = user.id_user;
-					this.localUser.firstName = user.first_name;
-					this.localUser.lastName = user.last_name;
+					this.localUser.fullname = `${user.first_name} ${user.last_name}`;
 					this.localUser.email = user.email;
 					this.isLoading = false;
 				})
@@ -114,10 +105,8 @@ export default {
 				})
 				.then(response => {
 					this.isLoading = false;
-					this.localUser.email = this.localUser.email;
-					this.localUser.first_name = this.localUser.firstName;
-					this.localUser.last_name = this.localUser.lastName;
-
+					this.$store.commit('auth/SET_USER',response.data.data);
+					window.localStorage.setItem('user', JSON.stringify(response.data.data));
 					this.$store.commit('snackbar/setSnackbar', {
 						show: true,
 						message: this.$t('call_action_buttons.saved'),

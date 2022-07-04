@@ -69,10 +69,20 @@ export default {
 	mixins: [currencies],
 	async mounted() {
 		this.isLoading = true;
-		this.language =
-			window.localStorage.getItem('language') == null
-				? 'en'
-				: window.localStorage.getItem('language');
+		const localStorageLanguage =  window.localStorage.getItem('language');
+
+		if (localStorageLanguage) {
+			this.language = localStorageLanguage;
+		} else {
+			const userLanguage = navigator.language;
+
+			if (userLanguage.includes('es')) {
+				this.language = 'es';
+			} else {
+				this.language = 'en';
+			}
+		}
+
 		this.getTax();
 		this.getCurrencies().then(resp => {
 			this.currencies = resp;
