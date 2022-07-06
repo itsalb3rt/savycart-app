@@ -1,7 +1,8 @@
 # Sheiley Shop 
-<img src="https://user-images.githubusercontent.com/3104648/28351989-7f68389e-6c4b-11e7-9bf2-e9fcd4977e7a.png" width="50"/>
+<div>
+<img src="https://user-images.githubusercontent.com/3104648/28351989-7f68389e-6c4b-11e7-9bf2-e9fcd4977e7a.png" width="50" style="display: inline"/>
 |
-<img src="https://user-images.githubusercontent.com/35310226/177658962-85477241-4bf2-4647-9f30-7afa3ec3bc18.png" width="130"/>
+<img src="https://user-images.githubusercontent.com/35310226/177658962-85477241-4bf2-4647-9f30-7afa3ec3bc18.png" width="130" style="display: inline"/>
 </div>
 <p style="float:left;">
 <img src="https://i.imgur.com/UqnVH51.png" width="150" />
