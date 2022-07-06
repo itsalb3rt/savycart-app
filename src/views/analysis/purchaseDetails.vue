@@ -25,36 +25,16 @@
 				<v-divider></v-divider>
 			</v-col>
 			<v-col cols="12">
-				<v-row
+				<div
 					row
 					wrap
 					align-center
-					v-for="(product,index) in purchaseDetails.purchase_details"
+					v-for="(purchase,index) in purchaseDetails.purchase_details"
 					:key="index"
 				>
-					<v-col cols="1">
-						{{product.quantity}}
-						<span class="quantity-indicator">x</span>
-					</v-col>
-					<v-col cols="8">
-						<strong>{{product.product_name}}</strong>
-						<div class="grey--text">
-							{{product.brand}} 
-						</div>
-						<div
-							class="grey--text"
-						>{{product.measurement_unit}} | {{ $t('products.tax') }} {{ (product.apply_itbis == '1')? $t('messages.yes') : $t('messages.no') }}
-						</div>
-					</v-col>
-					<v-col cols="3">
-						<span
-							class="font-weight-bold"
-						>{{currency.symbol}} {{parseInt(product.unit_price) * parseInt(product.quantity) }}</span>
-					</v-col>
-					<v-col cols="12">
-						<v-divider></v-divider>
-					</v-col>
-				</v-row>
+					<purchased-product :product="purchase" :currency="currency" />
+					<v-divider class="my-4" />
+				</div>
 			</v-col>
 			<v-col cols="12">
 				<v-divider></v-divider>
@@ -100,10 +80,11 @@
 import { mapState } from 'vuex';
 import currencies from '@/mixins/miscellany/currencies';
 import deleteDialog from '@/components/Interface/Dialogs/Delete';
+import PurchasedProduct from '@/components/Products/PurchasedProduct';
 
 export default {
 	mixins: [currencies],
-	components: { deleteDialog },
+	components: { deleteDialog, PurchasedProduct },
 	async mounted() {
 		this.requestPurchaseDetails();
 		this.currency = await this.getPreferredCurrency();
