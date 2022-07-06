@@ -74,7 +74,9 @@
     "tax_info": "El porcentaje de impuestos se asigna en la configuración",
     "favorite_mark_message": "Marcar como favorito",
     "description": "Descripción",
-    "description_message": "Agregue una breve descripción aquí, esto es opcional"
+    "description_message": "Agregue una breve descripción aquí, esto es opcional",
+    "viewPurchaseHistory": "Ver historial de compras",
+    "purchaseHistory": "Historial de compras"
   },
   "shopping_car": {
     "add_to_shopping_car": "Agregar al carro",
