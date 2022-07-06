@@ -1,0 +1,6 @@
+{
+  "appId": "com.sheileyshop",
+  "appName": "Sheiley Shop",
+  "webDir": "../dist",
+  "bundledWebRuntime": false
+}
