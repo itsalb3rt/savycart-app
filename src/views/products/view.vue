@@ -103,21 +103,29 @@
 						</div>
 					</template>
 					<template v-else>
-						<div
-							row
-							wrap
-							align-center
-							v-for="(purchase,index) in purchaseHistory"
-							:key="index"
-						>
-							<div class="mb-2">
-								<span class="font-weight-bold">
-									<v-icon size="small">fa-calendar</v-icon> {{getDate(purchase.create_at)}} | {{purchase.name_establishment}}
-								</span>
+						<template v-if="purchaseHistory.length > 0">
+							<div
+								row
+								wrap
+								align-center
+								v-for="(purchase,index) in purchaseHistory"
+								:key="index"
+							>
+								<div class="mb-2">
+									<span class="font-weight-bold">
+										<v-icon size="small">fa-calendar</v-icon> {{getDate(purchase.create_at)}} | {{purchase.name_establishment}}
+									</span>
+								</div>
+								<purchased-product :product="purchase" :currency="currency" />
+								<v-divider class="my-4" />
 							</div>
-							<purchased-product :product="purchase" :currency="currency" />
-							<v-divider class="my-4" />
-						</div>
+						</template>
+						<template v-else>
+							<div class="text-center">
+								<v-icon size="100">fa-shopping-cart</v-icon>
+								<div class="headline">{{ $t('messages.nothing_to_display') }}</div>
+							</div>
+						</template>
 					</template>
 				</v-card-text>
 			</v-card>
