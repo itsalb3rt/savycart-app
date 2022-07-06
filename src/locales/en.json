@@ -74,7 +74,9 @@
     "tax_info": "The percentage of tax is assigned in settings",
     "favorite_mark_message": "Mark as favorite",
     "description": "Description",
-    "description_message": "Add a brief description here, this is optional"
+    "description_message": "Add a brief description here, this is optional",
+    "viewPurchaseHistory": "View purchase history",
+    "purchaseHistory": "Purchase history"
   },
   "shopping_car": {
     "add_to_shopping_car": "Add to cart",

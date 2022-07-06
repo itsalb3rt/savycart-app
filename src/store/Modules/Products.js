@@ -24,6 +24,9 @@ export default {
         get({ commit }, payload) {
             return httpClient.get(`/products/products/${payload.id}`)
         },
+        getPurchaseHistory({commit}, payload){
+            return httpClient.get(`/products/products/${payload.id}?include_purchases=true`)
+        },
         create({ commit }, payload) {
             return httpClient.post(`/products/products`, payload)
         },

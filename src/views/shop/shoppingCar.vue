@@ -163,6 +163,7 @@ export default {
 									top: true
 								});
 							}
+							this.disabledSubmitButton = false;
 							console.log('TCL: createCategory -> error', error);
 						});
 				} else {

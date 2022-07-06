@@ -13,6 +13,15 @@
 							<v-icon class="mr-2">fa-edit</v-icon>
 							{{ $t('call_action_buttons.edit') }}
 						</v-btn>
+						<v-btn
+							outlined
+							color="primary"
+							@click="handleShowPurchaseHistory"
+							class="ml-2"
+						>
+							<v-icon class="mr-2">fa-list</v-icon>
+							{{ $t('products.viewPurchaseHistory') }}
+						</v-btn>
 						<div>
 							<div for="name" class="subheading font-weight-bold mt-4 mb-2">{{ $t('products.name') }}</div>
 							<div>{{product.name}}</div>
@@ -65,6 +74,62 @@
 			</v-col>
 		</v-row>
 		<loading :active.sync="loading" :can-cancel="false" :is-full-page="true"></loading>
+		<v-dialog max-width="90%" v-model="showPurchaseHistoryDialog" persistent>
+			<v-card>
+				<v-card-title class="headline">
+					{{ $t('products.purchaseHistory') }}
+						<v-spacer />
+					  <v-btn
+              icon
+              color="black"
+							@click="showPurchaseHistoryDialog = false"
+            >
+              <v-icon>fa-window-close</v-icon>
+            </v-btn>
+				</v-card-title>
+				<v-card-text>
+					<h3> 
+						<div class="primary--text"> {{ product.name }} </div>
+						<div> {{currency.symbol}} {{product.price}} </div>
+					</h3>
+					<v-divider class="my-4" />
+					<template v-if="loadingPurchaseHistory">
+						<div class="text-center">
+							<v-progress-circular
+								:size="50"
+								color="primary"
+								indeterminate
+							/>
+						</div>
+					</template>
+					<template v-else>
+						<template v-if="purchaseHistory.length > 0">
+							<div
+								row
+								wrap
+								align-center
+								v-for="(purchase,index) in purchaseHistory"
+								:key="index"
+							>
+								<div class="mb-2">
+									<span class="font-weight-bold">
+										<v-icon size="small">fa-calendar</v-icon> {{getDate(purchase.create_at)}} | {{purchase.name_establishment}}
+									</span>
+								</div>
+								<purchased-product :product="purchase" :currency="currency" />
+								<v-divider class="my-4" />
+							</div>
+						</template>
+						<template v-else>
+							<div class="text-center">
+								<v-icon size="100">fa-shopping-cart</v-icon>
+								<div class="headline">{{ $t('messages.nothing_to_display') }}</div>
+							</div>
+						</template>
+					</template>
+				</v-card-text>
+			</v-card>
+		</v-dialog>
 	</div>
 </template>
 
@@ -72,9 +137,12 @@
 import { mapMutations, mapState } from 'vuex';
 import currencies from '@/mixins/miscellany/currencies';
 import Loading from 'vue-loading-overlay';
+import PurchasedProduct from '@/components/Products/PurchasedProduct';
+import Formats from '@/mixins/miscellany/formats';
 
 export default {
-	mixins: [currencies],
+	name: 'ProductView',
+	mixins: [currencies, Formats],
 	async mounted() {
 		if (this.online) {
 			this.loading = true;
@@ -88,11 +156,15 @@ export default {
 		return {
 			loading:false,
 			product: [],
-			currency: []
+			currency: [],
+			showPurchaseHistoryDialog: false,
+			purchaseHistory: [],
+			loadingPurchaseHistory: false,
 		};
 	},
 	components: {
-		Loading
+		Loading,
+		PurchasedProduct
 	},
 	computed: {
 		...mapState(['user', 'online', 'apiDomain'])
@@ -149,6 +221,20 @@ export default {
 				.catch(error => {
 					console.log(error);
 				});
+		},
+		handleShowPurchaseHistory () {
+			this.showPurchaseHistoryDialog = true;
+			this.loadingPurchaseHistory = true;
+
+			this.$store.dispatch('products/getPurchaseHistory',{id:this.$route.params.id})
+				.then(response => {
+					this.purchaseHistory = response.data.data.purchases;
+				})
+				.catch(function(error) {
+					console.log('TCL: requestProducts -> error', error);
+				}).finally(()=>{
+					this.loadingPurchaseHistory = false
+				})
 		}
 	}
 };
