@@ -85,11 +85,29 @@ After the command is runny, the android studio will open and you can see the app
 
 ![](https://capacitorjs.com/assets/img/docs/android/running.png)
 
-Build
+**Build**
 
 ```bash
 yarn build:android
 ```
+
+Run the following command in the `Android Studio` console, make a sure the terminal is in `src-capacitor/android` dir:
+
+```
+gradlew :app:bundleRelease
+```
+
+Now the **aab** file is on `src-capacitor\android\app\build\outputs\bundle\release`
+
+Sign the **aab** file
+
+```
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ./secret/release-key.keystore ./src-capacitor/android/app/build/outputs/bundle/release/app-release.aab sheiley_shop_app
+```
+
+Enter the **Passpharese** for the keystore:
+
+and now the **aab** file is ready to lunch in the store. :confetti_ball:
 
 ## IOS
 
@@ -103,13 +121,28 @@ After the command is runny, the xcode will open and you can see the app in the e
 
 ![](https://capacitorjs.com/assets/img/docs/ios/running.png)
 
-Build
+**Build**
 
 ```bash
 yarn build:ios
 ```
 
 Remember in `src-capacitor` all the dependencies need to be installed.
+
+After build is complete and the xcode is open, you need create archive from the app:
+
+- Select the device, Any iOS Device
+
+![](./docs/ios-device-selection.png)
+
+
+- Go to Product -> Archive
+
+![](./docs/ios-create-archive.png)
+
+Now you get a archivo for distribution.
+
+![](./docs/archives.png)
 
 ### API entry point
 
@@ -131,51 +164,4 @@ If you hosted the app in subdirectory go to `vue.config.js` and set the subdirec
 
 ## Backend
 
-The REST API is made in PHP so a server with PHP 7.1 or higher is required.
-
-```bash
-$ git clone https://github.com/itsalb3rt/sheiley-shop-api.git
-```
-
-```bash
-$ composer require itsalb3rt/sheiley-shop-api
-```
-
-### Database
-
-Inside the *root* directory of the REST API enter `etc/sheiley_shop.sql` this file contains all the script from the database.
-
-After executing the script in the Mysql database, it remains to enter the directory `config/config.php.ini` and set user database, username and password.
-
-```ini
-<?php return; ?>
-; Database config
-host=localhost
-user=root
-pass=toor
-dbname=sheiley_shop
-driver=mysql
-charset=utf8
-collation=utf8mb4_unicode_ci
-prefix=""
-port=""
-```
-
-### Backend production
-
-In the `system/webroot/` directory you will find a file named `FrontController.php` inside this you must modify the constant `ENVIROMENT` and put the value `pro`.
-
----
-
-## Docker
-
-Remember set the `.env` file vars before.
-
-```bash
-$ docker-compose up -d
-```
-
-### Extra
-
-Inside the `etc` directory of the [API REST repository](https://github.com/itsalb3rt/sheiley-shop-api)
-You will find the entity relationship diagram created in `starUML` and the prototype created in` Adobe XD`, you can play with this.
+Go to API repository [https://github.com/itsalb3rt/sheiley-shop-api](https://github.com/itsalb3rt/sheiley-shop-api)
