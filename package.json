@@ -4,7 +4,11 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
+    "serve:android": "cd src-capacitor && node mobile.js && npx cap copy && npx cap open android && cd .. && yarn serve --port 8081",
+    "serve:ios": "cd src-capacitor && node mobile.js && npx cap copy && npx cap open ios && cd .. && yarn serve --port 8081",
     "build": "vue-cli-service build",
+    "build:android": "vue-cli-service build && cd src-capacitor && npx cap copy android && npx cap open android",
+    "build:ios": "vue-cli-service build && cd src-capacitor && npx cap copy ios && npx cap open ios",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'"
   },
   "dependencies": {
