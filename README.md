@@ -91,6 +91,24 @@ Build
 yarn build:android
 ```
 
+## IOS
+
+To run app in `IOS mode`;
+
+```bash
+yarn serve:ios
+```
+
+After the command is runny, the xcode will open and you can see the app in the emulator.
+
+![](https://capacitorjs.com/assets/img/docs/ios/running.png)
+
+Build
+
+```bash
+yarn build:ios
+```
+
 Remember in `src-capacitor` all the dependencies need to be installed.
 
 ### API entry point
