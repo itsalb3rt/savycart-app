@@ -81,6 +81,10 @@ To run app in `Android mode`;
 yarn serve:android
 ```
 
+After the command is runny, the android studio will open and you can see the app in the emulator.
+
+![](https://capacitorjs.com/assets/img/docs/android/running.png)
+
 Build
 
 ```bash
