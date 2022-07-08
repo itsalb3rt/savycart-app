@@ -81,6 +81,12 @@ To run app in `Android mode`;
 yarn serve:android
 ```
 
+Build
+
+```bash
+yarn build:android
+```
+
 Remember in `src-capacitor` all the dependencies need to be installed.
 
 ### API entry point
