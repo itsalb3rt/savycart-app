@@ -36,6 +36,11 @@
   dependencies:
     tslib "^2.1.0"
 
+"@capacitor/ios@^3.6.0":
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/ios/-/ios-3.6.0.tgz#0b4a89cf22212519425048b40a4cb6c68aa2c060"
+  integrity sha512-clauOkPj24COpAi1eIHSgi4OENIwuI8P6WKkfn3HVRX2lUPWyxczHTtg64inwECABy3zJdxnnwBHeok3bpoSCg==
+
 "@ionic/cli-framework-output@^2.2.1":
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/@ionic/cli-framework-output/-/cli-framework-output-2.2.5.tgz#0db9fba7efe0c27bb5085b12ee01f22053e44152"
