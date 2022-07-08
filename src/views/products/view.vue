@@ -4,24 +4,29 @@
 			<v-col cols="12" v-if="product.id_product">
 				<v-card flat>
 					<v-card-text>
-						<v-btn
-							outlined
-							color="success"
-							@click="$router.push({ name: 'edit product', params: { id: product.id_product } })"
-							class="ml-0"
-						>
-							<v-icon class="mr-2">fa-edit</v-icon>
-							{{ $t('call_action_buttons.edit') }}
-						</v-btn>
-						<v-btn
-							outlined
-							color="primary"
-							@click="handleShowPurchaseHistory"
-							class="ml-2"
-						>
-							<v-icon class="mr-2">fa-list</v-icon>
-							{{ $t('products.viewPurchaseHistory') }}
-						</v-btn>
+						<v-row>
+							<v-col>
+								<v-btn
+									outlined
+									color="success"
+									@click="$router.push({ name: 'edit product', params: { id: product.id_product } })"
+									class="ml-0"
+								>
+									<v-icon class="mr-2">fa-edit</v-icon>
+									{{ $t('call_action_buttons.edit') }}
+								</v-btn>
+							</v-col>
+							<v-col>
+								<v-btn
+									outlined
+									color="primary"
+									@click="handleShowPurchaseHistory"
+								>
+									<v-icon class="mr-2">fa-list</v-icon>
+									{{ $t('products.viewPurchaseHistory') }}
+								</v-btn>
+							</v-col>
+						</v-row>
 						<div>
 							<div for="name" class="subheading font-weight-bold mt-4 mb-2">{{ $t('products.name') }}</div>
 							<div>{{product.name}}</div>
