@@ -77,8 +77,12 @@
 
 <script>
 import { mapState } from 'vuex';
+import curriencies from '@/mixins/miscellany/currencies';
+import jwt_decode from "jwt-decode";
 
 export default {
+	name: 'RecoveryAccountNewPassword',
+	mixins: [curriencies],
 	mounted: function() {
 		if (this.$route.query.token === undefined) {
 			this.$router.push('/login');
@@ -135,7 +139,15 @@ export default {
 					});
 
 					setTimeout(() => {
-						this.$router.push('/login');
+						this.saveInIndexedDbCurrencies();
+						const token = response.data.data;
+						window.localStorage.setItem('token', token);
+
+						const decoded = jwt_decode(token);
+						window.localStorage.setItem('user', JSON.stringify(decoded));
+						
+						this.$store.commit('auth/SET_USER',decoded);
+						this.$router.push('product/list');
 					}, 1000);
 				})
 				.catch(error => {
