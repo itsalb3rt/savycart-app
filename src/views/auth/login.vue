@@ -60,8 +60,10 @@
 <script>
 import { mapState, mapMutations } from 'vuex';
 import curriencies from '@/mixins/miscellany/currencies';
+import jwt_decode from "jwt-decode";
 
 export default {
+	name: 'Login',
 	mixins: [curriencies],
 	mounted: function() {
 		if (this.$store.getters['auth/getIsLogged']) {
@@ -91,9 +93,13 @@ export default {
 				.then(response => {
 					if (response.status === 200) {
 						this.saveInIndexedDbCurrencies();
-						window.localStorage.setItem('token', response.data.data.token);
-						window.localStorage.setItem('user', JSON.stringify(response.data.data));
-						this.$store.commit('auth/SET_USER',response.data.data);
+						const token = response.data.data;
+						window.localStorage.setItem('token', token);
+
+						const decoded = jwt_decode(token);
+						window.localStorage.setItem('user', JSON.stringify(decoded));
+						
+						this.$store.commit('auth/SET_USER',decoded);
 						this.$router.push('product/list');
 					}
 				})
