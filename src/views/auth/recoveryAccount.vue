@@ -106,15 +106,9 @@ export default {
 
 			this.$store
 				.dispatch('auth/recoveryAccount', { email: this.email })
-				.then(response => {
-					this.loading = false;
-					this.recoveryWasRequested = true;
-				})
-				.catch(function(error) {
-					console.log(error);
-				})
 				.finally(() => {
 					this.loading = false;
+					this.recoveryWasRequested = true;
 				});
 		}
 	}
