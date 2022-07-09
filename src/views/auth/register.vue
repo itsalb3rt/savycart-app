@@ -67,8 +67,12 @@
 </template>
 <script>
 import { mapState } from 'vuex';
+import jwt_decode from "jwt-decode";
+import curriencies from '@/mixins/miscellany/currencies';
 
 export default {
+	name: 'Register',
+	mixins: [curriencies],
 	mounted: function() {
 		if (this.$store.getters['auth/getIsLogged']) {
 			this.$router.push('product/list');
@@ -110,13 +114,19 @@ export default {
 
 			this.$store
 				.dispatch('auth/register', this.newUser)
-				.then(() => {
-					this.$router.push({
-						path: 'login',
-						query: { create_user: 'created' }
-					});
+				.then(response => {
+						this.saveInIndexedDbCurrencies();
+						const token = response.data.data;
+						window.localStorage.setItem('token', token);
+
+						const decoded = jwt_decode(token);
+						window.localStorage.setItem('user', JSON.stringify(decoded));
+						
+						this.$store.commit('auth/SET_USER',decoded);
+						this.$router.push('product/list');
 				})
 				.catch((error) => {
+          console.log('🚀 ~ file: register.vue ~ line 126 ~ registerUser ~ error', error)
 					this.$store.commit('snackbar/setSnackbar', {
 						show: true,
 						message: error.response.data && error.response.data.errors ? error.response.data.errors.toString() : 'Unknown error',
