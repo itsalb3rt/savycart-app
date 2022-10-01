@@ -99,7 +99,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapState(['user', 'online']),
+		...mapState(['online']),
 		subTotal() {
 			let total = 0;
 			this.shoppingCar.forEach(item => {

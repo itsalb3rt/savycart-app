@@ -104,11 +104,12 @@ export default {
 			products: [],
 			benched: 2,
 			loading: false,
-			loadingFavorite: false
+			loadingFavorite: false,
+			currency: { symbol: '$' }
 		};
 	},
 	computed: {
-		...mapState(['user', 'online']),
+		...mapState(['online']),
 		filterProducts() {
 			if (this.searchProductName == null) {
 				this.searchProductName = '';

@@ -174,9 +174,6 @@ export default {
 				top: true
 			});
 		}
-	},
-	computed: {
-		...mapState(['user'])
 	}
 };
 </script>

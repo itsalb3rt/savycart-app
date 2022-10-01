@@ -94,9 +94,6 @@ export default {
 		return {
 			transitionName: DEFAULT_TRANSITION
 		};
-	},
-	computed: {
-		...mapState(['isLoged'])
 	}
 };
 </script>

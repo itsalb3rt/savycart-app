@@ -76,7 +76,7 @@ export default {
 		OfflineInfomation
 	},
 	computed: {
-		...mapState(['online', 'apiDomain'])
+		...mapState(['online'])
 	},
 	methods: {
 		requestUser() {

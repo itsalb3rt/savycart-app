@@ -91,9 +91,6 @@ export default {
 			isLoading: false
 		};
 	},
-	computed: {
-		...mapState(['user'])
-	},
 	methods: {
 		requestShoppingHistory() {
 			this.$store

@@ -103,7 +103,7 @@ export default {
 		PurchaseProduct
 	},
 	computed: {
-		...mapState(['user', 'online']),
+		...mapState(['online']),
 		actualAvaliableProducts() {
 			if (this.searchProductName == null) {
 				this.searchProductName = '';
