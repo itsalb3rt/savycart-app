@@ -109,7 +109,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapState(['user', 'online']),
+		...mapState(['online']),
 		filterProducts() {
 			if (this.searchProductName == null) {
 				this.searchProductName = '';
