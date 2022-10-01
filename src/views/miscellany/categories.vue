@@ -78,7 +78,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapState(['online', 'user'])
+		...mapState(['online'])
 	},
 	methods: {
 		createCategory() {
