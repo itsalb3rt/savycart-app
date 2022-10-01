@@ -127,7 +127,7 @@ export default {
 		OfflineInfomation
 	},
 	computed: {
-		...mapState(['user', 'online'])
+		...mapState(['online'])
 	},
 	methods: {
 		updateProduct() {
