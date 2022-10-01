@@ -43,6 +43,8 @@
 							@view-details="product => $router.push({ name: 'view_product', params: { id: product.id_product } })" 
 							@on-edit="product => $router.push({ name: 'edit product', params: { id: product.id_product } })" 
 							@on-delete="product => showDialogToDeleteProduct(product.id_product)"
+							@toggle-favorite="product => toggleFavorite(product)"
+							:loading-favorite="loadingFavorite"
 						/>
 					</template>
 				</v-virtual-scroll>
@@ -101,7 +103,8 @@ export default {
 			deleteProductId: '',
 			products: [],
 			benched: 2,
-			loading: false
+			loading: false,
+			loadingFavorite: false
 		};
 	},
 	computed: {
@@ -190,6 +193,37 @@ export default {
 				})
 				.catch(error => {
 					console.log(error);
+				});
+		},
+		toggleFavorite(product) {
+			if (!this.online) {
+				this.$store.commit('snackbar/setSnackbar', {
+					show: true,
+					message: this.$t('messages.intenet_required'),
+					color: 'error',
+					top: true
+				});
+				return;
+			}
+			this.loadingFavorite = true;
+
+			this.$store
+				.dispatch('products/update', {
+					id: product.id_product,
+					data: {
+						favorite: product.favorite == '1' ? '0' : '1'
+					}
+				})
+				.then(() => {
+					const products = this.$store.getters['products/getAll'];
+					const productIndex = products.findIndex(
+						item => item.id_product === product.id_product
+					);
+					products[productIndex].favorite = product.favorite == '1' ? '0' : '1';
+					this.$store.commit('products/SET', products);
+				})
+				.finally(() => {
+					this.loadingFavorite = false;
 				});
 		}
 	}
