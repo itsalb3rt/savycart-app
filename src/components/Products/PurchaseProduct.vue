@@ -6,8 +6,8 @@
       @click="$emit('view-details', product)"
     >
       {{product.name}}
-      <span v-if="product.favorite == '1' ">
-        <v-icon small color="warning" class="ml-2">fa-star</v-icon>
+      <span class="float-right" v-if="product.favorite == '1' ">
+        <v-icon small color="warning">fa-star</v-icon>
       </span>
     </div>
     <div class="grey--text">
