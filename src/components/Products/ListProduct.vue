@@ -7,8 +7,25 @@
 				text
 				class="ma-0 pa-0 primary--text font-weight-bold subheading"
 			>{{product.name}}</span>
-			<span v-if="product.favorite == '1' ">
-				<v-icon color="warning" class="ml-2">fa-star</v-icon>
+			<span class="float-right" v-if="product.favorite == '1' ">
+        <v-btn
+          icon
+          color="warning"
+					@click="$emit('toggle-favorite', product)"
+					:loading="loadingFavorite"
+        >
+          <v-icon>fa-star</v-icon>
+        </v-btn>
+			</span>
+			<span class="float-right" v-else>
+				<v-btn
+        	icon
+          color="grey"
+					@click="$emit('toggle-favorite', product)"
+					:loading="loadingFavorite"
+					>
+					<v-icon>fa-star</v-icon>
+				</v-btn>
 			</span>
 		</div>
 		<div class="grey--text">
@@ -33,9 +50,9 @@
 			text
 			class="ma-0 pa-0 right"
 			@click="$emit('on-delete', product)"
-		>
-			<v-icon class="mr-1">fa-trash</v-icon>
-			{{ $t('call_action_buttons.delete') }}
+			>
+				<v-icon class="mr-1">fa-trash</v-icon>
+				{{ $t('call_action_buttons.delete') }}
 		</v-btn>
 	</v-card-actions>
 </v-card>
@@ -54,7 +71,12 @@ export default {
       default: () => ({
         symbol: '$'
       })
-    }
+    },
+		loadingFavorite: {
+			type: Boolean,
+			required: true,
+			default: false
+		}
   },
   methods: {
 		getMeasurementName(id) {
