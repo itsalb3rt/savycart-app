@@ -104,7 +104,8 @@ export default {
 			products: [],
 			benched: 2,
 			loading: false,
-			loadingFavorite: false
+			loadingFavorite: false,
+			currency: { symbol: '$' }
 		};
 	},
 	computed: {
