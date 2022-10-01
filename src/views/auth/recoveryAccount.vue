@@ -92,9 +92,6 @@ export default {
 			emailNotExits: false
 		};
 	},
-	computed: {
-		...mapState(['user'])
-	},
 	methods: {
 		recoveryAccount() {
 			this.emailNotExits = false;
