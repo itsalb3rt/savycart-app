@@ -97,7 +97,6 @@ export default {
 		};
 	},
 	computed: {
-		...mapState(['apiDomain']),
 		subTotal() {
 			let subTotal = 0;
 			this.purchaseDetails.purchase_details.forEach(product => {

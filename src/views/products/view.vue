@@ -172,7 +172,7 @@ export default {
 		PurchasedProduct
 	},
 	computed: {
-		...mapState(['user', 'online', 'apiDomain'])
+		...mapState(['user', 'online'])
 	},
 	methods: {
 		...mapMutations(['setCategories']),

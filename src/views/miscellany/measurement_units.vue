@@ -86,7 +86,7 @@ export default {
 		Loading
 	},
 	computed: {
-		...mapState(['measurement_units', 'online', 'apiDomain', 'user'])
+		...mapState(['measurement_units', 'online', 'user'])
 	},
 	methods: {
 		...mapMutations([

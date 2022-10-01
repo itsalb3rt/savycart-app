@@ -80,7 +80,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapState(['apiDomain', 'user'])
+		...mapState(['user'])
 	},
 	methods: {
 		login() {
