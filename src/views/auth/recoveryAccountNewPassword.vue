@@ -112,7 +112,6 @@ export default {
 		};
 	},
 	computed: {
-		...mapState(['user']),
 		passwordMatch() {
 			if (this.passwordReset.password !== this.passwordReset.password_confirm) {
 				return false;
