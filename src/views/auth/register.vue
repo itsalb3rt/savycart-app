@@ -93,9 +93,6 @@ export default {
 			regex: '^[a-z0-9_-]{3,15}$'
 		};
 	},
-	computed: {
-		...mapState(['user']),
-	},
 	methods: {
 		validatedEmail() {
 			this.$store
