@@ -79,9 +79,6 @@ export default {
 			loading:false
 		};
 	},
-	computed: {
-		...mapState(['user'])
-	},
 	methods: {
 		login() {
 			this.loading = true;
