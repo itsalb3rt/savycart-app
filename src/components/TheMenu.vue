@@ -65,9 +65,6 @@ export default {
 	props: {
 		title: ''
 	},
-	computed: {
-		...mapState(['online'])
-	},
 	data() {
 		return {
 			dark: false,
