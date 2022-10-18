@@ -128,7 +128,6 @@ export default {
 			}
 
 			this.isLoading = true;
-			let formData = new FormData();
 
 			let product = {
 				name: this.name,
@@ -149,6 +148,9 @@ export default {
 						this.$store.commit('products/ADD', response.data.data);
 						this.name = '';
 						this.price = 1;
+						this.brand="";
+						this.measurementUnit="";
+						this.category="";
 						document.querySelector('#name').focus();
 						this.$store.commit('snackbar/setSnackbar', {
 							show: true,
