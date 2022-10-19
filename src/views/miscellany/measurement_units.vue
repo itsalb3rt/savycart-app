@@ -3,15 +3,10 @@
 		<v-row>
 			<v-col cols="12">
 				<form @submit.prevent="createMeasurementUnit">
-					<v-text-field
-						:name=" $t('measurement_unit.name') "
-						:label=" $t('measurement_unit.name') "
-						id="name"
-						v-model="name"
-						@keyup="uppercase"
-						:placeholder=" $t('measurement_unit.measurement_placeholder') "
-						autocomplete="off"
-					></v-text-field>
+					<v-text-field :name="$t('measurement_unit.name')" :label="$t('measurement_unit.name')" id="name"
+						v-model="name" @keyup="uppercase" :placeholder="$t('measurement_unit.measurement_placeholder')"
+						autocomplete="off">
+					</v-text-field>
 					<v-btn type="submit" color="primary" :disabled="name.length == 0">
 						<v-icon class="mr-2">fa-save</v-icon>
 						{{ $t('call_action_buttons.save') }}
@@ -22,21 +17,17 @@
 						<h4>{{ $t('measurement_unit.registered_measurement') }}</h4>
 					</v-col>
 					<v-col cols="12">
-						<v-data-table
-							mobile-breakpoint="xs"
-							:headers="headers"
-							:items="$store.getters['measurementUnits/getAll']"
-						>
+						<v-data-table mobile-breakpoint="xs" :headers="headers"
+							:items="$store.getters['measurementUnits/getAll']">
 							<template v-slot:no-data>
-								<v-alert
-									:value="true"
-									color="error"
-									icon="fa-warning"
-								>{{ $t('message.nothing_to_display') }}</v-alert>
+								<v-alert :value="true" color="error" icon="fa-warning">{{
+								$t('message.nothing_to_display')
+								}}</v-alert>
 							</template>
-							<template v-slot:item.action="{item}">
+							<template v-slot:item.action="{ item }">
 								<td>
-									<v-btn text color="error" class="ml-0 pl-0" @click="dispatchDeleteMesasurementUnit(item)">
+									<v-btn text color="error" class="ml-0 pl-0"
+										@click="dispatchDeleteMesasurementUnit(item)">
 										<v-icon class="mr-2" small>fa-trash</v-icon>
 										{{ $t('call_action_buttons.delete') }}
 									</v-btn>
@@ -47,11 +38,8 @@
 				</v-row>
 			</v-col>
 		</v-row>
-		<delete-dialog
-			:show="showDialogDeleteMeasurementUnit"
-			@cancel="showDialogDeleteMeasurementUnit = false"
-			@confirm="deleteMeasurementUnit()"
-		/>
+		<delete-dialog :show="showDialogDeleteMeasurementUnit" @cancel="showDialogDeleteMeasurementUnit = false"
+			@confirm="deleteMeasurementUnit()" />
 		<loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true" />
 	</div>
 </template>
@@ -64,113 +52,93 @@ import Loading from 'vue-loading-overlay';
 export default {
 	name: 'MeasurementUnits',
 	mounted() {
-		if (this.online) {
-			this.requestMeasurementUnits();
-		}
+		this.requestMeasurementUnits();
 	},
-	data: function() {
+	data: function () {
 		return {
 			name: '',
 			headers: [
 				{ text: '#', value: 'index' },
 				{ text: this.$t('measurement_unit.name'), value: 'name' },
-				{ text: this.$t('call_action_buttons.action'), value: 'action' }
+				{ text: this.$t('call_action_buttons.action'), value: 'action' },
 			],
 			indexMeasurementUnitForDelete: '',
 			showDialogDeleteMeasurementUnit: false,
-			isLoading: false
+			isLoading: false,
 		};
 	},
 	components: {
 		deleteDialog,
-		Loading
+		Loading,
 	},
 	computed: {
-		...mapState(['online'])
+		...mapState(['online']),
 	},
 	methods: {
 		...mapMutations([
 			'addMeasurementUnit',
 			'setMeasurementUnit',
-			'removeMeasurementUnit'
+			'removeMeasurementUnit',
 		]),
 
 		createMeasurementUnit() {
-			if (this.online) {
-				this.isLoading = true;
-				this.$store
-					.dispatch('measurementUnits/create', { name: this.name })
-					.then(response => {
-						this.$store.commit('measurementUnits/ADD', response.data.data);
-						this.name = '';
-						this.$store.commit('snackbar/setSnackbar', {
-							show: true,
-							message: this.$t('messages.saved'),
-							color: 'success',
-							top: true
-						});
-					})
-					.catch(function(error) {
-						console.log('TCL: addMeasurementUnit -> error', error);
-					})
-					.finally(() => {
-						this.isLoading = false;
+			this.isLoading = true;
+			this.$store
+				.dispatch('measurementUnits/create', { name: this.name })
+				.then((response) => {
+					this.$store.commit('measurementUnits/ADD', response.data.data);
+					this.name = '';
+					this.$store.commit('snackbar/setSnackbar', {
+						show: true,
+						message: this.$t('messages.saved'),
+						color: 'success',
+						top: true,
 					});
-			} else {
-				this.$store.commit('snackbar/setSnackbar', {
-					show: true,
-					message: this.$t('messages.intenet_required'),
-					color: 'error',
-					top: true
+				})
+				.catch(function (error) {
+					console.log('TCL: addMeasurementUnit -> error', error);
+				})
+				.finally(() => {
+					this.isLoading = false;
 				});
-			}
 		},
 		dispatchDeleteMesasurementUnit(item) {
 			this.showDialogDeleteMeasurementUnit = true;
 			const index = this.$store.getters['measurementUnits/getAll'].findIndex(
-				unit => unit.id_unit_measurement === item.id_unit_measurement
+				(unit) => unit.id_unit_measurement === item.id_unit_measurement
 			);
 			this.indexMeasurementUnitForDelete = index;
 		},
 		deleteMeasurementUnit() {
-			if (this.online) {
-				this.$store
-					.dispatch('measurementUnits/delete', {
-						id: this.$store.getters['measurementUnits/getAll'][
-							this.indexMeasurementUnitForDelete
-						].id_unit_measurement
-					})
-					.then(response => {
-						this.$store.commit(
-							'measurementUnits/REMOVE',
-							this.indexMeasurementUnitForDelete
-						);
+			this.$store
+				.dispatch('measurementUnits/delete', {
+					id: this.$store.getters['measurementUnits/getAll'][
+						this.indexMeasurementUnitForDelete
+					].id_unit_measurement,
+				})
+				.then((response) => {
+					this.$store.commit(
+						'measurementUnits/REMOVE',
+						this.indexMeasurementUnitForDelete
+					);
+					this.$store.commit('snackbar/setSnackbar', {
+						show: true,
+						message: this.$t('call_action_buttons.deleted'),
+						color: 'success',
+						top: true,
+					});
+				})
+				.catch((error) => {
+					if (error.response.status === 409) {
 						this.$store.commit('snackbar/setSnackbar', {
 							show: true,
-							message: this.$t('call_action_buttons.deleted'),
-							color: 'success',
-							top: true
+							message: this.$t('measurement_unit.forbiden_delete'),
+							color: 'error',
+							top: true,
 						});
-					})
-					.catch(error => {
-						if (error.response.status === 409) {
-							this.$store.commit('snackbar/setSnackbar', {
-								show: true,
-								message: this.$t('measurement_unit.forbiden_delete'),
-								color: 'error',
-								top: true
-							});
-						}
-						console.log('TCL: deleteMeasurementUnit -> error', error);
-					});
-			} else {
-				this.$store.commit('snackbar/setSnackbar', {
-					show: true,
-					message: this.$t('messages.intenet_required'),
-					color: 'error',
-					top: true
+					}
+					console.log('TCL: deleteMeasurementUnit -> error', error);
 				});
-			}
 			this.showDialogDeleteMeasurementUnit = false;
 		},
 		uppercase() {
@@ -179,13 +147,14 @@ export default {
 		requestMeasurementUnits() {
 			this.$store
 				.dispatch('measurementUnits/getAll')
-				.then(response => {
+				.then((response) => {
+					console.log(response);
 					this.$store.commit('measurementUnits/SET', response.data.data);
 				})
-				.catch(error => {
+				.catch((error) => {
 					console.log(error);
 				});
-		}
-	}
+		},
+	},
 };
 </script>

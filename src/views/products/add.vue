@@ -2,73 +2,31 @@
 	<v-form @submit.prevent="createProduct" ref="createProduct">
 		<v-row>
 			<v-col cols="12">
-				<v-text-field
-					id="name"
-					v-model="name"
-					:label=" $t('products.name') "
-					@keyup="uppercase"
-					autocomplete="off"
-					:placeholder=" $t('products.product_name_placeholder') "
-					required
-				></v-text-field>
-				<v-text-field
-					type="number"
-					v-model="price"
-					:label=" $t('products.price') "
-					value="1"
-					min="1"
-					step="0.01"
-					required
-				></v-text-field>
-				<v-combobox
-					v-model.trim="brand"
-					:items="$store.getters['products/getBrands']"
-					:label="$t('messages.select_or_add_brand')"
-				></v-combobox>
-				<v-select
-					v-model="measurementUnit"
-					:items="$store.getters['measurementUnits/getAll']"
-					:label=" $t('products.measurement_unit') "
-					item-text="name"
-					item-value="id_unit_measurement"
-					append-outer-icon="fa-plus"
-					@click:append-outer="$router.push('/measurement_units')"
-					:rules="[v => !!v || $t('messages.required_item_selection') ]"
-					required
-				></v-select>
-				<v-select
-					v-model="category"
-					:items="$store.getters['categories/getAll']"
-					:label=" $t('products.category') "
-					item-text="name"
-					item-value="id_category"
-					append-outer-icon="fa-plus"
-					@click:append-outer="$router.push('/categories')"
-					:rules="[v => !!v || $t('messages.required_item_selection') ]"
-					required
-				></v-select>
-				<v-switch
-					color="primary"
-					v-model="tax"
+				<v-text-field id="name" v-model="name" :label=" $t('products.name') " @keyup="uppercase"
+					autocomplete="off" :placeholder=" $t('products.product_name_placeholder') " required></v-text-field>
+				<v-text-field type="number" v-model="price" :label=" $t('products.price') " value="1" min="1"
+					step="0.01" required></v-text-field>
+				<v-combobox v-model.trim="brand" :items="$store.getters['products/getBrands']"
+					:label="$t('messages.select_or_add_brand')"></v-combobox>
+				<v-select v-model="measurementUnit" :items="$store.getters['measurementUnits/getAll']"
+					:label=" $t('products.measurement_unit') " item-text="name" item-value="id_unit_measurement"
+					append-outer-icon="fa-plus" @click:append-outer="$router.push('/measurement_units')"
+					:rules="[v => !!v || $t('messages.required_item_selection') ]" required></v-select>
+				<v-select v-model="category" :items="$store.getters['categories/getAll']"
+					:label=" $t('products.category') " item-text="name" item-value="id_category"
+					append-outer-icon="fa-plus" @click:append-outer="$router.push('/categories')"
+					:rules="[v => !!v || $t('messages.required_item_selection') ]" required></v-select>
+				<v-switch color="primary" v-model="tax"
 					:label="` ${$t('products.tax')} ${taxQuantity}% : ${(tax == '1')? $t('messages.yes') : $t('messages.no') }`"
-					true-value="1"
-					false-value="0"
-				></v-switch>
+					true-value="1" false-value="0"></v-switch>
 				<p class="grey--text">{{ $t('products.tax_info') }}</p>
 				<v-divider></v-divider>
-				<v-switch
-					color="primary"
-					v-model.number="favorite"
+				<v-switch color="primary" v-model.number="favorite"
 					:label="`${$t('products.favorite_mark_message')}: ${(favorite == 1)? $t('messages.yes') : $t('messages.no') }`"
-					true-value.number="1"
-					false-value.number="0"
-				></v-switch>
+					true-value.number="1" false-value.number="0"></v-switch>
 				<v-divider></v-divider>
-				<v-textarea
-					:label=" $t('products.description') "
-					v-model="description"
-					:placeholder=" $t('products.description_message') "
-				></v-textarea>
+				<v-textarea :label=" $t('products.description') " v-model="description"
+					:placeholder=" $t('products.description_message') "></v-textarea>
 			</v-col>
 		</v-row>
 		<v-row>
@@ -92,14 +50,12 @@ import MenuComponent from '@/components/TheMenu.vue';
 
 export default {
 	async mounted() {
-		if (this.online) {
-			this.requestCategories();
-			this.requestMeasurementUnit();
-			this.taxQuantity = this.$store.getters['taxes/getAll'];
-			this.$store.dispatch('products/getAllBrands').then(response => {
-				this.$store.commit('products/SET_BRANDS', response.data.data);
-			});
-		}
+		this.requestCategories();
+		this.requestMeasurementUnit();
+		this.taxQuantity = this.$store.getters['taxes/getAll'];
+		this.$store.dispatch('products/getAllBrands').then(response => {
+			this.$store.commit('products/SET_BRANDS', response.data.data);
+		});
 	},
 	data() {
 		return {
@@ -137,55 +93,46 @@ export default {
 				include_tax: this.tax,
 				description: this.description,
 				favorite: this.favorite,
-				brand: (this.brand)? this.brand.toUpperCase() : this.brand
+				brand: (this.brand) ? this.brand.toUpperCase() : this.brand
 			};
-
-			if (this.online) {
-				this.$store
-					.dispatch('products/create', product)
-					.then(response => {
-						product.id_product = response.data.data.id_product;
-						this.$store.commit('products/ADD', response.data.data);
-						this.name = '';
-						this.price = 1;
-						this.brand="";
-						this.measurementUnit="";
-						this.category="";
-						document.querySelector('#name').focus();
+			this.$store
+				.dispatch('products/create', product)
+				.then(response => {
+					product.id_product = response.data.data.id_product;
+					this.$store.commit('products/ADD', response.data.data);
+					this.name = '';
+					this.price = 1;
+					this.brand = "";
+					this.measurementUnit = "";
+					this.category = "";
+					document.querySelector('#name').focus();
+					this.$store.commit('snackbar/setSnackbar', {
+						show: true,
+						message: this.$t('call_action_buttons.saved'),
+						color: 'success',
+						top: true
+					});
+				})
+				.catch(error => {
+					if (error.response.status === 409) {
 						this.$store.commit('snackbar/setSnackbar', {
 							show: true,
-							message: this.$t('call_action_buttons.saved'),
-							color: 'success',
+							message: this.$t('messages.item_already_exists'),
+							color: 'error',
 							top: true
 						});
-					})
-					.catch(error => {
-						if (error.response.status === 409) {
-							this.$store.commit('snackbar/setSnackbar', {
-								show: true,
-								message: this.$t('messages.item_already_exists'),
-								color: 'error',
-								top: true
-							});
-						}
-						console.log('TCL: createCategory -> error', error);
-					})
-					.finally(() => {
-						this.isLoading = false;
-					});
-			} else {
-				this.$store.commit('snackbar/setSnackbar', {
-					show: true,
-					message: this.$t('messages.intenet_required'),
-					color: 'error',
-					top: true
+					}
+					console.log('TCL: createCategory -> error', error);
+				})
+				.finally(() => {
+					this.isLoading = false;
 				});
-			}
+
 		},
 		uppercase() {
 			this.name = this.name.toUpperCase();
 		},
-		toUpperCaseBrand(){
+		toUpperCaseBrand() {
 			this.brand = this.brand.toUpperCase();
 		},
 		requestCategories() {
