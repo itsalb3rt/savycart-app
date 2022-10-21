@@ -235,4 +235,11 @@ export default {
 	margin-bottom: 150px;
 	padding-bottom: 20px;
 }
+
+@media (max-width:850px) {
+	.products-container {
+		margin-bottom:0;
+		padding-bottom: 20px;
+	}
+}
 </style>
