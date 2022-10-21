@@ -140,7 +140,6 @@ export default {
 			} else {
 				this.isMobile = false
 			}
-			console.log(viewPortWidth)
 			return this.isMobile
 		}
 	},
