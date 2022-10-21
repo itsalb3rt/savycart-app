@@ -84,7 +84,8 @@
     "name_establishment": "Name of establishment",
     "name_establishment_placeholder": "Super market",
     "empty_car": "Your cart is empty",
-    "go_to_logger_purchase": "Go to the shopping register"
+    "go_to_logger_purchase": "Go to the shopping register",
+    "resume_title":"GO TO RESUME"
   },
   "shop": {
     "ux_shopping_details_view_instructions":"By clicking on the name or total purchase you can see the detail",
