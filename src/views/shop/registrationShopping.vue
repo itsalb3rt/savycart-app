@@ -2,12 +2,8 @@
 	<div>
 		<v-row v-if="products.length > 0">
 			<v-col cols="12">
-				<v-text-field
-					prepend-inner-icon="fa-search"
-					v-model="searchProductName"
-					:label=" $t('products.search') "
-					clearable
-				></v-text-field>
+				<v-text-field prepend-inner-icon="fa-search" v-model="searchProductName"
+					:label=" $t('products.search') " clearable></v-text-field>
 				<v-tabs fixed-tabs>
 					<v-tab @click="showFavorites = false">
 						<v-icon class="mr-2">fa-list</v-icon>
@@ -20,32 +16,24 @@
 				</v-tabs>
 			</v-col>
 			<v-col cols="12" class="products-container">
-				<v-virtual-scroll
-          :bench="benched"
-          :items="actualAvaliableProducts"
-          item-height="220"
-					:height="screenHeightForProductContainer"
-        >				
+				<v-virtual-scroll :bench="benched" :items="actualAvaliableProducts" item-height="220"
+					:height="screenHeightForProductContainer">
 					<template v-slot:default="{ item, index }">
-						<purchase-product 
-							:product="item"
-							:currency="currency"
-							:is-on-car="isOnCar(item.id_product)"
+						<purchase-product :product="item" :currency="currency" :is-on-car="isOnCar(item.id_product)"
 							@view-details="product => $router.push({ name: 'view_product', params: { id: product.id_product } })"
 							@add-to-car="addItemToShoppingCar(index)"
-							@remove-from-car="product => removeItemFromShoppingCar(product.id_product)"
-						 />
+							@remove-from-car="product => removeItemFromShoppingCar(product.id_product)" />
 					</template>
 				</v-virtual-scroll>
 			</v-col>
 
-			<v-col cols="12">
-				<shop-resume
-					:quantity="$store.getters['shoppingCar/getAll'].length"
-					:sub-total="subTotal"
-					:currency-symbol="currency.symbol"
-					:total-tax="totalTax"
-				></shop-resume>
+			<v-col cols="12" v-if="viewPort">
+				<shop-resume :quantity="$store.getters['shoppingCar/getAll'].length" :sub-total="subTotal"
+					:currency-symbol="currency.symbol" :total-tax="totalTax" />
+			</v-col>
+			<v-col cols="12" v-else justify="center">
+				<ShopResumeMobile :quantity="$store.getters['shoppingCar/getAll'].length" :sub-total="subTotal"
+					:currency-symbol="currency.symbol" :total-tax="totalTax" />
 			</v-col>
 		</v-row>
 		<v-row v-else>
@@ -68,6 +56,7 @@
 <script>
 import { mapState } from 'vuex';
 import ShopResume from '@/components/shop/ShopResume';
+import ShopResumeMobile from "@/components/shop/ShopResumeMobile"
 import currencies from '@/mixins/miscellany/currencies';
 import Loading from 'vue-loading-overlay';
 import PurchaseProduct from '@/components/Products/PurchaseProduct';
@@ -94,13 +83,15 @@ export default {
 			isLoading: false,
 			showFavorites: false,
 			products: [],
-			benched: 2
+			benched: 2,
+			isMobile: false
 		};
 	},
 	components: {
 		ShopResume,
 		Loading,
-		PurchaseProduct
+		PurchaseProduct,
+		ShopResumeMobile
 	},
 	computed: {
 		...mapState(['online']),
@@ -137,9 +128,20 @@ export default {
 			});
 			return totalTax;
 		},
-		screenHeightForProductContainer () {
+		screenHeightForProductContainer() {
 			const reduce = screen.height > 736 ? 350 : 280
 			return screen.height - reduce
+		},
+		viewPort() {
+			const viewPortWidth = this.$vuetify.breakpoint.width
+			if (viewPortWidth > 960) {
+				this.isMobile = true
+
+			} else {
+				this.isMobile = false
+			}
+			console.log(viewPortWidth)
+			return this.isMobile
 		}
 	},
 	methods: {
@@ -168,6 +170,9 @@ export default {
 				item => item.id_product === idProduct
 			);
 			this.$store.commit('shoppingCar/REMOVE', indexInStore);
+		},
+		handleViewPort() {
+
 		}
 	}
 };
@@ -178,9 +183,11 @@ export default {
 	margin-top: 20px;
 	margin-bottom: 115px;
 }
+
 .add-remove-from-card-label {
 	margin: 10px auto;
 }
+
 .products-container .v-virtual-scroll .v-virtual-scroll__item:last-child {
 	padding-bottom: 130px;
 }
