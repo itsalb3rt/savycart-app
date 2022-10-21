@@ -4,9 +4,15 @@
 			<v-col cols="12">
 				<form @submit.prevent="createCategory">
 					<p>{{ $t('category.category_description_section') }}</p>
-					<v-text-field name="name" :label="$t('category.category')" id="name" v-model="name"
-						:placeholder="$t('category.category_placeholder')" autocomplete="off" @keyup="uppercase">
-					</v-text-field>
+					<v-text-field
+						name="name"
+						:label=" $t('category.category') "
+						id="name"
+						v-model="name"
+						:placeholder=" $t('category.category_placeholder') "
+						autocomplete="off"
+						@keyup="uppercase"
+					></v-text-field>
 					<v-btn color="primary" type="submit" class="ml-0" :disabled="name.length == 0">
 						<v-icon class="mr-2">fa-save</v-icon>
 						{{ $t('call_action_buttons.save') }}
@@ -17,12 +23,15 @@
 				<h4>{{ $t('category.registered_categories') }}</h4>
 			</v-col>
 			<v-col cols="12">
-				<v-data-table mobile-breakpoint="xs" :headers="headers" :items="$store.getters['categories/getAll']">
+				<v-data-table
+					mobile-breakpoint="xs"
+					:headers="headers"
+					:items="$store.getters['categories/getAll']"
+				>
 					<template v-slot:no-data>
-						<v-alert :value="true" color="error" icon="fa-warning">{{ $t('messages.nothing_to_display') }}
-						</v-alert>
+						<v-alert :value="true" color="error" icon="fa-warning">{{ $t('messages.nothing_to_display') }}</v-alert>
 					</template>
-					<template v-slot:item.action="{ item }">
+					<template v-slot:item.action="{item}">
 						<v-btn text color="error" class="ml-0 pl-0" @click="dispatchDeleteCategory(item)">
 							<v-icon class="mr-2" small>fa-trash</v-icon>
 							{{ $t('call_action_buttons.delete') }}
@@ -31,8 +40,11 @@
 				</v-data-table>
 			</v-col>
 		</v-row>
-		<delete-dialog :show="showDialogDeleteCategory" @cancel="showDialogDeleteCategory = false"
-			@confirm="deleteCategory()" />
+		<delete-dialog
+			:show="showDialogDeleteCategory"
+			@cancel="showDialogDeleteCategory = false"
+			@confirm="deleteCategory()"
+		/>
 		<loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true" />
 	</div>
 </template>
@@ -46,85 +58,105 @@ export default {
 	name: 'categories',
 	components: {
 		deleteDialog,
-		Loading,
+		Loading
 	},
 	mounted() {
 		if (this.online) {
 			this.requestCategories();
 		}
 	},
-	data: function () {
+	data: function() {
 		return {
 			name: '',
 			headers: [
 				{ text: this.$t('category.name'), value: 'name' },
-				{ text: this.$t('call_action_buttons.action'), value: 'action' },
+				{ text: this.$t('call_action_buttons.action'), value: 'action' }
 			],
 			showDialogDeleteCategory: false,
 			indexCategoryForDelete: '',
-			isLoading: false,
+			isLoading: false
 		};
 	},
 	computed: {
-		...mapState(['online']),
+		...mapState(['online'])
 	},
 	methods: {
 		createCategory() {
-			this.isLoading = true;
-			this.$store
-				.dispatch('categories/create', { name: this.name })
-				.then((response) => {
-					this.$store.commit('categories/ADD', response.data.data);
-					this.name = '';
-					this.$store.commit('snackbar/setSnackbar', {
-						show: true,
-						message: this.$t('messages.saved'),
-						color: 'success',
-						top: true,
+			if (this.online) {
+				this.isLoading = true;
+				this.$store
+					.dispatch('categories/create', { name: this.name })
+					.then(response => {
+						this.$store.commit('categories/ADD', response.data.data);
+						this.name = '';
+						this.$store.commit('snackbar/setSnackbar', {
+							show: true,
+							message: this.$t('messages.saved'),
+							color: 'success',
+							top: true
+						});
+					})
+					.catch(function(error) {
+						console.log('TCL: createCategory -> error', error);
+					})
+					.finally(() => {
+						this.isLoading = false;
 					});
-				})
-				.catch(function (error) {
-					console.log('TCL: createCategory -> error', error);
-				})
-				.finally(() => {
-					this.isLoading = false;
+			} else {
+				this.$store.commit('snackbar/setSnackbar', {
+					show: true,
+					message: this.$t('messages.intenet_required'),
+					color: 'success',
+					top: true
 				});
+			}
 		},
 		dispatchDeleteCategory(item) {
 			this.showDialogDeleteCategory = true;
 			const index = this.$store.getters['categories/getAll'].findIndex(
-				(category) => category.id_category === item.id_category
+				category => category.id_category === item.id_category
 			);
 			this.indexCategoryForDelete = index;
 		},
 		deleteCategory() {
-			this.$store
-				.dispatch('categories/delete', {
-					id: this.$store.getters['categories/getAll'][
-						this.indexCategoryForDelete
-					].id_category,
-				})
-				.then((response) => {
-					this.$store.commit('categories/REMOVE', this.indexCategoryForDelete);
-					this.$store.commit('snackbar/setSnackbar', {
-						show: true,
-						message: this.$t('call_action_buttons.deleted'),
-						color: 'success',
-						top: true,
-					});
-				})
-				.catch((error) => {
-					if (error.response.status === 409) {
+			if (this.online) {
+				this.$store
+					.dispatch('categories/delete', {
+						id: this.$store.getters['categories/getAll'][
+							this.indexCategoryForDelete
+						].id_category
+					})
+					.then(response => {
+						this.$store.commit(
+							'categories/REMOVE',
+							this.indexCategoryForDelete
+						);
 						this.$store.commit('snackbar/setSnackbar', {
 							show: true,
-							message: this.$t('category.forbiden_delete'),
-							color: 'error',
-							top: true,
+							message: this.$t('call_action_buttons.deleted'),
+							color: 'success',
+							top: true
 						});
-					}
-					console.log('TCL: deleteCategory -> error', error);
+					})
+					.catch(error => {
+						if (error.response.status === 409) {
+							this.$store.commit('snackbar/setSnackbar', {
+								show: true,
+								message: this.$t('category.forbiden_delete'),
+								color: 'error',
+								top: true
+							});
+						}
+						console.log('TCL: deleteCategory -> error', error);
+					});
+			} else {
+				this.$store.commit('snackbar/setSnackbar', {
+					show: true,
+					message: this.$t('messages.intenet_required'),
+					color: 'error',
+					top: true
 				});
-
+			}
 			this.showDialogDeleteCategory = false;
 		},
 		uppercase() {
@@ -133,13 +165,13 @@ export default {
 		requestCategories() {
 			this.$store
 				.dispatch('categories/getAll')
-				.then((response) => {
+				.then(response => {
 					this.$store.commit('categories/SET', response.data.data);
 				})
-				.catch((error) => {
+				.catch(error => {
 					console.log(error);
 				});
-		},
-	},
+		}
+	}
 };
 </script>
