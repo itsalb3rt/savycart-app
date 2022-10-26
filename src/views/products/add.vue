@@ -128,7 +128,6 @@ export default {
 			}
 
 			this.isLoading = true;
-			let formData = new FormData();
 
 			let product = {
 				name: this.name,

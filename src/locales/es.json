@@ -84,7 +84,8 @@
     "name_establishment": "Nombre del establecimiento",
     "name_establishment_placeholder": "Super mercado",
     "empty_car": "Tu carrito esta vacío",
-    "go_to_logger_purchase": "Ir al registro de compras"
+    "go_to_logger_purchase": "Ir al registro de compras",
+    "resume_title":"Ver detalle de compra"
   },
   "shop": {
     "ux_shopping_details_view_instructions": "Al hacer clic en el nombre o en la compra total, puede ver los detalles",
