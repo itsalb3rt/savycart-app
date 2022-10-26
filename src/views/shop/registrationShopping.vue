@@ -3,15 +3,15 @@
 		<v-row v-if="products.length > 0">
 			<v-col cols="12">
 				<v-text-field prepend-inner-icon="fa-search" v-model="searchProductName"
-					:label=" $t('products.search') " clearable></v-text-field>
+					:label="$t('products.search')" clearable></v-text-field>
 				<v-tabs fixed-tabs>
 					<v-tab @click="showFavorites = false">
 						<v-icon class="mr-2">fa-list</v-icon>
-						{{ $t('products.all') }} {{!showFavorites ? actualAvaliableProducts.length : null}}
+						{{ $t('products.all') }} {{ !showFavorites ? actualAvaliableProducts.length : null }}
 					</v-tab>
 					<v-tab @click="showFavorites = true">
 						<v-icon class="mr-2">fa-star</v-icon>
-						{{ $t('products.favorites') }} {{showFavorites ? actualAvaliableProducts.length : null}}
+						{{ $t('products.favorites') }} {{ showFavorites ? actualAvaliableProducts.length : null }}
 					</v-tab>
 				</v-tabs>
 			</v-col>
@@ -31,7 +31,7 @@
 				<shop-resume :quantity="$store.getters['shoppingCar/getAll'].length" :sub-total="subTotal"
 					:currency-symbol="currency.symbol" :total-tax="totalTax" />
 			</v-col>
-			<v-col cols="12" v-else justify="center">
+			<v-col cols="12" v-else justify="center" class="shop-resume-bar-container-mobile">
 				<ShopResumeMobile :quantity="$store.getters['shoppingCar/getAll'].length" :sub-total="subTotal"
 					:currency-symbol="currency.symbol" :total-tax="totalTax" />
 			</v-col>
@@ -43,7 +43,7 @@
 						<p class="headline grey--text">{{ $t('products.empty_list') }}</p>
 						<v-btn color="primary" @click="$router.push('/product/add')">
 							<v-icon class="mr-2">fa-plus-circle</v-icon>
-							{{$t('call_action_buttons.create')}} {{ $t('products.product') }}
+							{{ $t('call_action_buttons.create') }} {{ $t('products.product') }}
 						</v-btn>
 					</v-card-text>
 				</v-card>
