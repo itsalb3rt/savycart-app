@@ -114,10 +114,12 @@ export default {
 			if (this.searchProductName == null) {
 				this.searchProductName = '';
 			}
-			let filteredProducts = this.products.filter(item =>
-				item.name.toUpperCase().includes(this.searchProductName.toUpperCase())
-			);
-
+			let filteredProducts = this.products.filter(item => {
+				const searchParams = ['brand', 'name'];
+				const search = this.searchProductName.toUpperCase();
+				return searchParams.some((searchParam) =>
+					item[searchParam].toUpperCase().includes(search));
+			})
 			if (this.showFavorites) {
 				filteredProducts = filteredProducts.filter(
 					product => product.favorite == '1'
