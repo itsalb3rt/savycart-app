@@ -11,7 +11,7 @@
 			<v-col cols="12" class="white--text" v-if="this.$route.query.create_user !== undefined">
 				<v-alert type="success" :value="true">{{ $t('auth.the_user_was_created') }}</v-alert>
 			</v-col>
-			<v-col cols="12">
+			<v-col cols="12" class="form-responsiveness">
 				<v-form method="POST" @submit.prevent="login">
 					<v-row>
 						<v-col cols="12">
@@ -121,5 +121,10 @@ export default {
 
 .horizontal-line-text-main-container .horizontal-line-text-container {
 	padding: 0 10px;
+}
+
+.form-responsiveness {
+  max-width: 500px;
+  margin: 0 auto;
 }
 </style>
