@@ -1,15 +1,17 @@
 <template>
-    <v-expansion-panels>
+    <v-expansion-panels style="    position: absolute;
+    bottom: 0;
+    left: 0;">
         <v-expansion-panel>
-            <v-expansion-panel-header>{{$t('shopping_car.resume_title')}}</v-expansion-panel-header>
+            <v-expansion-panel-header>{{ $t('shopping_car.resume_title') }}</v-expansion-panel-header>
             <v-expansion-panel-content>
                 <v-row v-if="quantity > 0">
                     <v-col cols="6" class="text-xs-right reduce-20-magin-bottom">
-                        <strong>{{quantity}}</strong>
+                        <strong>{{ quantity }}</strong>
                         {{ $t('messages.item') }}
                     </v-col>
                     <v-col cols="6" class="text-xs-right reduce-20-magin-bottom">
-                        <strong>{{currencySymbol}} {{getSubTotalInNumberFormat()}}</strong>
+                        <strong>{{ currencySymbol }} {{ getSubTotalInNumberFormat() }}</strong>
                     </v-col>
                     <v-col cols="12">
                         <v-divider></v-divider>
@@ -19,9 +21,9 @@
                         <div>{{ $t('messages.total') }}</div>
                     </v-col>
                     <v-col cols="6" class="text-xs-right reduce-20-magin-bottom">
-                        <strong>{{currencySymbol}} {{getTotalTaxInNumberFormat()}}</strong>
-                        <p class="primary--text font-weight-bold">{{currencySymbol}}
-                            {{getTotalInNumberFormat()}}</p>
+                        <strong>{{ currencySymbol }} {{ getTotalTaxInNumberFormat() }}</strong>
+                        <p class="primary--text font-weight-bold">{{ currencySymbol }}
+                            {{ getTotalInNumberFormat() }}</p>
                     </v-col>
                     <v-col cols="12">
                         <v-btn v-if="!onCar" block small @click="$router.push('/shop/shopping_car')" color="primary"
@@ -74,7 +76,7 @@ export default {
     box-shadow: 0px 0px 4px 1px rgba(128, 128, 128, 0.16);
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 950px) {
     .shop-resume-bar-container-mobile {
         left: 0;
     }
