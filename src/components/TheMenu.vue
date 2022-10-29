@@ -3,7 +3,7 @@
 		<v-toolbar flat color="white">
 			<v-icon @click="goBack" v-if="this.$route.meta.isSubDir" class="mr-2">fa-angle-left</v-icon>
 			<v-app-bar-nav-icon @click="drawer = !drawer" v-else></v-app-bar-nav-icon>
-			<v-toolbar-title class="primary--text">{{title}}</v-toolbar-title>
+			<v-toolbar-title class="primary--text">{{ title }}</v-toolbar-title>
 		</v-toolbar>
 		<v-navigation-drawer app temporary v-model="drawer">
 			<v-row class="mt-2">
@@ -14,7 +14,7 @@
 				</v-col>
 				<v-col cols="12" class="text-center">
 					<p class="headline primary--text" style="cursor:pointer;" @click="$router.push('/user/profile')">
-						{{$store.getters['auth/getUser'].first_name}} {{$store.getters['auth/getUser'].last_name}}
+						{{ $store.getters['auth/getUser'].first_name }} {{ $store.getters['auth/getUser'].last_name }}
 					</p>
 				</v-col>
 			</v-row>
@@ -22,7 +22,7 @@
 			<v-list class="pt-0" nav>
 				<v-divider></v-divider>
 
-				<v-list-item v-for="(item,index) in items" :key="index" :to="{path:item.routePath}">
+				<v-list-item v-for="(item, index) in items" :key="index" :to="{ path: item.routePath }">
 					<v-list-item-icon>
 						<v-icon :color="item.iconColor">{{ item.icon }}</v-icon>
 					</v-list-item-icon>
@@ -36,7 +36,8 @@
 					<template v-slot:activator>
 						<v-list-item-title>{{ $t('nav.settings') }}</v-list-item-title>
 					</template>
-					<v-list-item v-for="(item,index) in settings" :key="index" :to="{path:item.routePath}" link>
+					<v-list-item v-for="(item, index) in settings" :key="index" :to="{ path: item.routePath }" link
+						style="height: auto; padding-left: 10%; display: inline-flex;}">
 						<v-list-item-icon>
 							<v-icon :color="item.iconColor">{{ item.icon }}</v-icon>
 						</v-list-item-icon>
@@ -44,7 +45,7 @@
 					</v-list-item>
 				</v-list-group>
 				<v-divider></v-divider>
-				<v-list-item :to="{path:logout[0].routePath}">
+				<v-list-item :to="{ path: logout[0].routePath }">
 					<v-list-item-icon>
 						<v-icon :color="logout[0].iconColor">{{ logout[0].icon }}</v-icon>
 					</v-list-item-icon>
