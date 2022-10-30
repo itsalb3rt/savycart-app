@@ -37,7 +37,7 @@
 						<v-list-item-title>{{ $t('nav.settings') }}</v-list-item-title>
 					</template>
 					<v-list-item v-for="(item, index) in settings" :key="index" :to="{ path: item.routePath }" link
-						style="height: auto; padding-left: 10%; display: inline-flex;}">
+						style="height: auto; padding-left: 10%; display: inline-flex;">
 						<v-list-item-icon>
 							<v-icon :color="item.iconColor">{{ item.icon }}</v-icon>
 						</v-list-item-icon>
