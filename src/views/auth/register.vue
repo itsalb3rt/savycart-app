@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="register_container">
 		<v-row class="text-center">
 			<v-col cols="12">
 				<p class="display-2 primary--text">Sheiley Shop</p>
@@ -151,5 +151,12 @@ export default {
 
 .horizontal-line-text-main-container .horizontal-line-text-container {
 	padding: 0 10px;
+}
+
+@media (min-width:950px) {
+	.register_container {
+		max-width: 500px;
+		margin: auto;
+	}
 }
 </style>
