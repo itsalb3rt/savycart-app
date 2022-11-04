@@ -1,5 +1,5 @@
 <template>
-	<div class="resgiter_container">
+	<div class="register_container">
 		<v-row class="text-center">
 			<v-col cols="12">
 				<p class="display-2 primary--text">Sheiley Shop</p>
@@ -154,8 +154,9 @@ export default {
 }
 
 @media (min-width:950px) {
-	.resgiter_container {
+	.register_container {
 		max-width: 500px;
+		margin: auto;
 	}
 }
 </style>
