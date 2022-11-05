@@ -154,7 +154,7 @@ export default {
 }
 
 @media (min-width:950px) {
-	.register_container {
+	.resgiter_container {
 		max-width: 500px;
 		margin: auto;
 	}
