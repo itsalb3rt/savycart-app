@@ -26,15 +26,16 @@
 					</template>
 				</v-virtual-scroll>
 			</v-col>
-
-			<v-col cols="12" v-if="viewPort">
-				<shop-resume :quantity="$store.getters['shoppingCar/getAll'].length" :sub-total="subTotal"
-					:currency-symbol="currency.symbol" :total-tax="totalTax" />
-			</v-col>
-			<v-col cols="12" v-else justify="center" class="shop-resume-bar-container-mobile">
-				<ShopResumeMobile :quantity="$store.getters['shoppingCar/getAll'].length" :sub-total="subTotal"
-					:currency-symbol="currency.symbol" :total-tax="totalTax" />
-			</v-col>
+			<template v-if="$store.getters['shoppingCar/getAll'].length > 0">
+				<v-col cols="12" v-if="viewPort">
+					<shop-resume :quantity="$store.getters['shoppingCar/getAll'].length" :sub-total="subTotal"
+						:currency-symbol="currency.symbol" :total-tax="totalTax" />
+				</v-col>
+				<v-col cols="12" v-else justify="center" class="shop-resume-bar-container-mobile">
+					<ShopResumeMobile :quantity="$store.getters['shoppingCar/getAll'].length" :sub-total="subTotal"
+						:currency-symbol="currency.symbol" :total-tax="totalTax" />
+				</v-col>
+			</template>
 		</v-row>
 		<v-row v-else>
 			<v-col cols="12">
