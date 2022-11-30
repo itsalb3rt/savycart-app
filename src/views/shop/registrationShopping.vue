@@ -8,6 +8,9 @@
           :label="$t('products.search')"
           clearable
         ></v-text-field>
+        <v-btn @click="handleShowFilters" icon color="primary">
+          <v-icon>fa-filter</v-icon>
+        </v-btn>
         <v-tabs fixed-tabs>
           <v-tab @click="showFavorites = false">
             <v-icon class="mr-2">fa-list</v-icon>
@@ -68,7 +71,7 @@
             :sub-total="subTotal"
             :currency-symbol="currency.symbol"
             :total-tax="totalTax"
-						:is-open="openShopResumeMobile"
+            :is-open="openShopResumeMobile"
           />
         </v-col>
       </template>
@@ -92,6 +95,7 @@
       :can-cancel="false"
       :is-full-page="true"
     ></loading>
+    <product-filter :show="showFilters" />
   </div>
 </template>
 
@@ -102,6 +106,7 @@ import ShopResumeMobile from '@/components/shop/ShopResumeMobile';
 import currencies from '@/mixins/miscellany/currencies';
 import Loading from 'vue-loading-overlay';
 import PurchaseProduct from '@/components/Products/PurchaseProduct';
+import ProductFilter from '@/components/Products/Filter';
 
 export default {
   mixins: [currencies],
@@ -127,7 +132,8 @@ export default {
       products: [],
       benched: 2,
       isMobile: false,
-			openShopResumeMobile: false
+      openShopResumeMobile: false,
+      showFilters: false
     };
   },
   components: {
@@ -135,6 +141,7 @@ export default {
     Loading,
     PurchaseProduct,
     ShopResumeMobile,
+    ProductFilter
   },
   computed: {
     ...mapState(['online']),
@@ -205,14 +212,14 @@ export default {
         this.actualAvaliableProducts[index].quantity = 1;
       }
 
-			// check if the first article to open the shop resume mobile
-			if (this.$store.getters['shoppingCar/getAll'].length === 0) {
-				this.openShopResumeMobile = 0;
-			}
+      // check if the first article to open the shop resume mobile
+      if (this.$store.getters['shoppingCar/getAll'].length === 0) {
+        this.openShopResumeMobile = 0;
+      }
 
-			setTimeout(() => {
-				this.openShopResumeMobile = false;
-			}, 3000);
+      setTimeout(() => {
+        this.openShopResumeMobile = false;
+      }, 3000);
 
       this.$store.commit(
         'shoppingCar/ADD',
@@ -224,6 +231,9 @@ export default {
         (item) => item.id_product === idProduct
       );
       this.$store.commit('shoppingCar/REMOVE', indexInStore);
+    },
+    handleShowFilters() {
+      this.showFilters = !this.showFilters;
     },
   },
 };
