@@ -4,7 +4,7 @@
       <v-card outlined>
         <v-card-text> Sort by </v-card-text>
         <v-card-text>
-          <v-btn-toggle v-model="sortBy" color="primary" group mandatory shaped>
+          <v-btn-toggle v-model="sortBy" color="primary" mandatory>
             <v-btn value="nameAZ">Name AZ</v-btn>
             <v-btn value="nameZA">Name ZA</v-btn>
             <v-btn value="dateNew">Date New</v-btn>
