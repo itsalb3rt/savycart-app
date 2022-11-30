@@ -104,7 +104,8 @@
     "close": "Close",
     "cancel": "Cancel",
     "go_to_resume":"Go to resume",
-    "action":"Action"
+    "action":"Action",
+    "done": "Done"
   },
   "messages": {
     "save": "Item save",

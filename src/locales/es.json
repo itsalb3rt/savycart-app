@@ -104,7 +104,8 @@
     "close": "Cerrar",
     "cancel": "Cancelar",
     "go_to_resume": "Ir al resumen",
-    "action": "Acción"
+    "action": "Acción",
+    "done": "Listo"
   },
   "messages": {
     "save": "Item guardado",
