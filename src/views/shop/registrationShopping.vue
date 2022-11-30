@@ -95,7 +95,7 @@
       :can-cancel="false"
       :is-full-page="true"
     ></loading>
-    <product-filter :show="showFilters" />
+    <product-filter :show="showFilters" @filter="handleFilter" />
   </div>
 </template>
 
@@ -133,7 +133,8 @@ export default {
       benched: 2,
       isMobile: false,
       openShopResumeMobile: false,
-      showFilters: false
+      showFilters: false,
+      sortBy: 'nameAZ', // can be nameAZ, nameZA, dateNew, dateOld
     };
   },
   components: {
@@ -141,7 +142,7 @@ export default {
     Loading,
     PurchaseProduct,
     ShopResumeMobile,
-    ProductFilter
+    ProductFilter,
   },
   computed: {
     ...mapState(['online']),
@@ -160,6 +161,48 @@ export default {
         filteredProducts = filteredProducts.filter(
           (product) => product.favorite == '1'
         );
+      }
+
+      if (this.sortBy == 'nameAZ') {
+        filteredProducts = filteredProducts.sort((a, b) => {
+          if (a.name < b.name) {
+            return -1;
+          }
+          if (a.name > b.name) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (this.sortBy == 'nameZA') {
+        filteredProducts = filteredProducts.sort((a, b) => {
+          if (a.name > b.name) {
+            return -1;
+          }
+          if (a.name < b.name) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (this.sortBy == 'dateNew') {
+        filteredProducts = filteredProducts.sort((a, b) => {
+          if (a.created_at > b.created_at) {
+            return -1;
+          }
+          if (a.created_at < b.created_at) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (this.sortBy == 'dateOld') {
+        filteredProducts = filteredProducts.sort((a, b) => {
+          if (a.created_at < b.created_at) {
+            return -1;
+          }
+          if (a.created_at > b.created_at) {
+            return 1;
+          }
+          return 0;
+        });
       }
 
       return filteredProducts;
@@ -234,6 +277,10 @@ export default {
     },
     handleShowFilters() {
       this.showFilters = !this.showFilters;
+    },
+    handleFilter({ sortBy }) {
+      this.showFilters = false;
+      this.sortBy = sortBy;
     },
   },
 };
