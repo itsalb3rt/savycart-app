@@ -4,19 +4,15 @@
       <v-card outlined>
         <v-card-text> Sort by </v-card-text>
         <v-card-text>
-          <v-btn-toggle
-            v-model="sortBy"
-            tile
-            color="primary"
-            group
-          >
-            <v-btn value="name">Name</v-btn>
-            <v-btn value="dateAddedNew">Date New</v-btn>
-            <v-btn value="dateAddedOld">Date Old</v-btn>
+          <v-btn-toggle v-model="sortBy" color="primary" group mandatory shaped>
+            <v-btn value="nameAZ">Name AZ</v-btn>
+            <v-btn value="nameZA">Name ZA</v-btn>
+            <v-btn value="dateNew">Date New</v-btn>
+            <v-btn value="dateOld">Date Old</v-btn>
           </v-btn-toggle>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="success">
+          <v-btn @click="handleSort" tyle="margin:auto" color="success">
             <v-icon class="mr-1">fa-check</v-icon>
             {{ $t('call_action_buttons.done') }}
           </v-btn>
@@ -40,7 +36,12 @@ export default {
       sortBy: 'name',
     };
   },
-  methods: {},
+  methods: {
+    handleSort() {
+      this.$emit('filter', { sortBy: this.sortBy });
+      this.localShow = false;
+    },
+  },
   watch: {
     show(val) {
       this.localShow = val;
