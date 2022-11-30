@@ -11,6 +11,11 @@
         <v-btn @click="handleShowFilters" icon color="primary">
           <v-icon>fa-filter</v-icon>
         </v-btn>
+        <template v-if="hasFilters()">
+          <v-btn @click="handleClearFilters" icon color="error">
+            <v-icon>fa-times</v-icon>
+          </v-btn>
+        </template>
         <v-tabs fixed-tabs>
           <v-tab @click="showFavorites = false">
             <v-icon class="mr-2">fa-list</v-icon>
@@ -281,6 +286,13 @@ export default {
     handleFilter({ sortBy }) {
       this.showFilters = false;
       this.sortBy = sortBy;
+    },
+    hasFilters() {
+      return this.sortBy !== 'nameAZ';
+    },
+    handleClearFilters() {
+      this.showFilters = false;
+      this.sortBy = 'nameAZ';
     },
   },
 };
