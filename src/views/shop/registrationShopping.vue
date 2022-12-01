@@ -1,21 +1,26 @@
 <template>
   <div>
     <v-row v-if="products.length > 0">
-      <v-col cols="12">
+      <v-col cols="10">
         <v-text-field
           prepend-inner-icon="fa-search"
           v-model="searchProductName"
           :label="$t('products.search')"
           clearable
         ></v-text-field>
-        <v-btn @click="handleShowFilters" icon color="primary">
-          <v-icon>fa-filter</v-icon>
-        </v-btn>
-        <template v-if="hasFilters()">
-          <v-btn @click="handleClearFilters" icon color="error">
-            <v-icon>fa-times</v-icon>
+      </v-col>
+      <v-col cols="2">
+        <v-badge color="red" dot left :value="hasFilters()" style="margin-top: 18px">
+          <v-btn
+            @click="handleShowFilters"
+            icon
+            :color="hasFilters() ? 'primary' : 'grey'"
+          >
+            <v-icon>fa-filter</v-icon>
           </v-btn>
-        </template>
+        </v-badge>
+      </v-col>
+      <v-col cols="12">
         <v-tabs fixed-tabs>
           <v-tab @click="showFavorites = false">
             <v-icon class="mr-2">fa-list</v-icon>
