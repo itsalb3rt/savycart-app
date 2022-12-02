@@ -1,13 +1,26 @@
 <template>
   <div>
     <v-row v-if="products.length > 0">
-      <v-col cols="12">
+      <v-col cols="10">
         <v-text-field
           prepend-inner-icon="fa-search"
           v-model="searchProductName"
           :label="$t('products.search')"
           clearable
         ></v-text-field>
+      </v-col>
+      <v-col cols="2">
+        <v-badge color="red" dot left :value="hasFilters()" style="margin-top: 18px">
+          <v-btn
+            @click="handleShowFilters"
+            icon
+            :color="hasFilters() ? 'primary' : 'grey'"
+          >
+            <v-icon>fa-filter</v-icon>
+          </v-btn>
+        </v-badge>
+      </v-col>
+      <v-col cols="12">
         <v-tabs fixed-tabs>
           <v-tab @click="showFavorites = false">
             <v-icon class="mr-2">fa-list</v-icon>
@@ -68,7 +81,7 @@
             :sub-total="subTotal"
             :currency-symbol="currency.symbol"
             :total-tax="totalTax"
-						:is-open="openShopResumeMobile"
+            :is-open="openShopResumeMobile"
           />
         </v-col>
       </template>
@@ -92,6 +105,7 @@
       :can-cancel="false"
       :is-full-page="true"
     ></loading>
+    <product-filter :show="showFilters" @filter="handleFilter" />
   </div>
 </template>
 
@@ -102,6 +116,7 @@ import ShopResumeMobile from '@/components/shop/ShopResumeMobile';
 import currencies from '@/mixins/miscellany/currencies';
 import Loading from 'vue-loading-overlay';
 import PurchaseProduct from '@/components/Products/PurchaseProduct';
+import ProductFilter from '@/components/Products/Filter';
 
 export default {
   mixins: [currencies],
@@ -127,7 +142,9 @@ export default {
       products: [],
       benched: 2,
       isMobile: false,
-			openShopResumeMobile: false
+      openShopResumeMobile: false,
+      showFilters: false,
+      sortBy: 'nameAZ', // can be nameAZ, nameZA, dateNew, dateOld
     };
   },
   components: {
@@ -135,6 +152,7 @@ export default {
     Loading,
     PurchaseProduct,
     ShopResumeMobile,
+    ProductFilter,
   },
   computed: {
     ...mapState(['online']),
@@ -153,6 +171,48 @@ export default {
         filteredProducts = filteredProducts.filter(
           (product) => product.favorite == '1'
         );
+      }
+
+      if (this.sortBy == 'nameAZ') {
+        filteredProducts = filteredProducts.sort((a, b) => {
+          if (a.name < b.name) {
+            return -1;
+          }
+          if (a.name > b.name) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (this.sortBy == 'nameZA') {
+        filteredProducts = filteredProducts.sort((a, b) => {
+          if (a.name > b.name) {
+            return -1;
+          }
+          if (a.name < b.name) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (this.sortBy == 'dateNew') {
+        filteredProducts = filteredProducts.sort((a, b) => {
+          if (a.created_at > b.created_at) {
+            return -1;
+          }
+          if (a.created_at < b.created_at) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (this.sortBy == 'dateOld') {
+        filteredProducts = filteredProducts.sort((a, b) => {
+          if (a.created_at < b.created_at) {
+            return -1;
+          }
+          if (a.created_at > b.created_at) {
+            return 1;
+          }
+          return 0;
+        });
       }
 
       return filteredProducts;
@@ -205,14 +265,14 @@ export default {
         this.actualAvaliableProducts[index].quantity = 1;
       }
 
-			// check if the first article to open the shop resume mobile
-			if (this.$store.getters['shoppingCar/getAll'].length === 0) {
-				this.openShopResumeMobile = 0;
-			}
+      // check if the first article to open the shop resume mobile
+      if (this.$store.getters['shoppingCar/getAll'].length === 0) {
+        this.openShopResumeMobile = 0;
+      }
 
-			setTimeout(() => {
-				this.openShopResumeMobile = false;
-			}, 3000);
+      setTimeout(() => {
+        this.openShopResumeMobile = false;
+      }, 3000);
 
       this.$store.commit(
         'shoppingCar/ADD',
@@ -224,6 +284,20 @@ export default {
         (item) => item.id_product === idProduct
       );
       this.$store.commit('shoppingCar/REMOVE', indexInStore);
+    },
+    handleShowFilters() {
+      this.showFilters = !this.showFilters;
+    },
+    handleFilter({ sortBy }) {
+      this.showFilters = false;
+      this.sortBy = sortBy;
+    },
+    hasFilters() {
+      return this.sortBy !== 'nameAZ';
+    },
+    handleClearFilters() {
+      this.showFilters = false;
+      this.sortBy = 'nameAZ';
     },
   },
 };

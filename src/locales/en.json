@@ -76,7 +76,11 @@
     "description": "Description",
     "description_message": "Add a brief description here, this is optional",
     "viewPurchaseHistory": "View purchase history",
-    "purchaseHistory": "Purchase history"
+    "purchaseHistory": "Purchase history",
+    "nameAsc": "Name asc",
+    "nameDesc": "Name desc",
+    "oldToNew": "Old to new",
+    "newToOld": "New to old"
   },
   "shopping_car": {
     "add_to_shopping_car": "Add to cart",
@@ -104,7 +108,8 @@
     "close": "Close",
     "cancel": "Cancel",
     "go_to_resume":"Go to resume",
-    "action":"Action"
+    "action":"Action",
+    "done": "Done"
   },
   "messages": {
     "save": "Item save",

@@ -1,13 +1,26 @@
 <template>
 	<div>
 		<v-row>
-			<v-col cols="12">
+			<v-col cols="10">
 				<v-text-field
 					prepend-inner-icon="fa-search"
 					v-model="searchProductName"
 					:label=" $t('products.search') + '...' "
 					clearable
 				></v-text-field>
+			</v-col>
+      <v-col cols="2">
+        <v-badge color="red" dot left :value="hasFilters()" style="margin-top: 18px">
+          <v-btn
+            @click="handleShowFilters"
+            icon
+            :color="hasFilters() ? 'primary' : 'grey'"
+          >
+            <v-icon>fa-filter</v-icon>
+          </v-btn>
+        </v-badge>
+      </v-col>
+			<v-col cols="12">
 				<v-tabs fixed-tabs>
 					<v-tab @click="showFavorites = false">
 						<v-icon class="mr-2">fa-list</v-icon>
@@ -57,6 +70,7 @@
 			<v-icon>fa-plus</v-icon>
 		</v-btn>
 		<delete-dialog :show="dialog" @cancel="dialog = false" @confirm="deleteProduct()" />
+		<product-filter :show="showFilters" @filter="handleFilter" />
 	</div>
 </template>
 
@@ -65,13 +79,15 @@ import deleteDialog from '@/components/Interface/Dialogs/Delete';
 import { mapState, mapMutations } from 'vuex';
 import currencies from '@/mixins/miscellany/currencies';
 import ListProduct from '@/components/Products/ListProduct';
+import ProductFilter from '@/components/Products/Filter';
 
 export default {
 	name: 'products',
 	mixins: [currencies],
 	components: {
 		deleteDialog,
-		ListProduct
+		ListProduct,
+		ProductFilter
 	},
 	async mounted() {
 		if (this.online) {
@@ -105,7 +121,9 @@ export default {
 			benched: 2,
 			loading: false,
 			loadingFavorite: false,
-			currency: { symbol: '$' }
+			currency: { symbol: '$' },
+      showFilters: false,
+      sortBy: 'nameAZ', // can be nameAZ, nameZA, dateNew, dateOld
 		};
 	},
 	computed: {
@@ -125,6 +143,48 @@ export default {
 					product => product.favorite == '1'
 				);
 			}
+
+      if (this.sortBy == 'nameAZ') {
+        filteredProducts = filteredProducts.sort((a, b) => {
+          if (a.name < b.name) {
+            return -1;
+          }
+          if (a.name > b.name) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (this.sortBy == 'nameZA') {
+        filteredProducts = filteredProducts.sort((a, b) => {
+          if (a.name > b.name) {
+            return -1;
+          }
+          if (a.name < b.name) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (this.sortBy == 'dateNew') {
+        filteredProducts = filteredProducts.sort((a, b) => {
+          if (a.created_at > b.created_at) {
+            return -1;
+          }
+          if (a.created_at < b.created_at) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (this.sortBy == 'dateOld') {
+        filteredProducts = filteredProducts.sort((a, b) => {
+          if (a.created_at < b.created_at) {
+            return -1;
+          }
+          if (a.created_at > b.created_at) {
+            return 1;
+          }
+          return 0;
+        });
+      }
 
 			return filteredProducts;
 		},
@@ -228,7 +288,21 @@ export default {
 				.finally(() => {
 					this.loadingFavorite = false;
 				});
-		}
+		},
+    handleShowFilters() {
+      this.showFilters = !this.showFilters;
+    },
+    handleFilter({ sortBy }) {
+      this.showFilters = false;
+      this.sortBy = sortBy;
+    },
+    hasFilters() {
+      return this.sortBy !== 'nameAZ';
+    },
+    handleClearFilters() {
+      this.showFilters = false;
+      this.sortBy = 'nameAZ';
+    },
 	}
 };
 </script>

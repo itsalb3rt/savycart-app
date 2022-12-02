@@ -76,7 +76,11 @@
     "description": "Descripción",
     "description_message": "Agregue una breve descripción aquí, esto es opcional",
     "viewPurchaseHistory": "Ver historial de compras",
-    "purchaseHistory": "Historial de compras"
+    "purchaseHistory": "Historial de compras",
+    "nameAsc": "Nombre ascendente",
+    "nameDesc": "Nombre descendente",
+    "oldToNew": "Lo mas nuevo primero",
+    "newToOld": "Lo mas antiguo primero"
   },
   "shopping_car": {
     "add_to_shopping_car": "Agregar al carro",
@@ -104,7 +108,8 @@
     "close": "Cerrar",
     "cancel": "Cancelar",
     "go_to_resume": "Ir al resumen",
-    "action": "Acción"
+    "action": "Acción",
+    "done": "Listo"
   },
   "messages": {
     "save": "Item guardado",
