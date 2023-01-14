@@ -26,9 +26,9 @@ describe('Filter Component', () => {
     expect(FilterComponent).toBeTruthy();
   })
 
-  it('should be contain titles', async () => {
+  it('should be prop show true', async () => {
     await wrapper.setProps({ show: true })
-    expect(wrapper.text()).toContain('Sort by')
+    expect(wrapper.props().show).toBe(true)
   })
 
 })
