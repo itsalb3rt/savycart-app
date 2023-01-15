@@ -31,6 +31,9 @@ describe('Shopping Car Component', () => {
     expect(wrapper.find('.car').exists()).toBe(true);
     expect(wrapper.find('.count').exists()).toBe(true);
     expect(wrapper.find('.count').text()).toBe('2');
+
+    await wrapper.setProps({ count: 0 })
+    expect(wrapper.find('.count').exists()).toBe(false);
   })
 
 })
