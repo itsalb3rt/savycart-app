@@ -12,6 +12,11 @@
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
     "test": "vitest"
   },
+  "engines": {
+    "node": ">=10.0.0",
+    "yarn": ">=1.0.0",
+    "npm": "Plese use yarn"
+  },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "@fortawesome/fontawesome-free": "^5.15.1",
