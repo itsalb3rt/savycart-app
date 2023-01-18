@@ -38,9 +38,6 @@ const wrapperFactory = () => mount(TheMenu, {
   propsData: {
     show: true,
   },
-  data() {
-    drawer: true
-  }
 })
 
 const wrapper = wrapperFactory();
