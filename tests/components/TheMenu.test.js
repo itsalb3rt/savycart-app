@@ -54,14 +54,4 @@ describe('The Menu Component', () => {
     expect(wrapper.find('.v-toolbar__title').text()).toBe('test')
   })
 
-  it('should be contain menu elements', () => {
-// change data element of the wrapper
-    wrapper.setData({ drawer: true });
-    wrapper.vm.$nextTick(() => {
-      console.log(wrapper.html())
-    })
-
-    //expect(wrapper.find('.nav.my_list').exists()).toBe(true);
-  })
-
 })
