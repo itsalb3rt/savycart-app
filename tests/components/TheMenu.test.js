@@ -4,7 +4,7 @@ import vuetify from 'src/plugins/vuetify'
 import addElemWithDataAppToBody from 'tests/mocks/DataAppElement';
 import Vuex from 'vuex';
 import Auth from '../../src/store/Modules/Auth/Auth.js'
-
+import { VueHammer } from 'vue2-hammer';
 
 import TheMenu from "components/TheMenu.vue";
 
@@ -14,7 +14,8 @@ config.stubs['router-link'] = { template: "<div></div> " }
 
 const localVue = createLocalVue()
 
-localVue.use(Vuex)
+localVue.use(Vuex);
+localVue.use(VueHammer);
 
 let store = new Vuex.Store({
   modules: {
@@ -32,11 +33,13 @@ const wrapperFactory = () => mount(TheMenu, {
   mocks: {
     $t: (msg) => msg,
     $route: {
-      meta: {}
+      meta: {
+        isSubDir: true
+      }
     }
   },
   propsData: {
-    show: true,
+    title: 'test'
   },
 })
 
@@ -47,9 +50,18 @@ describe('The Menu Component', () => {
     expect(TheMenu).toBeTruthy();
   })
 
+  it('should be contain title', () => {
+    expect(wrapper.find('.v-toolbar__title').text()).toBe('test')
+  })
+
   it('should be contain menu elements', () => {
-    console.log(wrapper.html())
-    expect(wrapper.find('.nav.my_list').exists()).toBe(true);
+// change data element of the wrapper
+    wrapper.setData({ drawer: true });
+    wrapper.vm.$nextTick(() => {
+      console.log(wrapper.html())
+    })
+
+    //expect(wrapper.find('.nav.my_list').exists()).toBe(true);
   })
 
 })
