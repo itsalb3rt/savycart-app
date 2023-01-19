@@ -3,7 +3,7 @@ import { mount, config } from '@vue/test-utils'
 import vuetify from 'src/plugins/vuetify'
 import addElemWithDataAppToBody from 'tests/mocks/DataAppElement';
 
-import ShopResumeMobile from "components/Shop/ShopResumeMobile.vue";
+import ShopResumeMobile from "components/shop/ShopResumeMobile.vue";
 
 addElemWithDataAppToBody();
 config.stubs['font-awesome-icon'] = { template: "<div></div> " }
