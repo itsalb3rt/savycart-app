@@ -1,22 +1,22 @@
 <template>
 	<v-row v-if="quantity > 0" class="shop-resume-bar-container constrain">
-		<v-col cols="6" class="text-xs-right reduce-20-magin-bottom">
+		<v-col cols="6" class="text-xs-right reduce-20-magin-bottom quantity">
 			<strong>{{quantity}}</strong>
 			{{ $t('messages.item') }}
 		</v-col>
-		<v-col cols="6" class="text-xs-right reduce-20-magin-bottom">
+		<v-col cols="6" class="text-xs-right reduce-20-magin-bottom sub-total">
 			<strong>{{currencySymbol}} {{getSubTotalInNumberFormat()}}</strong>
 		</v-col>
 		<v-col cols="12">
 			<v-divider></v-divider>
 		</v-col>
 		<v-col cols="6" class="text-xs-right reduce-20-magin-bottom">
-			<div>{{ $t('products.tax') }}</div>
-			<div>{{ $t('messages.total') }}</div>
+			<div class="tax">{{ $t('products.tax') }}</div>
+			<div class="total">{{ $t('messages.total') }}</div>
 		</v-col>
 		<v-col cols="6" class="text-xs-right reduce-20-magin-bottom">
-			<strong>{{currencySymbol}} {{getTotalTaxInNumberFormat()}}</strong>
-			<p class="primary--text font-weight-bold">{{currencySymbol}} {{getTotalInNumberFormat()}}</p>
+			<strong class="total-tax">{{currencySymbol}} {{getTotalTaxInNumberFormat()}}</strong>
+			<p class="primary--text font-weight-bold final-total">{{currencySymbol}} {{getTotalInNumberFormat()}}</p>
 		</v-col>
 		<v-col cols="12">
 			<v-btn
@@ -26,7 +26,7 @@
 				@click="$router.push('/shop/shopping_car')"
 				color="primary"
 				outlined
-				class="mt-0"
+				class="mt-0 go-to-resume"
 			>{{ $t('call_action_buttons.go_to_resume') }}</v-btn>
 		</v-col>
 	</v-row>

@@ -27,7 +27,7 @@
 						<v-icon :color="item.iconColor">{{ item.icon }}</v-icon>
 					</v-list-item-icon>
 
-					<v-list-item-content>
+					<v-list-item-content :class="$t(`nav.${item.title}`)">
 						<v-list-item-title>{{ $t(`nav.${item.title}`) }}</v-list-item-title>
 					</v-list-item-content>
 				</v-list-item>
