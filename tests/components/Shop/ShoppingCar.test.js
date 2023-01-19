@@ -1,9 +1,9 @@
-import { describe, it, expect } from 'vitest'
-import { mount, config, createLocalVue } from '@vue/test-utils'
-import vuetify from 'src/plugins/vuetify'
+import { describe, it, expect } from 'vitest';
+import { mount, config } from '@vue/test-utils';
+import vuetify from 'src/plugins/vuetify';
 import addElemWithDataAppToBody from 'tests/mocks/DataAppElement';
 
-import ShoppingCar from "components/Shop/ShoppingCar.vue";
+import ShoppingCar from "components/shop/ShoppingCar.vue";
 
 addElemWithDataAppToBody();
 config.stubs['font-awesome-icon'] = { template: "<div></div> " }
