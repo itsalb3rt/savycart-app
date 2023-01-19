@@ -46,12 +46,10 @@ describe('Shop Resume Mobile Component', () => {
   })
 
   it('should be have the props on the template', async () => {
-    console.log(wrapper.html());
     // set is open to true
     await wrapper.setProps({ isOpen: true })
     // update the wrapper
     await wrapper.vm.$nextTick();
-    console.log(wrapper.html());
     // expect(wrapper.find('.quantity').text()).toBe('10');
     // expect(wrapper.find('.sub-total').text()).toBe('1,000.00 DOP');
     // expect(wrapper.find('.tax').text()).toBe('18.00 DOP');
