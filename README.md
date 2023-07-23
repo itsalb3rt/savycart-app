@@ -8,10 +8,12 @@
 **Sheiley Shop** is a **PWA** and **Android** APP to track personal purchases, No more paper and pencil to go to the supermarket :department_store:
 
 ---
+<p float="left">
+ <img src="./docs/demo/1.png" width="200" style="display: inline; border-radius: 4px"/>
+ <img src="./docs/demo/2.png" width="200" style="display: inline; border-radius: 4px"/>
+ <img src="./docs/demo/3.png" width="200" style="display: inline; border-radius: 4px"/>
+</p>
 
-<img src="./docs/demo/1.png" width="200" style="display: inline; border-radius: 4px"/>
-<img src="./docs/demo/2.png" width="200" style="display: inline; border-radius: 4px"/>
-<img src="./docs/demo/3.png" width="200" style="display: inline; border-radius: 4px"/>
 
 ---
 
