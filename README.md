@@ -4,164 +4,43 @@
 | Android | IOS
 </div>
 <br />
-<p style="float:left;">
-<img src="https://i.imgur.com/UqnVH51.png" width="150" />
-<img src="https://i.imgur.com/nLCoQRr.png" width="200" />
-<img src="https://i.imgur.com/0gXjfy9.png" width="150" />
-</p>
-
----
-
-## Content
-
-  - [Description](#description)
-  - [Features](#features)
-  - [Get started :star:](#get-started)
-  - [Frontend :heart_eyes: ](#frontend)
-    - [API entry point](#api-entry-point)
-    - [Frontend production](#frontend-production)
-  - [Backend :sunglasses: ](#backend)
-    - [Database](#database)
-    - [Backend production](#backend-production)
-    - [Extra](#extra)
-  - [Docker](#docker)
-
----
-
-### Description
 
 **Sheiley Shop** is a **PWA** and **Android** APP to track personal purchases, No more paper and pencil to go to the supermarket :department_store:
 
+---
+
+<img src="./docs/demo/1.png" width="200" style="display: inline; border-radius: 4px"/>
+<img src="./docs/demo/2.png" width="200" style="display: inline; border-radius: 4px"/>
+<img src="./docs/demo/3.png" width="200" style="display: inline; border-radius: 4px"/>
+
+---
 
 ### Features
 
-- Multi-user
-- Multi-languages
-- Very intuitive and easy to use, it has a clean interface with few buttons
-- List of products
-- Favorite products
-- Product categories
-- Unit of measurement
-- Shopping history
-- Shopping cart
-- And more...
+- ✅ **Shopping History**: Access and review your shopping history, empowering you to make smarter decisions and analyze your spending patterns.
+- ✅ **Accurate Unit of Measurement**: Specify the unit of measurement for each product, eliminating confusion and ensuring precise purchasing.
+- ✅ **Expense Tracking**: Monitor and analyze your spending with detailed expense reports, providing valuable insights for better financial planning.
+- ✅ **Synchronized Cloud Storage**: Safeguard your data with secure cloud storage, ensuring seamless synchronization across all your devices.
 
-### Get started 
+## Give a Star! ⭐
 
-**Requirements:**
-- PHP 7.1.2 o superior
-- Mysql 5.6
-- NodeJs 10
-- NPM 6.4
-- Composer 1.8
+If you like this project or plan to use it in the future, please give it a star. Thanks 🙏
 
----
+## Bugs and Feedback
 
-## Frontend
+For bugs, questions, and discussions, please use the [Github Issues](https://github.com/itsalb3rt/sheiley-shop-app/issues/new/choose) we have cool templates for you.
 
-```bash
-git clone https://github.com/itsalb3rt/sheiley_shop_app.git
-```
+## Contributing
 
-```bash
-yarn install 
-```
+For contributing, please see the following links:
 
-```bash
-yarn serve
-# or run the next command for production
-yarn build
-```
+ - [Contribution Documents](https://github.com/itsalb3rt/sheiley-shop-app/CONTRIBUTING.md)
+ - [Contributors](https://github.com/itsalb3rt/sheiley-shop-app/contributors)
 
-## Android
+We're glad to be supported by respected companies and individuals from several industries. [See our Github Sponsors learn more](https://github.com/sponsors/itsalb3rt).
 
-To run app in `Android mode`;
-
-```bash
-yarn serve:android
-```
-
-After the command is runny, the android studio will open and you can see the app in the emulator.
-
-![](https://capacitorjs.com/assets/img/docs/android/running.png)
-
-**Build**
-
-```bash
-yarn build:android
-```
-
-Run the following command in the `Android Studio` console, make a sure the terminal is in `src-capacitor/android` dir:
-
-```
-gradlew :app:bundleRelease
-```
-
-Now the **aab** file is on `src-capacitor\android\app\build\outputs\bundle\release`
-
-Sign the **aab** file
-
-```
-jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ./secret/release-key.keystore ./src-capacitor/android/app/build/outputs/bundle/release/app-release.aab sheiley_shop_app
-```
-
-Enter the **Passpharese** for the keystore:
-
-and now the **aab** file is ready to lunch in the store. :confetti_ball:
-
-## IOS
-
-To run app in `IOS mode`;
-
-```bash
-yarn serve:ios
-```
-
-After the command is runny, the xcode will open and you can see the app in the emulator.
-
-![](https://capacitorjs.com/assets/img/docs/ios/running.png)
-
-**Build**
-
-```bash
-yarn build:ios
-```
-
-Remember in `src-capacitor` all the dependencies need to be installed.
-
-After build is complete and the xcode is open, you need create archive from the app:
-
-- Select the device, Any iOS Device
-
-![](./docs/ios-device-selection.png)
+**Sponsors**
 
 
-- Go to Product -> Archive
 
-![](./docs/ios-create-archive.png)
-
-Now you get a archivo for distribution.
-
-![](./docs/archives.png)
-
-### API entry point
-
-change the API entry pont in `env` file
-
-```env
-VUE_APP_API_DEV=http://localhost/sheiley_shop_api
-VUE_APP_API_PRO=https://example.com/sheiley_shop_api
-```
-
-:tada: This is all you need to test it in your local environment!
-
-## Frontend production
-
-
-If you hosted the app in subdirectory go to `vue.config.js` and set the subdirectory name in `publicPath` property 
-
----
-
-## Backend
-
-Go to API repository [https://github.com/itsalb3rt/sheiley-shop-api](https://github.com/itsalb3rt/sheiley-shop-api)
+> [Become a Github Sponsor](https://github.com/sponsors/itsalb3rt)
