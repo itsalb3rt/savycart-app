@@ -38,7 +38,7 @@ For bugs, questions, and discussions, please use the [Github Issues](https://git
 
 For contributing, please see the following links:
 
- - [Contribution Documents](https://github.com/itsalb3rt/sheiley-shop-app/CONTRIBUTING.md)
+ - [Contribution Documents](./CONTRIBUTING.md)
  - [Contributors](https://github.com/itsalb3rt/sheiley-shop-app/contributors)
 
 We're glad to be supported by respected companies and individuals from several industries. [See our Github Sponsors learn more](https://github.com/sponsors/itsalb3rt).
