@@ -40,6 +40,9 @@ yarn serve
 yarn build
 ```
 
+ℹ️ Don't forget to set up the API 👉 [https://github.com/itsalb3rt/sheiley-shop-api](https://github.com/itsalb3rt/sheiley-shop-api)
+
+
 ## Android
 
 To run app in `Android mode`;
