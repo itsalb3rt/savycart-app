@@ -13,7 +13,7 @@
     "test": "vitest"
   },
   "engines": {
-    "node": ">=10.0.0",
+    "node": ">=16.20.1",
     "yarn": ">=1.0.0",
     "npm": "Plese use yarn"
   },
