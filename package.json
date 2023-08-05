@@ -5,10 +5,10 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "serve:android": "cd src-capacitor && node mobile.js && npx cap copy && npx cap open android && cd .. && yarn serve --port 8081",
-    "serve:ios": "cd src-capacitor && node mobile.js && npx cap copy && npx cap open ios && cd .. && yarn serve --port 8081",
+    "serve:ios": "npx cap run ios",
     "build": "vue-cli-service build",
     "build:android": "vue-cli-service build && cd src-capacitor && npx cap copy android && npx cap open android",
-    "build:ios": "vue-cli-service build && cp -r ./dist/* ./src-capacitor/www/ && cd ./src-capacitor/ ionic capacitor build ios && npx cap open ios",
+    "build:ios": "vue-cli-service build && npx cap open ios",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
     "test": "vitest"
   },
@@ -19,6 +19,9 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
+    "@capacitor/cli": "^5.2.2",
+    "@capacitor/core": "^5.2.2",
+    "@capacitor/ios": "^5.2.2",
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
