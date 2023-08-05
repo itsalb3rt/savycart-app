@@ -1,5 +1,5 @@
 {
-  "name": "sheiley_shop_app",
+  "name": "savycart",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,12 +8,12 @@
     "serve:ios": "cd src-capacitor && node mobile.js && npx cap copy && npx cap open ios && cd .. && yarn serve --port 8081",
     "build": "vue-cli-service build",
     "build:android": "vue-cli-service build && cd src-capacitor && npx cap copy android && npx cap open android",
-    "build:ios": "vue-cli-service build && cd src-capacitor && npx cap copy ios && npx cap open ios",
+    "build:ios": "vue-cli-service build && cp -r ./dist/* ./src-capacitor/www/ && cd ./src-capacitor/ ionic capacitor build ios && npx cap open ios",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
     "test": "vitest"
   },
   "engines": {
-    "node": ">=16.20.1",
+    "node": "=16.20.1",
     "yarn": ">=1.0.0",
     "npm": "Plese use yarn"
   },

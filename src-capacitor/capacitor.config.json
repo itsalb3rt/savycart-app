@@ -1,10 +1,1 @@
-{
-  "appId": "com.sheileyshop",
-  "appName": "Sheiley Shop",
-  "webDir": "../dist",
-  "bundledWebRuntime": false,
-  "server": {
-    "url": "http://192.168.0.175:8081",
-    "cleartext": true
-  }
-}
+{"appId":"com.savycart.app","appName":"SavyCart","webDir":"www","bundledWebRuntime":false,"server":{"url":"http://192.168.0.135:8081","cleartext":true,"allowNavigation":["*"]}}

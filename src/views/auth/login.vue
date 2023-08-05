@@ -2,7 +2,7 @@
 	<v-container>
 		<v-row>
 			<v-col cols="12">
-				<p class="display-2 primary--text text-center">Sheiley Shop</p>
+				<p class="display-2 primary--text text-center">SavyCart</p>
 				<p class="warning--text text-center">shopping registration application</p>
 			</v-col>
 			<v-col cols="12" class="white--text" v-if="loginFailed">

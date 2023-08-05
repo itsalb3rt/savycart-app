@@ -2,7 +2,7 @@
 	<div class="recoveryAccount_container">
 		<v-row class="text-center">
 			<v-col cols="12">
-				<p class="display-2 primary--text">Sheiley Shop</p>
+				<p class="display-2 primary--text">SavyCart</p>
 				<p class="warning--text">shopping registration application</p>
 			</v-col>
 		</v-row>

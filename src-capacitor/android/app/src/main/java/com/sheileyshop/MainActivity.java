@@ -1,4 +1,4 @@
-package com.sheileyshop;
+package com.savycart.app;
 
 import com.getcapacitor.BridgeActivity;
 
