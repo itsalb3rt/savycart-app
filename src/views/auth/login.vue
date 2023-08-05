@@ -58,7 +58,6 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
 import curriencies from '@/mixins/miscellany/currencies';
 import jwt_decode from "jwt-decode";
 

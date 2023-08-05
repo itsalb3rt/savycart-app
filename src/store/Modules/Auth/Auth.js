@@ -1,4 +1,5 @@
 import httpClient from '@/api/HttpClient'
+import httpClientWithoutAuth from '@/api/HttpClientWithoutAuth'
 
 export default {
     namespaced: true,
@@ -10,23 +11,23 @@ export default {
         login({
             commit
         }, payload) {
-            return httpClient.post(`/auth/login`, payload)
+            return httpClientWithoutAuth.post(`/auth/login`, payload)
         },
         checkIsUserExists({commit},payload){
-            return httpClient.get(`/auth/users/${payload.userName}`)
+            return httpClientWithoutAuth.get(`/auth/users/${payload.userName}`)
         },
         checkIsEmailExists({commit},payload){
-            return httpClient.post(`/auth/emails`,payload)
+            return httpClientWithoutAuth.post(`/auth/emails`,payload)
         },
         register({
             commit
         }, payload) {
-            return httpClient.post(`/auth/register`, payload)
+            return httpClientWithoutAuth.post(`/auth/register`, payload)
         },
         recoveryAccount({
             commit
         }, payload) {
-            return httpClient.post(`/auth/recovery`, payload)
+            return httpClientWithoutAuth.post(`/auth/recovery`, payload)
         },
         passwordReset({
             commit
