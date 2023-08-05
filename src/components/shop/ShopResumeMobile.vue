@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panels v-model="open" style="position: absolute; bottom: 0; left: 0">
+  <v-expansion-panels flat v-model="open" style="position: absolute; bottom: 20px; left: 0">
     <v-expansion-panel>
       <v-expansion-panel-header>
         {{ $t('shopping_car.resume_title') }}
