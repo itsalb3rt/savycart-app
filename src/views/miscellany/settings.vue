@@ -60,7 +60,6 @@
 
 <script>
 import MenuComponent from '@/components/TheMenu';
-import { mapState } from 'vuex';
 import currencies from '@/mixins/miscellany/currencies';
 import Loading from 'vue-loading-overlay';
 
@@ -173,6 +172,7 @@ export default {
 				color: 'success',
 				top: true
 			});
+			location.reload();
 		}
 	}
 };
