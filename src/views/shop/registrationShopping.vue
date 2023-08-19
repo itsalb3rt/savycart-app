@@ -121,16 +121,21 @@ import ProductFilter from '@/components/Products/Filter';
 export default {
   mixins: [currencies],
   async mounted() {
+    this.products = this.$store.getters['products/getAll'];
+
     if (this.online) {
-      this.isLoading = true;
+
+      if(this.products.length === 0) {
+       this.isLoading = true;
+      }
+    
       this.$store.dispatch('products/getAll').then((response) => {
         this.$store.commit('products/SET', response.data.data);
         this.products = this.$store.getters['products/getAll'];
         this.isLoading = false;
       });
-    } else {
-      this.products = this.$store.getters['products/getAll'];
     }
+    
     this.currency = await this.getPreferredCurrency();
   },
   data() {
