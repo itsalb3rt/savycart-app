@@ -3,8 +3,6 @@ const fs = require('fs');
 const fileName = './capacitor.config.json';
 const file = require(fileName);
 
-var ip = require("ip");
-
 delete file.server.url
 
 fs.writeFile(fileName, JSON.stringify(file), function writeJSON(err) {
