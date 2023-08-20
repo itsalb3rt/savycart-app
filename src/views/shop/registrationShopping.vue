@@ -46,6 +46,7 @@
               :product="item"
               :currency="currency"
               :is-on-car="isOnCar(item.id_product)"
+              @change-quantity="value => item.quantity = value"
               @view-details="
                 (product) =>
                   $router.push({
