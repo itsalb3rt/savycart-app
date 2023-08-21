@@ -98,6 +98,9 @@ export default {
 };
 </script>
 <style>
+ * {
+      touch-action: manipulation;
+  }
 .slide-left-enter-active,
 .slide-left-leave-active,
 .slide-right-enter-active,
