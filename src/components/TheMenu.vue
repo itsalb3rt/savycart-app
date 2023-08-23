@@ -6,7 +6,7 @@
 			<v-toolbar-title class="primary--text">{{ title }}</v-toolbar-title>
 		</v-toolbar>
 		<v-navigation-drawer app temporary v-model="drawer">
-			<v-row class="mt-2">
+			<v-row class="mt-8">
 				<v-col cols="12" class="text-center" @click="$router.push('/user/profile')">
 					<v-avatar :size="80" color="indigo" style="cursor:pointer;" @click="$router.push('/user/profile')">
 						<v-icon large dark>fa-user</v-icon>
@@ -41,7 +41,7 @@
 						<v-list-item-icon>
 							<v-icon :color="item.iconColor">{{ item.icon }}</v-icon>
 						</v-list-item-icon>
-						<v-list-item-title v-text="$t(`nav.${item.title}`)"></v-list-item-title>
+						<v-list-item-title>{{$t(`nav.${item.title}`)}}</v-list-item-title>
 					</v-list-item>
 				</v-list-group>
 				<v-divider></v-divider>
@@ -60,8 +60,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
 export default {
 	props: {
 		title: ''

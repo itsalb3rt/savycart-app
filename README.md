@@ -1,11 +1,11 @@
-# Sheiley Shop 
+# SavyCart 
 <div>
 <img src="https://user-images.githubusercontent.com/3104648/28351989-7f68389e-6c4b-11e7-9bf2-e9fcd4977e7a.png" width="30" style="display: inline"/>
 | Android | IOS
 </div>
 <br />
 
-**Sheiley Shop** is a **PWA** and **Android** APP to track personal purchases, No more paper and pencil to go to the supermarket :department_store:
+**SavyCart** is a **PWA** and **Android** APP to track personal purchases, No more paper and pencil to go to the supermarket :department_store:
 
 Start now [Using the web version](https://sheiley-shop.netlify.app/) to track your purchases and save money :moneybag: 
 

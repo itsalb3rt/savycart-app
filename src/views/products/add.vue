@@ -148,7 +148,6 @@ export default {
 						this.$store.commit('products/ADD', response.data.data);
 						this.name = '';
 						this.price = 1;
-						document.querySelector('#name').focus();
 						this.$store.commit('snackbar/setSnackbar', {
 							show: true,
 							message: this.$t('call_action_buttons.saved'),

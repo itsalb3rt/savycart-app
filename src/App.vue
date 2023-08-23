@@ -1,5 +1,5 @@
 <template>
-	<v-app class="constrain">
+	<v-app class="constrain main-app-container">
 		<MenuComponent :title="$route.meta.title" v-if="$store.getters['auth/getIsLogged']" />
 		<v-main>
 			<transition
@@ -98,6 +98,9 @@ export default {
 };
 </script>
 <style>
+ * {
+      touch-action: manipulation;
+  }
 .slide-left-enter-active,
 .slide-left-leave-active,
 .slide-right-enter-active,
@@ -130,5 +133,10 @@ export default {
 .constrain{
 	max-width: 900px;
 	margin: auto;
+}
+.main-app-container{
+    padding-top: 40px;
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
 }
 </style>
