@@ -3,10 +3,12 @@
     <v-row v-if="products.length > 0">
       <v-col cols="10">
         <v-text-field
+          ref="searchInputRef"
           prepend-inner-icon="fa-search"
           v-model="searchProductName"
           :label="$t('products.search')"
           clearable
+          @click:clear="$refs.searchInputRef.blur()"
         ></v-text-field>
       </v-col>
       <v-col cols="2">
