@@ -141,7 +141,7 @@
   },
   "category": {
     "name": "Nombre",
-    "category_description_section": "TLas categorías lo ayudan a realizar análisis más profundos para saber qué categorías consume más",
+    "category_description_section": "Las categorías lo ayudan a realizar análisis más profundos para saber qué categorías consume más",
     "category": "Categoria",
     "category_placeholder": "Gastable, Legumbres",
     "registered_categories": "Categorias registradas",
