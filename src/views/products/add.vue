@@ -154,6 +154,7 @@ export default {
 							color: 'success',
 							top: true
 						});
+						this.$router.push('/product/list')
 					})
 					.catch(error => {
 						if (error.response.status === 409) {
