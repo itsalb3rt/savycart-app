@@ -11,7 +11,7 @@
           @click:clear="$refs.searchInputRef.blur()"
         ></v-text-field>
       </v-col>
-      <v-col cols="2">
+      <v-col class="text-right" cols="2">
         <v-badge color="red" dot left :value="hasFilters()" style="margin-top: 18px">
           <v-btn
             @click="handleShowFilters"
