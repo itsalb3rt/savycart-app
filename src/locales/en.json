@@ -109,7 +109,10 @@
     "cancel": "Cancel",
     "go_to_resume":"Go to resume",
     "action":"Action",
-    "done": "Done"
+    "done": "Done",
+    "addMeasurementUnit":"Add measurement unit",
+    "delete_measurement_unit":"Delete measurement unit",
+    "no_go_back": "No, go back"
   },
   "messages": {
     "save": "Item save",
@@ -137,7 +140,9 @@
     "password_length":"Password must be less than",
     "characters":"characters",
     "invalid_token":"the token is not valid, please request a new account recovery email",
-    "select_or_add_brand":"Select or write a brand name"
+    "select_or_add_brand":"Select or write a brand name",
+    "measurement_units_description": "Units of measure are the units in which the product is measured, for example, unit, package, box, etc.",
+    "delete_measurement_unit": "Are you sure you want to delete this unit of measure?"
   },
   "category":{
     "name":"Name",
@@ -151,7 +156,7 @@
     "name":"Name",
     "measurement_description_section":"The categories help you to carry out deeper analyzes to know which categories you consume more",
     "measurement":"Measurement unit",
-    "measurement_placeholder":"Unit, Sixpack",
+    "measurement_placeholder":"Unit, package, box, etc.",
     "registered_measurement":"Registered measurement unit",
     "forbiden_delete":"This unit of measure cannot be eliminated because it has associated products"
   },
