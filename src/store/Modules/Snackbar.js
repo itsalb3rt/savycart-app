@@ -22,7 +22,7 @@ const snackbar = {
         snackbar.bottom === undefined ? null : snackbar.bottom;
       setTimeout(() => {
         state.snackbar.show = false;
-      }, 2000);
+      }, snackbar.color === 'error' ? 5000 : 2000);
     },
     setSnackbarShow(state, value) {
       state.snackbar.show = value;
