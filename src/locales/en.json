@@ -112,7 +112,9 @@
     "done": "Done",
     "addMeasurementUnit":"Add measurement unit",
     "delete_measurement_unit":"Delete measurement unit",
-    "no_go_back": "No, go back"
+    "no_go_back": "No, go back",
+    "addCategory": "Add category",
+    "delete_category": "Delete category"
   },
   "messages": {
     "save": "Item save",
@@ -142,7 +144,8 @@
     "invalid_token":"the token is not valid, please request a new account recovery email",
     "select_or_add_brand":"Select or write a brand name",
     "measurement_units_description": "Units of measure are the units in which the product is measured, for example, unit, package, box, etc.",
-    "delete_measurement_unit": "Are you sure you want to delete this unit of measure?"
+    "delete_measurement_unit": "Are you sure you want to delete this unit of measure?",
+    "delete_category": "Are you sure you want to delete this category?"
   },
   "category":{
     "name":"Name",

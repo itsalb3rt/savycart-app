@@ -112,7 +112,9 @@
     "done": "Listo",
     "addMeasurementUnit": "Agregar unidad de medida",
     "delete_measurement_unit": "Eliminar unidad de medida",
-    "no_go_back": "No, regresar"
+    "no_go_back": "No, regresar",
+    "addCategory": "Agregar categoria",
+    "delete_category": "Eliminar categoria"
   },
   "messages": {
     "save": "Item guardado",
@@ -142,7 +144,8 @@
     "invalid_token": "El token no es válido, solicite un nuevo correo electrónico de recuperación de cuenta",
     "select_or_add_brand": "Seleccione o escriba el nombre de una marca",
     "measurement_units_description": "Las unidades de medida son las unidades en las que se mide el producto, por ejemplo, unidad, paquete, caja, etc.",
-    "delete_measurement_unit": "¿Estás seguro de que deseas eliminar esta unidad de medida?"
+    "delete_measurement_unit": "¿Estás seguro de que deseas eliminar esta unidad de medida?",
+    "delete_category": "¿Estás seguro de que deseas eliminar esta categoría?"
   },
   "category": {
     "name": "Nombre",
