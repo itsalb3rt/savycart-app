@@ -17,12 +17,12 @@ const snackbar = {
       state.snackbar.message = snackbar.message;
       state.snackbar.color = snackbar.color;
       state.snackbar.top = snackbar.top === undefined ? null : snackbar.top;
-      state.snackbar.showClose = snackbar.showClose === undefined ? true : snackbar.showClose;
+      state.snackbar.showClose = false
       state.snackbar.bottom =
         snackbar.bottom === undefined ? null : snackbar.bottom;
       setTimeout(() => {
         state.snackbar.show = false;
-      }, 5000);
+      }, snackbar.color === 'error' ? 5000 : 2000);
     },
     setSnackbarShow(state, value) {
       state.snackbar.show = value;

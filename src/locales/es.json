@@ -109,7 +109,12 @@
     "cancel": "Cancelar",
     "go_to_resume": "Ir al resumen",
     "action": "Acción",
-    "done": "Listo"
+    "done": "Listo",
+    "addMeasurementUnit": "Agregar unidad de medida",
+    "delete_measurement_unit": "Eliminar unidad de medida",
+    "no_go_back": "No, regresar",
+    "addCategory": "Agregar categoria",
+    "delete_category": "Eliminar categoria"
   },
   "messages": {
     "save": "Item guardado",
@@ -137,11 +142,14 @@
     "password_length": "La contraseña no debe tener menos de",
     "characters": "caracteres",
     "invalid_token": "El token no es válido, solicite un nuevo correo electrónico de recuperación de cuenta",
-    "select_or_add_brand": "Seleccione o escriba el nombre de una marca"
+    "select_or_add_brand": "Seleccione o escriba el nombre de una marca",
+    "measurement_units_description": "Las unidades de medida son las unidades en las que se mide el producto, por ejemplo, unidad, paquete, caja, etc.",
+    "delete_measurement_unit": "¿Estás seguro de que deseas eliminar esta unidad de medida?",
+    "delete_category": "¿Estás seguro de que deseas eliminar esta categoría?"
   },
   "category": {
     "name": "Nombre",
-    "category_description_section": "TLas categorías lo ayudan a realizar análisis más profundos para saber qué categorías consume más",
+    "category_description_section": "Las categorías lo ayudan a realizar análisis más profundos para saber qué categorías consume más",
     "category": "Categoria",
     "category_placeholder": "Gastable, Legumbres",
     "registered_categories": "Categorias registradas",
@@ -150,7 +158,7 @@
   "measurement_unit": {
     "name": "Nombre",
     "measurement": "Unidad de medida",
-    "measurement_placeholder": "Unidad, Sixpack",
+    "measurement_placeholder": "Unidad, Libras, Paquete, Caja, etc.",
     "registered_measurement": "Unidad de medida registrada",
     "forbiden_delete": "Esta unidad de medida no se puede eliminar porque tiene productos asociados."
   },
