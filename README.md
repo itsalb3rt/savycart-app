@@ -11,9 +11,9 @@ Start now [Using the web version](https://sheiley-shop.netlify.app/) to track yo
 
 ---
 <p float="left" align="middle">
- <img src="./docs/demo/1.png" width="200" style="display: inline; border-radius: 4px"/>
- <img src="./docs/demo/2.png" width="200" style="display: inline; border-radius: 4px"/>
- <img src="./docs/demo/3.png" width="200" style="display: inline; border-radius: 4px"/>
+ <img src="./docs/demo/1.jpg" width="200" style="display: inline; border-radius: 4px"/>
+ <img src="./docs/demo/2.jpg" width="200" style="display: inline; border-radius: 4px"/>
+ <img src="./docs/demo/3.jpg" width="200" style="display: inline; border-radius: 4px"/>
 </p>
 
 
