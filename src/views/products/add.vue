@@ -100,6 +100,14 @@ export default {
 				this.$store.commit('products/SET_BRANDS', response.data.data);
 			});
 		}
+
+		if(this.$store.getters['measurementUnits/getAll'].length > 0){
+			this.measurementUnit = this.$store.getters['measurementUnits/getAll'][0].id_unit_measurement;
+		}
+		
+		if(this.$store.getters['categories/getAll'].length > 0){
+			this.category = this.$store.getters['categories/getAll'][0].id_category;
+		}
 	},
 	data() {
 		return {
