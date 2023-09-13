@@ -65,6 +65,7 @@
 				></v-switch>
 				<v-divider></v-divider>
 				<v-textarea
+					rows="3"
 					:label=" $t('products.description') "
 					v-model="description"
 					:placeholder=" $t('products.description_message') "
@@ -104,7 +105,7 @@ export default {
 		if(this.$store.getters['measurementUnits/getAll'].length > 0){
 			this.measurementUnit = this.$store.getters['measurementUnits/getAll'][0].id_unit_measurement;
 		}
-		
+
 		if(this.$store.getters['categories/getAll'].length > 0){
 			this.category = this.$store.getters['categories/getAll'][0].id_category;
 		}
