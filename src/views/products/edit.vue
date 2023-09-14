@@ -61,6 +61,7 @@
 							></v-switch>
 							<v-divider></v-divider>
 							<v-textarea
+								rows="3"
 								:label=" $t('products.description') "
 								v-model="description"
 								:placeholder=" $t('products.description_message') "
