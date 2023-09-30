@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { mount, config } from '@vue/test-utils'
 import vuetify from 'src/plugins/vuetify'
 import addElemWithDataAppToBody from 'tests/mocks/DataAppElement';
@@ -31,4 +31,11 @@ describe('Filter Component', () => {
     expect(wrapper.props().show).toBe(true)
   })
 
+  it('should test handleSort method', ()=>{
+    const handleSortSpy = vi.spyOn(wrapper.vm, "handleSort");
+    wrapper.vm.handleSort()
+    expect(handleSortSpy).toHaveBeenCalled()
+    expect(wrapper.emitted('filter')).toBeTruthy();
+    expect(wrapper.vm.localShow).toBe(false);
+  })
 })

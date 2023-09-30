@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { mount, config } from '@vue/test-utils';
 import vuetify from 'src/plugins/vuetify';
 import addElemWithDataAppToBody from 'tests/mocks/DataAppElement';
@@ -43,5 +43,35 @@ describe('Shop Resume Component', () => {
     expect(wrapper.find('.go-to-resume').exists()).toBe(true);
     expect(wrapper.find('.go-to-resume').text()).toBe('call_action_buttons.go_to_resume');
   })
+
+  it("should test getTotalInNumberFormat",()=>{
+    const getTotalInNumberFormatSpy = vi.spyOn(
+      wrapper.vm,
+      "getTotalInNumberFormat"
+    );
+    const result = wrapper.vm.getTotalInNumberFormat()
+    expect(getTotalInNumberFormatSpy).toHaveBeenCalled();
+    expect(result).toEqual("1,018");
+  });
+
+  it("should test getTotalTaxInNumberFormat", () => {
+    const getTotalTaxInNumberFormatSpy = vi.spyOn(
+      wrapper.vm,
+      "getTotalTaxInNumberFormat"
+    );
+    const result = wrapper.vm.getTotalTaxInNumberFormat();
+    expect(getTotalTaxInNumberFormatSpy).toHaveBeenCalled();
+    expect(result).toEqual("18");
+  });
+
+  it("should test getSubTotalInNumberFormat", () => {
+    const getSubTotalInNumberFormatSpy = vi.spyOn(
+      wrapper.vm,
+      "getSubTotalInNumberFormat"
+    );
+    const result = wrapper.vm.getSubTotalInNumberFormat();
+    expect(getSubTotalInNumberFormatSpy).toHaveBeenCalled();
+    expect(result).toEqual("1,000");
+  });
 
 })
