@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { mount, config, createLocalVue } from '@vue/test-utils'
 import vuetify from 'src/plugins/vuetify'
 import addElemWithDataAppToBody from 'tests/mocks/DataAppElement';
@@ -72,5 +72,22 @@ describe('Purchase Product Component', () => {
     expect(wrapper.props().currency).toBeTruthy()
     expect(wrapper.props().currency.symbol).toBe('R$')
   })
+
+  it("should test increment method",()=>{
+    wrapper.vm.localQuantity = 0
+    const incrementSpy = vi.spyOn(wrapper.vm, "increment");
+    wrapper.vm.increment()
+    expect(incrementSpy).toHaveBeenCalled()
+    expect(wrapper.vm.localQuantity).toEqual(1)
+  });
+
+  it("should test decrement method", async() => {
+    wrapper.vm.localQuantity = 2;
+    const decrementSpy = vi.spyOn(wrapper.vm, "decrement");
+    wrapper.vm.decrement();
+    await wrapper.vm.$nextTick()
+    expect(decrementSpy).toHaveBeenCalled();
+    expect(wrapper.vm.localQuantity).toEqual(1);
+  });
 
 })
