@@ -40,7 +40,7 @@ const wrapperFactory = () => mount(ListProduct, {
     },
     loadingFavorite: false,
     currency: {
-      symbol: 'R$',
+      symbol: 'R$', 
     }
   }
 })
@@ -72,5 +72,16 @@ describe('List Product Component', () => {
     expect(wrapper.props().currency).toBeTruthy()
     expect(wrapper.props().currency.symbol).toBe('R$')
   })
+  
+  it('should be emit on-edit event', async () => {
+    await wrapper.find('.edit').trigger('click')
+    expect(wrapper.emitted('on-edit')).toBeTruthy()
+  })
+
+  it('should be emit view-details event', async () => {
+    await wrapper.find('span').trigger('click')
+    expect(wrapper.emitted('view-details')).toBeTruthy()
+  })
+
 
 })
