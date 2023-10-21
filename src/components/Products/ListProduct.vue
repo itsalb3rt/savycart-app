@@ -40,6 +40,7 @@
 			depressed
 			outlined
 			@click="$emit('on-edit', product)"
+			class="edit"
 		>
 			<v-icon class="mr-1">fa-edit</v-icon>
 			{{ $t('call_action_buttons.edit') }}
