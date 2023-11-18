@@ -27,7 +27,7 @@ This is and PWA, IOS, and andriod (using capacitor) APP, to contribute to the pr
 ## Frontend
 
 ```bash
-git clone https://github.com/itsalb3rt/sheiley_shop_app.git
+git clone https://github.com/itsalb3rt/savycart-app.git
 ```
 
 ```bash
