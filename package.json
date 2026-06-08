@@ -57,7 +57,7 @@
     "sass": "^1.56.0",
     "unplugin-vue-components": "^0.22.9",
     "vite-plugin-vuetify": "^1.0.0",
-    "vitest": "^0.24.5",
+    "vitest": "^3.2.6",
     "vue-cli-plugin-fontawesome": "^0.2.0",
     "vue-cli-plugin-i18n": "^0.6.1",
     "vue-cli-plugin-vuetify": "^0.5.0",
