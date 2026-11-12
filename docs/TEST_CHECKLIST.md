@@ -2,7 +2,7 @@
 
 > **Purpose:** Systematic manual testing of the SavyCart app using Browser MCP.  
 > **Created:** 2026-11-12  
-> **Status:** Live Testing Complete (no backend API) — ~82 items verified
+> **Status:** Live Testing Complete (no backend API) — ~85 items verified
 > **Test Environment:** `yarn serve` on `http://localhost:8080`  
 > **Backend API:** `http://localhost:5018/sheiley-shop-api` (dev)  
 
@@ -31,6 +31,7 @@
 - [x] Password field is functional with show/hide toggle
 - [x] "Forgot your password?" link navigates to `/auth/recovery` (Bug #33 fix verified)
 - [x] "Create an account" link navigates to `/register`
+- [x] Form validation works (submit button disabled when fields are empty, Bug #40 fix)
 - [ ] Login button submits form (requires backend)
 - [ ] Invalid credentials show error message (requires backend)
 - [ ] Valid credentials redirect to `/product/list` and store token in localStorage (requires backend)
@@ -40,6 +41,7 @@
 - [x] Page loads correctly with registration form
 - [x] All required fields are present (name, email, password, confirm password)
 - [x] Form validation works for empty/invalid fields (submit button disabled when invalid)
+- [x] Password confirmation validation works (submit button disabled when passwords mismatch, Bug #39 fix)
 - [ ] Successful registration shows confirmation or redirects to login (requires backend)
 - [ ] Duplicate email/username shows error message (requires backend)
 - [x] Console errors check
@@ -47,6 +49,7 @@
 ### Password Recovery - Step 1 (`/auth/recovery`)
 - [x] Page loads correctly
 - [x] Email input field is present
+- [x] Form validation works (submit button disabled when email is empty, Bug #41 fix)
 - [ ] Submit button sends recovery request (requires backend)
 - [ ] Invalid email shows error (requires backend)
 - [ ] Valid email shows success message and/or redirects to step 2 (requires backend)
@@ -589,3 +592,21 @@
   1. Commit the TEST_CHECKLIST.md changes
   2. Start the backend API (`itsalb3rt/sheiley-shop-api` on `http://localhost:5018`) to complete the remaining ~18 checkboxes
   3. Manual testing for swipe gesture on a real device
+
+### Session 14 - 2026-11-12 (Live Browser Testing — Session 6, Form Validation Bugs)
+- **Continued live browser testing** with the app running on `http://localhost:8080`.
+- **Found and fixed 3 form validation bugs:**
+  - **Bug #39 (Medium):** `register.vue` — Submit button did not check if passwords match. Added `|| newUser.password !== newUser.password2` to the button's disabled condition. Now the button disables when passwords mismatch.
+  - **Bug #40 (Medium):** `login.vue` — Submit button was always enabled regardless of empty fields. Added `|| userName === '' || password === ''` to the disabled condition.
+  - **Bug #41 (Medium):** `recoveryAccount.vue` — Submit button was always enabled regardless of empty email. Added `:disabled="loading || email === ''"` to the button.
+- **All 3 fixes verified live** via Browser MCP: buttons correctly disable on empty/mismatched input and enable when valid.
+- **Pattern:** All 3 auth pages had the same root cause — submit buttons only checked `loading` state, not field validity. Register was the only one with partial validation (empty check, but no match check).
+- **All 46 unit tests pass** (11 test files).
+- **Total bugs fixed:** 41 across all sessions (except #1 — permissions policy violation, non-actionable).
+- **Checked items total:** ~85 out of ~100 checkboxes.
+- **Remaining ~15 checkboxes require:**
+  - Running backend API for authentication flow, CRUD operations, and API-dependent features
+  - Manual testing for: swipe gesture (hammer.js)
+- **Next:**
+  1. Commit the changes
+  2. Start the backend API (`itsalb3rt/sheiley-shop-api` on `http://localhost:5018`) to complete the remaining ~15 checkboxes

@@ -41,7 +41,7 @@
 						<v-btn
 							type="submit"
 							color="success"
-       :disabled="userExists === true || emailExists === true || disabledSubmitButton === true || newUser.fullname === '' || newUser.email === '' || newUser.password === '' || newUser.password2 === ''"
+       :disabled="userExists === true || emailExists === true || disabledSubmitButton === true || newUser.fullname === '' || newUser.email === '' || newUser.password === '' || newUser.password2 === '' || newUser.password !== newUser.password2"
 							block
 						>{{ $t('auth.create_an_account') }}</v-btn>
 					</v-col>

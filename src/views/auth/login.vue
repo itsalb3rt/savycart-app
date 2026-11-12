@@ -35,7 +35,7 @@
 						>{{ $t('auth.forgot_your_password') }}</v-btn>
 					</v-col>
 					<v-col cols="12">
-						<v-btn :disabled="loading" color="primary" type="submit" block>{{ $t('auth.login') }}</v-btn>
+						<v-btn :disabled="loading || userName === '' || password === ''" color="primary" type="submit" block>{{ $t('auth.login') }}</v-btn>
 					</v-col>
 					<v-col cols="12" class="pt-3">
 						<v-btn color="primary" text to="/register">{{ $t('auth.create_an_account') }}</v-btn>

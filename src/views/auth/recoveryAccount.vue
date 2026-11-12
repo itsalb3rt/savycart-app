@@ -43,7 +43,7 @@
 							></v-text-field>
 						</v-col>
 						<v-col cols="12">
-							<v-btn :loading="loading" color="success" type="submit" block>{{ $t('auth.recovery_title') }}</v-btn>
+							<v-btn :loading="loading" :disabled="loading || email === ''" color="success" type="submit" block>{{ $t('auth.recovery_title') }}</v-btn>
 						</v-col>
 						<v-col cols="12" class="pt-3">
 							<v-btn
