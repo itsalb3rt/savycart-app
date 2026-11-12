@@ -101,11 +101,13 @@ export default {
 	},
 	computed: {
 		passwordMatch() {
+			if (this.passwordReset.password === '' || this.passwordReset.password_confirm === '') {
+				return false;
+			}
 			if (this.passwordReset.password !== this.passwordReset.password_confirm) {
 				return false;
-			} else {
-				return true;
 			}
+			return true;
 		}
 	},
 	methods: {

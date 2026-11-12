@@ -2,7 +2,7 @@
 
 > **Purpose:** Systematic manual testing of the SavyCart app using Browser MCP.  
 > **Created:** 2026-11-12  
-> **Status:** Live Testing Complete (no backend API) — ~85 items verified
+> **Status:** Live Testing Complete (no backend API) — ~86 items verified
 > **Test Environment:** `yarn serve` on `http://localhost:8080`  
 > **Backend API:** `http://localhost:5018/sheiley-shop-api` (dev)  
 
@@ -58,7 +58,8 @@
 ### Password Recovery - Step 2 (`/auth/recoverypassword`)
 - [x] Page loads correctly (requires `?token=` query parameter; redirects to `/login` without it — expected behavior)
 - [x] New password fields are present (Password + Confirm password with show/hide toggles)
-- [x] Password confirmation validation works (submit button disabled when passwords mismatch)
+- [x] Password confirmation validation works (submit button disabled when passwords mismatch, Bug #42 fix)
+- [x] Form validation works (submit button disabled when fields are empty, Bug #42 fix)
 - [ ] Submit updates password successfully (requires backend)
 - [ ] Success redirects to login page (requires backend)
 - [x] Console errors check (only network errors from missing backend)
@@ -290,6 +291,7 @@
 | 36 | 2026-11-12 | `/settings` | `src/views/miscellany/settings.vue:149-151` | `getTax` catch handler only logs errors without showing snackbar notification; user sees no feedback on API failure. **Fixed:** Added snackbar error message. | Medium | **Fixed** |
 | 37 | 2026-11-12 | `/settings` | `src/views/miscellany/settings.vue:175-185` | `saveCurrency` has no `.catch()` handler; if saving the preferred currency fails, the user sees no error feedback. **Fixed:** Added `.catch()` with snackbar error message. | Medium | **Fixed** |
 | 38 | 2026-11-12 | `/settings` | `src/views/miscellany/settings.vue:89-118` | **Loading overlay stuck** — `mounted()` mixes `async/await` with `.then()` and has no error handling; if `getCurrencies()` or `getPreferredCurrency()` throws, `isLoading` never resets. **Fixed:** Wrapped in try/catch/finally, converted `.then()` to `await`, added null check for currencies response. | High | **Fixed** |
+| 42 | 2026-11-12 | `/auth/recoverypassword` | `src/views/auth/recoveryAccountNewPassword.vue:103-109` | Submit button was enabled when both password fields were empty — `passwordMatch` computed property only checked equality (`'' === ''` returns `true`). **Fixed:** Added empty string check before comparison. | Medium | **Fixed** |
 
 ### Files with `error.response.status` without null check (will crash on network errors):
 
@@ -610,3 +612,19 @@
 - **Next:**
   1. Commit the changes
   2. Start the backend API (`itsalb3rt/sheiley-shop-api` on `http://localhost:5018`) to complete the remaining ~15 checkboxes
+
+### Session 15 - 2026-11-12 (Live Browser Testing — Session 7, Form Validation Bug)
+- **Continued live browser testing** with the app running on `http://localhost:8080`.
+- **Re-verified all form validation fixes from Session 14:** Bugs #39–#41 confirmed working correctly.
+- **Found and fixed 1 new form validation bug:**
+  - **Bug #42 (Medium):** `recoveryAccountNewPassword.vue` — Submit button was enabled when both password fields were empty. The `passwordMatch` computed property only checked equality (`'' === ''` returns `true`), so empty passwords were considered "matching". **Fixed:** Added empty string check before comparison.
+- **Bug #42 verified live** via Browser MCP: button disabled on empty fields, enabled on matching passwords, disabled on mismatched passwords.
+- **All 46 unit tests pass** (11 test files).
+- **Total bugs fixed:** 42 across all sessions (except #1 — permissions policy violation, non-actionable).
+- **Checked items total:** ~86 out of ~100 checkboxes.
+- **Remaining ~14 checkboxes require:**
+  - Running backend API for authentication flow, CRUD operations, and API-dependent features
+  - Manual testing for: swipe gesture (hammer.js)
+- **Next:**
+  1. Commit the changes
+  2. Start the backend API (`itsalb3rt/sheiley-shop-api` on `http://localhost:5018`) to complete the remaining ~14 checkboxes
