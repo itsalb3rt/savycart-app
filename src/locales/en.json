@@ -14,7 +14,8 @@
     "settings": "Settings",
     "view_purchase": "View purchase",
     "user_profile": "Profile",
-    "recovery_account": "Recovery account"
+    "recovery_account": "Recovery account",
+    "about": "About"
   },
   "nav": {
     "my_list": "My list",
@@ -171,5 +172,15 @@
     "tax": "Tax",
     "tax_description": "The TAX is the tax applied to all products that are marked to apply this, the amount is based on percentage (%).",
     "language": "Language"
+  },
+  "about": {
+    "description": "SavyCart is a shopping registration application that helps you track your purchases, manage products, and analyze your spending habits.",
+    "features": "Features",
+    "feature_products": "Product management with categories and measurement units",
+    "feature_shopping": "Shopping cart and purchase registration",
+    "feature_categories": "Organize products with custom categories",
+    "feature_history": "View and analyze your purchase history",
+    "feature_analysis": "Track spending by category and establishment",
+    "version": "Version"
   }
 }

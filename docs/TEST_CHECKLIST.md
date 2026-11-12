@@ -249,9 +249,10 @@
 | 4 | 2026-11-12 | `/register` | `src/views/auth/register.vue:120` | `error.response.data` accessed without checking `error.response` exists. **Fixed:** Added optional chaining `error.response?.data?.errors`. | **Critical** | **Fixed** |
 | 5 | 2026-11-12 | All authenticated API calls | `src/api/HttpClient.js:25` | **CRASH** - Response interceptor accesses `error.response.status` without null check. **Fixed:** Added optional chaining `error.response?.status`. | **Critical** | **Fixed** |
 | 6 | 2026-11-12 | Multiple pages | See below | Same `error.response.status` pattern (no null check) in 7+ files. **Fixed:** All 6 files updated with optional chaining. | **Critical** | **Fixed** |
-| 7 | 2026-11-12 | `/nonexistent` → `/login` | `src/router.js:229-32` | Page title shows "My list" instead of "Login" after catch-all redirect chain. Title is set by intermediate `/product/list` route and never updated after guard redirects to `/login`. | Low | Open |
-| 8 | 2026-11-12 | `/about` | `src/views/About.vue` | Page is a placeholder with only "This is an about page". Page title is generic "sheiley_shop_app". Needs content. | Low | Open |
+| 7 | 2026-11-12 | `/nonexistent` → `/login` | `src/router.js:224-26` | Page title shows "My list" instead of "Login" after catch-all redirect chain. Title is set by intermediate `/product/list` route and never updated after guard redirects to `/login`. **Fixed:** Added `document.title = i18n.t('page_titles.login')` before `next('/login')`. | Low | **Fixed** |
+| 8 | 2026-11-12 | `/about` | `src/views/About.vue` | Page is a placeholder with only "This is an about page". Page title is generic "sheiley_shop_app". Needs content. **Fixed:** Added full page content with description, features list, version info, and i18n translations (en/es). Added `meta.title` to route. | Low | **Fixed** |
 | 9 | 2026-11-12 | `/register` | `src/views/auth/register.vue:80` | Typo: variable named `userExitst` instead of `userExists`. Also `emailExits` instead of `emailExists`. **Fixed:** Renamed all occurrences. | Low | **Fixed** |
+| 10 | 2026-11-12 | `/auth/recovery` | `src/views/auth/recoveryAccount.vue:109-111` | **REGRESSION** — `recoveryWasRequested = true` was removed from `.finally()` in uncommitted changes, so the success screen (checkmark + message) never displays after a valid recovery request. **Fixed:** Added `.then()` handler to set `recoveryWasRequested = true` on success. | High | **Fixed** |
 
 ### Files with `error.response.status` without null check (will crash on network errors):
 
@@ -303,3 +304,24 @@
 - **Next:**
   1. Start the backend API (`itsalb3rt/sheiley-shop-api`) to continue testing authenticated pages
   2. Continue from "📦 Products Module → Product List" section
+
+### Session 3 - 2026-11-12
+- **Reviewed latest commits:** UI refactoring (PageHeader, EmptyState components), code structure refactoring, dependency updates
+- **Verified uncommitted changes from previous session:**
+  - Bug #7 fix: `router.js` — sets login page title before redirect from unknown routes ✓
+  - Bug #8 fix: `About.vue` — full page content with i18n (en/es), route meta title ✓
+  - `recoveryAccount.vue` — network error snackbar added ✓
+- **Found and fixed Bug #10 (REGRESSION):** `recoveryAccount.vue` — `recoveryWasRequested = true` was removed from `.finally()`, so the success screen never displayed. Fixed by adding `.then()` handler.
+- **Verified all error handling fixes:** All 9 `error.response?.status` locations confirmed with optional chaining. No remaining unsafe patterns.
+- **Reviewed `products/list.vue`:** No issues found — proper error handling, loading states, empty states.
+- **Ran tests:** All 46 tests pass (11 test files).
+- **All bugs now Fixed** (except #1 — permissions policy violation, noted as non-actionable).
+- **Uncommitted changes summary:**
+  - `src/router.js` — Bug #7 fix
+  - `src/views/About.vue` — Bug #8 fix
+  - `src/locales/en.json` — About page translations (en)
+  - `src/locales/es.json` — About page translations (es)
+  - `src/views/auth/recoveryAccount.vue` — Network error handler + Bug #10 fix
+- **Next:**
+  1. Commit the uncommitted changes
+  2. Start the backend API to test authenticated pages (Products, Shopping, Analysis modules)

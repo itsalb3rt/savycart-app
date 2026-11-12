@@ -14,7 +14,8 @@
     "settings": "Ajustes",
     "view_purchase": "Ver compra",
     "user_profile": "Perfil",
-    "recovery_account": "Recuperar cuenta"
+    "recovery_account": "Recuperar cuenta",
+    "about": "Acerca de"
   },
   "nav": {
     "my_list": "Mi lista",
@@ -170,5 +171,15 @@
     "tax": "Impuesto",
     "tax_description": "El IMPUESTO es el impuesto aplicado a todos los productos que están marcados para aplicar esto, el monto se basa en el porcentaje (%).",
     "language": "Idioma"
+  },
+  "about": {
+    "description": "SavyCart es una aplicación de registro de compras que te ayuda a rastrear tus compras, gestionar productos y analizar tus hábitos de gasto.",
+    "features": "Características",
+    "feature_products": "Gestión de productos con categorías y unidades de medida",
+    "feature_shopping": "Carrito de compras y registro de compras",
+    "feature_categories": "Organiza productos con categorías personalizadas",
+    "feature_history": "Visualiza y analiza tu historial de compras",
+    "feature_analysis": "Rastrea gastos por categoría y establecimiento",
+    "version": "Versión"
   }
 }

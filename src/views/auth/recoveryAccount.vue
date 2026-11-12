@@ -95,9 +95,22 @@ export default {
 
 			this.$store
 				.dispatch('auth/recoveryAccount', { email: this.email })
+				.then(() => {
+					this.recoveryWasRequested = true;
+				})
+				.catch(error => {
+					console.log('recoveryAccount -> error', error);
+					if (!error.response) {
+						this.$store.commit('snackbar/setSnackbar', {
+							show: true,
+							message: this.$t('messages.server_error'),
+							color: 'error',
+							top: true
+						});
+					}
+				})
 				.finally(() => {
 					this.loading = false;
-					this.recoveryWasRequested = true;
 				});
 		}
 	}

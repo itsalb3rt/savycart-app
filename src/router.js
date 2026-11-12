@@ -35,7 +35,10 @@ const router = new Router({
   {
     path: '/about',
     name: 'about',
-    component: () => import( /* webpackChunkName: "about" */ '@/views/About.vue')
+    component: () => import( /* webpackChunkName: "about" */ '@/views/About.vue'),
+    meta: {
+      title: i18n.t('page_titles.about')
+    }
   },
   {
     path: '/login',
@@ -218,11 +221,14 @@ router.beforeEach((to, from, next) => {
 
   if (authRequired) {
     if (token === null) {
+      // Set the login page title before redirecting, so the page title
+      // is correct when the user is redirected from an unknown route.
+      document.title = i18n.t('page_titles.login');
       next('/login');
+      return;
     } else {
       store.commit('auth/SET_USER', user);
       store.commit('auth/SET_LOGGED', true);
-      next();
     }
   }
 
