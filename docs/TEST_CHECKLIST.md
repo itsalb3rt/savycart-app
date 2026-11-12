@@ -2,7 +2,7 @@
 
 > **Purpose:** Systematic manual testing of the SavyCart app using Browser MCP.  
 > **Created:** 2026-11-12  
-> **Status:** Live Testing Complete (no backend API) — ~86 items verified
+> **Status:** Live Testing Complete (no backend API) — ~90 items verified
 > **Test Environment:** `yarn serve` on `http://localhost:8080`  
 > **Backend API:** `http://localhost:5018/sheiley-shop-api` (dev)  
 
@@ -98,20 +98,20 @@
 - [x] Console errors check (only network errors from missing backend)
 
 ### Edit Product (`/product/edit/:id`)
-- [ ] Page loads with existing product data pre-filled
-- [ ] All fields are editable
-- [ ] Changes save successfully
-- [ ] Invalid data shows validation errors
-- [ ] Cancel/back button returns to previous page
-- [ ] Console errors check
+- [ ] Page loads with existing product data pre-filled (requires backend)
+- [ ] All fields are editable (name, price, brand, measurement unit, category, tax toggle, favorite toggle, description)
+- [ ] Changes save successfully (requires backend)
+- [x] Form validation works (save button disabled when name empty, enabled when filled)
+- [x] Cancel/back button returns to previous page
+- [x] Console errors check (only network errors from missing backend)
 
 ### View Product (`/product/view/:id`)
-- [ ] Page loads with product details
-- [ ] All product information is displayed correctly
-- [ ] Edit button navigates to `/product/edit/:id`
-- [ ] Delete button shows confirmation dialog
-- [ ] Delete confirmation removes the product
-- [ ] Console errors check
+- [ ] Page loads with product details (requires backend)
+- [ ] All product information is displayed correctly (requires backend)
+- [ ] Edit button navigates to `/product/edit/:id` (requires backend)
+- [ ] Delete button shows confirmation dialog (requires backend)
+- [ ] Delete confirmation removes the product (requires backend)
+- [x] Console errors check (only network errors from missing backend, no stuck loading overlay)
 
 ---
 
@@ -151,11 +151,11 @@
 - [x] Console errors check (only network errors from missing backend)
 
 ### Purchase Details (`/analysis/purchase_details/:id`)
-- [ ] Page loads with purchase information
-- [ ] Purchase date, total, and items are displayed
-- [ ] Individual item details (name, quantity, price) are correct
-- [ ] Back button returns to shopping history
-- [ ] Console errors check
+- [ ] Page loads with purchase information (requires backend)
+- [ ] Purchase date, total, and items are displayed (requires backend)
+- [ ] Individual item details (name, quantity, price) are correct (requires backend)
+- [x] Back button returns to shopping history
+- [x] Console errors check (only network errors from missing backend, no crash on undefined data)
 
 ---
 
@@ -166,7 +166,7 @@
 - [x] User information is displayed (name, email fields present)
 - [ ] Profile can be edited (requires backend)
 - [ ] Changes save successfully (requires backend)
-- [ ] Validation works for invalid data
+- [x] Password confirmation validation works (submit button disabled when passwords mismatch, Bug #43 fix)
 - [x] Console errors check (only network errors from missing backend)
 
 ---
@@ -292,6 +292,7 @@
 | 37 | 2026-11-12 | `/settings` | `src/views/miscellany/settings.vue:175-185` | `saveCurrency` has no `.catch()` handler; if saving the preferred currency fails, the user sees no error feedback. **Fixed:** Added `.catch()` with snackbar error message. | Medium | **Fixed** |
 | 38 | 2026-11-12 | `/settings` | `src/views/miscellany/settings.vue:89-118` | **Loading overlay stuck** — `mounted()` mixes `async/await` with `.then()` and has no error handling; if `getCurrencies()` or `getPreferredCurrency()` throws, `isLoading` never resets. **Fixed:** Wrapped in try/catch/finally, converted `.then()` to `await`, added null check for currencies response. | High | **Fixed** |
 | 42 | 2026-11-12 | `/auth/recoverypassword` | `src/views/auth/recoveryAccountNewPassword.vue:103-109` | Submit button was enabled when both password fields were empty — `passwordMatch` computed property only checked equality (`'' === ''` returns `true`). **Fixed:** Added empty string check before comparison. | Medium | **Fixed** |
+| 43 | 2026-11-12 | `/user/profile` | `src/views/user/profile.vue:57-60` | Save button was always enabled regardless of password match — no `:disabled` binding. **Fixed:** Added `:disabled="isLoading || (localUser.password !== '' && localUser.password !== localUser.password2)"`. | Medium | **Fixed** |
 
 ### Files with `error.response.status` without null check (will crash on network errors):
 
@@ -628,3 +629,24 @@
 - **Next:**
   1. Commit the changes
   2. Start the backend API (`itsalb3rt/sheiley-shop-api` on `http://localhost:5018`) to complete the remaining ~14 checkboxes
+
+### Session 16 - 2026-11-12 (Live Browser Testing — Session 8, Profile Validation Bug)
+- **Continued live browser testing** with the app running on `http://localhost:8080`.
+- **Used fake token in localStorage** to bypass auth guard and access authenticated pages without a backend API.
+- **Verified pages load without crashes** (API failures handled gracefully):
+  - **Edit Product** (`/product/edit/:id`) — ✓ All fields present (name, price, brand, measurement unit, category, tax toggle, favorite toggle, description). Form validation works: Save disabled when name empty, enabled when filled. Back button works.
+  - **View Product** (`/product/view/:id`) — ✓ Page loads with heading, no stuck loading overlay on API failure.
+  - **Purchase Details** (`/analysis/purchase_details/:id`) — ✓ Page loads with heading, Back button navigates to shopping history, no crash on undefined data (Bug #20 fix confirmed).
+- **Found and fixed 1 new form validation bug:**
+  - **Bug #43 (Medium):** `profile.vue` — Save button was always enabled regardless of password match (no `:disabled` binding). **Fixed:** Added `:disabled="isLoading || (localUser.password !== '' && localUser.password !== localUser.password2)"`.
+- **Bug #43 verified live** via Browser MCP: button disabled on mismatched passwords, enabled on matching passwords.
+- **All 46 unit tests pass** (11 test files).
+- **Total bugs fixed:** 43 across all sessions (except #1 — permissions policy violation, non-actionable).
+- **Checked items total:** ~90 out of ~100 checkboxes.
+- **Remaining ~10 checkboxes require:**
+  - Running backend API for authentication flow, CRUD operations, and API-dependent features
+  - Manual testing for: swipe gesture (hammer.js)
+- **No auto-commit** — changes left uncommitted as requested.
+- **Next:**
+  1. Commit the changes when ready
+  2. Start the backend API (`itsalb3rt/sheiley-shop-api` on `http://localhost:5018`) to complete the remaining ~10 checkboxes

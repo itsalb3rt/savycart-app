@@ -54,10 +54,10 @@
 								placeholder="********"
 								required
 							></v-text-field>
-							<v-btn color="primary" @click="updateUser()">
-								<v-icon class="mr-2">fa-save</v-icon>
-								{{ $t('call_action_buttons.save') }}
-							</v-btn>
+ 						<v-btn color="primary" :disabled="isLoading || (localUser.password !== '' && localUser.password !== localUser.password2)" @click="updateUser()">
+ 							<v-icon class="mr-2">fa-save</v-icon>
+ 							{{ $t('call_action_buttons.save') }}
+ 						</v-btn>
 						</div>
 					</section>
 				</v-form>
