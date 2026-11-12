@@ -96,7 +96,6 @@ import { mapState } from 'vuex';
 import Loading from 'vue-loading-overlay';
 import OfflineInfomation from '@/components/Offline/OfflineInformation';
 import PageHeader from '@/components/Interface/PageHeader';
-import { setTimeout } from 'timers';
 
 export default {
 	name: 'ProductEdit',
