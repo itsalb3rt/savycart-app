@@ -1,34 +1,34 @@
 <template>
 	<div>
+		<page-header :title="$t('page_titles.view_purchase')" />
 		<v-row v-if="purchaseDetails.establishment">
 			<v-col cols="12">
-				<strong>{{ $t('shopping_car.name_establishment') }}</strong>
-				<p>
-					{{purchaseDetails.establishment.name}}
-					<v-btn small class="float-right" @click="dialogShowConfirmDelete = true" text color="error">
-						<v-icon small class="mr-2">fa-trash</v-icon>
-						{{ $t('call_action_buttons.delete') }}
-					</v-btn>
-				</p>
-			</v-col>
-			<v-col cols="12">
-				<div>
-					<strong>{{ $t('shop.purchase') }} #</strong>
-					{{purchaseDetails.purchase.id_purchase}}
-				</div>
-				<div>
-					<strong>{{ $t('messages.date') }}</strong>
-					{{purchaseDetails.purchase.create_at}}
-				</div>
+				<dl class="detail-grid">
+					<div class="detail-grid__row">
+						<dt>{{ $t('shopping_car.name_establishment') }}</dt>
+						<dd class="purchase-details__establishment">
+							<span>{{purchaseDetails.establishment.name}}</span>
+							<v-btn small text color="error" class="purchase-details__delete" @click="dialogShowConfirmDelete = true">
+								<v-icon small class="mr-2">fa-trash</v-icon>
+								{{ $t('call_action_buttons.delete') }}
+							</v-btn>
+						</dd>
+					</div>
+					<div class="detail-grid__row">
+						<dt>{{ $t('shop.purchase') }} #</dt>
+						<dd class="num">{{purchaseDetails.purchase.id_purchase}}</dd>
+					</div>
+					<div class="detail-grid__row">
+						<dt>{{ $t('messages.date') }}</dt>
+						<dd>{{purchaseDetails.purchase.create_at}}</dd>
+					</div>
+				</dl>
 			</v-col>
 			<v-col cols="12">
 				<v-divider></v-divider>
 			</v-col>
 			<v-col cols="12">
 				<div
-					row
-					wrap
-					align-center
 					v-for="(purchase,index) in purchaseDetails.purchase_details"
 					:key="index"
 				>
@@ -39,33 +39,29 @@
 			<v-col cols="12">
 				<v-divider></v-divider>
 			</v-col>
-			<v-col cols="6">
-				<div class="mt-2 mb-2">
-					<strong>{{ $t('messages.sub_total') }}</strong>
-				</div>
-				<div class="mt-2 mb-2">
-					<strong>{{ $t('products.tax') }}</strong>
-				</div>
-				<div class="mt-2 mb-2">
-					<strong>{{ $t('messages.total') }}</strong>
-				</div>
-			</v-col>
-			<v-col cols="6">
-				<div class="mt-2 mb-2">{{currency.symbol}} {{numberFormat(subTotal)}}</div>
-				<div class="mt-2 mb-2">{{currency.symbol}} {{numberFormat(itbis)}}</div>
-				<div class="mt-2 mb-2">
-					<span
-						class="primary--text font-weight-bold"
-					>{{currency.symbol}} {{numberFormat(totalPurchasePrice)}}</span>
-				</div>
+			<v-col cols="12">
+				<dl class="detail-grid purchase-totals">
+					<div class="detail-grid__row">
+						<dt>{{ $t('messages.sub_total') }}</dt>
+						<dd class="num">{{currency.symbol}} {{numberFormat(subTotal)}}</dd>
+					</div>
+					<div class="detail-grid__row">
+						<dt>{{ $t('products.tax') }}</dt>
+						<dd class="num">{{currency.symbol}} {{numberFormat(itbis)}}</dd>
+					</div>
+					<div class="detail-grid__row detail-grid__row--total">
+						<dt>{{ $t('messages.total') }}</dt>
+						<dd class="num">{{currency.symbol}} {{numberFormat(totalPurchasePrice)}}</dd>
+					</div>
+				</dl>
 			</v-col>
 		</v-row>
 		<v-row v-else>
 			<v-col cols="12">
-				<h1 class="mt-10 pt-10">
-					<v-icon large class="mr-2">fa-magic</v-icon>
-					{{ $t('messages.nothing_to_display') }}
-				</h1>
+				<empty-state
+					icon="fa-magic"
+					:title="$t('messages.nothing_to_display')"
+				/>
 			</v-col>
 		</v-row>
 		<delete-dialog
@@ -81,10 +77,12 @@ import { mapState } from 'vuex';
 import currencies from '@/mixins/miscellany/currencies';
 import deleteDialog from '@/components/Interface/Dialogs/Delete';
 import PurchasedProduct from '@/components/Products/PurchasedProduct';
+import PageHeader from '@/components/Interface/PageHeader';
+import EmptyState from '@/components/Interface/EmptyState';
 
 export default {
 	mixins: [currencies],
-	components: { deleteDialog, PurchasedProduct },
+	components: { deleteDialog, PurchasedProduct, PageHeader, EmptyState },
 	async mounted() {
 		this.requestPurchaseDetails();
 		this.currency = await this.getPreferredCurrency();
@@ -155,29 +153,34 @@ export default {
 </script>
 
 <style>
-.product-details-container {
-	margin: 20px auto;
-}
-.product-details-container > div {
-	margin: 10px auto;
-	padding: 10px 0px;
-	border-bottom: 2px solid var(--light-grey);
-}
-.quantity-indicator {
-	color: var(--grey);
-	font-weight: bold;
-}
-.final-price-details {
-	border-bottom: 2px solid var(--light-grey);
+.purchase-details__establishment {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
 }
 
-.final-price-details .data > div {
-	margin: 10px auto;
+.purchase-details__delete {
+	flex-shrink: 0;
+}
+
+.purchase-totals .detail-grid__row {
+	grid-template-columns: 1fr auto;
+}
+
+.purchase-totals dd {
 	text-align: right;
 }
 
-.head-details .data > div,
-.head-details .data > div > div {
-	margin: 10px auto;
+.purchase-totals .detail-grid__row--total dt {
+	color: var(--text);
+	font-weight: 600;
+	font-size: var(--fs-body);
+}
+
+.purchase-totals .detail-grid__row--total dd {
+	font-size: var(--fs-section);
+	font-weight: 600;
 }
 </style>
+

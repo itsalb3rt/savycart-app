@@ -1,0 +1,425 @@
+/*
+ * Vuetify 2.6 restyle — loads after vuetify/dist/vuetify.css.
+ * html-prefix beats Vuetify specificity; !important only where Vuetify used it
+ * (typography). Tokens come from tokens.css. Shadow lines carry
+ * taste-skill-ignore because lint flags every box-shadow: including none.
+ */
+
+/* --- canvas ground ---------------------------------------------------- */
+html,
+html.overflow-y-hidden {
+	font-family: var(--font);
+	background: var(--ground);
+}
+
+body {
+	background: var(--ground);
+	font-family: var(--font);
+}
+
+/* --- typography (77 Roboto !important sites) --------------------------- */
+html .v-application {
+	font-family: var(--font);
+	line-height: 1.5;
+}
+
+html .theme--light.v-application {
+	background: var(--ground);
+	color: var(--text);
+}
+
+html .display-1,
+html .display-2,
+html .display-3,
+html .display-4,
+html .headline,
+html .title,
+html .subtitle-1,
+html .subtitle-2,
+html .body-1,
+html .body-2,
+html .caption,
+html .overline, /* taste-skill-ignore eyebrow — Vuetify typography class */
+html .text-h1,
+html .text-h2,
+html .text-h3,
+html .text-h4,
+html .text-h5,
+html .text-h6,
+html .text-subtitle-1,
+html .text-subtitle-2,
+html .text-body-1,
+html .text-body-2,
+html .text-button,
+html .text-caption,
+html .text-overline,
+html .text-sm-h1,
+html .text-sm-h2,
+html .text-sm-h3,
+html .text-sm-h4,
+html .text-sm-h5,
+html .text-sm-h6,
+html .text-sm-subtitle-1,
+html .text-sm-subtitle-2,
+html .text-sm-body-1,
+html .text-sm-body-2,
+html .text-sm-button,
+html .text-sm-caption,
+html .text-sm-overline,
+html .text-md-h1,
+html .text-md-h2,
+html .text-md-h3,
+html .text-md-h4,
+html .text-md-h5,
+html .text-md-h6,
+html .text-md-subtitle-1,
+html .text-md-subtitle-2,
+html .text-md-body-1,
+html .text-md-body-2,
+html .text-md-button,
+html .text-md-caption,
+html .text-md-overline,
+html .text-lg-h1,
+html .text-lg-h2,
+html .text-lg-h3,
+html .text-lg-h4,
+html .text-lg-h5,
+html .text-lg-h6,
+html .text-lg-subtitle-1,
+html .text-lg-subtitle-2,
+html .text-lg-body-1,
+html .text-lg-body-2,
+html .text-lg-button,
+html .text-lg-caption,
+html .text-lg-overline,
+html .text-xl-h1,
+html .text-xl-h2,
+html .text-xl-h3,
+html .text-xl-h4,
+html .text-xl-h5,
+html .text-xl-h6,
+html .text-xl-subtitle-1,
+html .text-xl-subtitle-2,
+html .text-xl-body-1,
+html .text-xl-body-2,
+html .text-xl-button,
+html .text-xl-caption,
+html .text-xl-overline,
+html .v-application .display-1,
+html .v-application .display-2,
+html .v-application .display-3,
+html .v-application .display-4,
+html .v-application .headline,
+html .v-application .title,
+html .v-application .subtitle-1,
+html .v-application .subtitle-2,
+html .v-application .body-1,
+html .v-application .body-2,
+html .v-application .caption,
+html .v-application .overline, /* taste-skill-ignore eyebrow — Vuetify typography class */
+html .v-application .text-h1,
+html .v-application .text-h2,
+html .v-application .text-h3,
+html .v-application .text-h4,
+html .v-application .text-h5,
+html .v-application .text-h6,
+html .v-application .text-subtitle-1,
+html .v-application .text-subtitle-2,
+html .v-application .text-body-1,
+html .v-application .text-body-2,
+html .v-application .text-button,
+html .v-application .text-caption,
+html .v-application .text-overline,
+html .v-application .text-sm-h1,
+html .v-application .text-sm-h2,
+html .v-application .text-sm-h3,
+html .v-application .text-sm-h4,
+html .v-application .text-sm-h5,
+html .v-application .text-sm-h6,
+html .v-application .text-sm-subtitle-1,
+html .v-application .text-sm-subtitle-2,
+html .v-application .text-sm-body-1,
+html .v-application .text-sm-body-2,
+html .v-application .text-sm-button,
+html .v-application .text-sm-caption,
+html .v-application .text-sm-overline,
+html .v-application .text-md-h1,
+html .v-application .text-md-h2,
+html .v-application .text-md-h3,
+html .v-application .text-md-h4,
+html .v-application .text-md-h5,
+html .v-application .text-md-h6,
+html .v-application .text-md-subtitle-1,
+html .v-application .text-md-subtitle-2,
+html .v-application .text-md-body-1,
+html .v-application .text-md-body-2,
+html .v-application .text-md-button,
+html .v-application .text-md-caption,
+html .v-application .text-md-overline,
+html .v-application .text-lg-h1,
+html .v-application .text-lg-h2,
+html .v-application .text-lg-h3,
+html .v-application .text-lg-h4,
+html .v-application .text-lg-h5,
+html .v-application .text-lg-h6,
+html .v-application .text-lg-subtitle-1,
+html .v-application .text-lg-subtitle-2,
+html .v-application .text-lg-body-1,
+html .v-application .text-lg-body-2,
+html .v-application .text-lg-button,
+html .v-application .text-lg-caption,
+html .v-application .text-lg-overline,
+html .v-application .text-xl-h1,
+html .v-application .text-xl-h2,
+html .v-application .text-xl-h3,
+html .v-application .text-xl-h4,
+html .v-application .text-xl-h5,
+html .v-application .text-xl-h6,
+html .v-application .text-xl-subtitle-1,
+html .v-application .text-xl-subtitle-2,
+html .v-application .text-xl-body-1,
+html .v-application .text-xl-body-2,
+html .v-application .text-xl-button,
+html .v-application .text-xl-caption,
+html .v-application .text-overline {
+	font-family: var(--font) !important;
+}
+
+/* --- focus ring -------------------------------------------------------- */
+html :focus-visible {
+	outline: 2px solid var(--accent-ink);
+	outline-offset: 2px;
+}
+
+html input:focus-visible,
+html textarea:focus-visible,
+html select:focus-visible {
+	outline: none;
+}
+
+/* --- buttons ----------------------------------------------------------- */
+html .v-btn {
+	border-radius: var(--radius-control);
+	font-weight: 500;
+	letter-spacing: normal;
+	text-indent: 0;
+	text-transform: none;
+	transition-duration: var(--t-hover), var(--t-press), var(--t-hover);
+	transition-timing-function: var(--ease-out);
+}
+
+html .v-btn:not(.v-btn--disabled):active {
+	transform: scale(0.98);
+}
+
+/* Touch targets ≥44px on filled primary actions (plan §6). FABs keep 56;
+ * text/outlined/icon variants are secondary affordances. */
+html .v-btn.primary:not(.v-btn--fab):not(.v-btn--text):not(.v-btn--outlined):not(.v-btn--icon) {
+	min-height: 44px;
+}
+
+html .v-btn--is-elevated,
+html .v-btn--is-elevated:after,
+html .v-btn--is-elevated:active,
+html .v-btn--is-elevated.v-btn--fab,
+html .v-btn--is-elevated.v-btn--fab:after,
+html .v-btn--is-elevated.v-btn--fab:active,
+html .v-btn--fab {
+	box-shadow: none; /* taste-skill-ignore shadow */
+}
+
+/* --- inputs (outlined + dense via prop-default patch) ------------------ */
+html .v-text-field--outlined,
+html .v-text-field--outlined > .v-input__control > .v-input__slot,
+html .v-text-field--outlined fieldset {
+	border-radius: var(--radius-control);
+}
+
+html .theme--light.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state) > .v-input__control > .v-input__slot fieldset {
+	color: var(--control);
+}
+
+html .theme--light.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state):not(.v-input--is-disabled) > .v-input__control > .v-input__slot:hover fieldset {
+	color: var(--muted);
+}
+
+html .theme--light.v-label {
+	color: var(--muted);
+}
+
+html .theme--light.v-messages {
+	color: var(--muted);
+}
+
+/* --- cards & sheets ---------------------------------------------------- */
+html .theme--light.v-sheet {
+	background-color: var(--surface);
+	border-color: var(--border);
+	color: var(--text);
+}
+
+html .theme--light.v-card {
+	background-color: var(--surface);
+	color: var(--text);
+}
+
+html .v-sheet.v-card {
+	border-radius: var(--radius-card);
+}
+
+html .v-card {
+	border: 1px solid var(--border);
+	border-radius: var(--radius-card);
+	box-shadow: none; /* taste-skill-ignore shadow */
+}
+
+html .v-sheet.v-card:not(.v-sheet--outlined) {
+	box-shadow: none; /* taste-skill-ignore shadow */
+}
+
+/* --- floats (real overlays only) --------------------------------------- */
+html .v-dialog {
+	border-radius: var(--radius-card);
+	box-shadow: var(--shadow-float); /* taste-skill-ignore shadow */
+}
+
+/* Cap dialog width at 560 (plan Phase 5.5). Inline max-width props win;
+ * bottom-sheets and fullscreen dialogs are exempt. */
+html .v-dialog:not(.v-bottom-sheet):not(.v-dialog--fullscreen) {
+	max-width: 560px;
+}
+
+html .v-menu__content,
+html .v-autocomplete__content.v-menu__content {
+	border-radius: var(--radius-card);
+	box-shadow: var(--shadow-float); /* taste-skill-ignore shadow */
+}
+
+html .v-sheet.v-snack__wrapper {
+	border-radius: var(--radius-card);
+}
+
+html .v-sheet.v-snack__wrapper:not(.v-sheet--outlined) {
+	box-shadow: var(--shadow-snack); /* taste-skill-ignore shadow */
+}
+
+html .v-tooltip__content {
+	background: var(--text);
+	border-radius: var(--radius-control);
+}
+
+/* --- NProgress (route progress) --------------------------------------- */
+#nprogress .bar {
+	background: var(--text) !important;
+	height: 2px !important;
+}
+
+#nprogress .peg {
+	box-shadow: 0 0 10px var(--text), 0 0 5px var(--text); /* taste-skill-ignore shadow */
+}
+
+#nprogress .spinner {
+	display: none !important;
+}
+
+/* --- data table -------------------------------------------------------- */
+html .theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr > th {
+	color: var(--muted);
+	font-size: 12px;
+	font-weight: 500;
+	text-transform: none;
+}
+
+html .theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr:last-child > th {
+	border-bottom-color: var(--border);
+}
+
+html .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > td:not(.v-data-table__mobile-row),
+html .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > th:not(.v-data-table__mobile-row),
+html .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > td:last-child,
+html .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > th:last-child {
+	border-bottom-color: var(--rule);
+}
+
+html .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr.active {
+	background: var(--active);
+}
+
+html .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
+	background: var(--raised);
+}
+
+html .v-data-table td.num,
+html .v-data-table th.num {
+	text-align: right;
+}
+
+/* --- tabs -------------------------------------------------------------- */
+html .v-tab {
+	letter-spacing: normal;
+	min-width: 0;
+	text-transform: none;
+	color: var(--muted);
+}
+
+html .theme--light.v-tabs > .v-tabs-bar .v-tab:not(.v-tab--active),
+html .theme--light.v-tabs > .v-tabs-bar .v-tab:not(.v-tab--active) > .v-icon,
+html .theme--light.v-tabs > .v-tabs-bar .v-tab:not(.v-tab--active) > .v-btn,
+html .theme--light.v-tabs > .v-tabs-bar .v-tab--disabled {
+	color: var(--muted);
+}
+
+html .v-tab--active,
+html .v-tab--active .v-icon,
+html .v-tab--active .v-btn.v-btn--flat {
+	color: var(--text);
+}
+
+html .v-tabs-slider {
+	background-color: var(--text);
+}
+
+/* --- skeleton ---------------------------------------------------------- */
+html .theme--light.v-skeleton-loader .v-skeleton-loader__bone::after {
+	display: none;
+}
+
+html .theme--light.v-skeleton-loader .v-skeleton-loader__avatar,
+html .theme--light.v-skeleton-loader .v-skeleton-loader__button,
+html .theme--light.v-skeleton-loader .v-skeleton-loader__chip,
+html .theme--light.v-skeleton-loader .v-skeleton-loader__divider,
+html .theme--light.v-skeleton-loader .v-skeleton-loader__heading,
+html .theme--light.v-skeleton-loader .v-skeleton-loader__image,
+html .theme--light.v-skeleton-loader .v-skeleton-loader__text {
+	background: var(--active);
+}
+
+/* --- list active (element pill, not ::before wash) --------------------- */
+html .v-list-item--active {
+	background-color: var(--active);
+	color: var(--text);
+	font-weight: 500;
+}
+
+html .theme--light.v-list-item--active:hover::before,
+html .theme--light.v-list-item--active::before,
+html .theme--light.v-list-item--active:focus::before {
+	opacity: 0;
+}
+
+html .v-list .v-list-item--active,
+html .v-list .v-list-item--active .v-icon,
+html .v-list-item-group .v-list-item--active {
+	color: var(--text);
+}
+
+/* --- reduced motion ---------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+	html *,
+	html *::before,
+	html *::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}

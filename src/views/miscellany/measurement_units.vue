@@ -1,47 +1,43 @@
 <template>
   <div>
-    <v-row>
-      <v-col cols="12">
-        <p>{{ $t('messages.measurement_units_description') }}</p>
-      </v-col>
-      <v-col cols="12">
-        <v-btn @click="handleOpenCreateForm()" color="primary">
+    <page-header :title="$t('page_titles.measurement_units')">
+      <template v-slot:actions>
+        <v-btn color="primary" @click="handleOpenCreateForm()">
           <v-icon class="mr-2">fa-plus</v-icon>
           {{ $t('call_action_buttons.addMeasurementUnit') }}
         </v-btn>
-      </v-col>
+      </template>
+    </page-header>
+    <p class="text-muted page-hint">
+      {{ $t('messages.measurement_units_description') }}
+    </p>
+    <v-row v-if="$store.getters['measurementUnits/getAll'].length === 0">
       <v-col cols="12">
-        <v-divider></v-divider>
+        <empty-state
+          icon="fa-balance-scale"
+          :title="$t('messages.nothing_to_display')"
+        />
       </v-col>
-      <v-col
-        cols="12"
-        v-if="$store.getters['measurementUnits/getAll'].length === 0"
-      >
-        <v-alert type="info">
-          {{ $t('messages.nothing_to_display') }}
-        </v-alert>
-      </v-col>
+    </v-row>
+    <v-row v-else>
       <v-col
         cols="12"
         v-for="item in $store.getters['measurementUnits/getAll']"
         :key="item.id"
       >
-        {{ item.name }}
-        <v-btn
-          class="float-right"
-          text
-          color="error"
-          @click="dispatchDeleteMesasurementUnit(item)"
-        >
-          <v-icon class="mr-2" small>fa-trash</v-icon>
-          {{ $t('call_action_buttons.delete') }}
-        </v-btn>
+        <div class="crud-row">
+          <span class="crud-row__name">{{ item.name }}</span>
+          <v-btn text color="error" @click="dispatchDeleteMesasurementUnit(item)">
+            <v-icon class="mr-2" small>fa-trash</v-icon>
+            {{ $t('call_action_buttons.delete') }}
+          </v-btn>
+        </div>
       </v-col>
     </v-row>
 
     <v-dialog v-model="showCreateFormDialog" width="500">
       <v-card>
-        <v-card-title class="text-h5 grey lighten-2">
+        <v-card-title class="text-subtitle-1 font-weight-medium">
           {{ $t('call_action_buttons.addMeasurementUnit') }}
         </v-card-title>
 
@@ -57,7 +53,10 @@
               :placeholder="$t('measurement_unit.measurement_placeholder')"
               autocomplete="off"
             />
-            <div class="text-center">
+            <div class="dialog-actions">
+              <v-btn text @click="showCreateFormDialog = false">
+                {{ $t('call_action_buttons.cancel') }}
+              </v-btn>
               <v-btn type="submit" color="primary" :disabled="name.length == 0">
                 <v-icon class="mr-2">fa-save</v-icon>
                 {{ $t('call_action_buttons.save') }}
@@ -87,6 +86,8 @@
 import { mapState, mapMutations } from 'vuex';
 import deleteDialog from '@/components/Interface/Dialogs/Delete';
 import Loading from 'vue-loading-overlay';
+import PageHeader from '@/components/Interface/PageHeader';
+import EmptyState from '@/components/Interface/EmptyState';
 
 export default {
   name: 'MeasurementUnits',
@@ -112,6 +113,8 @@ export default {
   components: {
     deleteDialog,
     Loading,
+    PageHeader,
+    EmptyState,
   },
   computed: {
     ...mapState(['online']),

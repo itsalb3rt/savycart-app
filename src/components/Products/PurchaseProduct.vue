@@ -1,22 +1,24 @@
 <template>
-  <v-card outlined style="max-width: 850px; margin: auto" class="mb-4">
+  <v-card outlined class="purchase-product mb-4">
     <v-card-text>
-      <div
-        class="primary--text font-weight-bold"
-        @click="$emit('view-details', product)"
-      >
-        {{ product.name }}
+      <div class="purchase-product__top">
+        <span
+          class="purchase-product__name"
+          @click="$emit('view-details', product)"
+        >
+          {{ product.name }}
+        </span>
         <span class="float-right" v-if="product.favorite == '1'">
-          <v-icon small color="warning">fa-star</v-icon>
+          <v-icon small color="accent">fa-star</v-icon>
         </span>
       </div>
-      <div class="grey--text">
+      <div class="purchase-product__meta">
         <span>{{ getMeasurementName(product.id_unit_measurement) }}</span>
         <span class="float-right">{{ product.brand }}</span>
       </div>
       <div>
-        <v-layout row wrap>
-          <v-flex xs5 class="mr-8 ml-2">
+        <v-row>
+          <v-col cols="5" class="mr-8 ml-2">
             <v-text-field
               :prefix="currency.symbol"
               type="number"
@@ -29,8 +31,8 @@
               :disabled="isOnCar"
             >
             </v-text-field>
-          </v-flex>
-          <v-flex xs5 class="ml-1">
+          </v-col>
+          <v-col cols="5" class="ml-1">
             <v-text-field
               append-outer-icon="fa fa-plus"
               @click:append-outer="increment"
@@ -48,15 +50,14 @@
               @change="val => $emit('change-quantity', val)"
               :disabled="isOnCar"
             ></v-text-field>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </div>
     </v-card-text>
     <v-card-actions>
       <v-btn
         color="primary"
         class="ma-0"
-        outlined
         v-if="!isOnCar"
         @click="$emit('add-to-car')"
         >{{ $t('shopping_car.add_to_shopping_car') }}</v-btn
@@ -124,3 +125,28 @@ export default {
   },
 };
 </script>
+<style>
+/* Chrome shrink-to-fit: the price/qty row inside the bare wrapper div
+   collapses to max-content instead of filling, stacking the cols at narrow
+   widths and blowing past the 220px virtual-scroll pitch. calc() compensates
+   the .row -12px side margins. */
+.purchase-product .row {
+  width: calc(100% + 24px);
+}
+
+.purchase-product__name {
+  font-size: var(--fs-section);
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.purchase-product__name:hover {
+  color: var(--accent-ink);
+}
+
+.purchase-product__meta {
+  color: var(--muted);
+  font-size: var(--fs-body);
+}
+</style>

@@ -29,6 +29,7 @@
   },
   "auth": {
     "login_title": "Iniciar sesión",
+    "tagline": "aplicación de registro de compras",
     "recovery_title": "Recuperar cuenta",
     "account_recovery_description": "Escriba su correo para enviarle un email con la información de recuperación de su cuenta.",
     "user_name": "Nombre de usuario",
@@ -59,6 +60,7 @@
     "search": "Buscar",
     "all": "Todo",
     "favorites": "Favoritos",
+    "sort_by": "Ordenar por",
     "empty_list": "No se han creado productos",
     "delete_product_modal_title": "Eliminar producto",
     "delete_product_modal_message": "¿Estás seguro de que deseas eliminar este producto?",
@@ -89,7 +91,7 @@
     "name_establishment_placeholder": "Super mercado",
     "empty_car": "Tu carrito esta vacío",
     "go_to_logger_purchase": "Ir al registro de compras",
-    "resume_title":"Ver detalle de compra"
+    "resume_title": "Ver detalle de compra"
   },
   "shop": {
     "ux_shopping_details_view_instructions": "Al hacer clic en el nombre o en la compra total, puede ver los detalles",

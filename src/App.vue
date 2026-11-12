@@ -1,5 +1,5 @@
 <template>
-	<v-app class="constrain main-app-container">
+	<v-app>
 		<MenuComponent :title="$route.meta.title" v-if="$store.getters['auth/getIsLogged']" />
 		<v-main>
 			<transition
@@ -9,7 +9,7 @@
 				@enter="enter"
 				@afterEnter="afterEnter"
 			>
-				<v-container>
+				<v-container class="app-canvas">
 					<router-view />
 				</v-container>
 			</transition>
@@ -104,9 +104,9 @@ export default {
 .slide-left-leave-active,
 .slide-right-enter-active,
 .slide-right-leave-active {
-	transition-duration: 0.2s;
+	transition-duration: var(--t-route, 200ms);
 	transition-property: height, opacity, transform;
-	transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
+	transition-timing-function: var(--ease-out);
 	overflow: hidden;
 }
 
@@ -120,22 +120,5 @@ export default {
 .slide-right-enter {
 	opacity: 0;
 	transform: translate(-2em, 0);
-}
-@font-face {
-	font-family: Open-Sans;
-	src: url('~@/assets/fonts/open_Sans/OpenSans-Regular.ttf'),
-		url('~@/assets/fonts/open_Sans/OpenSans-Bold.ttf');
-}
-#app {
-	font-family: Open-Sans;
-}
-.constrain{
-	max-width: 900px;
-	margin: auto;
-}
-.main-app-container{
-    padding-top: 40px;
-    padding-left: env(safe-area-inset-left);
-    padding-right: env(safe-area-inset-right);
 }
 </style>

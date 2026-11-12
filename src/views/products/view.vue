@@ -1,102 +1,96 @@
 <template>
 	<div>
+		<page-header :title="$t('page_titles.view_product')" />
 		<v-row>
 			<v-col cols="12" v-if="product.id_product">
 				<v-card flat>
 					<v-card-text>
-						<v-row>
-							<v-col>
-								<v-btn
-									outlined
-									color="success"
-									@click="$router.push({ name: 'edit product', params: { id: product.id_product } })"
-									class="ml-0"
-								>
-									<v-icon class="mr-2">fa-edit</v-icon>
-									{{ $t('call_action_buttons.edit') }}
-								</v-btn>
-							</v-col>
-							<v-col>
-								<v-btn
-									outlined
-									color="primary"
-									@click="handleShowPurchaseHistory"
-								>
-									<v-icon class="mr-2">fa-list</v-icon>
-									{{ $t('products.viewPurchaseHistory') }}
-								</v-btn>
-							</v-col>
-						</v-row>
-						<div>
-							<div for="name" class="subheading font-weight-bold mt-4 mb-2">{{ $t('products.name') }}</div>
-							<div>{{product.name}}</div>
+						<div class="product-view__actions">
+							<v-btn
+								outlined
+								color="primary"
+								@click="$router.push({ name: 'edit product', params: { id: product.id_product } })"
+							>
+								<v-icon class="mr-2">fa-edit</v-icon>
+								{{ $t('call_action_buttons.edit') }}
+							</v-btn>
+							<v-btn
+								outlined
+								color="primary"
+								@click="handleShowPurchaseHistory"
+							>
+								<v-icon class="mr-2">fa-list</v-icon>
+								{{ $t('products.viewPurchaseHistory') }}
+							</v-btn>
 						</div>
-						<div v-if="product.brand">
-							<div for="name" class="subheading font-weight-bold mt-4 mb-2">{{ $t('products.brand') }}</div>
-							<div>{{product.brand}}</div>
-						</div>
-						<div>
-							<div for="name" class="subheading font-weight-bold mt-4 mb-2">{{ $t('products.price') }}</div>
-							<div>{{currency.symbol}} {{product.price}}</div>
-						</div>
-						<div>
-							<div
-								for="name"
-								class="subheading font-weight-bold mt-4 mb-2"
-							>{{ $t('products.measurement_unit') }}</div>
-							<div>{{getMeasurementName(product.id_unit_measurement)}}</div>
-						</div>
-						<div>
-							<div for="name" class="subheading font-weight-bold mt-4 mb-2">{{ $t('products.category') }}</div>
-							<div>{{getCategory(product.id_category)}}</div>
-						</div>
-						<div>
-							<div for="name" class="subheading font-weight-bold mt-4 mb-2">{{ $t('products.tax') }}</div>
-							<div>{{ (product.itbis == '1')? $t('messages.yes'): $t('messages.no') }}</div>
-						</div>
-						<div>
-							<div
-								for="name"
-								class="subheading font-weight-bold mt-4 mb-2"
-							>{{ $t('products.favorite_mark_message') }}</div>
-							<div>{{ (product.favorite == '1')? $t('messages.yes'): $t('messages.no') }}</div>
-						</div>
-						<div>
-							<div
-								for="name"
-								class="subheading font-weight-bold mt-4 mb-2"
-							>{{ $t('products.description') }}</div>
-							<div>{{product.description}}</div>
-						</div>
+						<dl class="detail-grid">
+							<div class="detail-grid__row">
+								<dt>{{ $t('products.name') }}</dt>
+								<dd>{{product.name}}</dd>
+							</div>
+							<div class="detail-grid__row" v-if="product.brand">
+								<dt>{{ $t('products.brand') }}</dt>
+								<dd>{{product.brand}}</dd>
+							</div>
+							<div class="detail-grid__row">
+								<dt>{{ $t('products.price') }}</dt>
+								<dd class="num">{{currency.symbol}} {{product.price}}</dd>
+							</div>
+							<div class="detail-grid__row">
+								<dt>{{ $t('products.measurement_unit') }}</dt>
+								<dd>{{getMeasurementName(product.id_unit_measurement)}}</dd>
+							</div>
+							<div class="detail-grid__row">
+								<dt>{{ $t('products.category') }}</dt>
+								<dd>{{getCategory(product.id_category)}}</dd>
+							</div>
+							<div class="detail-grid__row">
+								<dt>{{ $t('products.tax') }}</dt>
+								<dd>{{ (product.itbis == '1')? $t('messages.yes'): $t('messages.no') }}</dd>
+							</div>
+							<div class="detail-grid__row">
+								<dt>{{ $t('products.favorite_mark_message') }}</dt>
+								<dd>{{ (product.favorite == '1')? $t('messages.yes'): $t('messages.no') }}</dd>
+							</div>
+							<div class="detail-grid__row">
+								<dt>{{ $t('products.description') }}</dt>
+								<dd>{{product.description}}</dd>
+							</div>
+						</dl>
 					</v-card-text>
 				</v-card>
 			</v-col>
 			<v-col cols="12" v-else-if="product.id_product == undefined && loading === false">
-				<div class="display-1 mt-5">
-					<v-icon class="mr-2">fa-magic</v-icon>
-					{{ $t('messages.nothing_to_display') }}
-				</div>
+				<empty-state
+					icon="fa-magic"
+					:title="$t('messages.nothing_to_display')"
+				/>
 			</v-col>
 		</v-row>
 		<loading :active.sync="loading" :can-cancel="false" :is-full-page="true"></loading>
-		<v-dialog max-width="90%" v-model="showPurchaseHistoryDialog" persistent>
+		<v-dialog
+			max-width="560px"
+			:fullscreen="$vuetify.breakpoint.xsOnly"
+			v-model="showPurchaseHistoryDialog"
+			persistent
+		>
 			<v-card>
-				<v-card-title class="headline">
+				<v-card-title class="text-subtitle-1 font-weight-medium">
 					{{ $t('products.purchaseHistory') }}
-						<v-spacer />
-					  <v-btn
-              icon
-              color="black"
-							@click="showPurchaseHistoryDialog = false"
-            >
-              <v-icon>fa-window-close</v-icon>
-            </v-btn>
+					<v-spacer />
+					<v-btn
+						icon
+						aria-label="Close"
+						@click="showPurchaseHistoryDialog = false"
+					>
+						<v-icon>fa-window-close</v-icon>
+					</v-btn>
 				</v-card-title>
 				<v-card-text>
-					<h3> 
-						<div class="primary--text"> {{ product.name }} </div>
-						<div> {{currency.symbol}} {{product.price}} </div>
-					</h3>
+					<div class="product-view__history-head">
+						<div class="product-view__history-name">{{ product.name }}</div>
+						<div class="num">{{currency.symbol}} {{product.price}}</div>
+					</div>
 					<v-divider class="my-4" />
 					<template v-if="loadingPurchaseHistory">
 						<div class="text-center">
@@ -126,10 +120,11 @@
 							</div>
 						</template>
 						<template v-else>
-							<div class="text-center">
-								<v-icon size="100">fa-shopping-cart</v-icon>
-								<div class="headline">{{ $t('messages.nothing_to_display') }}</div>
-							</div>
+							<empty-state
+								inline
+								icon="fa-shopping-cart"
+								:title="$t('messages.nothing_to_display')"
+							/>
 						</template>
 					</template>
 				</v-card-text>
@@ -144,6 +139,8 @@ import currencies from '@/mixins/miscellany/currencies';
 import Loading from 'vue-loading-overlay';
 import PurchasedProduct from '@/components/Products/PurchasedProduct';
 import Formats from '@/mixins/miscellany/formats';
+import PageHeader from '@/components/Interface/PageHeader';
+import EmptyState from '@/components/Interface/EmptyState';
 
 export default {
 	name: 'ProductView',
@@ -169,7 +166,9 @@ export default {
 	},
 	components: {
 		Loading,
-		PurchasedProduct
+		PurchasedProduct,
+		PageHeader,
+		EmptyState
 	},
 	computed: {
 		...mapState(['online'])
@@ -244,3 +243,20 @@ export default {
 	}
 };
 </script>
+<style>
+.product-view__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-bottom: 8px;
+}
+
+.product-view__history-head {
+	font-size: var(--fs-section);
+}
+
+.product-view__history-name {
+	font-weight: 600;
+	color: var(--text);
+}
+</style>

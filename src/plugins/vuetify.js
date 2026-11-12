@@ -4,6 +4,15 @@ import 'vuetify/dist/vuetify.css';
 
 Vue.use(Vuetify);
 
+// Outlined + dense by default for form controls (Vuetify 2.6 has no defaults API).
+// Component-level props still win; guarded so a missing prop is skipped.
+['VTextField', 'VSelect', 'VCombobox', 'VTextarea', 'VAutocomplete', 'VFileInput'].forEach((name) => {
+  const component = Vue.options.components[name];
+  if (!component || !component.options || !component.options.props) return;
+  if ('outlined' in component.options.props) component.options.props.outlined.default = true;
+  if ('dense' in component.options.props) component.options.props.dense.default = true;
+});
+
 export default new Vuetify({
   theme: {
     options: {
@@ -11,13 +20,13 @@ export default new Vuetify({
     },
     themes: {
       light: {
-        primary: '#03A9F4',
-        secondary: '#707070',
-        accent: '#82B1FF',
-        error: '#f44336',
-        info: '#2196F3',
-        success: '#01AC5A',
-        warning: '#FFC107'
+        primary: '#1d1f20',
+        secondary: '#5f6368',
+        accent: '#0277BD',
+        error: '#c4242a',
+        info: '#0277BD',
+        success: '#247b50',
+        warning: '#92400e'
       },
     },
   },

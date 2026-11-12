@@ -21,3 +21,7 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+# .taste-skill: keep direction.json, ignore generated screenshots and reports
+.taste-skill/*
+!.taste-skill/direction.json

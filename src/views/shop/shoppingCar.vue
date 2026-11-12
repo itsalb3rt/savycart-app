@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<page-header :title="$t('page_titles.shopping_car')" />
 		<v-row v-if="shoppingCar.length > 0" class="products-container">
 			<v-col cols="12">
 				<v-text-field
@@ -8,28 +9,29 @@
 					v-model="nameEstablishment"
 					id="name_establishment"
 					:placeholder=" $t('shopping_car.name_establishment_placeholder') "
+					hide-details
 				></v-text-field>
-				<v-btn class="ml-0" color="success" @click="saveShop" :disabled="disabledSubmitButton">
+				<v-btn class="ml-0 mt-3" color="primary" @click="saveShop" :disabled="disabledSubmitButton">
 					<v-icon small class="mr-2">fa-save</v-icon>
 					{{ $t('call_action_buttons.save') }}
 				</v-btn>
 				<v-divider class="mt-3 mb-3"></v-divider>
 			</v-col>
 			<v-col cols="12" v-for="(product,index) in shoppingCar" :key="index">
-				<v-card>
+				<v-card outlined class="shopping-car-item mb-2">
 					<v-card-text>
 						<v-row>
 							<v-col cols="12" class="reduce-20-margin-bottom">
-								<span class="primary--text">{{product.name}}</span>
+								<span class="shopping-car-item__name">{{product.name}}</span>
 							</v-col>
 							<v-col cols="12" class="reduce-20-margin-bottom">
-								<div class="grey--text">
+								<div class="text-muted shopping-car-item__meta">
 									<span>{{getMeasurementName(product.id_unit_measurement)}}</span>
 									<span class="float-right">{{product.brand}}</span>
 								</div>
 							</v-col>
 							<v-col cols="12" class="reduce-20-margin-bottom">
-								<strong>{{currency.symbol}} {{product.price * product.quantity}}</strong>
+								<strong class="num">{{currency.symbol}} {{product.price * product.quantity}}</strong>
 							</v-col>
 							<v-col cols="12" class="reduce-20-margin-bottom">
 								<v-text-field
@@ -39,6 +41,7 @@
 									:label=" $t('products.quantity') "
 									id="quantity"
 									v-model="product.quantity"
+									hide-details
 								></v-text-field>
 							</v-col>
 						</v-row>
@@ -55,14 +58,17 @@
 		</v-row>
 		<v-row v-else>
 			<v-col cols="12">
-				<h1 class="empty-car-information">
-					<v-icon large class="mr-2">fa-shopping-cart</v-icon>
-					{{ $t('shopping_car.empty_car') }}
-				</h1>
-				<v-btn text href="#" class="primary--text ml-0" @click="$router.push('/shop/registation')">
-					<v-icon class="mr-2">fa-plus-circle</v-icon>
-					{{ $t('shopping_car.go_to_logger_purchase') }}
-				</v-btn>
+				<empty-state
+					icon="fa-shopping-cart"
+					:title="$t('shopping_car.empty_car')"
+				>
+					<template v-slot:action>
+						<v-btn text href="#" class="primary--text ml-0" @click="$router.push('/shop/registation')">
+							<v-icon class="mr-2">fa-plus-circle</v-icon>
+							{{ $t('shopping_car.go_to_logger_purchase') }}
+						</v-btn>
+					</template>
+				</empty-state>
 			</v-col>
 		</v-row>
 		<ShopResume
@@ -76,6 +82,8 @@
 </template>
 
 <script>
+import PageHeader from '@/components/Interface/PageHeader';
+import EmptyState from '@/components/Interface/EmptyState';
 import ShopResume from '@/components/shop/ShopResume';
 import { mapState, mapMutations } from 'vuex';
 
@@ -88,7 +96,9 @@ export default {
 		this.currency = this.getPreferredCurrency();
 	},
 	components: {
-		ShopResume
+		ShopResume,
+		PageHeader,
+		EmptyState
 	},
 	data() {
 		return {
@@ -221,18 +231,21 @@ export default {
 </script>
 
 <style>
-.empty-car-information {
-	margin: 40% auto 50px;
-	color: var(--grey);
+.shopping-car-item__name {
+	font-size: var(--fs-section);
+	font-weight: 600;
+	color: var(--text);
 }
-.product-main-container {
-	margin-bottom: 100px;
+
+.shopping-car-item__meta {
+	font-size: var(--fs-body);
 }
+
 .reduce-20-margin-bottom {
 	margin-bottom: -20px !important;
 }
 .products-container {
-	margin-bottom: 150px;
+	margin-bottom: var(--resume-bar-h);
 	padding-bottom: 20px;
 }
 

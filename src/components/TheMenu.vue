@@ -1,33 +1,36 @@
 <template>
 	<div v-hammer:swipe.right="onSwipeLeft">
-		<v-toolbar flat color="white">
-			<v-icon @click="goBack" v-if="this.$route.meta.isSubDir" class="mr-2">fa-angle-left</v-icon>
-			<v-app-bar-nav-icon @click="drawer = !drawer" v-else></v-app-bar-nav-icon>
-			<v-toolbar-title class="primary--text">{{ title }}</v-toolbar-title>
-		</v-toolbar>
-		<v-navigation-drawer app temporary v-model="drawer">
-			<v-row class="mt-8">
-				<v-col cols="12" class="text-center" @click="$router.push('/user/profile')">
-					<v-avatar :size="80" color="indigo" style="cursor:pointer;" @click="$router.push('/user/profile')">
-						<v-icon large dark>fa-user</v-icon>
-					</v-avatar>
-				</v-col>
-				<v-col cols="12" class="text-center">
-					<p class="headline primary--text" style="cursor:pointer;" @click="$router.push('/user/profile')">
-						{{ $store.getters['auth/getUser'].first_name }} {{ $store.getters['auth/getUser'].last_name }}
-					</p>
-				</v-col>
-			</v-row>
+		<v-app-bar app flat height="48" class="app-bar">
+			<v-btn
+				icon
+				aria-label="Back"
+				@click="goBack"
+				v-if="this.$route.meta.isSubDir"
+				class="mr-2"
+			>
+				<v-icon>fa-angle-left</v-icon>
+			</v-btn>
+			<v-app-bar-nav-icon
+				aria-label="Menu"
+				@click="drawer = !drawer"
+				v-else
+			></v-app-bar-nav-icon>
+			<v-toolbar-title class="app-bar__title">{{ title }}</v-toolbar-title>
+		</v-app-bar>
+		<v-navigation-drawer app temporary v-model="drawer" width="256">
+			<div class="drawer-brand">
+				<span class="drawer-brand__mark" aria-hidden="true">S</span>
+				<span class="drawer-brand__name">SavyCart</span>
+			</div>
+			<v-divider></v-divider>
 
 			<v-list class="pt-0" nav>
-				<v-divider></v-divider>
-
 				<v-list-item v-for="(item, index) in items" :key="index" :to="{ path: item.routePath }">
 					<v-list-item-icon>
-						<v-icon :color="item.iconColor">{{ item.icon }}</v-icon>
+						<v-icon size="16" :color="item.iconColor">{{ item.icon }}</v-icon>
 					</v-list-item-icon>
 
-					<v-list-item-content :class="$t(`nav.${item.title}`)">
+					<v-list-item-content>
 						<v-list-item-title>{{ $t(`nav.${item.title}`) }}</v-list-item-title>
 					</v-list-item-content>
 				</v-list-item>
@@ -37,24 +40,39 @@
 						<v-list-item-title>{{ $t('nav.settings') }}</v-list-item-title>
 					</template>
 					<v-list-item v-for="(item, index) in settings" :key="index" :to="{ path: item.routePath }" link
-						style="height: auto; padding-left: 10%; display: inline-flex;">
+						class="drawer-settings-item">
 						<v-list-item-icon>
-							<v-icon :color="item.iconColor">{{ item.icon }}</v-icon>
+							<v-icon size="16" :color="item.iconColor">{{ item.icon }}</v-icon>
 						</v-list-item-icon>
 						<v-list-item-title>{{$t(`nav.${item.title}`)}}</v-list-item-title>
 					</v-list-item>
 				</v-list-group>
-				<v-divider></v-divider>
-				<v-list-item :to="{ path: logout[0].routePath }">
-					<v-list-item-icon>
-						<v-icon :color="logout[0].iconColor">{{ logout[0].icon }}</v-icon>
-					</v-list-item-icon>
-
-					<v-list-item-content>
-						<v-list-item-title>{{ $t(`nav.${logout[0].title}`) }}</v-list-item-title>
-					</v-list-item-content>
-				</v-list-item>
 			</v-list>
+
+			<template v-slot:append>
+				<v-divider></v-divider>
+				<v-list nav>
+					<v-list-item @click="$router.push('/user/profile')">
+						<v-list-item-avatar :size="32" color="secondary">
+							<v-icon small dark>fa-user</v-icon>
+						</v-list-item-avatar>
+						<v-list-item-content>
+							<v-list-item-title>
+								{{ $store.getters['auth/getUser'].first_name }} {{ $store.getters['auth/getUser'].last_name }}
+							</v-list-item-title>
+						</v-list-item-content>
+					</v-list-item>
+					<v-list-item :to="{ path: logout[0].routePath }">
+						<v-list-item-icon>
+							<v-icon size="16" :color="logout[0].iconColor">{{ logout[0].icon }}</v-icon>
+						</v-list-item-icon>
+
+						<v-list-item-content>
+							<v-list-item-title class="drawer-logout-label">{{ $t(`nav.${logout[0].title}`) }}</v-list-item-title>
+						</v-list-item-content>
+					</v-list-item>
+				</v-list>
+			</template>
 		</v-navigation-drawer>
 	</div>
 </template>
@@ -129,8 +147,65 @@ export default {
 };
 </script>
 <style lang="css">
-.v-list-item--active .v-list-item__content,
-.v-list-item--active .v-list-item__icon {
-	color: var(--v-primary-base) !important;
+html .theme--light.v-app-bar.app-bar,
+html .theme--light.v-app-bar.app-bar.v-sheet {
+	background-color: var(--surface);
+	border-bottom: 1px solid var(--border);
+	color: var(--text);
+}
+
+.app-bar__title {
+	flex: 1 1 auto;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: 16px;
+	font-weight: 600;
+	color: var(--text);
+	letter-spacing: 0;
+}
+
+.drawer-brand {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 16px 16px 12px;
+}
+
+.drawer-brand__mark {
+	width: 28px;
+	height: 28px;
+	border-radius: 6px;
+	background: var(--primary);
+	color: var(--on-primary);
+	font-size: 14px;
+	font-weight: 600;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: none;
+}
+
+.drawer-brand__name {
+	font-size: 16px;
+	font-weight: 600;
+	color: var(--text);
+}
+
+.drawer-settings-item {
+	min-height: 40px;
+	padding-left: 48px;
+}
+
+.drawer-logout-label {
+	color: var(--negative);
+}
+
+/* neutral grey pill inset from drawer edges (app-screens §3.2) */
+.v-navigation-drawer .v-list-item--active:not(.drawer-logout-label) {
+	border-radius: var(--radius-control);
+	margin-left: 8px;
+	margin-right: 8px;
 }
 </style>

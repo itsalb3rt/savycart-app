@@ -1,5 +1,5 @@
 <template>
-  <div class="shopping-car-container constrain" v-if="count > 0">
+  <div class="shopping-car-container" v-if="count > 0">
     <div class="car" @click="$router.push('/shop/shopping_car')">
       <font-awesome-icon icon="shopping-cart"/>
       <span class="count">{{count}}</span>
@@ -30,13 +30,13 @@ export default {
   top: -8px;
   position: absolute;
   right: 0px;
-  color: var(--white);
-  background-color: var(--primary-blue);
+  color: var(--surface);
+  background-color: var(--accent-ink);
   width: 25px;
   height: 25px;
   border-radius: 50%;
   text-align: center;
   line-height: 23px;
-  border: 2px solid var(--white);
+  border: 2px solid var(--surface);
 }
 </style>

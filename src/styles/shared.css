@@ -1,0 +1,210 @@
+/*
+ * Cross-file class contracts relocated out of view SFCs (plan §2.5).
+ * Consumers: .right → ListProduct.vue; .quantity-indicator → PurchasedProduct.vue.
+ */
+
+.right {
+	float: right !important;
+}
+
+.quantity-indicator {
+	color: var(--muted);
+	font-variant-numeric: tabular-nums;
+	font-weight: 500;
+}
+
+/* Muted helper text (replaces grey--text hard-coded utility). */
+.text-muted {
+	color: var(--muted);
+}
+
+/* Fixed resume bars — logger purchase (desktop ShopResume + mobile wrapper col)
+   and shopping car. One shared definition; clearance is --resume-bar-h. */
+.shop-resume-bar-container,
+.shop-resume-bar-container-mobile {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	max-width: var(--canvas-max);
+	margin: 0 auto;
+	background: var(--surface);
+	border-top: 1px solid var(--border);
+	padding: 10px 30px 0 33px;
+	box-shadow: var(--shadow-float); /* taste-skill-ignore: sticky resume bar */
+}
+
+.shop-resume-bar-container .final-total,
+.shop-resume-bar-container-mobile .final-total {
+	margin: 4px 0 0;
+	font-size: var(--fs-section);
+	font-weight: 600;
+	color: var(--text);
+	font-variant-numeric: tabular-nums;
+}
+
+.reduce-20-magin-bottom {
+	margin-bottom: -20px !important;
+}
+
+/* Structured label/value rows — product view + purchase details. */
+.detail-grid {
+	margin: 0;
+}
+
+.detail-grid__row {
+	display: grid;
+	grid-template-columns: minmax(140px, 220px) 1fr;
+	gap: 8px 16px;
+	padding: 12px 0;
+	border-bottom: 1px solid var(--rule);
+}
+
+.detail-grid__row:last-child {
+	border-bottom: none;
+}
+
+.detail-grid dt {
+	margin: 0;
+	font-size: var(--fs-small);
+	font-weight: 500;
+	color: var(--muted);
+}
+
+.detail-grid dd {
+	margin: 0;
+	font-size: var(--fs-body);
+	color: var(--text);
+	word-break: break-word;
+}
+
+@media (max-width: 600px) {
+	.detail-grid__row {
+		grid-template-columns: 1fr;
+		gap: 2px;
+	}
+}
+
+/* Centred content column — drawer/app-bar span full width (plan §2.5).
+   One gutter per width band (plan Phase 5): 16 mobile / 24 ≥960 / 32 ≥1440.
+   The canvas box grows by the gutters so inner content stays ≤1120. */
+.app-canvas {
+	--gutter: 16px;
+	max-width: calc(var(--canvas-max) + var(--gutter) * 2);
+	margin: auto;
+	padding-left: calc(var(--gutter) + env(safe-area-inset-left));
+	padding-right: calc(var(--gutter) + env(safe-area-inset-right));
+}
+
+@media (min-width: 960px) {
+	.app-canvas {
+		--gutter: 24px;
+	}
+}
+
+@media (min-width: 1440px) {
+	.app-canvas {
+		--gutter: 32px;
+	}
+}
+
+/* Muted intro line under a page header (history, categories, units). */
+.page-hint {
+	margin: 0 0 16px;
+	font-size: var(--fs-body);
+}
+
+/* One-row list controls: search field + filter trigger (plan Phase 5.3). */
+.list-toolbar {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.list-toolbar__search {
+	flex: 1 1 auto;
+	min-width: 0;
+	margin-top: 0;
+}
+
+/* Label + trailing actions row with hover feedback (categories, units). */
+.crud-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 12px 4px;
+	border-bottom: 1px solid var(--rule);
+	transition: background-color var(--t-hover);
+}
+
+.crud-row:hover {
+	background: var(--raised);
+}
+
+.crud-row__name {
+	font-size: var(--fs-body);
+	font-weight: 500;
+	color: var(--text);
+	word-break: break-word;
+}
+
+/* Dialog form footer: text cancel + filled primary save. */
+.dialog-actions {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 8px;
+	margin-top: 8px;
+}
+
+/* Settings/profile section — label column beside panel (app-screens §8.2). */
+.settings-section {
+	display: grid;
+	grid-template-columns: minmax(220px, 450px) minmax(0, 700px);
+	gap: 24px;
+	padding: 32px 0;
+	border-top: 1px solid var(--rule);
+}
+
+.settings-section:first-of-type {
+	border-top: none;
+	padding-top: 8px;
+}
+
+.settings-section__label {
+	padding-top: 6px;
+}
+
+.settings-section__title {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 500;
+	color: var(--text);
+}
+
+.settings-section__desc {
+	margin: 4px 0 0;
+	font-size: 14px;
+	line-height: 1.5;
+	color: var(--muted);
+}
+
+.settings-section__panel {
+	background: var(--raised);
+	border-radius: var(--radius-card);
+	padding: 16px;
+}
+
+@media (max-width: 900px) {
+	.settings-section {
+		grid-template-columns: 1fr;
+		gap: 10px;
+		padding: 24px 0;
+	}
+
+	.settings-section__label {
+		padding-top: 0;
+	}
+}

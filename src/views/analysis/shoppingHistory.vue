@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<page-header :title="$t('page_titles.shopping_history')" />
 		<v-row v-if="shoppingHistory.length > 0">
 			<v-col cols="12">
 				<v-text-field
@@ -7,10 +8,12 @@
 					:label=" $t('products.search') "
 					v-model="search"
 					prepend-inner-icon="fa-search"
+					hide-details
 				></v-text-field>
-				<p>{{ $t('shop.ux_shopping_details_view_instructions') }}</p>
+				<p class="text-muted shopping-history__hint">{{ $t('shop.ux_shopping_details_view_instructions') }}</p>
 				<v-divider></v-divider>
 				<v-data-table
+					class="shopping-history-table"
 					mobile-breakpoint="xs"
 					:headers="headers"
 					:items="shoppingHistory"
@@ -29,29 +32,27 @@
 					<template v-slot:item.names_establishments="{ item }">
 						<router-link
 								:to="{ name: 'purchase_details', params: { id: item.id_purchase } }"
-								class="primary--text font-weight-bold"
+								class="history-link"
 							>{{item.names_establishments}}</router-link>
 					</template>
           <template v-slot:item.create_at="{ item }">
 						{{ item.create_at.substring(0, 10) }}
 					</template>
 					<template v-slot:item.total="{item}">
-						<td>
-							<router-link
-								:to="{ name: 'purchase_details', params: { id: item.id_purchase } }"
-								class="primary--text font-weight-bold"
-							>{{currency.symbol}} {{createNumberFormat(item.total)}}</router-link>
-						</td>
+						<router-link
+							:to="{ name: 'purchase_details', params: { id: item.id_purchase } }"
+							class="history-link"
+						>{{currency.symbol}} {{createNumberFormat(item.total)}}</router-link>
 					</template>
 				</v-data-table>
 			</v-col>
 		</v-row>
 		<v-row v-else>
 			<v-col cols="12">
-				<h1 class="empty-history-information">
-					<v-icon large class="mr-2">fa-history</v-icon>
-					{{ $t('messages.nothing_to_display') }}
-				</h1>
+				<empty-state
+					icon="fa-history"
+					:title="$t('messages.nothing_to_display')"
+				/>
 			</v-col>
 		</v-row>
 		<loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
@@ -62,6 +63,8 @@
 import { mapState } from 'vuex';
 import currencies from '@/mixins/miscellany/currencies';
 import Loading from 'vue-loading-overlay';
+import PageHeader from '@/components/Interface/PageHeader';
+import EmptyState from '@/components/Interface/EmptyState';
 
 export default {
 	mixins: [currencies],
@@ -71,7 +74,9 @@ export default {
 		this.currency = await this.getPreferredCurrency();
 	},
 	components: {
-		Loading
+		Loading,
+		PageHeader,
+		EmptyState
 	},
 	data() {
 		return {
@@ -112,8 +117,23 @@ export default {
 </script>
 
 <style>
-.empty-history-information {
-	margin: 40% auto 50px;
-	color: var(--grey);
+.shopping-history__hint {
+	margin: 8px 0 16px;
+	font-size: var(--fs-body);
+}
+
+html .v-application a.history-link {
+	color: var(--accent-ink);
+	font-weight: 600;
+	text-decoration: none;
+}
+
+html .v-application a.history-link:hover {
+	text-decoration: underline;
+}
+
+.shopping-history-table th:nth-child(3),
+.shopping-history-table td:nth-child(3) {
+	text-align: right;
 }
 </style>

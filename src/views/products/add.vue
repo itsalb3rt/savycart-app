@@ -1,95 +1,99 @@
 <template>
-	<v-form @submit.prevent="createProduct" ref="createProduct">
-		<v-row>
-			<v-col cols="12">
-				<v-text-field
-					id="name"
-					v-model="name"
-					:label=" $t('products.name') "
-					@keyup="uppercase"
-					autocomplete="off"
-					:placeholder=" $t('products.product_name_placeholder') "
-					required
-				></v-text-field>
-				<v-text-field
-					type="number"
-					v-model="price"
-					:label=" $t('products.price') "
-					value="1"
-					min="1"
-					step="0.01"
-					required
-				></v-text-field>
-				<v-combobox
-					v-model.trim="brand"
-					:items="$store.getters['products/getBrands']"
-					:label="$t('messages.select_or_add_brand')"
-				></v-combobox>
-				<v-select
-					v-model="measurementUnit"
-					:items="$store.getters['measurementUnits/getAll']"
-					:label=" $t('products.measurement_unit') "
-					item-text="name"
-					item-value="id_unit_measurement"
-					append-outer-icon="fa-plus"
-					@click:append-outer="$router.push('/measurement_units')"
-					:rules="[v => !!v || $t('messages.required_item_selection') ]"
-					required
-				></v-select>
-				<v-select
-					v-model="category"
-					:items="$store.getters['categories/getAll']"
-					:label=" $t('products.category') "
-					item-text="name"
-					item-value="id_category"
-					append-outer-icon="fa-plus"
-					@click:append-outer="$router.push('/categories')"
-					:rules="[v => !!v || $t('messages.required_item_selection') ]"
-					required
-				></v-select>
-				<v-switch
-					color="primary"
-					v-model="tax"
-					:label="` ${$t('products.tax')} ${taxQuantity}% : ${(tax == '1')? $t('messages.yes') : $t('messages.no') }`"
-					true-value="1"
-					false-value="0"
-				></v-switch>
-				<p class="grey--text">{{ $t('products.tax_info') }}</p>
-				<v-divider></v-divider>
-				<v-switch
-					color="primary"
-					v-model.number="favorite"
-					:label="`${$t('products.favorite_mark_message')}: ${(favorite == 1)? $t('messages.yes') : $t('messages.no') }`"
-					true-value.number="1"
-					false-value.number="0"
-				></v-switch>
-				<v-divider></v-divider>
-				<v-textarea
-					rows="3"
-					:label=" $t('products.description') "
-					v-model="description"
-					:placeholder=" $t('products.description_message') "
-				></v-textarea>
-			</v-col>
-		</v-row>
-		<v-row>
-			<v-col cols="12">
-				<v-btn color="primary" type="submit" :disabled="name.length == 0 || isLoading">
-					<v-icon class="mr-2">fa-save</v-icon>
-					{{ $t('call_action_buttons.save') }}
-				</v-btn>
-				<v-btn outlined color="error" @click="$router.push('/product/list')" class="float-right">
-					<v-icon class="mr-2">fa-window-close</v-icon>
-					{{ $t('call_action_buttons.cancel') }}
-				</v-btn>
-			</v-col>
-		</v-row>
-	</v-form>
+	<div>
+		<page-header :title="$t('page_titles.add_product')" />
+		<v-form @submit.prevent="createProduct" ref="createProduct">
+			<v-row>
+				<v-col cols="12">
+					<v-text-field
+						id="name"
+						v-model="name"
+						:label=" $t('products.name') "
+						@keyup="uppercase"
+						autocomplete="off"
+						:placeholder=" $t('products.product_name_placeholder') "
+						required
+					></v-text-field>
+					<v-text-field
+						type="number"
+						v-model="price"
+						:label=" $t('products.price') "
+						value="1"
+						min="1"
+						step="0.01"
+						required
+					></v-text-field>
+					<v-combobox
+						v-model.trim="brand"
+						:items="$store.getters['products/getBrands']"
+						:label="$t('messages.select_or_add_brand')"
+					></v-combobox>
+					<v-select
+						v-model="measurementUnit"
+						:items="$store.getters['measurementUnits/getAll']"
+						:label=" $t('products.measurement_unit') "
+						item-text="name"
+						item-value="id_unit_measurement"
+						append-outer-icon="fa-plus"
+						@click:append-outer="$router.push('/measurement_units')"
+						:rules="[v => !!v || $t('messages.required_item_selection') ]"
+						required
+					></v-select>
+					<v-select
+						v-model="category"
+						:items="$store.getters['categories/getAll']"
+						:label=" $t('products.category') "
+						item-text="name"
+						item-value="id_category"
+						append-outer-icon="fa-plus"
+						@click:append-outer="$router.push('/categories')"
+						:rules="[v => !!v || $t('messages.required_item_selection') ]"
+						required
+					></v-select>
+					<v-switch
+						color="primary"
+						v-model="tax"
+						:label="` ${$t('products.tax')} ${taxQuantity}% : ${(tax == '1')? $t('messages.yes') : $t('messages.no') }`"
+						true-value="1"
+						false-value="0"
+					></v-switch>
+					<p class="text-muted">{{ $t('products.tax_info') }}</p>
+					<v-divider></v-divider>
+					<v-switch
+						color="primary"
+						v-model.number="favorite"
+						:label="`${$t('products.favorite_mark_message')}: ${(favorite == 1)? $t('messages.yes') : $t('messages.no') }`"
+						true-value.number="1"
+						false-value.number="0"
+					></v-switch>
+					<v-divider></v-divider>
+					<v-textarea
+						rows="3"
+						:label=" $t('products.description') "
+						v-model="description"
+						:placeholder=" $t('products.description_message') "
+					></v-textarea>
+				</v-col>
+			</v-row>
+			<v-row>
+				<v-col cols="12">
+					<v-btn color="primary" type="submit" :disabled="name.length == 0 || isLoading">
+						<v-icon class="mr-2">fa-save</v-icon>
+						{{ $t('call_action_buttons.save') }}
+					</v-btn>
+					<v-btn text color="secondary" @click="$router.push('/product/list')" class="float-right">
+						<v-icon class="mr-2">fa-window-close</v-icon>
+						{{ $t('call_action_buttons.cancel') }}
+					</v-btn>
+				</v-col>
+			</v-row>
+		</v-form>
+	</div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import MenuComponent from '@/components/TheMenu.vue';
+import PageHeader from '@/components/Interface/PageHeader';
 
 export default {
 	async mounted() {
@@ -125,7 +129,8 @@ export default {
 		};
 	},
 	components: {
-		MenuComponent
+		MenuComponent,
+		PageHeader
 	},
 	computed: {
 		...mapState(['online'])

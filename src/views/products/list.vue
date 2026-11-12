@@ -1,35 +1,35 @@
 <template>
   <div>
+    <page-header :title="$t('page_titles.my_list')" />
     <v-row>
-      <v-col cols="10">
+      <v-col cols="12" class="list-toolbar">
         <v-text-field
           ref="searchInputRef"
           prepend-inner-icon="fa-search"
           v-model="searchProductName"
           :label="$t('products.search') + '...'"
           clearable
+          hide-details
+          class="list-toolbar__search"
           @click:clear="$refs.searchInputRef.blur()"
         ></v-text-field>
-      </v-col>
-      <v-col class="text-right" cols="2">
         <v-badge
-          color="red"
+          color="error"
           dot
           left
           :value="hasFilters()"
-          style="margin-top: 18px"
         >
           <v-btn
             @click="handleShowFilters"
             icon
-            :color="hasFilters() ? 'primary' : 'grey'"
+            aria-label="Filter products"
           >
             <v-icon>fa-filter</v-icon>
           </v-btn>
         </v-badge>
       </v-col>
       <v-col cols="12">
-        <v-tabs fixed-tabs>
+        <v-tabs show-arrows>
           <v-tab @click="showFavorites = false">
             <v-icon class="mr-2">fa-list</v-icon>
             {{ $t('products.all') }}
@@ -56,7 +56,7 @@
         <v-virtual-scroll
           :bench="benched"
           :items="filterProducts"
-          item-height="170"
+          item-height="173"
           :height="screenHeightForProductContainer"
         >
           <template v-slot:default="{ item }">
@@ -87,9 +87,10 @@
         </v-virtual-scroll>
       </v-col>
       <v-col v-else-if="filterProducts.length == 0" cols="12">
-        <p class="headline mt-5 grey--text text-center font-weight-bold">
-          {{ $t('products.empty_list') }}
-        </p>
+        <empty-state
+          icon="fa-box-open"
+          :title="$t('products.empty_list')"
+        />
       </v-col>
     </v-row>
     <v-btn
@@ -99,6 +100,7 @@
       right
       bottom
       fab
+      aria-label="Add product"
       @click="$router.push({ path: '/product/add' })"
     >
       <v-icon>fa-plus</v-icon>
@@ -114,6 +116,8 @@
 
 <script>
 import deleteDialog from '@/components/Interface/Dialogs/Delete';
+import PageHeader from '@/components/Interface/PageHeader';
+import EmptyState from '@/components/Interface/EmptyState';
 import { mapState } from 'vuex';
 import currencies from '@/mixins/miscellany/currencies';
 import ListProduct from '@/components/Products/ListProduct';
@@ -124,6 +128,8 @@ export default {
   mixins: [currencies],
   components: {
     deleteDialog,
+    PageHeader,
+    EmptyState,
     ListProduct,
     ProductFilter,
   },
@@ -350,8 +356,3 @@ export default {
   },
 };
 </script>
-<style lang="css">
-.right {
-  float: right !important;
-}
-</style>

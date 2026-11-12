@@ -1,0 +1,115 @@
+/*
+ * SavyCart design tokens — the single source of truth for colour, type, space,
+ * radius and motion. Direction: achromatic-ledger x brand blue (dealt sheet seed
+ * 141460847, .taste-skill/direction.json), mapped with --keep palette.
+ *
+ * Rule: components reference var(--…) only. Never hard-code a hex in a view.
+ */
+
+@font-face {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url('~@/assets/fonts/inter/inter-latin.woff2') format('woff2');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+		U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+		U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url('~@/assets/fonts/inter/inter-latin-ext.woff2') format('woff2');
+	unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+		U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+		U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+:root {
+	/* --- surfaces ------------------------------------------------------- */
+	--ground: #f9fafb;
+	--surface: #ffffff;
+	--raised: #f9f9f9;
+	--active: #eeeeee;
+
+	/* --- lines ---------------------------------------------------------- */
+	--border: #e8e8e8;
+	--rule: #f2f2f2;
+	--control: #d1d5db;
+
+	/* --- text (all >= 4.5:1 on --surface and --ground) ------------------ */
+	--text: #111111;
+	--muted: #5f6368;
+	--faint: #6b6b6b;
+
+	/* --- action --------------------------------------------------------- */
+	--primary: #1d1f20; /* near-black fill, white label */
+	--primary-hover: #000000;
+	--on-primary: #ffffff;
+
+	/* --- brand / data hue (kept from #03A9F4, darkened for text) --------- */
+	--accent: #03a9f4; /* graphics, data marks, indicators (3:1 on white) */
+	--accent-ink: #0277bd; /* blue text / links, 4.5:1 on white */
+	--accent-soft: #e3f4fd; /* pale brand tint for small fills */
+
+	/* --- semantic ------------------------------------------------------- */
+	--positive: #247b50;
+	--negative: #c4242a;
+	--warning: #92400e;
+	--info: #0277bd;
+	--pill-positive-bg: #dcfae5;
+	--pill-positive-ink: #04250e;
+	--pill-negative-bg: #ffedea;
+	--pill-negative-ink: #831c1e;
+	--pill-warning-bg: #fffbeb;
+	--pill-warning-ink: #92400e;
+	--pill-neutral-bg: #eeeeee;
+	--pill-neutral-ink: #3d3d3d;
+
+	/* --- geometry ------------------------------------------------------- */
+	--radius-card: 8px;
+	--radius-control: 6px;
+	--radius-chip: 4px;
+	--radius-sheet: 16px;
+	--gap: 16px;
+	--card-pad: 20px;
+	--pad: 24px;
+	--control-h: 36px;
+	--row-h: 48px;
+	--nav-row: 34px;
+	--topbar-h: 52px;
+	--canvas-max: 1120px;
+	--drawer-w: 256px;
+	/* fixed resume-bar clearance — tuned in the responsive phase:
+	   desktop ShopResume is 172px tall and its primary CTA is ≥44px (188);
+	   196 gives breathing room above the tallest bar */
+	--resume-bar-h: 196px;
+
+	/* --- elevation (floats only) ---------------------------------------- */
+	--shadow-float: 0 8px 24px rgba(17, 17, 17, 0.12);
+	--shadow-snack: 0 4px 16px rgba(17, 17, 17, 0.16);
+
+	/* --- type ----------------------------------------------------------- */
+	--font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+	--fs-title: 24px;
+	--fs-section: 16px;
+	--fs-kpi: 30px;
+	--fs-body: 14px;
+	--fs-small: 12px;
+
+	/* --- motion --------------------------------------------------------- */
+	--ease-out: cubic-bezier(0.32, 0.72, 0, 1);
+	--t-press: 140ms;
+	--t-hover: 180ms;
+	--t-route: 200ms;
+}
+
+/* Tabular figures everywhere numbers align or update. */
+.num,
+.v-data-table td.num,
+.v-data-table th.num {
+	font-variant-numeric: tabular-nums;
+}

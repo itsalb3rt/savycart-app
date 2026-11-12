@@ -1,7 +1,9 @@
 <template>
   <v-bottom-sheet v-model="localShow" inset>
-    <v-sheet style="border-radius: 8px" height="280px">
-      <v-card-text class="pb-0 font-weight-bold"> Sort by </v-card-text>
+    <v-sheet class="product-filter" height="280px">
+      <v-card-text class="pb-0 product-filter__title">
+        {{ $t('products.sort_by') }}
+      </v-card-text>
       <v-card-text class="pt-0">
         <v-radio-group v-model="sortBy">
           <v-radio :label="$t('products.nameAsc')" value="nameAZ"> </v-radio>
@@ -11,7 +13,7 @@
         </v-radio-group>
       </v-card-text>
       <div class="text-center">
-        <v-btn @click="handleSort" tyle="margin:auto" color="success">
+        <v-btn @click="handleSort" color="primary">
           <v-icon class="mr-1">fa-check</v-icon>
           {{ $t('call_action_buttons.done') }}
         </v-btn>
@@ -47,3 +49,15 @@ export default {
   },
 };
 </script>
+<style>
+.product-filter {
+	border-radius: var(--radius-card) var(--radius-card) 0 0;
+	padding-bottom: 16px;
+}
+
+.product-filter__title {
+	font-size: var(--fs-section);
+	font-weight: 600;
+	color: var(--text);
+}
+</style>

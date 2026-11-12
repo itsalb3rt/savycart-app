@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<page-header :title="$t('page_titles.edit_product')" />
 		<v-row>
 			<v-col cols="12" v-if="online">
 				<v-form @submit.prevent="updateProduct">
@@ -50,7 +51,7 @@
 								true-value="1"
 								false-value="0"
 							></v-switch>
-							<p class="grey--text">{{ $t('products.tax_info') }}</p>
+							<p class="text-muted">{{ $t('products.tax_info') }}</p>
 							<v-divider></v-divider>
 							<v-switch
 								color="primary"
@@ -70,11 +71,11 @@
 					</v-row>
 					<v-row>
 						<v-col cols="12">
-							<v-btn color="success" :disabled="name.length == 0" type="submit">
+							<v-btn color="primary" :disabled="name.length == 0" type="submit">
 								<v-icon class="mr-2">fa-save</v-icon>
 								{{ $t('call_action_buttons.save') }}
 							</v-btn>
-							<v-btn outlined color="error" @click="$router.push('/product/list')" class="float-right">
+							<v-btn text color="secondary" @click="$router.push('/product/list')" class="float-right">
 								<v-icon class="mr-2">fa-window-close</v-icon>
 								{{ $t('call_action_buttons.cancel') }}
 							</v-btn>
@@ -94,6 +95,7 @@
 import { mapState } from 'vuex';
 import Loading from 'vue-loading-overlay';
 import OfflineInfomation from '@/components/Offline/OfflineInformation';
+import PageHeader from '@/components/Interface/PageHeader';
 import { setTimeout } from 'timers';
 
 export default {
@@ -125,7 +127,8 @@ export default {
 	},
 	components: {
 		Loading,
-		OfflineInfomation
+		OfflineInfomation,
+		PageHeader
 	},
 	computed: {
 		...mapState(['online'])

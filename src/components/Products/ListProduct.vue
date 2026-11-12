@@ -1,18 +1,19 @@
 <template>
-<v-card outlined style="max-width:850px; margin:auto" class="mb-4">
+<v-card outlined class="list-product mb-4">
 	<v-card-text>
-		<div>
+		<div class="list-product__top">
 			<span
 				@click="$emit('view-details', product)"
 				text
-				class="ma-0 pa-0 primary--text font-weight-bold subheading"
+				class="ma-0 pa-0 list-product__name"
 			>{{product.name}}</span>
 			<span class="float-right" v-if="product.favorite == '1' ">
         <v-btn
           icon
-          color="warning"
+          color="accent"
 					@click="$emit('toggle-favorite', product)"
 					:loading="loadingFavorite"
+					:aria-label="$t('products.favorite_mark_message')"
         >
           <v-icon>fa-star</v-icon>
         </v-btn>
@@ -23,22 +24,22 @@
           color="grey"
 					@click="$emit('toggle-favorite', product)"
 					:loading="loadingFavorite"
+					:aria-label="$t('products.favorite_mark_message')"
 					>
 					<v-icon>fa-star</v-icon>
 				</v-btn>
 			</span>
 		</div>
-		<div class="grey--text">
+		<div class="list-product__meta">
 			<span>{{getMeasurementName(product.id_unit_measurement)}}</span>
 			<span class="float-right">{{product.brand}}</span>
 		</div>
-		<div class="font-weight-bold subheading">{{currency.symbol}} {{product.price}}</div>
+		<div class="list-product__price num">{{currency.symbol}} {{product.price}}</div>
 	</v-card-text>
 	<v-card-actions>
 		<v-btn
-			color="success"
-			depressed
 			outlined
+			color="primary"
 			@click="$emit('on-edit', product)"
 			class="edit"
 		>
@@ -93,3 +94,27 @@ export default {
   }
 }
 </script>
+<style>
+.list-product__name {
+	font-size: var(--fs-section);
+	font-weight: 600;
+	color: var(--text);
+	cursor: pointer;
+}
+
+.list-product__name:hover {
+	color: var(--accent-ink);
+}
+
+.list-product__meta {
+	color: var(--muted);
+	font-size: var(--fs-body);
+}
+
+.list-product__price {
+	margin-top: 4px;
+	font-size: var(--fs-section);
+	font-weight: 600;
+	color: var(--text);
+}
+</style>

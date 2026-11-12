@@ -1,29 +1,30 @@
 <template>
   <div>
+    <page-header :title="$t('page_titles.logger_purchase')" />
     <v-row v-if="products.length > 0">
-      <v-col cols="10">
+      <v-col cols="12" class="list-toolbar">
         <v-text-field
           ref="searchInputRef"
           prepend-inner-icon="fa-search"
           v-model="searchProductName"
-          :label="$t('products.search')"
+          :label="$t('products.search') + '...'"
           clearable
+          hide-details
+          class="list-toolbar__search"
           @click:clear="$refs.searchInputRef.blur()"
         ></v-text-field>
-      </v-col>
-      <v-col class="text-right" cols="2">
-        <v-badge color="red" dot left :value="hasFilters()" style="margin-top: 18px">
+        <v-badge color="error" dot left :value="hasFilters()">
           <v-btn
             @click="handleShowFilters"
             icon
-            :color="hasFilters() ? 'primary' : 'grey'"
+            aria-label="Filter products"
           >
             <v-icon>fa-filter</v-icon>
           </v-btn>
         </v-badge>
       </v-col>
       <v-col cols="12">
-        <v-tabs fixed-tabs>
+        <v-tabs show-arrows>
           <v-tab @click="showFavorites = false">
             <v-icon class="mr-2">fa-list</v-icon>
             {{ $t('products.all') }}
@@ -91,16 +92,18 @@
     </v-row>
     <v-row v-else>
       <v-col cols="12">
-        <v-card flat>
-          <v-card-text>
-            <p class="headline grey--text">{{ $t('products.empty_list') }}</p>
+        <empty-state
+          icon="fa-box-open"
+          :title="$t('products.empty_list')"
+        >
+          <template v-slot:action>
             <v-btn color="primary" @click="$router.push('/product/add')">
               <v-icon class="mr-2">fa-plus-circle</v-icon>
               {{ $t('call_action_buttons.create') }}
               {{ $t('products.product') }}
             </v-btn>
-          </v-card-text>
-        </v-card>
+          </template>
+        </empty-state>
       </v-col>
     </v-row>
     <loading
@@ -120,6 +123,8 @@ import currencies from '@/mixins/miscellany/currencies';
 import Loading from 'vue-loading-overlay';
 import PurchaseProduct from '@/components/Products/PurchaseProduct';
 import ProductFilter from '@/components/Products/Filter';
+import PageHeader from '@/components/Interface/PageHeader';
+import EmptyState from '@/components/Interface/EmptyState';
 
 export default {
   mixins: [currencies],
@@ -161,6 +166,8 @@ export default {
     PurchaseProduct,
     ShopResumeMobile,
     ProductFilter,
+    PageHeader,
+    EmptyState,
   },
   computed: {
     ...mapState(['online']),
@@ -312,16 +319,7 @@ export default {
 </script>
 
 <style>
-.product-main-container {
-  margin-top: 20px;
-  margin-bottom: 115px;
-}
-
-.add-remove-from-card-label {
-  margin: 10px auto;
-}
-
 .products-container .v-virtual-scroll .v-virtual-scroll__item:last-child {
-  padding-bottom: 130px;
+  padding-bottom: var(--resume-bar-h);
 }
 </style>

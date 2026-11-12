@@ -1,9 +1,17 @@
 <template>
 	<div>
-		<v-row>
-			<v-col cols="12">
-				<p>{{ $t('settings.currency_description') }}</p>
-				<div>
+		<page-header :title="$t('page_titles.settings')" />
+		<div>
+			<section class="settings-section">
+				<div class="settings-section__label">
+					<h2 class="settings-section__title">
+						{{ $t('settings.currency') }}
+					</h2>
+					<p class="settings-section__desc">
+						{{ $t('settings.currency_description') }}
+					</p>
+				</div>
+				<div class="settings-section__panel">
 					<v-select
 						v-model="preferredCurrencyCode"
 						:items="currenciesArray"
@@ -12,48 +20,59 @@
 						item-value="code"
 						required
 					></v-select>
-					<v-btn color="success" class="ml-0" @click="saveCurrency">
+					<v-btn color="primary" @click="saveCurrency">
 						<v-icon class="mr-2">fa-save</v-icon>
 						{{ $t('call_action_buttons.save') }} {{ $t('settings.currency') }}
 					</v-btn>
 				</div>
-			</v-col>
-			<v-col cols="12">
-				<v-divider class="mt-2 mb-2"></v-divider>
-			</v-col>
-			<v-col cols="12">
-				<p>{{ $t('settings.tax_description') }}</p>
+			</section>
 
-				<v-text-field
-					type="number"
-					v-model.number="tax"
-					name="name"
-					:label=" $t('settings.tax') "
-					id="tax_quantity"
-				></v-text-field>
-				<v-btn color="success" @click="saveTax()">
-					<v-icon class="mr-2">fa-save</v-icon>
-					{{ $t('call_action_buttons.save') }} {{ $t('settings.tax') }}
-				</v-btn>
-			</v-col>
-			<v-col cols="12">
-				<v-divider class="mt-2 mb-2"></v-divider>
-			</v-col>
-			<v-col cols="12">
-				<v-select
-					v-model="language"
-					:items="languageList"
-					:label=" $t('settings.language') "
-					item-text="name"
-					item-value="value"
-					required
-				></v-select>
-				<v-btn color="success" @click="saveLanguage">
-					<v-icon class="mr-2">fa-save</v-icon>
-					{{ $t('call_action_buttons.save') }} {{ $t('settings.language') }}
-				</v-btn>
-			</v-col>
-		</v-row>
+			<section class="settings-section">
+				<div class="settings-section__label">
+					<h2 class="settings-section__title">
+						{{ $t('settings.tax') }}
+					</h2>
+					<p class="settings-section__desc">
+						{{ $t('settings.tax_description') }}
+					</p>
+				</div>
+				<div class="settings-section__panel">
+					<v-text-field
+						type="number"
+						v-model.number="tax"
+						name="name"
+						:label=" $t('settings.tax') "
+						id="tax_quantity"
+					></v-text-field>
+					<v-btn color="primary" @click="saveTax()">
+						<v-icon class="mr-2">fa-save</v-icon>
+						{{ $t('call_action_buttons.save') }} {{ $t('settings.tax') }}
+					</v-btn>
+				</div>
+			</section>
+
+			<section class="settings-section">
+				<div class="settings-section__label">
+					<h2 class="settings-section__title">
+						{{ $t('settings.language') }}
+					</h2>
+				</div>
+				<div class="settings-section__panel">
+					<v-select
+						v-model="language"
+						:items="languageList"
+						:label=" $t('settings.language') "
+						item-text="name"
+						item-value="value"
+						required
+					></v-select>
+					<v-btn color="primary" @click="saveLanguage">
+						<v-icon class="mr-2">fa-save</v-icon>
+						{{ $t('call_action_buttons.save') }} {{ $t('settings.language') }}
+					</v-btn>
+				</div>
+			</section>
+		</div>
 		<loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true" />
 	</div>
 </template>
@@ -62,6 +81,7 @@
 import MenuComponent from '@/components/TheMenu';
 import currencies from '@/mixins/miscellany/currencies';
 import Loading from 'vue-loading-overlay';
+import PageHeader from '@/components/Interface/PageHeader';
 
 export default {
 	name: 'Settings',
@@ -99,7 +119,8 @@ export default {
 	},
 	components: {
 		MenuComponent,
-		Loading
+		Loading,
+		PageHeader
 	},
 	data() {
 		return {

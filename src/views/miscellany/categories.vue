@@ -1,41 +1,43 @@
 <template>
   <div>
-    <v-row>
-      <v-col cols="12">
-        <p>{{ $t('category.category_description_section') }}</p>
-      </v-col>
-      <v-col cols="12" v-if="$store.getters['categories/getAll'].length === 0">
-        <v-alert type="info">
-          {{ $t('messages.nothing_to_display') }}
-        </v-alert>
-      </v-col>
-      <v-col cols="12">
-        <v-btn @click="handleOpenCreateForm()" color="primary">
+    <page-header :title="$t('page_titles.categories')">
+      <template v-slot:actions>
+        <v-btn color="primary" @click="handleOpenCreateForm()">
           <v-icon class="mr-2">fa-plus</v-icon>
           {{ $t('call_action_buttons.addCategory') }}
         </v-btn>
+      </template>
+    </page-header>
+    <p class="text-muted page-hint">
+      {{ $t('category.category_description_section') }}
+    </p>
+    <v-row v-if="$store.getters['categories/getAll'].length === 0">
+      <v-col cols="12">
+        <empty-state
+          icon="fa-list-ul"
+          :title="$t('messages.nothing_to_display')"
+        />
       </v-col>
+    </v-row>
+    <v-row v-else>
       <v-col
         cols="12"
         v-for="item in $store.getters['categories/getAll']"
         :key="item.id"
       >
-        {{ item.name }}
-        <v-btn
-          class="float-right"
-          text
-          color="error"
-          @click="dispatchDeleteCategory(item)"
-        >
-          <v-icon class="mr-2" small>fa-trash</v-icon>
-          {{ $t('call_action_buttons.delete') }}
-        </v-btn>
+        <div class="crud-row">
+          <span class="crud-row__name">{{ item.name }}</span>
+          <v-btn text color="error" @click="dispatchDeleteCategory(item)">
+            <v-icon class="mr-2" small>fa-trash</v-icon>
+            {{ $t('call_action_buttons.delete') }}
+          </v-btn>
+        </div>
       </v-col>
     </v-row>
 
     <v-dialog v-model="showCreateFormDialog" width="500">
       <v-card>
-        <v-card-title class="text-h5 grey lighten-2">
+        <v-card-title class="text-subtitle-1 font-weight-medium">
           {{ $t('call_action_buttons.addCategory') }}
         </v-card-title>
 
@@ -51,11 +53,13 @@
               autocomplete="off"
               @keyup="uppercase"
             ></v-text-field>
-            <div class="text-center">
+            <div class="dialog-actions">
+              <v-btn text @click="showCreateFormDialog = false">
+                {{ $t('call_action_buttons.cancel') }}
+              </v-btn>
               <v-btn
                 color="primary"
                 type="submit"
-                class="ml-0"
                 :disabled="name.length == 0"
               >
                 <v-icon class="mr-2">fa-save</v-icon>
@@ -87,12 +91,16 @@
 import { mapState } from 'vuex';
 import deleteDialog from '@/components/Interface/Dialogs/Delete';
 import Loading from 'vue-loading-overlay';
+import PageHeader from '@/components/Interface/PageHeader';
+import EmptyState from '@/components/Interface/EmptyState';
 
 export default {
   name: 'categories',
   components: {
     deleteDialog,
     Loading,
+    PageHeader,
+    EmptyState,
   },
   mounted() {
     if (this.online) {
@@ -142,7 +150,7 @@ export default {
         this.$store.commit('snackbar/setSnackbar', {
           show: true,
           message: this.$t('messages.intenet_required'),
-          color: 'success',
+          color: 'error',
           top: true,
         });
       }

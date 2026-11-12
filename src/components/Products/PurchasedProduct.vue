@@ -6,11 +6,11 @@
 	  </v-col>
 	  <v-col cols="8" class="name">
 	  	<strong>{{product.product_name}}</strong>
-	  	<div class="grey--text">
+	  	<div class="text-muted">
 	  		{{product.brand}} 
 	  	</div>
 	  	<div
-	  		class="grey--text measurement-unit"
+	  		class="text-muted measurement-unit"
 	  	>{{product.measurement_unit}} | {{ $t('settings.tax') }}: {{ (product.apply_itbis == '1')? $t('messages.yes') : $t('messages.no') }}
 	  	</div>
 	  </v-col>
