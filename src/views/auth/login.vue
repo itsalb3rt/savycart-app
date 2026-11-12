@@ -94,6 +94,14 @@ export default {
 				.catch(error => {
 					console.log('login -> error', error);
 					this.loginFailed = true;
+					if (!error.response) {
+						this.$store.commit('snackbar/setSnackbar', {
+							show: true,
+							message: this.$t('messages.server_error'),
+							color: 'error',
+							top: true
+						});
+					}
 				}).finally(()=>{
 					this.loading = false
 				});

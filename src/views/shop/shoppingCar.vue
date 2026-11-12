@@ -165,7 +165,7 @@ export default {
 							}, 1000);
 						})
 						.catch(error => {
-							if (error.response.status === 500) {
+							if (error.response?.status === 500) {
 								this.$store.commit('snackbar/setSnackbar', {
 									show: true,
 									message: this.$t('message.server_error'),

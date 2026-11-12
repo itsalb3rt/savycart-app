@@ -171,7 +171,7 @@ export default {
 						this.$router.push('/product/list')
 					})
 					.catch(error => {
-						if (error.response.status === 409) {
+						if (error.response?.status === 409) {
 							this.$store.commit('snackbar/setSnackbar', {
 								show: true,
 								message: this.$t('messages.item_already_exists'),

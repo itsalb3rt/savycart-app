@@ -183,7 +183,7 @@ export default {
             });
           })
           .catch((error) => {
-            if (error.response.status === 409) {
+            if (error.response?.status === 409) {
               this.$store.commit('snackbar/setSnackbar', {
                 show: true,
                 message: this.$t('category.forbiden_delete'),

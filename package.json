@@ -13,7 +13,7 @@
     "test": "vitest"
   },
   "engines": {
-    "node": ">=18",
+    "node": ">=16",
     "yarn": ">=1.0.0",
     "npm": "Plese use yarn"
   },
@@ -60,6 +60,7 @@
     "vue-cli-plugin-fontawesome": "^0.2.0",
     "vue-cli-plugin-i18n": "^0.6.1",
     "vue-cli-plugin-vuetify": "^0.5.0",
-    "vue-template-compiler": "^2.7.16"
+    "vue-template-compiler": "^2.7.16",
+    "webpack": "5.75.0"
   }
 }

@@ -15,7 +15,7 @@
 							type="email"
 							required
 						></v-text-field>
-						<div color="error" v-if="emailExits">
+      <div color="error" v-if="emailExists">
 							<p class="error--text">{{ $t('auth.email_already_registered') }}</p>
 						</div>
 					</v-col>
@@ -41,7 +41,7 @@
 						<v-btn
 							type="submit"
 							color="success"
-							:disabled="userExitst === true || emailExits === true || disabledSubmitButton === true || newUser.fullname === '' || newUser.email === '' || newUser.password === '' || newUser.password2 === ''"
+       :disabled="userExists === true || emailExists === true || disabledSubmitButton === true || newUser.fullname === '' || newUser.email === '' || newUser.password === '' || newUser.password2 === ''"
 							block
 						>{{ $t('auth.create_an_account') }}</v-btn>
 					</v-col>
@@ -77,8 +77,8 @@ export default {
 				fullname: '',
 				email: ''
 			},
-			userExitst: false,
-			emailExits: false,
+			userExists: false,
+			emailExists: false,
 			disabledSubmitButton: false,
 			showPassword: false,
 			regex: '^[a-z0-9_-]{3,15}$'
@@ -89,11 +89,11 @@ export default {
 			this.$store
 				.dispatch('auth/checkIsEmailExists', { email: this.newUser.email })
 				.then(() => {
-					this.emailExits = true;
+     this.emailExists = true;
 				})
 				.catch(error => {
-					if (error.response.status === 404) {
-						this.emailExits = false;
+					if (error.response?.status === 404) {
+      this.emailExists = false;
 					}
 				});
 		},
@@ -113,17 +113,17 @@ export default {
 						this.$store.commit('auth/SET_USER',decoded);
 						this.$router.push('product/list');
 				})
-				.catch((error) => {
+  		.catch((error) => {
           console.log('🚀 ~ file: register.vue ~ line 126 ~ registerUser ~ error', error) // taste-skill-ignore
-					this.$store.commit('snackbar/setSnackbar', {
-						show: true,
-						message: error.response.data && error.response.data.errors ? error.response.data.errors.toString() : 'Unknown error',
-						color: 'error',
-						top: true,
-						close: false,
-						showClose: false
-					});
-				})
+			this.$store.commit('snackbar/setSnackbar', {
+				show: true,
+				message: error.response?.data?.errors ? error.response.data.errors.toString() : 'Unknown error',
+				color: 'error',
+				top: true,
+				close: false,
+				showClose: false
+			});
+		})
 				.finally(() => {
 					this.disabledSubmitButton = false;
 				});

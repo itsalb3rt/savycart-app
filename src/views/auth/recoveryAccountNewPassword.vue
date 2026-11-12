@@ -139,7 +139,7 @@ export default {
 				})
 				.catch(error => {
 					this.loading = false;
-					if (error.response.status === 401) {
+					if (error.response?.status === 401) {
 						this.invalidToken = true;
 						this.$store.commit('snackbar/setSnackbar', {
 							show: true,
@@ -147,7 +147,7 @@ export default {
 							color: 'error',
 							top: true
 						});
-					} else if (error.response.status === 409) {
+					} else if (error.response?.status === 409) {
 						this.$store.commit('snackbar/setSnackbar', {
 							show: true,
 							message: this.$t('messages.password_not_match'),

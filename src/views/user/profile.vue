@@ -137,7 +137,7 @@ export default {
 				})
 				.catch(error => {
 					this.isLoading = false;
-					if (error.response.status === 409) {
+					if (error.response?.status === 409) {
 						this.$store.commit('snackbar/setSnackbar', {
 							show: true,
 							message: this.$t('messages.password_not_match'),

@@ -4,7 +4,8 @@ Vue 2 + Vuetify PWA with Capacitor (Android/iOS). The backend is a separate repo
 
 ## Install / run
 
-- `yarn` — lockfile is `yarn.lock`. Engines pin `node=16.20.1` (CI uses Node 16.20.1). Do not use npm (`engines` says "Plese use yarn").
+- `yarn` — lockfile is `yarn.lock`. Node 16.20.1, 18, 20, 22, and 24 are supported. CI uses Node 16.20.1. Do not use npm (`engines` says "Plese use yarn").
+- If using Node 24+, webpack is pinned to `5.75.0` (devDependency) to avoid the `webpack/buildin/` directory removal in newer webpack versions. Run `yarn install --ignore-engines` if needed.
 - Create `.env` from `.env.bak` (gitignored). Key vars: `VUE_APP_API_DEV`, `VUE_APP_API_PRO`, `VUE_APP_I18N_LOCALE`, `EXPOSED_PORT`. API base is chosen by `NODE_ENV` in `src/api/HttpClient.js:4`.
 - `yarn serve` — dev server (port 8080). `yarn build` — production build to `dist/` (gitignored).
 
@@ -33,3 +34,4 @@ Vue 2 + Vuetify PWA with Capacitor (Android/iOS). The backend is a separate repo
 - Vuex state persists to `localStorage` via `vuex-persist` (`src/store/store.js:13`).
 - Docker: `EXPOSED_PORT:8080`, `Dockerfile` uses `node:9.11.1-alpine` (stale, not the source of truth for local dev).
 - Tests and CI only cover unit tests; there are no integration/e2e scripts or required local services.
+- Webpack is pinned to `5.75.0` in `package.json` devDependencies to ensure compatibility with Node 24+ (newer webpack versions removed the `buildin/` directory required by `html-webpack-plugin`).
