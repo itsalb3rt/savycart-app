@@ -11,7 +11,8 @@ import snackbar from './Modules/Snackbar';
 import VuexPersistence from 'vuex-persist'
 
 const vuexLocal = new VuexPersistence({
-  storage: window.localStorage
+  storage: window.localStorage,
+  blacklist: ['snackbar']
 })
 
 Vue.use(Vuex)

@@ -232,6 +232,7 @@
 - [x] Responsive design works (visual layout adapts at 375px mobile width; Vuetify breakpoint detection limited in Browser MCP but real browsers work correctly)
 - [x] i18n translations load correctly (default: English, switching to Español verified)
 - [x] Snackbar notifications system works (verified via Vuex store mutation `snackbar/setSnackbar`; appears at bottom with correct styling)
+- [x] Snackbar does not persist stale messages on reload (Bug #44 fix — vuex-persist blacklist)
 - [x] Delete confirmation dialogs work (verified: product delete, category delete, and measurement unit delete all show confirmation dialog with Delete/Keep buttons and execute successfully)
 - [x] Empty states display when no data exists
 
@@ -773,6 +774,12 @@
 - **Testing campaign complete.** All testable items have been verified.
 - **No auto-commit** — changes left uncommitted as requested.
 
+### Session 23 - 2026-11-12 (Bug Fix — Stale Snackbar on Reload)
+- **Bug #44 (Medium):** `store/store.js` — Stale snackbar notification ("Saved") appears on every page reload. The `vuex-persist` plugin was persisting the entire Vuex store state to `localStorage`, including the snackbar module. When a snackbar was shown (e.g., after registration), the state with `show: true` and the message could be saved before the auto-hide timeout fired. On next reload, vuex-persist restored this state, causing the stale notification to reappear.
+- **Fix:** Added `blacklist: ['snackbar']` to the `VuexPersistence` configuration in `store/store.js` to prevent snackbar state from being persisted.
+- **Verified:** After registration (which triggers a success snackbar), reloading the page no longer shows the stale notification. Snackbar still works normally during the session.
+- **No auto-commit** — changes left uncommitted as requested.
+
 ---
 
 ## 📊 Final Summary
@@ -788,12 +795,12 @@
 | Delete dialogs | ✓ Dialog and delete action verified (product, category, measurement unit) |
 | Not applicable items | 2 items — edit features for categories and measurement units don't exist |
 
-### Bugs Fixed (43 total)
+### Bugs Fixed (44 total)
 | Severity | Count | Examples |
 |----------|-------|---------|
 | Critical | 7 | Crash on undefined measurement unit, undefined purchase data, undefined user object |
 | High | 8 | Loading overlay stuck (6 files), Vue 3 `onMounted()` on Vue 2 app |
-| Medium | 10 | Missing error feedback (snackbar), form validation (submit button always enabled) |
+| Medium | 11 | Missing error feedback (snackbar), form validation (submit button always enabled), stale snackbar on reload |
 | Low | 13 | Typos, hardcoded i18n strings, `parseInt` vs `parseFloat`, wrong i18n keys |
 | Non-actionable | 1 | Permissions policy violation (browser/dev-server issue) |
 
@@ -848,3 +855,4 @@ The following files have uncommitted changes (no auto-commit as requested):
 - `src/components/Products/PurchaseProduct.vue` — Bug #29 fix
 - `src/components/Products/PurchasedProduct.vue` — Bug #31 fix
 - `src/store/Modules/Taxes.js` — Bug #32 fix
+- `src/store/store.js` — Bug #44 fix
