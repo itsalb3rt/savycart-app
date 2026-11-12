@@ -113,7 +113,7 @@ export default {
 		subTotal() {
 			let total = 0;
 			this.shoppingCar.forEach(item => {
-				total += parseInt(item.price) * parseInt(item.quantity);
+				total += parseFloat(item.price) * parseFloat(item.quantity);
 			});
 			return total;
 		},
@@ -133,7 +133,7 @@ export default {
 			let value = this.$store.getters['measurementUnits/getAll'].find(
 				unit => unit.id_unit_measurement === id
 			);
-			return value.name;
+			return value ? value.name : '';
 		},
 		async saveShop() {
 			this.disabledSubmitButton = true;
@@ -168,7 +168,7 @@ export default {
 							if (error.response?.status === 500) {
 								this.$store.commit('snackbar/setSnackbar', {
 									show: true,
-									message: this.$t('message.server_error'),
+  							message: this.$t('messages.server_error'),
 									color: 'error',
 									top: true
 								});

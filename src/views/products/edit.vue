@@ -165,10 +165,17 @@ export default {
 						}, 1000);
 						this.isLoading = false;
 					})
-					.catch(function(error) {
-						console.log('TCL: createCategory -> error', error);
-					});
-			} else {
+ 				.catch(error => {
+ 					this.isLoading = false;
+ 					this.$store.commit('snackbar/setSnackbar', {
+ 						show: true,
+ 						message: this.$t('messages.server_error'),
+ 						color: 'error',
+ 						top: true
+ 					});
+ 					console.log('TCL: createCategory -> error', error);
+ 				});
+ 		} else {
 				this.$store.commit('snackbar/setSnackbar', {
 					show: true,
 					message: this.$t('messages.intenet_required'),
@@ -188,13 +195,20 @@ export default {
 					this.price = this.product.price;
 					this.measurementUnit = this.product.id_unit_measurement;
 					this.category = this.product.id_category;
-					this.include_tax = this.product.include_tax;
+ 				this.itbis = this.product.include_tax;
 					this.description = this.product.description;
 					this.isLoading = false;
 					this.favorite = this.product.favorite;
 					this.brand = this.product.brand;
 				})
-				.catch(function(error) {
+				.catch(error => {
+					this.isLoading = false;
+					this.$store.commit('snackbar/setSnackbar', {
+						show: true,
+						message: this.$t('messages.server_error'),
+						color: 'error',
+						top: true
+					});
 					console.log('TCL: requestProducts -> error', error);
 				});
 		},

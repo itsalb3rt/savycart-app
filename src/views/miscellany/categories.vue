@@ -140,7 +140,13 @@ export default {
             });
 						this.showCreateFormDialog = false
           })
-          .catch(function (error) {
+          .catch(error => {
+            this.$store.commit('snackbar/setSnackbar', {
+              show: true,
+              message: this.$t('messages.server_error'),
+              color: 'error',
+              top: true,
+            });
             console.log('TCL: createCategory -> error', error);
           })
           .finally(() => {

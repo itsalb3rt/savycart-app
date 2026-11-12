@@ -151,6 +151,8 @@ export default {
 			await this.requestCategories();
 			await this.requestMeasurementUnit();
 			await this.getProduct();
+		} else {
+			this.loading = false;
 		}
 		this.currency = await this.getPreferredCurrency();
 	},

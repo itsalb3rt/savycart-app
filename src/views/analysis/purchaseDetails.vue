@@ -96,6 +96,9 @@ export default {
 	},
 	computed: {
 		subTotal() {
+			if (!this.purchaseDetails.purchase_details || !Array.isArray(this.purchaseDetails.purchase_details)) {
+				return 0;
+			}
 			let subTotal = 0;
 			this.purchaseDetails.purchase_details.forEach(product => {
 				subTotal +=
@@ -104,6 +107,9 @@ export default {
 			return subTotal;
 		},
 		itbis() {
+			if (!this.purchaseDetails.purchase_details || !Array.isArray(this.purchaseDetails.purchase_details) || !this.purchaseDetails.tax) {
+				return 0;
+			}
 			let itbis = 0;
 			this.purchaseDetails.purchase_details.forEach(product => {
 				itbis +=
@@ -123,6 +129,15 @@ export default {
 				.dispatch('shoppings/get', { id: this.$route.params.id })
 				.then(response => {
 					this.purchaseDetails = response.data.data;
+				})
+				.catch(error => {
+					this.$store.commit('snackbar/setSnackbar', {
+						show: true,
+						message: this.$t('messages.server_error'),
+						color: 'error',
+						top: true
+					});
+					console.log('TCL: requestPurchaseDetails -> error', error);
 				});
 		},
 		deletePurchase() {

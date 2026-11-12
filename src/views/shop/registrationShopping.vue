@@ -141,6 +141,15 @@ export default {
         this.$store.commit('products/SET', response.data.data);
         this.products = this.$store.getters['products/getAll'];
         this.isLoading = false;
+      }).catch(error => {
+        this.isLoading = false;
+        this.$store.commit('snackbar/setSnackbar', {
+          show: true,
+          message: this.$t('messages.server_error'),
+          color: 'error',
+          top: true
+        });
+        console.log('TCL: getAll products -> error', error);
       });
     }
     

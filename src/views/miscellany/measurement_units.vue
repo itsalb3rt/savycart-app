@@ -27,7 +27,7 @@
       >
         <div class="crud-row">
           <span class="crud-row__name">{{ item.name }}</span>
-          <v-btn text color="error" @click="dispatchDeleteMesasurementUnit(item)">
+          <v-btn text color="error" @click="dispatchDeleteMeasurementUnit(item)">
             <v-icon class="mr-2" small>fa-trash</v-icon>
             {{ $t('call_action_buttons.delete') }}
           </v-btn>
@@ -142,7 +142,13 @@ export default {
             });
             this.showCreateFormDialog = false;
           })
-          .catch(function (error) {
+          .catch(error => {
+            this.$store.commit('snackbar/setSnackbar', {
+              show: true,
+              message: this.$t('messages.server_error'),
+              color: 'error',
+              top: true,
+            });
             console.log('TCL: addMeasurementUnit -> error', error);
           })
           .finally(() => {
@@ -157,7 +163,7 @@ export default {
         });
       }
     },
-    dispatchDeleteMesasurementUnit(item) {
+    dispatchDeleteMeasurementUnit(item) {
       this.showDialogDeleteMeasurementUnit = true;
       const index = this.$store.getters['measurementUnits/getAll'].findIndex(
         (unit) => unit.id_unit_measurement === item.id_unit_measurement

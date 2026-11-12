@@ -113,7 +113,14 @@ export default {
 					this.localUser.email = user.email;
 					this.isLoading = false;
 				})
-				.catch(function(error) {
+				.catch(error => {
+					this.isLoading = false;
+					this.$store.commit('snackbar/setSnackbar', {
+						show: true,
+						message: this.$t('messages.server_error'),
+						color: 'error',
+						top: true
+					});
 					console.log(error);
 				});
 		},
