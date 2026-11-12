@@ -93,13 +93,13 @@ export default {
       }),
     },
   },
-  onMounted() {
-    this.localQuantity = this.product.quantity;
-  },
   data() {
     return {
       localQuantity: 1,
     };
+  },
+  mounted() {
+    this.localQuantity = this.product.quantity || 1;
   },
   methods: {
     getMeasurementName(id) {
@@ -110,7 +110,7 @@ export default {
           return;
         }
       });
-      return value;
+      return value || '';
     },
     increment() {
       this.localQuantity++;

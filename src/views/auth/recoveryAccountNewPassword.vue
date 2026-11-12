@@ -95,7 +95,7 @@ export default {
 			invalidToken: false,
 			passwordRules: [
 				v => !!v || this.$t('messages.invalid_input'),
-				v => v.length >= 8 || 'Password must be less than 8 characters'
+				v => v.length >= 8 || this.$t('messages.password_min_length')
 			]
 		};
 	},
@@ -139,7 +139,14 @@ export default {
 				})
 				.catch(error => {
 					this.loading = false;
-					if (error.response?.status === 401) {
+					if (!error.response) {
+						this.$store.commit('snackbar/setSnackbar', {
+							show: true,
+							message: this.$t('messages.server_error'),
+							color: 'error',
+							top: true
+						});
+					} else if (error.response?.status === 401) {
 						this.invalidToken = true;
 						this.$store.commit('snackbar/setSnackbar', {
 							show: true,

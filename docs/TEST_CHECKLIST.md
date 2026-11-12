@@ -268,6 +268,12 @@
 | 23 | 2026-11-12 | `/categories` | `src/views/miscellany/categories.vue:143-145` | `createCategory` catch handler uses `function(error)` losing `this` context; no user feedback on non-409 errors. **Fixed:** Changed to arrow function, added snackbar error message. | Medium | **Fixed** |
 | 24 | 2026-11-12 | `/measurement_units` | `src/views/miscellany/measurement_units.vue:145-147` | `createMeasurementUnit` catch handler uses `function(error)` losing `this` context; no user feedback on non-409 errors. **Fixed:** Changed to arrow function, added snackbar error message. | Medium | **Fixed** |
 | 25 | 2026-11-12 | `/measurement_units` | `src/views/miscellany/measurement_units.vue:160` | Typo: method named `dispatchDeleteMesasurementUnit` instead of `dispatchDeleteMeasurementUnit`. **Fixed:** Renamed method and updated template reference. | Low | **Fixed** |
+| 26 | 2026-11-12 | Drawer menu (all pages) | `src/components/TheMenu.vue:61` | **CRASH** — Drawer footer accesses `$store.getters['auth/getUser'].first_name` and `.last_name` without null checks; crashes when user object is undefined (e.g. after logout but before redirect). **Fixed:** Added optional chaining with default empty strings. | **Critical** | **Fixed** |
+| 27 | 2026-11-12 | `/auth/recoverypassword` | `src/views/auth/recoveryAccountNewPassword.vue:98` | Hardcoded English string `'Password must be less than 8 characters'` in password validation rule instead of using i18n. **Fixed:** Replaced with `this.$t('messages.password_min_length')` and added translation keys (en/es). | Low | **Fixed** |
+| 28 | 2026-11-12 | `/auth/recoverypassword` | `src/views/auth/recoveryAccountNewPassword.vue:140-159` | Network errors (no `error.response`) show no feedback — only 401 and 409 status codes are handled. **Fixed:** Added network error handler with snackbar notification before status code checks. | Medium | **Fixed** |
+| 29 | 2026-11-12 | `/shop/registation` | `src/components/Products/PurchaseProduct.vue:96-98` | **Broken quantity initialization** — Uses Vue 3 `onMounted()` lifecycle hook instead of Vue 2 `mounted()`, so `localQuantity` never initializes from `product.quantity`. **Fixed:** Changed to `mounted()` hook with null-safe default. | High | **Fixed** |
+| 30 | 2026-11-12 | `/product/list` | `src/components/Products/ListProduct.vue:84-93` | `getMeasurementName` returns `undefined` when no matching measurement unit is found, rendering "undefined" in the product list. **Fixed:** Added fallback `return value || ''`. | Low | **Fixed** |
+| 31 | 2026-11-12 | `/analysis/purchase_details/:id` | `src/components/Products/PurchasedProduct.vue:20` | Price calculation uses `parseInt` truncating decimal prices, causing incorrect totals. **Fixed:** Changed to `parseFloat`. | Medium | **Fixed** |
 
 ### Files with `error.response.status` without null check (will crash on network errors):
 
@@ -365,3 +371,33 @@
 - **Next:**
   1. Commit the changes
   2. Start the backend API to test authenticated pages with real data
+
+### Session 5 - 2026-11-12
+- **Reviewed `TheMenu.vue` (drawer menu component):** Found Bug #26 — crash on undefined user object in drawer footer.
+- **Reviewed `recoveryAccountNewPassword.vue` (password recovery step 2):** Found Bug #27 (hardcoded i18n string) and Bug #28 (missing network error handler).
+- **Reviewed all shared components** (13 files in `src/components/`):
+  - **Bug #29 (High):** `PurchaseProduct.vue` — uses Vue 3 `onMounted()` instead of Vue 2 `mounted()`, so quantity never initializes.
+  - **Bug #30 (Low):** `ListProduct.vue` — `getMeasurementName` returns `undefined` when no matching unit found.
+  - **Bug #31 (Medium):** `PurchasedProduct.vue` — `parseInt` truncates decimal prices in price calculation.
+  - Other components (ShopResume, ShopResumeMobile, ShoppingCar, Filter, Delete, EmptyState, PageHeader, OfflineInformation, AuthShell) — no issues found.
+- **Fixed 6 bugs** across 5 files:
+  - **Bug #26 (Critical):** `TheMenu.vue` — added optional chaining with defaults for `getUser.first_name` and `getUser.last_name`.
+  - **Bug #27 (Low):** `recoveryAccountNewPassword.vue` — replaced hardcoded English password validation message with `this.$t('messages.password_min_length')`.
+  - **Bug #28 (Medium):** `recoveryAccountNewPassword.vue` — added network error handler (when `error.response` is undefined) with snackbar notification.
+  - **Bug #29 (High):** `PurchaseProduct.vue` — changed `onMounted()` to `mounted()` with null-safe default for quantity.
+  - **Bug #30 (Low):** `ListProduct.vue` — added fallback `return value || ''` in `getMeasurementName`.
+  - **Bug #31 (Medium):** `PurchasedProduct.vue` — changed `parseInt` to `parseFloat` for price calculation.
+- **Added i18n translations:** `messages.password_min_length` key added to both `en.json` and `es.json`.
+- **Files modified:**
+  - `src/components/TheMenu.vue`
+  - `src/components/Products/ListProduct.vue`
+  - `src/components/Products/PurchaseProduct.vue`
+  - `src/components/Products/PurchasedProduct.vue`
+  - `src/views/auth/recoveryAccountNewPassword.vue`
+  - `src/locales/en.json`
+  - `src/locales/es.json`
+- **Ran tests:** All 46 tests pass (11 test files).
+- **All 31 bugs now Fixed** (except #1 — permissions policy violation, noted as non-actionable).
+- **Next:**
+  1. Commit the changes
+  2. Review store modules and mixins for remaining issues, or start backend API for live testing

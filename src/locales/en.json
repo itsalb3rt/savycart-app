@@ -144,6 +144,7 @@
     "required_item_selection": "Please select a item from the list",
     "password_length": "Password must be less than",
     "characters": "characters",
+    "password_min_length": "Password must be at least 8 characters",
     "invalid_token": "the token is not valid, please request a new account recovery email",
     "select_or_add_brand": "Select or write a brand name",
     "measurement_units_description": "Units of measure are the units in which the product is measured, for example, unit, package, box, etc.",

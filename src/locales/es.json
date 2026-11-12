@@ -144,6 +144,7 @@
     "required_item_selection": "Seleccione un elemento de la lista",
     "password_length": "La contraseña no debe tener menos de",
     "characters": "caracteres",
+    "password_min_length": "La contraseña debe tener al menos 8 caracteres",
     "invalid_token": "El token no es válido, solicite un nuevo correo electrónico de recuperación de cuenta",
     "select_or_add_brand": "Seleccione o escriba el nombre de una marca",
     "measurement_units_description": "Las unidades de medida son las unidades en las que se mide el producto, por ejemplo, unidad, paquete, caja, etc.",

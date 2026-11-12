@@ -57,9 +57,9 @@
 							<v-icon small dark>fa-user</v-icon>
 						</v-list-item-avatar>
 						<v-list-item-content>
-							<v-list-item-title>
-								{{ $store.getters['auth/getUser'].first_name }} {{ $store.getters['auth/getUser'].last_name }}
-							</v-list-item-title>
+ 						<v-list-item-title>
+ 							{{ ($store.getters['auth/getUser']?.first_name || '') + ' ' + ($store.getters['auth/getUser']?.last_name || '') }}
+ 						</v-list-item-title>
 						</v-list-item-content>
 					</v-list-item>
 					<v-list-item :to="{ path: logout[0].routePath }">

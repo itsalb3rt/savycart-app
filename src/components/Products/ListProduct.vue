@@ -89,7 +89,7 @@ export default {
 					return;
 				}
 			});
-			return value;
+			return value || '';
 		}
   }
 }

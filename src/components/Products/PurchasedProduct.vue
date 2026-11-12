@@ -17,7 +17,7 @@
 	  <v-col cols="3">
 	  	<span
 	  		class="font-weight-bold price-container"
-	  	>{{currency.symbol}} {{parseInt(product.unit_price) * parseInt(product.quantity) }}</span>
+	  	>{{currency.symbol}} {{parseFloat(product.unit_price) * parseFloat(product.quantity) }}</span>
 	  </v-col>
   </v-row>
 </template>
