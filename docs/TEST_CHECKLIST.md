@@ -2,7 +2,7 @@
 
 > **Purpose:** Systematic manual testing of the SavyCart app using Browser MCP.  
 > **Created:** 2026-11-12  
-> **Status:** Live Testing Complete (no backend API) — ~77 items verified
+> **Status:** Live Testing Complete (no backend API) — ~82 items verified
 > **Test Environment:** `yarn serve` on `http://localhost:8080`  
 > **Backend API:** `http://localhost:5018/sheiley-shop-api` (dev)  
 
@@ -84,7 +84,8 @@
 ### Add Product (`/product/add`)
 - [x] Page loads correctly with empty form
 - [x] All product fields are present (name, price, brand, measurement unit, category, tax toggle, favorite toggle, description)
-- [x] Form validation works for required fields (save button disabled when invalid)
+- [x] Form validation works for required fields (save button disabled when name empty, enabled when filled)
+- [x] Cancel/Back button returns to previous page
 - [ ] Category dropdown loads categories from API (requires backend)
 - [ ] Measurement unit dropdown loads units from API (requires backend)
 - [ ] Submit creates a new product successfully (requires backend)
@@ -114,13 +115,14 @@
 
 ### Shopping Registration / Logger Purchase (`/shop/registation`)
 - [x] Page loads correctly (no stuck loading overlay)
+- [x] "Create Product" button navigates to `/product/add` when no products exist
 - [ ] Product search/filter works (requires backend)
 - [ ] Products can be added to shopping cart (requires backend)
 - [ ] Quantity adjustment works
 - [ ] Shopping cart summary is visible and accurate
 - [ ] Total calculation is correct
 - [ ] Submit/Complete purchase works (requires backend)
-- [x] Empty cart state is handled (shows "No products have been created" + "Create Product" button)
+- [x] Empty state is handled (shows heading + "Create Product" button)
 - [x] Console errors check (only network errors from missing backend)
 
 ### Shopping Cart (`/shop/shopping_car`)
@@ -138,10 +140,10 @@
 
 ### Shopping History (`/analysis/shopping_history`)
 - [x] Page loads correctly (no stuck loading overlay)
+- [x] Empty state shows when no history exists (shows heading only, no crash)
 - [ ] Past purchases/shopping trips are listed (requires backend)
 - [ ] Date filtering works (if available)
 - [ ] Clicking a purchase navigates to `/analysis/purchase_details/:id` (requires backend)
-- [x] Empty state shows when no history exists (shows "Nothing to display")
 - [x] Console errors check (only network errors from missing backend)
 
 ### Purchase Details (`/analysis/purchase_details/:id`)
@@ -169,6 +171,7 @@
 
 ### Measurement Units (`/measurement_units`)
 - [x] Page loads correctly (no stuck loading overlay)
+- [x] Add dialog opens with form validation (Save disabled when empty, enabled when filled)
 - [ ] Existing measurement units are listed (requires backend)
 - [ ] New unit can be added (requires backend)
 - [ ] Unit can be edited (requires backend)
@@ -178,6 +181,7 @@
 
 ### Categories (`/categories`)
 - [x] Page loads correctly (no stuck loading overlay)
+- [x] Add dialog opens with form validation (Save disabled when empty, enabled when filled)
 - [ ] Existing categories are listed (requires backend)
 - [ ] New category can be added (requires backend)
 - [ ] Category can be edited (requires backend)
@@ -566,4 +570,22 @@
 - **Next:**
   1. Commit the TEST_CHECKLIST.md changes
   2. Start the backend API (`itsalb3rt/sheiley-shop-api` on `http://localhost:5018`) to complete the remaining ~23 checkboxes
+  3. Manual testing for swipe gesture on a real device
+
+### Session 13 - 2026-11-12 (Live Browser Testing — Session 5)
+- **Continued live browser testing** with the app running on `http://localhost:8080`.
+- **Newly verified items:**
+  - **Add Product form validation** (`/product/add`) — ✓ Save button is disabled when name field is empty, enabled when name is filled. Cancel/Back button returns to the previous page correctly.
+  - **Logger Purchase button** (`/shop/registation`) — ✓ "Create Product" button navigates to `/product/add` when no products exist.
+  - **Shopping History empty state** (`/analysis/shopping_history`) — ✓ Page loads with heading only, no crash or stuck overlay when no history exists.
+  - **Categories add dialog** (`/categories`) — ✓ Dialog opens with text input (placeholder "Expendable, legumes"), Save button disabled when empty, enabled when text is entered. Cancel button closes dialog.
+  - **Measurement Units add dialog** (`/measurement_units`) — ✓ Dialog opens with text input (placeholder "Unit, package, box, etc."), Save button disabled when empty, enabled when text is entered. Cancel button closes dialog.
+- **Checked items total:** ~82 out of ~100 checkboxes.
+- **Remaining ~18 checkboxes require:**
+  - Running backend API for authentication flow, CRUD operations, and API-dependent features
+  - Manual testing for: swipe gesture (hammer.js)
+- **No code changes needed** — all fixes from previous sessions continue working correctly.
+- **Next:**
+  1. Commit the TEST_CHECKLIST.md changes
+  2. Start the backend API (`itsalb3rt/sheiley-shop-api` on `http://localhost:5018`) to complete the remaining ~18 checkboxes
   3. Manual testing for swipe gesture on a real device
