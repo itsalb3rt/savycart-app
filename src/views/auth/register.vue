@@ -92,7 +92,14 @@ export default {
      this.emailExists = true;
 				})
 				.catch(error => {
-					if (error.response?.status === 404) {
+					if (!error.response) {
+						this.$store.commit('snackbar/setSnackbar', {
+							show: true,
+							message: this.$t('messages.server_error'),
+							color: 'error',
+							top: true
+						});
+					} else if (error.response?.status === 404) {
       this.emailExists = false;
 					}
 				});
@@ -114,16 +121,16 @@ export default {
 						this.$router.push('product/list');
 				})
   		.catch((error) => {
-          console.log('🚀 ~ file: register.vue ~ line 126 ~ registerUser ~ error', error) // taste-skill-ignore
-			this.$store.commit('snackbar/setSnackbar', {
-				show: true,
-				message: error.response?.data?.errors ? error.response.data.errors.toString() : 'Unknown error',
-				color: 'error',
-				top: true,
-				close: false,
-				showClose: false
-			});
-		})
+	        console.log('🚀 ~ file: register.vue ~ line 126 ~ registerUser ~ error', error) // taste-skill-ignore
+		this.$store.commit('snackbar/setSnackbar', {
+			show: true,
+			message: error.response?.data?.errors ? error.response.data.errors.toString() : this.$t('messages.server_error'),
+			color: 'error',
+			top: true,
+			close: false,
+			showClose: false
+		});
+	})
 				.finally(() => {
 					this.disabledSubmitButton = false;
 				});

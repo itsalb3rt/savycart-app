@@ -88,34 +88,40 @@ export default {
 	mixins: [currencies],
 	async mounted() {
 		this.isLoading = true;
-		const localStorageLanguage =  window.localStorage.getItem('language');
+		try {
+			const localStorageLanguage =  window.localStorage.getItem('language');
 
-		if (localStorageLanguage) {
-			this.language = localStorageLanguage;
-		} else {
-			const userLanguage = navigator.language;
-
-			if (userLanguage.includes('es')) {
-				this.language = 'es';
+			if (localStorageLanguage) {
+				this.language = localStorageLanguage;
 			} else {
-				this.language = 'en';
-			}
-		}
+				const userLanguage = navigator.language;
 
-		this.getTax();
-		this.getCurrencies().then(resp => {
-			this.currencies = resp;
-			for (let key in resp) {
-				this.currenciesArray.push({
-					code: resp[key].code,
-					symbol: resp[key].symbol,
-					name: resp[key].name
-				});
+				if (userLanguage.includes('es')) {
+					this.language = 'es';
+				} else {
+					this.language = 'en';
+				}
 			}
-		});
-		this.preferredCurrency = await this.getPreferredCurrency();
-		this.preferredCurrencyCode = this.preferredCurrency.code;
-		this.isLoading = false;
+
+			this.getTax();
+			const resp = await this.getCurrencies();
+			if (resp) {
+				this.currencies = resp;
+				for (let key in resp) {
+					this.currenciesArray.push({
+						code: resp[key].code,
+						symbol: resp[key].symbol,
+						name: resp[key].name
+					});
+				}
+			}
+			this.preferredCurrency = await this.getPreferredCurrency();
+			this.preferredCurrencyCode = this.preferredCurrency.code;
+		} catch (error) {
+			console.log('TCL: mounted -> error', error);
+		} finally {
+			this.isLoading = false;
+		}
 	},
 	components: {
 		MenuComponent,
@@ -147,6 +153,12 @@ export default {
 					this.$store.commit('taxes/SET',response.data.data.quantity);
 				})
 				.catch(error => {
+					this.$store.commit('snackbar/setSnackbar', {
+						show: true,
+						message: this.$t('messages.server_error'),
+						color: 'error',
+						top: true
+					});
 					console.log(error);
 				});
 		},
@@ -182,6 +194,14 @@ export default {
 					color: 'success',
 					top: true
 				});
+			}).catch(error => {
+				this.$store.commit('snackbar/setSnackbar', {
+					show: true,
+					message: this.$t('messages.server_error'),
+					color: 'error',
+					top: true
+				});
+				console.log('TCL: saveCurrency -> error', error);
 			});
 		},
 		saveLanguage() {

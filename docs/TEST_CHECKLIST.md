@@ -274,6 +274,13 @@
 | 29 | 2026-11-12 | `/shop/registation` | `src/components/Products/PurchaseProduct.vue:96-98` | **Broken quantity initialization** — Uses Vue 3 `onMounted()` lifecycle hook instead of Vue 2 `mounted()`, so `localQuantity` never initializes from `product.quantity`. **Fixed:** Changed to `mounted()` hook with null-safe default. | High | **Fixed** |
 | 30 | 2026-11-12 | `/product/list` | `src/components/Products/ListProduct.vue:84-93` | `getMeasurementName` returns `undefined` when no matching measurement unit is found, rendering "undefined" in the product list. **Fixed:** Added fallback `return value || ''`. | Low | **Fixed** |
 | 31 | 2026-11-12 | `/analysis/purchase_details/:id` | `src/components/Products/PurchasedProduct.vue:20` | Price calculation uses `parseInt` truncating decimal prices, causing incorrect totals. **Fixed:** Changed to `parseFloat`. | Medium | **Fixed** |
+| 32 | 2026-11-12 | Tax settings (all pages) | `src/store/Modules/Taxes.js` | Typo: `quatity` used instead of `quantity` throughout the store module (state, getter, mutation). **Fixed:** Renamed all occurrences to `quantity`. | Low | **Fixed** |
+| 33 | 2026-11-12 | `/login` | `src/views/auth/login.vue:35` | "Forgot your password?" button has conflicting `to="/auth/recovery"` and `href="#"` attributes; the `href="#"` causes a hash jump. **Fixed:** Removed `href="#"`. | Low | **Fixed** |
+| 34 | 2026-11-12 | `/register` | `src/views/auth/register.vue:94-98` | `validatedEmail` catch handler has no network error handling — if the API is unreachable, the error is silently ignored. **Fixed:** Added network error handler with snackbar notification. | Medium | **Fixed** |
+| 35 | 2026-11-12 | `/register` | `src/views/auth/register.vue:120` | Registration error fallback uses hardcoded English string `'Unknown error'` instead of i18n. **Fixed:** Replaced with `this.$t('messages.server_error')`. | Low | **Fixed** |
+| 36 | 2026-11-12 | `/settings` | `src/views/miscellany/settings.vue:149-151` | `getTax` catch handler only logs errors without showing snackbar notification; user sees no feedback on API failure. **Fixed:** Added snackbar error message. | Medium | **Fixed** |
+| 37 | 2026-11-12 | `/settings` | `src/views/miscellany/settings.vue:175-185` | `saveCurrency` has no `.catch()` handler; if saving the preferred currency fails, the user sees no error feedback. **Fixed:** Added `.catch()` with snackbar error message. | Medium | **Fixed** |
+| 38 | 2026-11-12 | `/settings` | `src/views/miscellany/settings.vue:89-118` | **Loading overlay stuck** — `mounted()` mixes `async/await` with `.then()` and has no error handling; if `getCurrencies()` or `getPreferredCurrency()` throws, `isLoading` never resets. **Fixed:** Wrapped in try/catch/finally, converted `.then()` to `await`, added null check for currencies response. | High | **Fixed** |
 
 ### Files with `error.response.status` without null check (will crash on network errors):
 
@@ -401,3 +408,38 @@
 - **Next:**
   1. Commit the changes
   2. Review store modules and mixins for remaining issues, or start backend API for live testing
+
+### Session 6 - 2026-11-12
+- **Reviewed all store modules** (8 files): Auth, Products, ShoppingCar, Shoppings, Categories, MeasurementUnits, Taxes, Snackbar.
+  - **Bug #32 (Low):** `Taxes.js` — typo `quatity` used instead of `quantity` throughout the module.
+  - All other store modules are clean — simple API wrappers with no issues.
+- **Reviewed auth view pages:**
+  - **Bug #33 (Low):** `login.vue` — "Forgot password" button has conflicting `to` and `href="#"` attributes.
+  - **Bug #34 (Medium):** `register.vue` — `validatedEmail` has no network error handling.
+  - **Bug #35 (Low):** `register.vue` — registration error fallback uses hardcoded English `'Unknown error'`.
+  - `logout.vue` — clean, no issues.
+- **Reviewed `settings.vue`:**
+  - **Bug #36 (Medium):** `getTax` catch handler only logs errors, no user feedback.
+  - **Bug #37 (Medium):** `saveCurrency` has no `.catch()` handler.
+  - **Bug #38 (High):** `mounted()` mixes `async/await` with `.then()` and has no error handling — `isLoading` never resets on failure.
+- **Reviewed mixins:** `currencies.js` (typo `curencies` key — cosmetic, not fixed as it's internal), `formats.js` (clean).
+- **Reviewed API layer:** `HttpClient.js` (clean with optional chaining), `HttpClientWithoutAuth.js` (clean).
+- **Fixed 7 bugs** across 4 files:
+  - **Bug #32:** `Taxes.js` — renamed `quatity` to `quantity` in state, getter, and mutation.
+  - **Bug #33:** `login.vue` — removed `href="#"` from "Forgot password" button.
+  - **Bug #34:** `register.vue` — added network error handler to `validatedEmail` with snackbar.
+  - **Bug #35:** `register.vue` — replaced `'Unknown error'` with `this.$t('messages.server_error')`.
+  - **Bug #36:** `settings.vue` — added snackbar to `getTax` catch handler.
+  - **Bug #37:** `settings.vue` — added `.catch()` to `saveCurrency`.
+  - **Bug #38:** `settings.vue` — wrapped `mounted()` in try/catch/finally, converted `.then()` to `await`.
+- **Files modified:**
+  - `src/store/Modules/Taxes.js`
+  - `src/views/auth/login.vue`
+  - `src/views/auth/register.vue`
+  - `src/views/miscellany/settings.vue`
+- **Ran tests:** All 46 tests pass (11 test files).
+- **All 38 bugs now Fixed** (except #1 — permissions policy violation, noted as non-actionable).
+- **Code review coverage:** All view files, all shared components, all store modules, all mixins, and API layer have been reviewed.
+- **Next:**
+  1. Commit all changes
+  2. Start backend API for live integration testing

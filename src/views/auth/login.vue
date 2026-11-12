@@ -32,7 +32,6 @@
 							to="/auth/recovery"
 							text
 							small
-							href="#"
 						>{{ $t('auth.forgot_your_password') }}</v-btn>
 					</v-col>
 					<v-col cols="12">

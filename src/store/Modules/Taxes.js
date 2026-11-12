@@ -4,12 +4,12 @@ export default {
     namespaced: true,
     state:{
         tax: {
-            quatity:1
+            quantity:1
         }
     },
     getters:{
         getAll(state){
-            return  state.tax.quatity
+            return  state.tax.quantity
         }
     },
     actions: {
@@ -22,7 +22,7 @@ export default {
     },
     mutations:{
         SET(state,payload){
-            state.tax.quatity = payload;
+            state.tax.quantity = payload;
         }
     }
 }
