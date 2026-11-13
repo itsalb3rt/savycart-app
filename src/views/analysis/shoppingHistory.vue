@@ -1,60 +1,54 @@
 <template>
-	<div>
-		<page-header :title="$t('page_titles.shopping_history')" />
-		<v-row v-if="shoppingHistory.length > 0">
-			<v-col cols="12">
+	<div class="shopping-history-page">
+		<div class="shopping-history-page__header">
+			<h1 class="shopping-history-page__title">{{ $t('page_titles.shopping_history') }}</h1>
+			<p class="shopping-history-page__subtitle">{{ shoppingHistory.length }} {{ $t('shopping_history.purchases_count') }}</p>
+		</div>
+
+		<div v-if="shoppingHistory.length > 0" class="shopping-history-page__content">
+			<div class="shopping-history-page__total-card">
+				<span class="shopping-history-page__total-label">{{ $t('shopping_history.total_spent') }}</span>
+				<span class="shopping-history-page__total-value">{{ currency.symbol }}{{ createNumberFormat(totalSpent) }}</span>
+			</div>
+
+			<div class="shopping-history-page__search">
 				<v-text-field
 					type="search"
-					:label=" $t('products.search') "
+					:label="$t('shopping_history.search_purchases')"
 					v-model="search"
 					prepend-inner-icon="fa-search"
 					hide-details
+					class="shopping-history-page__search-input"
 				></v-text-field>
-				<p class="text-muted shopping-history__hint">{{ $t('shop.ux_shopping_details_view_instructions') }}</p>
-				<v-divider></v-divider>
-				<v-data-table
-					class="shopping-history-table"
-					mobile-breakpoint="xs"
-					:headers="headers"
-					:items="shoppingHistory"
-					:search="search"
+			</div>
+
+			<div class="shopping-history-page__list">
+				<div
+					v-for="item in filteredHistory"
+					:key="item.id_purchase"
+					class="shopping-history-page__item"
+					@click="$router.push({ name: 'purchase_details', params: { id: item.id_purchase } })"
 				>
-					<template v-slot:no-data>
-						<v-alert :value="true" color="error" icon="fa-warning">{{ $t('messages.nothing_to_display') }}</v-alert>
-					</template>
-					<template v-slot:no-results>
-						<v-alert
-							:value="true"
-							color="error"
-							icon="fa-warning"
-						>{{ $t('messages.no_match_found') }} "{{ search }}"</v-alert>
-					</template>
-					<template v-slot:item.names_establishments="{ item }">
-						<router-link
-								:to="{ name: 'purchase_details', params: { id: item.id_purchase } }"
-								class="history-link"
-							>{{item.names_establishments}}</router-link>
-					</template>
-          <template v-slot:item.create_at="{ item }">
-						{{ item.create_at.substring(0, 10) }}
-					</template>
-					<template v-slot:item.total="{item}">
-						<router-link
-							:to="{ name: 'purchase_details', params: { id: item.id_purchase } }"
-							class="history-link"
-						>{{currency.symbol}} {{createNumberFormat(item.total)}}</router-link>
-					</template>
-				</v-data-table>
-			</v-col>
-		</v-row>
-		<v-row v-else>
-			<v-col cols="12">
-				<empty-state
-					icon="fa-history"
-					:title="$t('messages.nothing_to_display')"
-				/>
-			</v-col>
-		</v-row>
+					<div class="shopping-history-page__item-avatar" :style="{ background: getAvatarBg(item.names_establishments) }">
+						{{ item.names_establishments.charAt(0).toUpperCase() }}
+					</div>
+					<div class="shopping-history-page__item-info">
+						<div class="shopping-history-page__item-name">{{ item.names_establishments }}</div>
+						<div class="shopping-history-page__item-date">{{ formatDate(item.create_at) }}</div>
+					</div>
+					<div class="shopping-history-page__item-total">{{ currency.symbol }}{{ createNumberFormat(item.total) }}</div>
+					<v-icon class="shopping-history-page__item-chevron" small>fa-chevron-right</v-icon>
+				</div>
+			</div>
+		</div>
+
+		<div v-else class="shopping-history-page__empty">
+			<empty-state
+				icon="fa-history"
+				:title="$t('messages.nothing_to_display')"
+			/>
+		</div>
+
 		<loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
 	</div>
 </template>
@@ -63,7 +57,6 @@
 import { mapState } from 'vuex';
 import currencies from '@/mixins/miscellany/currencies';
 import Loading from 'vue-loading-overlay';
-import PageHeader from '@/components/Interface/PageHeader';
 import EmptyState from '@/components/Interface/EmptyState';
 
 export default {
@@ -75,7 +68,6 @@ export default {
 	},
 	components: {
 		Loading,
-		PageHeader,
 		EmptyState
 	},
 	data() {
@@ -83,18 +75,22 @@ export default {
 			shoppingHistory: [],
 			currency: [],
 			search: '',
-			selected: [],
-			headers: [
-				{
-					text: this.$t('shop.place'),
-					align: 'left',
-					value: 'names_establishments'
-				},
-				{ text: this.$t('messages.date'), align: 'left', value: 'create_at' },
-				{ text: this.$t('messages.total'), align: 'left', value: 'total' }
-			],
 			isLoading: false
 		};
+	},
+	computed: {
+		totalSpent() {
+			return this.shoppingHistory.reduce((sum, item) => sum + parseFloat(item.total || 0), 0);
+		},
+		filteredHistory() {
+			if (!this.search) {
+				return this.shoppingHistory;
+			}
+			const q = this.search.toLowerCase();
+			return this.shoppingHistory.filter(item =>
+				item.names_establishments.toLowerCase().includes(q)
+			);
+		}
 	},
 	methods: {
 		requestShoppingHistory() {
@@ -118,29 +114,157 @@ export default {
 		createNumberFormat(number) {
 			let l10nEN = new Intl.NumberFormat('en-US');
 			return l10nEN.format(number);
+		},
+		formatDate(dateStr) {
+			if (!dateStr) return '';
+			const date = new Date(dateStr);
+			const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+			return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+		},
+		getAvatarBg(name) {
+			const colors = ['#e8f5e9', '#e3f2fd', '#fff3e0', '#fce4ec', '#f3e5f5', '#e0f2f1'];
+			const index = (name.charCodeAt(0) || 0) % colors.length;
+			return colors[index];
 		}
 	}
 };
 </script>
 
 <style>
-.shopping-history__hint {
-	margin: 8px 0 16px;
+.shopping-history-page {
+	padding-bottom: 16px;
+}
+
+.shopping-history-page__header {
+	margin-bottom: 16px;
+}
+
+.shopping-history-page__title {
+	font-size: var(--fs-title);
+	font-weight: 700;
+	color: var(--text);
+	margin: 0 0 4px;
+}
+
+.shopping-history-page__subtitle {
 	font-size: var(--fs-body);
+	color: var(--muted);
+	margin: 0;
 }
 
-html .v-application a.history-link {
-	color: var(--accent-ink);
+.shopping-history-page__content {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.shopping-history-page__total-card {
+	background: var(--primary);
+	border-radius: var(--radius-card);
+	padding: 20px;
+	color: #fff;
+}
+
+.shopping-history-page__total-label {
+	display: block;
+	font-size: var(--fs-small);
+	opacity: 0.9;
+	margin-bottom: 4px;
+}
+
+.shopping-history-page__total-value {
+	display: block;
+	font-size: var(--fs-kpi);
+	font-weight: 700;
+}
+
+.shopping-history-page__search {
+	margin: 0;
+}
+
+.shopping-history-page__search-input >>> .v-input__control {
+	padding: 0;
+}
+
+.shopping-history-page__search-input >>> .v-text-field__slot {
+	margin: 0;
+}
+
+.shopping-history-page__search-input >>> input {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-control);
+}
+
+.shopping-history-page__list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.shopping-history-page__item {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-card);
+	padding: 12px 16px;
+	cursor: pointer;
+	transition: background 0.15s;
+}
+
+.shopping-history-page__item:hover {
+	background: var(--surface-hover, transparent);
+}
+
+.shopping-history-page__item-avatar {
+	width: 44px;
+	height: 44px;
+	border-radius: 12px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 18px;
+	font-weight: 700;
+	color: var(--primary);
+	flex-shrink: 0;
+}
+
+.shopping-history-page__item-info {
+	flex: 1;
+	min-width: 0;
+}
+
+.shopping-history-page__item-name {
+	font-size: var(--fs-section);
 	font-weight: 600;
-	text-decoration: none;
+	color: var(--text);
+	line-height: 1.3;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
-html .v-application a.history-link:hover {
-	text-decoration: underline;
+.shopping-history-page__item-date {
+	font-size: var(--fs-small);
+	color: var(--muted);
+	margin-top: 2px;
 }
 
-.shopping-history-table th:nth-child(3),
-.shopping-history-table td:nth-child(3) {
-	text-align: right;
+.shopping-history-page__item-total {
+	font-size: var(--fs-section);
+	font-weight: 600;
+	color: var(--text);
+	flex-shrink: 0;
+}
+
+.shopping-history-page__item-chevron {
+	color: var(--faint);
+	flex-shrink: 0;
+}
+
+.shopping-history-page__empty {
+	padding: 32px 0;
 }
 </style>

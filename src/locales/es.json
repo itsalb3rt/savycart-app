@@ -113,6 +113,11 @@
     "items_count": "artículos",
     "pick_what_you_bought": "Elige lo que compraste"
   },
+  "shopping_history": {
+    "purchases_count": "compras",
+    "total_spent": "Total gastado",
+    "search_purchases": "Buscar compras"
+  },
   "shop": {
     "ux_shopping_details_view_instructions": "Al hacer clic en el nombre o en la compra total, puede ver los detalles",
     "place": "Lugar",

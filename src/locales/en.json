@@ -113,6 +113,11 @@
     "items_count": "items",
     "pick_what_you_bought": "Pick what you bought"
   },
+  "shopping_history": {
+    "purchases_count": "purchases",
+    "total_spent": "Total spent",
+    "search_purchases": "Search purchases"
+  },
   "shop": {
     "ux_shopping_details_view_instructions": "By clicking on the name or total purchase you can see the detail",
     "place": "Place",
