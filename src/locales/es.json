@@ -93,7 +93,9 @@
     "oldToNew": "Lo mas nuevo primero",
     "newToOld": "Lo mas antiguo primero",
     "products_count": "productos",
-    "add_product": "Agregar producto"
+    "add_product": "Agregar producto",
+    "save_product": "Guardar producto",
+    "save_changes": "Guardar cambios"
   },
   "shopping_car": {
     "add_to_shopping_car": "Agregar al carro",

@@ -1,92 +1,123 @@
 <template>
-	<div>
-		<page-header :title="$t('page_titles.edit_product')" />
-		<v-row>
-			<v-col cols="12" v-if="online">
-				<v-form @submit.prevent="updateProduct">
-					<v-row>
-						<v-col cols="12">
-							<v-text-field
-								id="name"
-								v-model="name"
-								:label=" $t('products.name') "
-								@keyup="uppercase"
-								:placeholder=" $t('products.product_name_placeholder') "
-								required
-							></v-text-field>
-							<v-text-field
-								type="number"
-								v-model="price"
-								:label=" $t('products.price') "
-								value="1"
-								min="1"
-								step="0.01"
-								required
-							></v-text-field>
-							<v-combobox
-								v-model.trim="brand"
-								:items="$store.getters['products/getBrands']"
-								:label="$t('messages.select_or_add_brand')"
-							></v-combobox>
-							<v-select
-								v-model="measurementUnit"
-								:items="$store.getters['measurementUnits/getAll']"
-								:label=" $t('products.measurement_unit') "
-								item-text="name"
-								item-value="id_unit_measurement"
-								required
-							></v-select>
-							<v-select
-								v-model="category"
-								:items="$store.getters['categories/getAll']"
-								:label=" $t('products.category') "
-								item-text="name"
-								item-value="id_category"
-								required
-							></v-select>
-							<v-switch
-								color="primary"
-								v-model="itbis"
-								:label="`${$t('products.tax')}: ${(itbis == '1')? $t('messages.yes') : $t('messages.no') }`"
-								true-value="1"
-								false-value="0"
-							></v-switch>
-							<p class="text-muted">{{ $t('products.tax_info') }}</p>
-							<v-divider></v-divider>
-							<v-switch
-								color="primary"
-								v-model="favorite"
-								:label="`${$t('products.favorite_mark_message')}: ${(favorite == '1')? $t('messages.yes') : $t('messages.no') }`"
-								true-value="1"
-								false-value="0"
-							></v-switch>
-							<v-divider></v-divider>
-							<v-textarea
-								rows="3"
-								:label=" $t('products.description') "
-								v-model="description"
-								:placeholder=" $t('products.description_message') "
-							></v-textarea>
-						</v-col>
-					</v-row>
-					<v-row>
-						<v-col cols="12">
-							<v-btn color="primary" :disabled="name.length == 0" type="submit">
-								<v-icon class="mr-2">fa-save</v-icon>
-								{{ $t('call_action_buttons.save') }}
-							</v-btn>
-							<v-btn text color="secondary" @click="$router.push('/product/list')" class="float-right">
-								<v-icon class="mr-2">fa-window-close</v-icon>
-								{{ $t('call_action_buttons.cancel') }}
-							</v-btn>
-						</v-col>
-					</v-row>
-				</v-form>
-			</v-col>
-			<v-col cols="12" v-else>
-				<offline-infomation></offline-infomation>
-			</v-col>
-		</v-row>
+	<div class="product-form-page">
+		<div class="product-form-page__header">
+			<v-btn text class="product-form-page__back" @click="$router.push('/product/list')">
+				<v-icon>fa-arrow-left</v-icon>
+			</v-btn>
+			<h1 class="product-form-page__title">{{ $t('page_titles.edit_product') }}</h1>
+		</div>
+		<div v-if="online">
+			<v-form @submit.prevent="updateProduct" class="product-form">
+				<div class="product-form__field">
+					<label class="product-form__label">{{ $t('products.name') }}</label>
+					<v-text-field
+						id="name"
+						v-model="name"
+						@keyup="uppercase"
+						:placeholder=" $t('products.product_name_placeholder') "
+						hide-details
+						required
+						class="product-form__input"
+					></v-text-field>
+				</div>
+				<div class="product-form__row">
+					<div class="product-form__field product-form__field--half">
+						<label class="product-form__label">{{ $t('products.price') }}</label>
+						<v-text-field
+							type="number"
+							v-model="price"
+							value="1"
+							min="1"
+							step="0.01"
+							hide-details
+							required
+							class="product-form__input"
+						></v-text-field>
+					</div>
+					<div class="product-form__field product-form__field--half">
+						<label class="product-form__label">{{ $t('products.measurement_unit') }}</label>
+						<v-select
+							v-model="measurementUnit"
+							:items="$store.getters['measurementUnits/getAll']"
+							item-text="name"
+							item-value="id_unit_measurement"
+							:placeholder="$t('products.measurement_unit')"
+							required
+							hide-details
+							class="product-form__input"
+						></v-select>
+					</div>
+				</div>
+				<div class="product-form__field">
+					<label class="product-form__label">{{ $t('products.brand') }}</label>
+					<v-combobox
+						v-model.trim="brand"
+						:items="$store.getters['products/getBrands']"
+						:placeholder="$t('messages.select_or_add_brand')"
+						hide-details
+						class="product-form__input"
+					></v-combobox>
+				</div>
+				<div class="product-form__field">
+					<label class="product-form__label">{{ $t('products.category') }}</label>
+					<v-select
+						v-model="category"
+						:items="$store.getters['categories/getAll']"
+						item-text="name"
+						item-value="id_category"
+						:placeholder="$t('products.category')"
+						required
+						hide-details
+						class="product-form__input"
+					></v-select>
+				</div>
+				<div class="product-form__toggle-row">
+					<div class="product-form__toggle-card">
+						<span class="product-form__toggle-label">{{ $t('products.tax') }}</span>
+						<v-switch
+							color="primary"
+							v-model="itbis"
+							true-value="1"
+							false-value="0"
+							class="product-form__toggle"
+						></v-switch>
+					</div>
+				</div>
+				<div class="product-form__toggle-row">
+					<div class="product-form__toggle-card">
+						<span class="product-form__toggle-label">{{ $t('products.favorite_mark_message') }}</span>
+						<v-switch
+							color="primary"
+							v-model="favorite"
+							true-value="1"
+							false-value="0"
+							class="product-form__toggle"
+						></v-switch>
+					</div>
+				</div>
+				<div class="product-form__field">
+					<label class="product-form__label">{{ $t('products.description') }}</label>
+					<v-textarea
+						rows="3"
+						v-model="description"
+						:placeholder=" $t('products.description_message') "
+						hide-details
+						class="product-form__input"
+					></v-textarea>
+				</div>
+			</v-form>
+			<div class="product-form-page__footer">
+				<v-btn color="primary" :disabled="name.length == 0" @click="updateProduct" class="product-form-page__save">
+					{{ $t('products.save_changes') }}
+				</v-btn>
+				<v-btn text @click="$router.push('/product/list')" class="product-form-page__cancel">
+					{{ $t('call_action_buttons.cancel') }}
+				</v-btn>
+			</div>
+		</div>
+		<div v-else>
+			<offline-infomation></offline-infomation>
+		</div>
 		<loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
 	</div>
 </template>
@@ -95,7 +126,6 @@
 import { mapState } from 'vuex';
 import Loading from 'vue-loading-overlay';
 import OfflineInfomation from '@/components/Offline/OfflineInformation';
-import PageHeader from '@/components/Interface/PageHeader';
 
 export default {
 	name: 'ProductEdit',
@@ -126,8 +156,7 @@ export default {
 	},
 	components: {
 		Loading,
-		OfflineInfomation,
-		PageHeader
+		OfflineInfomation
 	},
 	computed: {
 		...mapState(['online'])
@@ -238,3 +267,134 @@ export default {
 	}
 };
 </script>
+
+<style>
+.product-form-page {
+  padding: 16px;
+  padding-bottom: 100px;
+}
+
+.product-form-page__header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.product-form-page__back {
+  min-width: 32px;
+  min-height: 32px;
+  padding: 0;
+}
+
+.product-form-page__title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.product-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.product-form__label {
+  font-size: var(--fs-small);
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.product-form__input .v-input__control {
+  min-height: 48px;
+}
+
+.product-form__input .v-text-field__slot,
+.product-form__input .v-select__slot {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 8px 16px;
+}
+
+.product-form__input .v-text-field__slot input,
+.product-form__input .v-select__slot input {
+  color: var(--text);
+}
+
+.product-form__input .v-icon {
+  color: var(--muted);
+}
+
+.product-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.product-form__toggle-row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.product-form__toggle-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+}
+
+.product-form__toggle-label {
+  font-size: var(--fs-body);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.product-form__toggle {
+  margin: 0;
+}
+
+.product-form-page__footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom));
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  max-width: var(--canvas-max);
+  margin: 0 auto;
+  display: flex;
+  gap: 12px;
+}
+
+.product-form-page__save {
+  flex: 1;
+  height: 52px;
+  border-radius: var(--radius-card);
+  font-size: var(--fs-body);
+  font-weight: 600;
+}
+
+.product-form-page__cancel {
+  height: 52px;
+  border-radius: var(--radius-card);
+  font-size: var(--fs-body);
+  font-weight: 600;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+</style>

@@ -93,7 +93,9 @@
     "oldToNew": "Old to new",
     "newToOld": "New to old",
     "products_count": "products",
-    "add_product": "Add product"
+    "add_product": "Add product",
+    "save_product": "Save product",
+    "save_changes": "Save changes"
   },
   "shopping_car": {
     "add_to_shopping_car": "Add to cart",
