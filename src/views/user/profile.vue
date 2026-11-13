@@ -1,78 +1,82 @@
 <template>
-	<div>
-		<page-header :title="$t('page_titles.user_profile')" />
-		<v-row>
-			<v-col cols="12" v-if="online">
-				<v-form autocomplete="off">
-					<section class="settings-section">
-						<div class="settings-section__label">
-							<h2 class="settings-section__title">
-								{{ $t('messages.basic') }}
-							</h2>
-						</div>
-						<div class="settings-section__panel">
-							<v-text-field
-								id="fullname"
-								v-model="localUser.fullname"
-								:label=" $t('auth.fullname') "
-								placeholder="Albert Eduardo"
-								required
-							></v-text-field>
-							<v-text-field
-								id="email"
-								type="email"
-								v-model="localUser.email"
-								:label=" $t('auth.email') "
-								placeholder="alhidalgo@domain.com"
-								required
-							></v-text-field>
-						</div>
-					</section>
-					<section class="settings-section">
-						<div class="settings-section__label">
-							<h2 class="settings-section__title">
-								{{ $t('messages.security') }}
-							</h2>
-							<p class="settings-section__desc">
-								{{ $t('messages.password_change_instructions') }}
-							</p>
-						</div>
-						<div class="settings-section__panel">
-							<v-text-field
-								id="password"
-								type="password"
-								v-model="localUser.password"
-								:label=" $t('auth.password') "
-								placeholder="********"
-								required
-							></v-text-field>
-							<v-text-field
-								id="password2"
-								type="password"
-								v-model="localUser.password2"
-								:label=" $t('auth.second_password') "
-								placeholder="********"
-								required
-							></v-text-field>
- 						<v-btn color="primary" :disabled="isLoading || (localUser.password !== '' && localUser.password !== localUser.password2)" @click="updateUser()">
- 							<v-icon class="mr-2">fa-save</v-icon>
- 							{{ $t('call_action_buttons.save') }}
- 						</v-btn>
-						</div>
-					</section>
-				</v-form>
-			</v-col>
-			<v-col cols="12" v-else>
-				<offline-infomation />
-			</v-col>
-		</v-row>
+	<div class="profile-page">
+		<div class="profile-page__header">
+			<button class="profile-page__back-btn" @click="$router.back()" type="button">
+				<v-icon>fa-chevron-left</v-icon>
+			</button>
+			<h1 class="profile-page__title">{{ $t('page_titles.user_profile') }}</h1>
+		</div>
+
+		<div v-if="online" class="profile-page__form">
+			<div class="profile-page__section">
+				<h2 class="profile-page__section-title">{{ $t('messages.basic') }}</h2>
+				<div class="profile-page__field">
+					<label class="profile-page__label">{{ $t('auth.fullname') }}</label>
+					<input
+						class="profile-page__input"
+						id="fullname"
+						v-model="localUser.fullname"
+						placeholder="Albert Eduardo"
+					>
+				</div>
+				<div class="profile-page__field">
+					<label class="profile-page__label">{{ $t('auth.email') }}</label>
+					<input
+						class="profile-page__input"
+						id="email"
+						type="email"
+						v-model="localUser.email"
+						placeholder="alhidalgo@domain.com"
+					>
+				</div>
+			</div>
+
+			<div class="profile-page__section">
+				<h2 class="profile-page__section-title">{{ $t('messages.security') }}</h2>
+				<p class="profile-page__section-hint">{{ $t('messages.password_change_instructions') }}</p>
+				<div class="profile-page__field">
+					<label class="profile-page__label">{{ $t('auth.password') }}</label>
+					<input
+						class="profile-page__input"
+						id="password"
+						type="password"
+						v-model="localUser.password"
+						placeholder="********"
+					>
+				</div>
+				<div class="profile-page__field">
+					<label class="profile-page__label">{{ $t('auth.second_password') }}</label>
+					<input
+						class="profile-page__input"
+						id="password2"
+						type="password"
+						v-model="localUser.password2"
+						placeholder="********"
+					>
+				</div>
+			</div>
+
+			<div class="profile-page__footer">
+				<button
+					class="profile-page__save-btn"
+					:disabled="isLoading || (localUser.password !== '' && localUser.password !== localUser.password2)"
+					@click="updateUser()"
+					type="button"
+				>
+					{{ $t('products.save_changes') }}
+				</button>
+			</div>
+		</div>
+
+		<div v-else class="profile-page__offline">
+			<offline-infomation />
+		</div>
 	</div>
 </template>
 <script>
-import { mapMutations, mapState } from 'vuex';
+import { mapState } from 'vuex';
 import Loading from 'vue-loading-overlay';
 import OfflineInfomation from '@/components/Offline/OfflineInformation';
-import PageHeader from '@/components/Interface/PageHeader';
 
 export default {
 	mounted() {
@@ -93,8 +97,7 @@ export default {
 	},
 	components: {
 		Loading,
-		OfflineInfomation,
-		PageHeader
+		OfflineInfomation
 	},
 	computed: {
 		...mapState(['online'])
@@ -133,7 +136,7 @@ export default {
 				})
 				.then(response => {
 					this.isLoading = false;
-					this.$store.commit('auth/SET_USER',response.data.data);
+					this.$store.commit('auth/SET_USER', response.data.data);
 					window.localStorage.setItem('user', JSON.stringify(response.data.data));
 					this.$store.commit('snackbar/setSnackbar', {
 						show: true,
@@ -164,3 +167,126 @@ export default {
 	}
 };
 </script>
+
+<style>
+.profile-page {
+	padding-bottom: 80px;
+}
+
+.profile-page__header {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-bottom: 24px;
+}
+
+.profile-page__back-btn {
+	width: 36px;
+	height: 36px;
+	border: none;
+	background: transparent;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--text);
+	border-radius: 10px;
+}
+
+.profile-page__title {
+	font-size: var(--fs-title);
+	font-weight: 700;
+	color: var(--text);
+	margin: 0;
+}
+
+.profile-page__form {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.profile-page__section {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.profile-page__section-title {
+	font-size: var(--fs-section);
+	font-weight: 600;
+	color: var(--text);
+	margin: 0;
+}
+
+.profile-page__section-hint {
+	font-size: var(--fs-body);
+	color: var(--muted);
+	margin: 0;
+	line-height: 1.4;
+}
+
+.profile-page__field {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.profile-page__label {
+	font-size: var(--fs-section);
+	font-weight: 600;
+	color: var(--text);
+}
+
+.profile-page__input {
+	width: 100%;
+	padding: 14px 16px;
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-control);
+	font-size: var(--fs-body);
+	color: var(--text);
+	outline: none;
+	transition: border-color 0.15s;
+}
+
+.profile-page__input:focus {
+	border-color: var(--primary);
+}
+
+.profile-page__footer {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding: 16px;
+	background: var(--surface);
+	border-top: 1px solid var(--border);
+}
+
+.profile-page__save-btn {
+	width: 100%;
+	padding: 14px 24px;
+	background: var(--primary);
+	color: #fff;
+	border: none;
+	border-radius: var(--radius-control);
+	font-size: var(--fs-body);
+	font-weight: 600;
+	cursor: pointer;
+	transition: opacity 0.15s;
+}
+
+.profile-page__save-btn:hover {
+	opacity: 0.9;
+}
+
+.profile-page__save-btn:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.profile-page__offline {
+	padding: 32px 0;
+}
+</style>
