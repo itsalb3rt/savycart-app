@@ -26,6 +26,8 @@
     "categories": "Categorias",
     "more_settings": "Mas ajustes",
     "settings": "Ajustes",
+    "more": "Más",
+    "theme_toggle": "Modo oscuro",
     "logout": "Cerrar sesion"
   },
   "auth": {

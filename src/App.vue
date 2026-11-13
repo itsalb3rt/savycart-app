@@ -39,6 +39,10 @@ const DEFAULT_TRANSITION = 'fade';
 
 export default {
 	created() {
+		// Initialize theme from localStorage
+		const savedTheme = localStorage.getItem('theme') || 'light';
+		document.documentElement.setAttribute('data-theme', savedTheme);
+		this.$vuetify.theme.dark = savedTheme === 'dark';
 
 		const localStorageLanguage = window.localStorage.getItem('language');
 		if (!localStorageLanguage) {
