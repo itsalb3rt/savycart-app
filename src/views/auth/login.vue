@@ -1,49 +1,62 @@
 <template>
-	<v-container>
-		<AuthShell :title="$t('auth.login_title')">
-			<template v-slot:prelude>
-				<v-row v-if="loginFailed">
-					<v-col cols="12">
-						<v-alert type="error" :value="true">{{ $t('auth.wrong_data') }}</v-alert>
-					</v-col>
-				</v-row>
-				<v-row v-if="$route.query.create_user !== undefined">
-					<v-col cols="12">
-						<v-alert type="success" :value="true">{{ $t('auth.the_user_was_created') }}</v-alert>
-					</v-col>
-				</v-row>
-			</template>
-			<v-form method="POST" @submit.prevent="login">
-				<v-row>
-					<v-col cols="12">
-						<v-text-field v-model="userName" :label="$t('auth.usernameOrEmail')" required></v-text-field>
-						<v-text-field
-							v-model="password"
-							:type="showPassword ? 'text' : 'password'"
-							:append-icon="showPassword ? 'fa-eye' : 'fa-eye-slash'"
-							@click:append="showPassword = !showPassword"
-							:label="$t('auth.password')"
-							required
-						></v-text-field>
-					</v-col>
-					<v-col cols="12">
-						<v-btn
-							color="primary"
-							to="/auth/recovery"
-							text
-							small
-						>{{ $t('auth.forgot_your_password') }}</v-btn>
-					</v-col>
-					<v-col cols="12">
-						<v-btn :disabled="loading || userName === '' || password === ''" color="primary" type="submit" block>{{ $t('auth.login') }}</v-btn>
-					</v-col>
-					<v-col cols="12" class="pt-3">
-						<v-btn color="primary" text to="/register">{{ $t('auth.create_an_account') }}</v-btn>
-					</v-col>
-				</v-row>
-			</v-form>
-		</AuthShell>
-	</v-container>
+	<AuthShell :title="$t('auth.login_title')" :subtitle="$t('auth.login_subtitle')">
+		<template v-slot:prelude>
+			<div v-if="loginFailed" class="auth-alert auth-alert--error">
+				{{ $t('auth.wrong_data') }}
+			</div>
+			<div v-if="$route.query.create_user !== undefined" class="auth-alert auth-alert--success">
+				{{ $t('auth.the_user_was_created') }}
+			</div>
+		</template>
+		<v-form method="POST" @submit.prevent="login" class="auth-form">
+			<div class="auth-form__field">
+				<label class="auth-form__label">{{ $t('auth.usernameOrEmail') }}</label>
+				<v-text-field
+					v-model="userName"
+					persistent-clearable
+					hide-details
+					required
+					class="auth-form__input"
+				></v-text-field>
+			</div>
+			<div class="auth-form__field">
+				<label class="auth-form__label">{{ $t('auth.password') }}</label>
+				<v-text-field
+					v-model="password"
+					:type="showPassword ? 'text' : 'password'"
+					:append-icon="showPassword ? 'fa-eye' : 'fa-eye-slash'"
+					@click:append="showPassword = !showPassword"
+					persistent-clearable
+					hide-details
+					required
+					class="auth-form__input"
+				></v-text-field>
+			</div>
+			<div class="auth-form__forgot">
+				<a href="#" @click.prevent="$router.push('/auth/recovery')" class="auth-form__link">
+					{{ $t('auth.forgot_your_password') }}
+				</a>
+			</div>
+			<div class="auth-form__actions">
+				<v-btn
+					:disabled="loading || userName === '' || password === ''"
+					color="primary"
+					type="submit"
+					block
+					large
+					class="auth-form__submit"
+				>
+					{{ $t('auth.login') }}
+				</v-btn>
+			</div>
+			<div class="auth-form__footer">
+				<span>{{ $t('auth.new_here') }}</span>
+				<a href="#" @click.prevent="$router.push('/register')" class="auth-form__link">
+					{{ $t('auth.create_an_account') }}
+				</a>
+			</div>
+		</v-form>
+	</AuthShell>
 </template>
 
 <script>
@@ -109,8 +122,88 @@ export default {
 };
 </script>
 <style>
-.form-responsiveness {
-  max-width: 500px;
-  margin: 0 auto;
+.auth-form {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.auth-form__field {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.auth-form__label {
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--muted);
+	margin: 0;
+}
+
+.auth-form__input {
+	border-radius: var(--radius-control) !important;
+}
+
+.auth-form__input .v-input__control {
+	border-radius: var(--radius-control);
+}
+
+.auth-form__input .v-text-field__slot {
+	border-radius: var(--radius-control);
+}
+
+.auth-form__forgot {
+	text-align: left;
+}
+
+.auth-form__link {
+	color: var(--accent);
+	text-decoration: underline;
+	font-size: 14px;
+	font-weight: 500;
+	cursor: pointer;
+}
+
+.auth-form__link:hover {
+	color: var(--primary-hover);
+}
+
+.auth-form__submit {
+	border-radius: var(--radius-button) !important;
+	height: 48px !important;
+	font-size: 16px !important;
+	font-weight: 600 !important;
+	text-transform: none !important;
+	letter-spacing: 0 !important;
+}
+
+.auth-form__footer {
+	text-align: center;
+	font-size: 14px;
+	color: var(--muted);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+}
+
+.auth-alert {
+	padding: 12px 16px;
+	border-radius: var(--radius-control);
+	font-size: 14px;
+	margin-bottom: 16px;
+}
+
+.auth-alert--error {
+	background: var(--pill-negative-bg);
+	color: var(--pill-negative-ink);
+	border: 1px solid var(--negative);
+}
+
+.auth-alert--success {
+	background: var(--pill-positive-bg);
+	color: var(--pill-positive-ink);
+	border: 1px solid var(--positive);
 }
 </style>

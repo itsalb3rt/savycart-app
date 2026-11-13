@@ -25,3 +25,4 @@ yarn-error.log*
 # .taste-skill: keep direction.json, ignore generated screenshots and reports
 .taste-skill/*
 !.taste-skill/direction.json
+/new_design

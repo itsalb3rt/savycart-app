@@ -30,49 +30,50 @@
 
 :root {
 	/* --- surfaces ------------------------------------------------------- */
-	--ground: #f9fafb;
+	--ground: #f5f5f0;
 	--surface: #ffffff;
 	--raised: #f9f9f9;
-	--active: #eeeeee;
+	--active: #e8e8e8;
 
 	/* --- lines ---------------------------------------------------------- */
-	--border: #e8e8e8;
-	--rule: #f2f2f2;
-	--control: #d1d5db;
+	--border: #e0e0d8;
+	--rule: #f0f0ea;
+	--control: #c8c8c0;
 
 	/* --- text (all >= 4.5:1 on --surface and --ground) ------------------ */
-	--text: #111111;
-	--muted: #5f6368;
-	--faint: #6b6b6b;
+	--text: #1a1a1a;
+	--muted: #6b6b6b;
+	--faint: #8a8a8a;
 
 	/* --- action --------------------------------------------------------- */
-	--primary: #1d1f20; /* near-black fill, white label */
-	--primary-hover: #000000;
+	--primary: #2D6A4F; /* green fill, white label */
+	--primary-hover: #1B4332;
 	--on-primary: #ffffff;
 
-	/* --- brand / data hue (kept from #03A9F4, darkened for text) --------- */
-	--accent: #03a9f4; /* graphics, data marks, indicators (3:1 on white) */
-	--accent-ink: #0277bd; /* blue text / links, 4.5:1 on white */
-	--accent-soft: #e3f4fd; /* pale brand tint for small fills */
+	/* --- brand / data hue (green theme) ---------------------------------- */
+	--accent: #2D6A4F; /* green for buttons, links, active states */
+	--accent-ink: #2D6A4F; /* green text / links, 4.5:1 on white */
+	--accent-soft: #d8f3dc; /* pale green tint for small fills */
 
 	/* --- semantic ------------------------------------------------------- */
-	--positive: #247b50;
+	--positive: #2D6A4F;
 	--negative: #c4242a;
 	--warning: #92400e;
-	--info: #0277bd;
-	--pill-positive-bg: #dcfae5;
-	--pill-positive-ink: #04250e;
+	--info: #2D6A4F;
+	--pill-positive-bg: #d8f3dc;
+	--pill-positive-ink: #1B4332;
 	--pill-negative-bg: #ffedea;
 	--pill-negative-ink: #831c1e;
 	--pill-warning-bg: #fffbeb;
 	--pill-warning-ink: #92400e;
-	--pill-neutral-bg: #eeeeee;
+	--pill-neutral-bg: #e8e8e8;
 	--pill-neutral-ink: #3d3d3d;
 
 	/* --- geometry ------------------------------------------------------- */
-	--radius-card: 8px;
-	--radius-control: 6px;
-	--radius-chip: 4px;
+	--radius-card: 12px;
+	--radius-control: 12px;
+	--radius-chip: 8px;
+	--radius-button: 16px;
 	--radius-sheet: 16px;
 	--gap: 16px;
 	--card-pad: 20px;
@@ -89,8 +90,8 @@
 	--resume-bar-h: 196px;
 
 	/* --- elevation (floats only) ---------------------------------------- */
-	--shadow-float: 0 8px 24px rgba(17, 17, 17, 0.12);
-	--shadow-snack: 0 4px 16px rgba(17, 17, 17, 0.16);
+	--shadow-float: 0 8px 24px rgba(0, 0, 0, 0.12);
+	--shadow-snack: 0 4px 16px rgba(0, 0, 0, 0.16);
 
 	/* --- type ----------------------------------------------------------- */
 	--font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -112,4 +113,53 @@
 .v-data-table td.num,
 .v-data-table th.num {
 	font-variant-numeric: tabular-nums;
+}
+
+/* ==================================================================== */
+/* Dark mode tokens                                                     */
+/* ==================================================================== */
+[data-theme="dark"] {
+	/* --- surfaces ------------------------------------------------------- */
+	--ground: #111814;
+	--surface: #1a2318;
+	--raised: #222e22;
+	--active: #2a382a;
+
+	/* --- lines ---------------------------------------------------------- */
+	--border: #2d3d2d;
+	--rule: #253325;
+	--control: #3d5240;
+
+	/* --- text ----------------------------------------------------------- */
+	--text: #f0f0f0;
+	--muted: #a0a0a0;
+	--faint: #7a7a7a;
+
+	/* --- action --------------------------------------------------------- */
+	--primary: #2D6A4F;
+	--primary-hover: #40916c;
+	--on-primary: #ffffff;
+
+	/* --- brand / data hue ----------------------------------------------- */
+	--accent: #40916c;
+	--accent-ink: #52b788;
+	--accent-soft: #1a3a2a;
+
+	/* --- semantic ------------------------------------------------------- */
+	--positive: #40916c;
+	--negative: #e57373;
+	--warning: #ffb74d;
+	--info: #40916c;
+	--pill-positive-bg: #1a3a2a;
+	--pill-positive-ink: #52b788;
+	--pill-negative-bg: #3d1f1f;
+	--pill-negative-ink: #e57373;
+	--pill-warning-bg: #3d2e1f;
+	--pill-warning-ink: #ffb74d;
+	--pill-neutral-bg: #2a382a;
+	--pill-neutral-ink: #c0c0c0;
+
+	/* --- elevation ------------------------------------------------------ */
+	--shadow-float: 0 8px 24px rgba(0, 0, 0, 0.4);
+	--shadow-snack: 0 4px 16px rgba(0, 0, 0, 0.5);
 }

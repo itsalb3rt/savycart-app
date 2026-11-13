@@ -1,14 +1,14 @@
 <template>
 	<div class="auth-shell">
-		<div class="auth-shell__brand" :class="{ 'auth-shell__brand--left': !center }">
-			<h1 class="auth-shell__name">SavyCart</h1>
-			<p class="auth-shell__tagline">{{ $t('auth.tagline') }}</p>
-		</div>
-		<slot name="prelude" />
-		<div class="auth-shell__section">
-			<h2 v-if="title" class="auth-shell__heading">
-				<span class="auth-shell__heading-text">{{ title }}</span>
-			</h2>
+		<div class="auth-shell__container">
+			<div class="auth-shell__brand">
+				<div class="auth-shell__icon">
+					<i class="fas fa-shopping-cart"></i>
+				</div>
+				<h1 class="auth-shell__name">{{ title }}</h1>
+				<p v-if="subtitle" class="auth-shell__subtitle">{{ subtitle }}</p>
+			</div>
+			<slot name="prelude" />
 			<slot />
 		</div>
 	</div>
@@ -19,6 +19,7 @@ export default {
 	name: 'AuthShell',
 	props: {
 		title: { type: String, default: '' },
+		subtitle: { type: String, default: '' },
 		center: { type: Boolean, default: true }
 	}
 };
@@ -26,57 +27,53 @@ export default {
 
 <style>
 .auth-shell {
-	/* no app-bar on auth routes — replaces the old .main-app-container top pad */
-	padding-top: 40px;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--ground);
+	padding: 24px;
+}
+
+.auth-shell__container {
+	width: 100%;
+	max-width: 420px;
 }
 
 .auth-shell__brand {
 	text-align: center;
-	margin-bottom: 8px;
+	margin-bottom: 32px;
 }
 
-.auth-shell__brand--left {
-	text-align: left;
+.auth-shell__icon {
+	width: 56px;
+	height: 56px;
+	background: var(--primary);
+	border-radius: 14px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0 auto 20px;
+}
+
+.auth-shell__icon i {
+	font-size: 24px;
+	color: var(--on-primary);
 }
 
 .auth-shell__name {
 	margin: 0;
-	font-size: 48px;
-	font-weight: 400;
-	line-height: 1.04;
-	color: var(--primary);
-	letter-spacing: 0;
+	font-size: 28px;
+	font-weight: 700;
+	line-height: 1.2;
+	color: var(--text);
+	letter-spacing: -0.5px;
 }
 
-.auth-shell__tagline {
+.auth-shell__subtitle {
 	margin: 8px 0 0;
-	font-size: 14px;
-	color: var(--warning);
-}
-
-.auth-shell__section {
-	max-width: 500px;
-	margin: 0 auto;
-}
-
-.auth-shell__heading {
-	width: 100%;
-	margin: 24px 0 20px;
-	padding: 0;
-	line-height: 1;
-	text-align: center;
-	border-bottom: 1px solid var(--border);
-	font-size: 14px;
-	font-weight: 400;
-	color: var(--text);
-}
-
-.auth-shell__heading-text {
-	display: inline-block;
-	padding: 0 12px;
-	background: var(--ground);
-	font-weight: 600;
-	color: var(--text);
-	transform: translateY(0.5em);
+	font-size: 15px;
+	color: var(--muted);
+	line-height: 1.4;
 }
 </style>

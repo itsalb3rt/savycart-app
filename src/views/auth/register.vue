@@ -1,58 +1,77 @@
 <template>
-	<div class="register_container">
-		<AuthShell :title="$t('auth.create_an_account')">
-			<form @submit.prevent="registerUser">
-				<v-row>
-					<v-col cols="12">
-						<v-text-field v-model="newUser.fullname" :label=" $t('auth.fullname') " required></v-text-field>
-					</v-col>
-					<v-col cols="12">
-						<v-text-field
-							v-model="newUser.email"
-							@change="validatedEmail"
-							:label=" $t('auth.email') "
-							placeholder="jhon@domain.com"
-							type="email"
-							required
-						></v-text-field>
-      <div color="error" v-if="emailExists">
-							<p class="error--text">{{ $t('auth.email_already_registered') }}</p>
-						</div>
-					</v-col>
-					<v-col cols="12">
-						<v-text-field
-							v-model="newUser.password"
-							:type="showPassword ? 'text' : 'password'"
-							:append-icon="showPassword ? 'fa-eye' : 'fa-eye-slash'"
-							@click:append="showPassword = !showPassword"
-							:label=" $t('auth.password') "
-							required
-						></v-text-field>
-						<v-text-field
-							v-model="newUser.password2"
-							:type="showPassword ? 'text' : 'password'"
-							:append-icon="showPassword ? 'fa-eye' : 'fa-eye-slash'"
-							@click:append="showPassword = !showPassword"
-							:label=" $t('auth.second_password') "
-							required
-						></v-text-field>
-					</v-col>
-					<v-col cols="12">
-						<v-btn
-							type="submit"
-							color="success"
-       :disabled="userExists === true || emailExists === true || disabledSubmitButton === true || newUser.fullname === '' || newUser.email === '' || newUser.password === '' || newUser.password2 === '' || newUser.password !== newUser.password2"
-							block
-						>{{ $t('auth.create_an_account') }}</v-btn>
-					</v-col>
-					<v-col cols="12" class="mt-4">
-						{{ $t('auth.do_you_already_have_an_account') }}?
-						<v-btn color="primary" text class="ma-0 pa-0" to="/login">{{ $t('auth.login') }}!</v-btn>
-					</v-col>
-				</v-row>
-			</form>
-		</AuthShell>
-	</div>
+	<AuthShell :title="$t('auth.register_title')" :subtitle="$t('auth.register_subtitle')">
+		<form @submit.prevent="registerUser" class="auth-form">
+			<div class="auth-form__field">
+				<label class="auth-form__label">{{ $t('auth.fullname') }}</label>
+				<v-text-field
+					v-model="newUser.fullname"
+					persistent-clearable
+					hide-details
+					required
+					class="auth-form__input"
+				></v-text-field>
+			</div>
+			<div class="auth-form__field">
+				<label class="auth-form__label">{{ $t('auth.email') }}</label>
+				<v-text-field
+					v-model="newUser.email"
+					@change="validatedEmail"
+					placeholder="jhon@domain.com"
+					type="email"
+					persistent-clearable
+					hide-details
+					required
+					:class="{ 'auth-form__input--error': emailExists }"
+					class="auth-form__input"
+				></v-text-field>
+				<p v-if="emailExists" class="auth-form__error">{{ $t('auth.email_already_registered') }}</p>
+			</div>
+			<div class="auth-form__field">
+				<label class="auth-form__label">{{ $t('auth.password') }}</label>
+				<v-text-field
+					v-model="newUser.password"
+					:type="showPassword ? 'text' : 'password'"
+					:append-icon="showPassword ? 'fa-eye' : 'fa-eye-slash'"
+					@click:append="showPassword = !showPassword"
+					persistent-clearable
+					hide-details
+					required
+					class="auth-form__input"
+				></v-text-field>
+			</div>
+			<div class="auth-form__field">
+				<label class="auth-form__label">{{ $t('auth.second_password') }}</label>
+				<v-text-field
+					v-model="newUser.password2"
+					:type="showPassword ? 'text' : 'password'"
+					:append-icon="showPassword ? 'fa-eye' : 'fa-eye-slash'"
+					@click:append="showPassword = !showPassword"
+					persistent-clearable
+					hide-details
+					required
+					class="auth-form__input"
+				></v-text-field>
+			</div>
+			<div class="auth-form__actions">
+				<v-btn
+					type="submit"
+					color="primary"
+					:disabled="userExists === true || emailExists === true || disabledSubmitButton === true || newUser.fullname === '' || newUser.email === '' || newUser.password === '' || newUser.password2 === '' || newUser.password !== newUser.password2"
+					block
+					large
+					class="auth-form__submit"
+				>
+					{{ $t('auth.create_an_account') }}
+				</v-btn>
+			</div>
+			<div class="auth-form__footer">
+				<span>{{ $t('auth.do_you_already_have_an_account') }}</span>
+				<a href="#" @click.prevent="$router.push('/login')" class="auth-form__link">
+					{{ $t('auth.login') }}
+				</a>
+			</div>
+		</form>
+	</AuthShell>
 </template>
 <script>
 import { mapState } from 'vuex';
@@ -138,3 +157,79 @@ export default {
 	}
 };
 </script>
+<style>
+.auth-form {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.auth-form__field {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.auth-form__label {
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--muted);
+	margin: 0;
+}
+
+.auth-form__input {
+	border-radius: var(--radius-control) !important;
+}
+
+.auth-form__input--error {
+	border-color: var(--negative) !important;
+}
+
+.auth-form__input--error .v-input__control .v-input__slot {
+	border-color: var(--negative) !important;
+}
+
+.auth-form__error {
+	margin: 0;
+	font-size: 13px;
+	color: var(--negative);
+}
+
+.auth-form__actions {
+	margin-top: 8px;
+}
+
+.auth-form__submit {
+	border-radius: var(--radius-button) !important;
+	height: 48px !important;
+	font-size: 16px !important;
+	font-weight: 600 !important;
+	text-transform: none !important;
+	letter-spacing: 0 !important;
+}
+
+.auth-form__footer {
+	text-align: center;
+	font-size: 14px;
+	color: var(--muted);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+}
+
+.auth-form__link {
+	color: var(--accent);
+	text-decoration: underline;
+	font-size: 14px;
+	font-weight: 500;
+	cursor: pointer;
+	background: none;
+	border: none;
+	padding: 0;
+}
+
+.auth-form__link:hover {
+	color: var(--primary-hover);
+}
+</style>
