@@ -1,47 +1,39 @@
 <template>
-  <div>
-    <page-header :title="$t('page_titles.logger_purchase')" />
-    <v-row v-if="products.length > 0">
-      <v-col cols="12" class="list-toolbar">
+  <div class="log-purchase-page">
+    <div class="log-purchase-page__header">
+      <h1 class="log-purchase-page__title">{{ $t('page_titles.logger_purchase') }}</h1>
+      <p class="log-purchase-page__subtitle">{{ $t('shopping_car.pick_what_you_bought') }}</p>
+    </div>
+
+    <div v-if="products.length > 0" class="log-purchase-page__content">
+      <div class="log-purchase-page__store-field">
+        <label class="log-purchase-page__store-label">{{ $t('shopping_car.store_label') }}</label>
+        <input
+          type="text"
+          class="log-purchase-page__input"
+          v-model="nameEstablishment"
+          :placeholder="$t('shopping_car.name_establishment_placeholder')"
+        />
+      </div>
+
+      <div class="log-purchase-page__search">
         <v-text-field
           ref="searchInputRef"
           prepend-inner-icon="fa-search"
           v-model="searchProductName"
-          :label="$t('products.search') + '...'"
+          :label="$t('products.search')"
           clearable
           hide-details
-          class="list-toolbar__search"
+          class="log-purchase-page__search-input"
           @click:clear="$refs.searchInputRef.blur()"
         ></v-text-field>
-        <v-badge color="error" dot left :value="hasFilters()">
-          <v-btn
-            @click="handleShowFilters"
-            icon
-            aria-label="Filter products"
-          >
-            <v-icon>fa-filter</v-icon>
-          </v-btn>
-        </v-badge>
-      </v-col>
-      <v-col cols="12">
-        <v-tabs show-arrows>
-          <v-tab @click="showFavorites = false">
-            <v-icon class="mr-2">fa-list</v-icon>
-            {{ $t('products.all') }}
-            {{ !showFavorites ? actualAvaliableProducts.length : null }}
-          </v-tab>
-          <v-tab @click="showFavorites = true">
-            <v-icon class="mr-2">fa-star</v-icon>
-            {{ $t('products.favorites') }}
-            {{ showFavorites ? actualAvaliableProducts.length : null }}
-          </v-tab>
-        </v-tabs>
-      </v-col>
-      <v-col cols="12" class="products-container">
+      </div>
+
+      <div class="log-purchase-page__list">
         <v-virtual-scroll
           :bench="benched"
           :items="actualAvaliableProducts"
-          item-height="220"
+          item-height="72"
           :height="screenHeightForProductContainer"
         >
           <template v-slot:default="{ item, index }">
@@ -64,48 +56,35 @@
             />
           </template>
         </v-virtual-scroll>
-      </v-col>
-      <template v-if="$store.getters['shoppingCar/getAll'].length > 0">
-        <v-col cols="12" v-if="viewPort">
-          <shop-resume
-            :quantity="$store.getters['shoppingCar/getAll'].length"
-            :sub-total="subTotal"
-            :currency-symbol="currency.symbol"
-            :total-tax="totalTax"
-          />
-        </v-col>
-        <v-col
-          cols="12"
-          v-else
-          justify="center"
-          class="shop-resume-bar-container-mobile"
-        >
-          <ShopResumeMobile
-            :quantity="$store.getters['shoppingCar/getAll'].length"
-            :sub-total="subTotal"
-            :currency-symbol="currency.symbol"
-            :total-tax="totalTax"
-            :is-open="openShopResumeMobile"
-          />
-        </v-col>
-      </template>
-    </v-row>
-    <v-row v-else>
-      <v-col cols="12">
-        <empty-state
-          icon="fa-box-open"
-          :title="$t('products.empty_list')"
-        >
-          <template v-slot:action>
-            <v-btn color="primary" @click="$router.push('/product/add')">
-              <v-icon class="mr-2">fa-plus-circle</v-icon>
-              {{ $t('call_action_buttons.create') }}
-              {{ $t('products.product') }}
-            </v-btn>
-          </template>
-        </empty-state>
-      </v-col>
-    </v-row>
+      </div>
+    </div>
+
+    <div v-else class="log-purchase-page__empty">
+      <empty-state
+        icon="fa-box-open"
+        :title="$t('products.empty_list')"
+      >
+        <template v-slot:action>
+          <v-btn color="primary" @click="$router.push('/product/add')">
+            <v-icon class="mr-2">fa-plus-circle</v-icon>
+            {{ $t('call_action_buttons.create') }}
+            {{ $t('products.product') }}
+          </v-btn>
+        </template>
+      </empty-state>
+    </div>
+
+    <!-- Fixed bottom bar -->
+    <div v-if="$store.getters['shoppingCar/getAll'].length > 0" class="log-purchase-page__bottom-bar">
+      <div class="log-purchase-page__bar-info">
+        <span class="log-purchase-page__bar-count">{{ $store.getters['shoppingCar/getAll'].length }} {{ $t('shopping_car.items_count') }}</span>
+        <span class="log-purchase-page__bar-total">{{ currency.symbol }}{{ numberFormat(subTotal) }}</span>
+      </div>
+      <v-btn color="primary" class="log-purchase-page__bar-btn" @click="$router.push('/shop/shopping_car')">
+        {{ $t('shopping_car.review_cart') }}
+      </v-btn>
+    </div>
+
     <loading
       :active.sync="isLoading"
       :can-cancel="false"
@@ -117,13 +96,10 @@
 
 <script>
 import { mapState } from 'vuex';
-import ShopResume from '@/components/shop/ShopResume';
-import ShopResumeMobile from '@/components/shop/ShopResumeMobile';
 import currencies from '@/mixins/miscellany/currencies';
 import Loading from 'vue-loading-overlay';
 import PurchaseProduct from '@/components/Products/PurchaseProduct';
 import ProductFilter from '@/components/Products/Filter';
-import PageHeader from '@/components/Interface/PageHeader';
 import EmptyState from '@/components/Interface/EmptyState';
 
 export default {
@@ -167,15 +143,13 @@ export default {
       openShopResumeMobile: false,
       showFilters: false,
       sortBy: 'nameAZ', // can be nameAZ, nameZA, dateNew, dateOld
+      nameEstablishment: '',
     };
   },
   components: {
-    ShopResume,
     Loading,
     PurchaseProduct,
-    ShopResumeMobile,
     ProductFilter,
-    PageHeader,
     EmptyState,
   },
   computed: {
@@ -328,7 +302,145 @@ export default {
 </script>
 
 <style>
-.products-container .v-virtual-scroll .v-virtual-scroll__item:last-child {
-  padding-bottom: var(--resume-bar-h);
+.log-purchase-page {
+  padding: 16px;
+  padding-bottom: 100px;
+}
+
+.log-purchase-page__header {
+  margin-bottom: 20px;
+}
+
+.log-purchase-page__title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.log-purchase-page__subtitle {
+  margin: 4px 0 0;
+  font-size: var(--fs-body);
+  color: var(--muted);
+}
+
+.log-purchase-page__content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.log-purchase-page__store-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.log-purchase-page__store-label {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.log-purchase-page__input {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--fs-body);
+  outline: none;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+}
+
+.log-purchase-page__input:focus {
+  border-color: var(--primary);
+}
+
+.log-purchase-page__search-input .v-input__control {
+  min-height: auto;
+}
+
+.log-purchase-page__search-input .v-text-field__slot {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+}
+
+.log-purchase-page__search-input .v-text-field__slot .v-text-field__prefix,
+.log-purchase-page__search-input .v-text-field__slot .v-text-field__slot {
+  font-size: var(--fs-body);
+}
+
+.log-purchase-page__list {
+  flex: 1;
+}
+
+.log-purchase-page__empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+}
+
+/* Fixed bottom bar */
+.log-purchase-page__bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--on-surface);
+  border-top: 1px solid var(--border);
+  padding: 12px 16px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: var(--canvas-max);
+  margin: 0 auto;
+  z-index: 10;
+}
+
+.log-purchase-page__bar-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.log-purchase-page__bar-count {
+  font-size: var(--fs-small);
+  color: #fff;
+  opacity: 0.8;
+}
+
+.log-purchase-page__bar-total {
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.log-purchase-page__bar-btn {
+  height: 44px;
+  padding: 0 24px;
+  border-radius: var(--radius-card);
+  font-size: var(--fs-body);
+  font-weight: 600;
+  background: #fff;
+  color: var(--on-surface);
+  text-transform: none;
+  flex-shrink: 0;
+}
+
+.log-purchase-page__bar-btn:hover {
+  background: #f0f0f0;
+  color: var(--on-surface);
 }
 </style>

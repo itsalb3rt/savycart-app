@@ -98,13 +98,20 @@
     "save_changes": "Guardar cambios"
   },
   "shopping_car": {
-    "add_to_shopping_car": "Agregar al carro",
+    "add_to_shopping_car": "Agregar",
+    "add_to_cart": "Agregar al carro",
     "remove_from_shopping_car": "Eliminar del carro",
     "name_establishment": "Nombre del establecimiento",
     "name_establishment_placeholder": "Super mercado",
-    "empty_car": "Tu carrito esta vacío",
+    "empty_car": "Tu carrito está vacío",
+    "empty_car_subtitle": "Agrega productos desde Registrar compra para registrar una compra.",
     "go_to_logger_purchase": "Ir al registro de compras",
-    "resume_title": "Ver detalle de compra"
+    "resume_title": "Ver detalle de compra",
+    "start_logging": "Comenzar a registrar",
+    "review_cart": "Revisar carrito",
+    "store_label": "Tienda",
+    "items_count": "artículos",
+    "pick_what_you_bought": "Elige lo que compraste"
   },
   "shop": {
     "ux_shopping_details_view_instructions": "Al hacer clic en el nombre o en la compra total, puede ver los detalles",

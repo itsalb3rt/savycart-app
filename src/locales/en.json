@@ -98,13 +98,20 @@
     "save_changes": "Save changes"
   },
   "shopping_car": {
-    "add_to_shopping_car": "Add to cart",
+    "add_to_shopping_car": "Add",
+    "add_to_cart": "Add to cart",
     "remove_from_shopping_car": "Remove from cart",
     "name_establishment": "Name of establishment",
     "name_establishment_placeholder": "Super market",
     "empty_car": "Your cart is empty",
+    "empty_car_subtitle": "Add products from Log purchase to record a shopping trip.",
     "go_to_logger_purchase": "Go to the shopping register",
-    "resume_title": "GO TO RESUME"
+    "resume_title": "GO TO RESUME",
+    "start_logging": "Start logging",
+    "review_cart": "Review cart",
+    "store_label": "Store",
+    "items_count": "items",
+    "pick_what_you_bought": "Pick what you bought"
   },
   "shop": {
     "ux_shopping_details_view_instructions": "By clicking on the name or total purchase you can see the detail",

@@ -1,77 +1,35 @@
 <template>
-  <v-card outlined class="purchase-product mb-4">
-    <v-card-text>
-      <div class="purchase-product__top">
-        <span
-          class="purchase-product__name"
-          @click="$emit('view-details', product)"
-        >
-          {{ product.name }}
-        </span>
-        <span class="float-right" v-if="product.favorite == '1'">
-          <v-icon small color="accent">fa-star</v-icon>
-        </span>
-      </div>
+  <div class="purchase-product" @click="$emit('view-details', product)">
+    <div class="purchase-product__avatar" :style="{ background: avatarBg }">
+      {{ product.name.charAt(0).toUpperCase() }}
+    </div>
+    <div class="purchase-product__info">
+      <div class="purchase-product__name">{{ product.name }}</div>
       <div class="purchase-product__meta">
-        <span>{{ getMeasurementName(product.id_unit_measurement) }}</span>
-        <span class="float-right">{{ product.brand }}</span>
+        <span v-if="product.brand">{{ product.brand }}</span>
+        <span v-if="product.brand" class="purchase-product__separator">·</span>
+        <span class="purchase-product__price">{{ currency.symbol }}{{ product.price }}</span>
       </div>
-      <div>
-        <v-row>
-          <v-col cols="5" class="mr-8 ml-2">
-            <v-text-field
-              :prefix="currency.symbol"
-              type="number"
-              name="price"
-              id="price"
-              step="0.01"
-              min="1"
-              placeholder="1"
-              v-model.number="product.price"
-              :disabled="isOnCar"
-            >
-            </v-text-field>
-          </v-col>
-          <v-col cols="5" class="ml-1">
-            <v-text-field
-              append-outer-icon="fa fa-plus"
-              @click:append-outer="increment"
-              prepend-icon="fa fa-minus"
-              @click:prepend="decrement"
-              ref="quantity"
-              :label="$t('products.quantity')"
-              type="number"
-              name="quantity"
-              id="quantity"
-              value="1"
-              min="1"
-              placeholder="1"
-              v-model.number="localQuantity"
-              @change="val => $emit('change-quantity', val)"
-              :disabled="isOnCar"
-            ></v-text-field>
-          </v-col>
-        </v-row>
-      </div>
-    </v-card-text>
-    <v-card-actions>
-      <v-btn
-        color="primary"
-        class="ma-0"
-        v-if="!isOnCar"
-        @click="$emit('add-to-car')"
-        >{{ $t('shopping_car.add_to_shopping_car') }}</v-btn
-      >
-      <v-btn
-        color="error"
-        class="ma-0"
-        outlined
-        v-if="isOnCar"
-        @click="$emit('remove-from-car', product)"
-        >{{ $t('shopping_car.remove_from_shopping_car') }}</v-btn
-      >
-    </v-card-actions>
-  </v-card>
+    </div>
+    <div class="purchase-product__actions">
+      <template v-if="isOnCar">
+        <div class="purchase-product__qty-control">
+          <button class="purchase-product__qty-btn" @click.stop="decrement" type="button">
+            <v-icon small>fa-minus</v-icon>
+          </button>
+          <span class="purchase-product__qty-value">{{ localQuantity }}</span>
+          <button class="purchase-product__qty-btn purchase-product__qty-btn--plus" @click.stop="increment" type="button">
+            <v-icon small>fa-plus</v-icon>
+          </button>
+        </div>
+      </template>
+      <template v-else>
+        <v-btn outlined color="primary" class="purchase-product__add-btn" @click.stop="$emit('add-to-car')">
+          {{ $t('shopping_car.add_to_shopping_car') }}
+        </v-btn>
+      </template>
+    </div>
+  </div>
 </template>
 <script>
 export default {
@@ -101,6 +59,13 @@ export default {
   mounted() {
     this.localQuantity = this.product.quantity || 1;
   },
+  computed: {
+    avatarBg() {
+      const colors = ['#e8f5e9', '#e3f2fd', '#fff3e0', '#fce4ec', '#f3e5f5', '#e0f2f1'];
+      const index = (this.product.name.charCodeAt(0) || 0) % colors.length;
+      return colors[index];
+    }
+  },
   methods: {
     getMeasurementName(id) {
       let value;
@@ -126,27 +91,124 @@ export default {
 };
 </script>
 <style>
-/* Chrome shrink-to-fit: the price/qty row inside the bare wrapper div
-   collapses to max-content instead of filling, stacking the cols at narrow
-   widths and blowing past the 220px virtual-scroll pitch. calc() compensates
-   the .row -12px side margins. */
-.purchase-product .row {
-  width: calc(100% + 24px);
+.purchase-product {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.purchase-product:hover {
+  background: var(--surface-hover, transparent);
+}
+
+.purchase-product__avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.purchase-product__info {
+  flex: 1;
+  min-width: 0;
 }
 
 .purchase-product__name {
   font-size: var(--fs-section);
   font-weight: 600;
   color: var(--text);
-  cursor: pointer;
-}
-
-.purchase-product__name:hover {
-  color: var(--accent-ink);
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .purchase-product__meta {
+  font-size: var(--fs-small);
   color: var(--muted);
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.purchase-product__separator {
+  color: var(--muted);
+}
+
+.purchase-product__price {
+  font-weight: 500;
+}
+
+.purchase-product__actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.purchase-product__add-btn {
+  min-width: 80px;
+  height: 36px;
+  border-radius: 18px;
   font-size: var(--fs-body);
+  font-weight: 600;
+}
+
+.purchase-product__qty-control {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--border);
+  border-radius: 22px;
+  padding: 2px;
+}
+
+.purchase-product__qty-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: var(--surface);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.15s;
+}
+
+.purchase-product__qty-btn:hover {
+  background: var(--surface-hover, transparent);
+}
+
+.purchase-product__qty-btn--plus {
+  background: var(--primary);
+  color: #fff;
+}
+
+.purchase-product__qty-btn--plus:hover {
+  opacity: 0.9;
+}
+
+.purchase-product__qty-value {
+  min-width: 28px;
+  text-align: center;
+  font-size: var(--fs-body);
+  font-weight: 600;
+  color: var(--text);
 }
 </style>
