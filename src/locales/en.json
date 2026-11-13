@@ -91,7 +91,9 @@
     "nameAsc": "Name asc",
     "nameDesc": "Name desc",
     "oldToNew": "Old to new",
-    "newToOld": "New to old"
+    "newToOld": "New to old",
+    "products_count": "products",
+    "add_product": "Add product"
   },
   "shopping_car": {
     "add_to_shopping_car": "Add to cart",

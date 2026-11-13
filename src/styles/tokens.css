@@ -48,7 +48,11 @@
 	/* --- action --------------------------------------------------------- */
 	--primary: #2D6A4F; /* green fill, white label */
 	--primary-hover: #1B4332;
+	--primary-light: #d8f3dc; /* light green background for avatars, active states */
 	--on-primary: #ffffff;
+
+	/* --- surface variants ----------------------------------------------- */
+	--surface-hover: #f5f5f0; /* subtle hover state on surface elements */
 
 	/* --- brand / data hue (green theme) ---------------------------------- */
 	--accent: #2D6A4F; /* green for buttons, links, active states */
@@ -138,7 +142,11 @@
 	/* --- action --------------------------------------------------------- */
 	--primary: #2D6A4F;
 	--primary-hover: #40916c;
+	--primary-light: #1a3a2a; /* dark green background for avatars, active states */
 	--on-primary: #ffffff;
+
+	/* --- surface variants ----------------------------------------------- */
+	--surface-hover: #222e22; /* subtle hover state on surface elements */
 
 	/* --- brand / data hue ----------------------------------------------- */
 	--accent: #40916c;

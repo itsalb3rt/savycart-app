@@ -91,7 +91,9 @@
     "nameAsc": "Nombre ascendente",
     "nameDesc": "Nombre descendente",
     "oldToNew": "Lo mas nuevo primero",
-    "newToOld": "Lo mas antiguo primero"
+    "newToOld": "Lo mas antiguo primero",
+    "products_count": "productos",
+    "add_product": "Agregar producto"
   },
   "shopping_car": {
     "add_to_shopping_car": "Agregar al carro",

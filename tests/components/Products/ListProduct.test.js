@@ -74,12 +74,17 @@ describe('List Product Component', () => {
   })
   
   it('should be emit on-edit event', async () => {
-    await wrapper.find('.edit').trigger('click')
+    // Open the more menu first
+    const moreBtn = wrapper.find('.list-product__more');
+    await moreBtn.trigger('click');
+    // Click the edit item in the menu
+    const editItem = wrapper.findAll('.v-list-item').at(0);
+    await editItem.trigger('click');
     expect(wrapper.emitted('on-edit')).toBeTruthy()
   })
 
   it('should be emit view-details event', async () => {
-    await wrapper.find('span').trigger('click')
+    await wrapper.find('.list-product').trigger('click')
     expect(wrapper.emitted('view-details')).toBeTruthy()
   })
 

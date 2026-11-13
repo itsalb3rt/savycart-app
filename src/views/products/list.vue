@@ -1,109 +1,87 @@
 <template>
-  <div>
-    <page-header :title="$t('page_titles.my_list')" />
-    <v-row>
-      <v-col cols="12" class="list-toolbar">
-        <v-text-field
-          ref="searchInputRef"
-          prepend-inner-icon="fa-search"
-          v-model="searchProductName"
-          :label="$t('products.search') + '...'"
-          clearable
-          hide-details
-          class="list-toolbar__search"
-          @click:clear="$refs.searchInputRef.blur()"
-        ></v-text-field>
-        <v-badge
-          color="error"
-          dot
-          left
-          :value="hasFilters()"
-        >
-          <v-btn
-            @click="handleShowFilters"
-            icon
-            aria-label="Filter products"
-          >
-            <v-icon>fa-filter</v-icon>
-          </v-btn>
-        </v-badge>
-      </v-col>
-      <v-col cols="12">
-        <v-tabs show-arrows>
-          <v-tab @click="showFavorites = false">
-            <v-icon class="mr-2">fa-list</v-icon>
-            {{ $t('products.all') }}
-            {{ !showFavorites ? filterProducts.length : null }}
-          </v-tab>
-          <v-tab @click="showFavorites = true">
-            <v-icon class="mr-2">fa-star</v-icon>
-            {{ $t('products.favorites') }}
-            {{ showFavorites ? filterProducts.length : null }}
-          </v-tab>
-        </v-tabs>
-      </v-col>
-      <v-col v-if="loading" cols="12" class="text-center">
-        <v-skeleton-loader
-          v-for="i in 10"
-          :key="i"
-          class="mx-auto my-2"
-          max-width="95%"
-          max-height="150"
-          type="card"
-        />
-      </v-col>
-      <v-col cols="12" v-else-if="filterProducts.length > 0">
-        <v-virtual-scroll
-          :bench="benched"
-          :items="filterProducts"
-          item-height="173"
-          :height="screenHeightForProductContainer"
-        >
-          <template v-slot:default="{ item }">
-            <list-product
-              :product="item"
-              :currency="currency"
-              @view-details="
-                (product) =>
-                  $router.push({
-                    name: 'view_product',
-                    params: { id: product.id_product },
-                  })
-              "
-              @on-edit="
-                (product) =>
-                  $router.push({
-                    name: 'edit product',
-                    params: { id: product.id_product },
-                  })
-              "
-              @on-delete="
-                (product) => showDialogToDeleteProduct(product.id_product)
-              "
-              @toggle-favorite="(product) => toggleFavorite(product)"
-              :loading-favorite="loadingFavorite"
-            />
-          </template>
-        </v-virtual-scroll>
-      </v-col>
-      <v-col v-else-if="filterProducts.length == 0" cols="12">
-        <empty-state
-          icon="fa-box-open"
-          :title="$t('products.empty_list')"
-        />
-      </v-col>
-    </v-row>
+  <div class="product-list-page">
+    <div class="product-list-page__header">
+      <div class="product-list-page__title">{{ $t('page_titles.my_list') }}</div>
+      <div class="product-list-page__count">{{ filterProducts.length }} {{ $t('products.products_count') }}</div>
+    </div>
+    <div class="product-list-page__search-row">
+      <v-text-field
+        ref="searchInputRef"
+        v-model="searchProductName"
+        :placeholder="$t('products.search')"
+        clearable
+        hide-details
+        class="product-list-page__search"
+        @click:clear="$refs.searchInputRef.blur()"
+        prepend-inner-icon="fa-search"
+      ></v-text-field>
+    </div>
+    <div class="product-list-page__tabs">
+      <button
+        :class="['product-list-page__tab', { 'product-list-page__tab--active': !showFavorites }]"
+        @click="showFavorites = false"
+      >
+        <v-icon small class="product-list-page__tab-icon">fa-list</v-icon>
+        {{ $t('products.all') }} {{ !showFavorites ? filterProducts.length : '' }}
+      </button>
+      <button
+        :class="['product-list-page__tab', { 'product-list-page__tab--active': showFavorites }]"
+        @click="showFavorites = true"
+      >
+        <v-icon small class="product-list-page__tab-icon">fa-star</v-icon>
+        {{ $t('products.favorites') }}
+      </button>
+    </div>
+    <div v-if="loading" class="product-list-page__loading">
+      <v-progress-circular indeterminate color="primary"></v-progress-circular>
+    </div>
+    <div v-else-if="filterProducts.length > 0" class="product-list-page__list">
+      <v-virtual-scroll
+        :bench="benched"
+        :items="filterProducts"
+        item-height="72"
+        :height="screenHeightForProductContainer"
+      >
+        <template v-slot:default="{ item }">
+          <list-product
+            :product="item"
+            :currency="currency"
+            @view-details="
+              (product) =>
+                $router.push({
+                  name: 'view_product',
+                  params: { id: product.id_product },
+                })
+            "
+            @on-edit="
+              (product) =>
+                $router.push({
+                  name: 'edit product',
+                  params: { id: product.id_product },
+                })
+            "
+            @on-delete="
+              (product) => showDialogToDeleteProduct(product.id_product)
+            "
+            @toggle-favorite="(product) => toggleFavorite(product)"
+            :loading-favorite="loadingFavorite"
+          />
+        </template>
+      </v-virtual-scroll>
+    </div>
+    <div v-else-if="filterProducts.length == 0" class="product-list-page__empty">
+      <empty-state
+        icon="fa-box-open"
+        :title="$t('products.empty_list')"
+      />
+    </div>
     <v-btn
       color="primary"
-      dark
-      fixed
-      right
-      bottom
-      fab
-      aria-label="Add product"
+      class="product-list-page__fab"
       @click="$router.push({ path: '/product/add' })"
     >
-      <v-icon>fa-plus</v-icon>
+      <v-icon left>fa-plus</v-icon>
+      {{ $t('products.add_product') }}
     </v-btn>
     <delete-dialog
       :show="dialog"
@@ -116,7 +94,6 @@
 
 <script>
 import deleteDialog from '@/components/Interface/Dialogs/Delete';
-import PageHeader from '@/components/Interface/PageHeader';
 import EmptyState from '@/components/Interface/EmptyState';
 import { mapState } from 'vuex';
 import currencies from '@/mixins/miscellany/currencies';
@@ -128,7 +105,6 @@ export default {
   mixins: [currencies],
   components: {
     deleteDialog,
-    PageHeader,
     EmptyState,
     ListProduct,
     ProductFilter,
@@ -356,3 +332,110 @@ export default {
   },
 };
 </script>
+<style>
+.product-list-page {
+  padding: 16px;
+  padding-bottom: 80px;
+}
+
+.product-list-page__header {
+  margin-bottom: 16px;
+}
+
+.product-list-page__title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.product-list-page__count {
+  font-size: var(--fs-body);
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.product-list-page__search-row {
+  margin-bottom: 16px;
+}
+
+.product-list-page__search {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+}
+
+.product-list-page__search .v-input__control {
+  min-height: 48px;
+}
+
+.product-list-page__search .v-text-field__slot {
+  padding: 8px 16px;
+}
+
+.product-list-page__search .v-text-field__slot input {
+  color: var(--text);
+}
+
+.product-list-page__search .v-icon {
+  color: var(--muted);
+}
+
+.product-list-page__tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.product-list-page__tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--fs-body);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.product-list-page__tab--active {
+  background: var(--primary);
+  color: var(--on-primary);
+  border-color: var(--primary);
+}
+
+.product-list-page__tab-icon {
+  font-size: 14px;
+}
+
+.product-list-page__loading {
+  display: flex;
+  justify-content: center;
+  padding: 48px 0;
+}
+
+.product-list-page__list {
+  padding: 0;
+}
+
+.product-list-page__empty {
+  padding: 32px 0;
+}
+
+.product-list-page__fab {
+  position: fixed;
+  bottom: 80px;
+  right: 16px;
+  border-radius: 999px;
+  padding: 12px 24px;
+  min-height: 48px;
+  font-weight: 600;
+  font-size: var(--fs-body);
+  box-shadow: var(--shadow-float);
+  z-index: 10;
+}
+</style>
