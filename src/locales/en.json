@@ -189,7 +189,9 @@
     "measurement": "Measurement unit",
     "measurement_placeholder": "Unit, package, box, etc.",
     "registered_measurement": "Registered measurement unit",
-    "forbiden_delete": "This unit of measure cannot be eliminated because it has associated products"
+    "forbiden_delete": "This unit of measure cannot be eliminated because it has associated products",
+    "no_units_yet": "No units yet",
+    "add_your_first_one": "Add your first one, or pick a common one:"
   },
   "settings": {
     "currency": "Currency",

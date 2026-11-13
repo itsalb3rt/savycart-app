@@ -1,39 +1,38 @@
 <template>
-  <div>
-    <page-header :title="$t('page_titles.categories')">
-      <template v-slot:actions>
-        <v-btn color="primary" @click="handleOpenCreateForm()">
-          <v-icon class="mr-2">fa-plus</v-icon>
-          {{ $t('call_action_buttons.addCategory') }}
-        </v-btn>
-      </template>
-    </page-header>
-    <p class="text-muted page-hint">
-      {{ $t('category.category_description_section') }}
-    </p>
-    <v-row v-if="$store.getters['categories/getAll'].length === 0">
-      <v-col cols="12">
-        <empty-state
-          icon="fa-list-ul"
-          :title="$t('messages.nothing_to_display')"
-        />
-      </v-col>
-    </v-row>
-    <v-row v-else>
-      <v-col
-        cols="12"
-        v-for="item in $store.getters['categories/getAll']"
+  <div class="categories-page">
+    <div class="categories-page__header">
+      <button class="categories-page__back-btn" @click="$router.back()" type="button">
+        <v-icon>fa-chevron-left</v-icon>
+      </button>
+      <h1 class="categories-page__title">{{ $t('page_titles.categories') }}</h1>
+    </div>
+    <p class="categories-page__subtitle">{{ $t('category.category_description_section') }}</p>
+
+    <div v-if="categories.length > 0" class="categories-page__list">
+      <div
+        v-for="item in categories"
         :key="item.id"
+        class="categories-page__card"
       >
-        <div class="crud-row">
-          <span class="crud-row__name">{{ item.name }}</span>
-          <v-btn text color="error" @click="dispatchDeleteCategory(item)">
-            <v-icon class="mr-2" small>fa-trash</v-icon>
-            {{ $t('call_action_buttons.delete') }}
-          </v-btn>
-        </div>
-      </v-col>
-    </v-row>
+        <span class="categories-page__card-name">{{ item.name }}</span>
+        <button class="categories-page__delete-btn" @click="dispatchDeleteCategory(item)" type="button">
+          <v-icon>fa-trash</v-icon>
+        </button>
+      </div>
+    </div>
+
+    <div v-else class="categories-page__empty">
+      <empty-state
+        icon="fa-list-ul"
+        :title="$t('messages.nothing_to_display')"
+      />
+    </div>
+
+    <div class="categories-page__footer">
+      <button class="categories-page__add-btn" @click="handleOpenCreateForm()" type="button">
+        {{ $t('call_action_buttons.addCategory') }}
+      </button>
+    </div>
 
     <v-dialog v-model="showCreateFormDialog" width="500">
       <v-card>
@@ -91,7 +90,6 @@
 import { mapState } from 'vuex';
 import deleteDialog from '@/components/Interface/Dialogs/Delete';
 import Loading from 'vue-loading-overlay';
-import PageHeader from '@/components/Interface/PageHeader';
 import EmptyState from '@/components/Interface/EmptyState';
 
 export default {
@@ -99,7 +97,6 @@ export default {
   components: {
     deleteDialog,
     Loading,
-    PageHeader,
     EmptyState,
   },
   mounted() {
@@ -110,10 +107,6 @@ export default {
   data: function () {
     return {
       name: '',
-      headers: [
-        { text: this.$t('category.name'), value: 'name' },
-        { text: this.$t('call_action_buttons.action'), value: 'action' },
-      ],
       showDialogDeleteCategory: false,
       indexCategoryForDelete: '',
       isLoading: false,
@@ -122,6 +115,9 @@ export default {
   },
   computed: {
     ...mapState(['online']),
+    categories() {
+      return this.$store.getters['categories/getAll'];
+    }
   },
   methods: {
     createCategory() {
@@ -231,3 +227,114 @@ export default {
   },
 };
 </script>
+
+<style>
+.categories-page {
+  padding-bottom: 80px;
+}
+
+.categories-page__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.categories-page__back-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  border-radius: 10px;
+}
+
+.categories-page__title {
+  font-size: var(--fs-title);
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.categories-page__subtitle {
+  font-size: var(--fs-body);
+  color: var(--muted);
+  margin: 0 0 16px;
+  line-height: 1.4;
+}
+
+.categories-page__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.categories-page__card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 16px;
+  transition: background 0.15s;
+}
+
+.categories-page__card-name {
+  font-size: var(--fs-section);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.categories-page__delete-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--negative, #e53935);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  transition: opacity 0.15s;
+}
+
+.categories-page__delete-btn:hover {
+  opacity: 1;
+}
+
+.categories-page__empty {
+  padding: 32px 0;
+}
+
+.categories-page__footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+.categories-page__add-btn {
+  width: 100%;
+  padding: 14px 24px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-control);
+  font-size: var(--fs-body);
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.categories-page__add-btn:hover {
+  opacity: 0.9;
+}
+</style>

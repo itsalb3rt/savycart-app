@@ -188,7 +188,9 @@
     "measurement": "Unidad de medida",
     "measurement_placeholder": "Unidad, Libras, Paquete, Caja, etc.",
     "registered_measurement": "Unidad de medida registrada",
-    "forbiden_delete": "Esta unidad de medida no se puede eliminar porque tiene productos asociados."
+    "forbiden_delete": "Esta unidad de medida no se puede eliminar porque tiene productos asociados.",
+    "no_units_yet": "No hay unidades aún",
+    "add_your_first_one": "Agrega la primera, o elige una común:"
   },
   "settings": {
     "currency": "Moneda",
