@@ -1,73 +1,65 @@
 <template>
-	<div>
-		<page-header :title="$t('page_titles.view_product')" />
-		<v-row>
-			<v-col cols="12" v-if="product.id_product">
-				<v-card flat>
-					<v-card-text>
-						<div class="product-view__actions">
-							<v-btn
-								outlined
-								color="primary"
-								@click="$router.push({ name: 'edit product', params: { id: product.id_product } })"
-							>
-								<v-icon class="mr-2">fa-edit</v-icon>
-								{{ $t('call_action_buttons.edit') }}
-							</v-btn>
-							<v-btn
-								outlined
-								color="primary"
-								@click="handleShowPurchaseHistory"
-							>
-								<v-icon class="mr-2">fa-list</v-icon>
-								{{ $t('products.viewPurchaseHistory') }}
-							</v-btn>
-						</div>
-						<dl class="detail-grid">
-							<div class="detail-grid__row">
-								<dt>{{ $t('products.name') }}</dt>
-								<dd>{{product.name}}</dd>
-							</div>
-							<div class="detail-grid__row" v-if="product.brand">
-								<dt>{{ $t('products.brand') }}</dt>
-								<dd>{{product.brand}}</dd>
-							</div>
-							<div class="detail-grid__row">
-								<dt>{{ $t('products.price') }}</dt>
-								<dd class="num">{{currency.symbol}} {{product.price}}</dd>
-							</div>
-							<div class="detail-grid__row">
-								<dt>{{ $t('products.measurement_unit') }}</dt>
-								<dd>{{getMeasurementName(product.id_unit_measurement)}}</dd>
-							</div>
-							<div class="detail-grid__row">
-								<dt>{{ $t('products.category') }}</dt>
-								<dd>{{getCategory(product.id_category)}}</dd>
-							</div>
-							<div class="detail-grid__row">
-								<dt>{{ $t('products.tax') }}</dt>
-								<dd>{{ (product.itbis == '1')? $t('messages.yes'): $t('messages.no') }}</dd>
-							</div>
-							<div class="detail-grid__row">
-								<dt>{{ $t('products.favorite_mark_message') }}</dt>
-								<dd>{{ (product.favorite == '1')? $t('messages.yes'): $t('messages.no') }}</dd>
-							</div>
-							<div class="detail-grid__row">
-								<dt>{{ $t('products.description') }}</dt>
-								<dd>{{product.description}}</dd>
-							</div>
-						</dl>
-					</v-card-text>
-				</v-card>
-			</v-col>
-			<v-col cols="12" v-else-if="product.id_product == undefined && loading === false">
-				<empty-state
-					icon="fa-magic"
-					:title="$t('messages.nothing_to_display')"
-				/>
-			</v-col>
-		</v-row>
+	<div class="product-view-page">
+		<div class="product-view-page__header">
+			<v-btn text class="product-view-page__back" @click="$router.push('/product/list')">
+				<v-icon>fa-arrow-left</v-icon>
+			</v-btn>
+			<h1 class="product-view-page__title">{{ $t('page_titles.view_product') }}</h1>
+		</div>
+
 		<loading :active.sync="loading" :can-cancel="false" :is-full-page="true"></loading>
+
+		<div v-if="product.id_product" class="product-view-page__content">
+			<div class="product-view__card product-view__card--header">
+				<div class="product-view__avatar" :style="{ background: avatarBg }">
+					{{ product.name.charAt(0).toUpperCase() }}
+				</div>
+				<div class="product-view__header-info">
+					<div class="product-view__name">{{ product.name }}</div>
+					<div v-if="product.brand" class="product-view__brand">{{ product.brand }}</div>
+				</div>
+				<div class="product-view__price">{{ currency.symbol }}{{ product.price }}</div>
+			</div>
+
+			<div class="product-view__card product-view__card--details">
+				<div class="product-view__detail-row">
+					<span class="product-view__detail-label">{{ $t('products.category') }}</span>
+					<span class="product-view__detail-value">{{ getCategory(product.id_category) || $t('messages.no') }}</span>
+				</div>
+				<div class="product-view__divider"></div>
+				<div class="product-view__detail-row">
+					<span class="product-view__detail-label">{{ $t('products.tax') }}</span>
+					<span class="product-view__detail-value">{{ (product.itbis == '1') ? $t('messages.yes') : $t('messages.no') }}</span>
+				</div>
+				<div class="product-view__divider"></div>
+				<div class="product-view__detail-row">
+					<span class="product-view__detail-label">{{ $t('products.favorite_mark_message') }}</span>
+					<span class="product-view__detail-value">{{ (product.favorite == '1') ? $t('messages.yes') : $t('messages.no') }}</span>
+				</div>
+				<div class="product-view__divider"></div>
+				<div class="product-view__detail-row">
+					<span class="product-view__detail-label">{{ $t('products.measurement_unit') }}</span>
+					<span class="product-view__detail-value">{{ getMeasurementName(product.id_unit_measurement) || $t('messages.no') }}</span>
+				</div>
+			</div>
+		</div>
+
+		<div v-else-if="product.id_product == undefined && loading === false" class="product-view-page__empty">
+			<empty-state
+				icon="fa-magic"
+				:title="$t('messages.nothing_to_display')"
+			/>
+		</div>
+
+		<div v-if="product.id_product" class="product-view-page__footer">
+			<v-btn outlined color="primary" class="product-view-page__footer-btn" @click="$router.push({ name: 'edit product', params: { id: product.id_product } })">
+				{{ $t('call_action_buttons.edit') }}
+			</v-btn>
+			<v-btn outlined color="primary" class="product-view-page__footer-btn" @click="handleShowPurchaseHistory">
+				{{ $t('products.purchaseHistory') }}
+			</v-btn>
+		</div>
+
 		<v-dialog
 			max-width="560px"
 			:fullscreen="$vuetify.breakpoint.xsOnly"
@@ -139,7 +131,6 @@ import currencies from '@/mixins/miscellany/currencies';
 import Loading from 'vue-loading-overlay';
 import PurchasedProduct from '@/components/Products/PurchasedProduct';
 import Formats from '@/mixins/miscellany/formats';
-import PageHeader from '@/components/Interface/PageHeader';
 import EmptyState from '@/components/Interface/EmptyState';
 
 export default {
@@ -169,11 +160,15 @@ export default {
 	components: {
 		Loading,
 		PurchasedProduct,
-		PageHeader,
 		EmptyState
 	},
 	computed: {
-		...mapState(['online'])
+		...mapState(['online']),
+		avatarBg() {
+			const colors = ['#e8f5e9', '#e3f2fd', '#fff3e0', '#fce4ec', '#f3e5f5', '#e0f2f1'];
+			const index = (this.product.name.charCodeAt(0) || 0) % colors.length;
+			return colors[index];
+		}
 	},
 	methods: {
 		...mapMutations(['setCategories']),
@@ -246,11 +241,140 @@ export default {
 };
 </script>
 <style>
-.product-view__actions {
+.product-view-page {
+	padding: 16px;
+	padding-bottom: 100px;
+}
+
+.product-view-page__header {
 	display: flex;
-	flex-wrap: wrap;
-	gap: 8px;
-	margin-bottom: 8px;
+	align-items: center;
+	gap: 16px;
+	margin-bottom: 24px;
+}
+
+.product-view-page__back {
+	min-width: 32px;
+	min-height: 32px;
+	padding: 0;
+}
+
+.product-view-page__title {
+	margin: 0;
+	font-size: 24px;
+	font-weight: 700;
+	color: var(--text);
+	line-height: 1.2;
+}
+
+.product-view-page__content {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.product-view-page__empty {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 60vh;
+}
+
+.product-view__card {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-card);
+	padding: 20px;
+}
+
+.product-view__card--header {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+.product-view__avatar {
+	width: 56px;
+	height: 56px;
+	border-radius: 16px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 24px;
+	font-weight: 700;
+	color: var(--text);
+	flex-shrink: 0;
+}
+
+.product-view__header-info {
+	flex: 1;
+	min-width: 0;
+}
+
+.product-view__name {
+	font-size: 18px;
+	font-weight: 700;
+	color: var(--text);
+	line-height: 1.3;
+}
+
+.product-view__brand {
+	font-size: var(--fs-small);
+	color: var(--muted);
+	margin-top: 2px;
+}
+
+.product-view__price {
+	font-size: 20px;
+	font-weight: 700;
+	color: var(--text);
+	flex-shrink: 0;
+}
+
+.product-view__detail-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 12px 0;
+}
+
+.product-view__detail-label {
+	font-size: var(--fs-body);
+	color: var(--muted);
+}
+
+.product-view__detail-value {
+	font-size: var(--fs-body);
+	font-weight: 600;
+	color: var(--text);
+}
+
+.product-view__divider {
+	height: 1px;
+	background: var(--border);
+}
+
+.product-view-page__footer {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding: 16px;
+	padding-bottom: calc(16px + env(safe-area-inset-bottom));
+	background: var(--surface);
+	border-top: 1px solid var(--border);
+	display: flex;
+	gap: 12px;
+	max-width: var(--canvas-max);
+	margin: 0 auto;
+}
+
+.product-view-page__footer-btn {
+	flex: 1;
+	height: 52px;
+	border-radius: var(--radius-card);
+	font-size: var(--fs-body);
+	font-weight: 600;
 }
 
 .product-view__history-head {
