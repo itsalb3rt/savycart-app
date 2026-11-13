@@ -291,13 +291,13 @@ export default {
 
 .product-form__input .v-input__control {
   min-height: 48px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
 }
 
 .product-form__input .v-text-field__slot,
 .product-form__input .v-select__slot {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-card);
   padding: 8px 16px;
 }
 
